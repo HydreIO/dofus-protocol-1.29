@@ -8,10 +8,6 @@ public interface Packet {
 	void handle(PacketHandler handler);
 
 	default String getId() {
-		for(ProtocolRegistry registry : ProtocolRegistry.values()){
-			if(registry.getPacket() == getClass())
-				return registry.getId();
-		}
-		return null;
+		return ProtocolRegistry.getRegistry(getClass()).getId();
 	}
 }

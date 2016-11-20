@@ -44,4 +44,8 @@ public class StringDofusStream implements DofusStream{
 			out = Arrays.copyOf(out , size);
 		return this;
 	}
+
+	public String[] getOut() {
+		return out;
+	}
 }

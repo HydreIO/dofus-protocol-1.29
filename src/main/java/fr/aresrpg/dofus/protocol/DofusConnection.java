@@ -20,6 +20,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.selector = Selector.open();
 		this.channel = channel;
 		this.handler = handler;
+		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector , SelectionKey.OP_READ);
 	}
@@ -48,10 +49,11 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					}
 
 					buffer.clear();
-					buffer.put(bytes , i , bytes.length - i);
+					if(i != bytes.length -1)
+						buffer.put(bytes , i , bytes.length - i);
 					currentPacket.append(new String(bytes, 0 , i));
 				}
-				if(decode) {
+				if(decode && !currentPacket.toString().isEmpty()) {
 					String packet = currentPacket.toString();
 					currentPacket = new StringBuilder();
 					String[] parts = packet.split("\\" + SEPARATOR);
@@ -59,14 +61,16 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					switch (parts[0].length()) {
 						case 3:
 						case 2:
-							registry = ProtocolRegistry.getPacket(parts[0]);
+							registry = ProtocolRegistry.getRegistry(parts[0]);
 							parts = Arrays.copyOfRange(parts , 1 , parts.length-1);
 							break;
 						default:
-							registry = ProtocolRegistry.getPacket(parts[0].substring(0 , 3));
-							parts[0] = parts[0].substring(registry.getId().length());
+							registry = ProtocolRegistry.getRegistry(parts[0].substring(0 , 3));
+							if(registry != null) parts[0] = parts[0].substring(registry.getId().length());
 							break;
 					}
+					if(registry == null)
+						return;
 					try {
 						Packet p = registry.getPacket().newInstance();
 						p.read(new StringDofusStream(parts));
@@ -77,5 +81,28 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				}
 			}
 		}
+	}
+
+	public void send(Packet packet) throws IOException {
+		StringDofusStream stream = new StringDofusStream();
+		packet.write(stream);
+		StringBuilder sb = new StringBuilder();
+		boolean indexAtEnd = ProtocolRegistry.getRegistry(packet.getClass()).isIndexAtEnd();
+		if(!indexAtEnd)
+			sb.append(packet.getId());
+		String[] out = stream.getOut();
+		if(out.length == 1)
+			sb.append(out[0]);
+		else {
+			sb.append(SEPARATOR);
+			for(int i = 0 ; i < out.length ; i++) {
+				sb.append(out[i]);
+				if(i != out.length -1)
+					sb.append(SEPARATOR);
+			}
+		}
+		if(indexAtEnd)
+			sb.append(packet.getId()).append(DELIMITER);
+		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 }
