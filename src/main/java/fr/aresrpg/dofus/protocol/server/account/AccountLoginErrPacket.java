@@ -9,15 +9,16 @@ public class AccountLoginErrPacket implements Packet{
 
 	//In minute
 	private int time;
+	private String version;
 
 	@Override
 	public void read(DofusStream stream) {
 		String value = stream.read();
-		if(value.length() != 1)
-			throw new IllegalStateException("Bad packet format");
 		err = Error.valueOf(value.charAt(0));
 		if(err == Error.INVALID_ACCOUNT_WITH_DURATION)
-			time = stream.readInt() * 24 * 64 + stream.readInt() * 64 + stream.readInt();
+			time = Integer.parseInt(value.substring(1)) * 24 * 64 + stream.readInt() * 64 + stream.readInt();
+		else if(err == Error.NEW_VERSION)
+			version = value.substring(1);
 	}
 
 	@Override
@@ -43,6 +44,7 @@ public class AccountLoginErrPacket implements Packet{
 		return "AccountLoginErrPacket{" +
 				"err=" + err +
 				(err == Error.INVALID_ACCOUNT_WITH_DURATION ? ", time=" + time : "")+
+				(err == Error.NEW_VERSION ? ", version='" + version + '\'' : "")+
 				'}';
 	}
 
