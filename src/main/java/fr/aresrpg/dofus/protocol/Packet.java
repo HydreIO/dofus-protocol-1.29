@@ -1,9 +1,12 @@
 package fr.aresrpg.dofus.protocol;
 
-public interface Packet {
-	void read(DofusStream stream);
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
-	void write(DofusStream stream);
+public interface Packet {
+	void read(DofusStream stream) throws UnsupportedEncodingException, IOException;
+
+	void write(DofusStream stream) throws IOException;
 
 	void handle(PacketHandler handler);
 

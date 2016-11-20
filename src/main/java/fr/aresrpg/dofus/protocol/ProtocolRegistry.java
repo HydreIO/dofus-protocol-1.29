@@ -1,8 +1,8 @@
 package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.client.AccountAuthPacket;
-import fr.aresrpg.dofus.protocol.server.account.AccountLoginErrPacket;
-import fr.aresrpg.dofus.protocol.server.account.AccountLoginOkPacket;
+import fr.aresrpg.dofus.protocol.client.AccountSelectServerPacket;
+import fr.aresrpg.dofus.protocol.server.account.*;
 import fr.aresrpg.dofus.protocol.server.hello.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.server.hello.HelloGamePacket;
 
@@ -15,7 +15,12 @@ public enum ProtocolRegistry {
 	GAME_HELLO_CONNECTION(Layer.HELLO , 'C', HelloConnectionPacket.class),
 	AUTHENTICATION(Layer.ACCOUNT , 'f' , true , AccountAuthPacket.class),
 	ACCOUNT_LOGIN_ERROR(Layer.ACCOUNT , 'l' , State.ERROR , AccountLoginErrPacket.class),
-	ACCOUNT_LOGIN_OK(Layer.ACCOUNT , 'l' , State.OK , AccountLoginOkPacket.class);
+	ACCOUNT_LOGIN_OK(Layer.ACCOUNT , 'l' , State.OK , AccountLoginOkPacket.class),
+	ACCOUNT_NAME(Layer.ACCOUNT , 'd' , AccountNamePacket.class),
+	ACCOUNT_COMMUNITY(Layer.ACCOUNT , 'c' , AccountCommunityPacket.class),
+	ACCOUNT_HOST(Layer.ACCOUNT , 'H' , AccountHostPacket.class),
+	ACCOUNT_QUESTION(Layer.ACCOUNT , 'Q' , AccountQuestionPacket.class),
+	ACCOUNT_SELECT_SERVER(Layer.ACCOUNT , 'x' , AccountSelectServerPacket.class);
 
 	private static final int SIZE = 'z' - 'A';
 

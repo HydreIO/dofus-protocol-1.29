@@ -13,9 +13,21 @@ public interface DofusStream {
 		return Integer.parseInt(read(index));
 	}
 
+	int available();
+
 	DofusStream write(String value);
 
 	DofusStream write(int index, String value);
 
+	default void writeInt(int value){
+		write(Integer.toString(value));
+	}
+
+	default void writeInt(int index , int value){
+		write(index , Integer.toString(value));
+	}
+
 	DofusStream allocate(int size);
+
+
 }

@@ -18,7 +18,6 @@ public class AccountAuthPacket implements Packet{
 		version = data[0];
 		pseudo = data[1];
 		hashedPassword = data[2];
-
 	}
 
 	@Override

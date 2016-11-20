@@ -4,17 +4,17 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class AccountLoginOkPacket implements Packet{
-	private boolean isAdmin;
+public class AccountNamePacket implements Packet{
+	private String name;
 
 	@Override
 	public void read(DofusStream stream) {
-		isAdmin = stream.readInt() == 1;
+		name = stream.read();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(isAdmin ? 1 : 0);
+		stream.allocate(1).write(name);
 	}
 
 	@Override
@@ -22,10 +22,12 @@ public class AccountLoginOkPacket implements Packet{
 		handler.handle(this);
 	}
 
-	@Override
-	public String toString() {
-		return "AccountLoginOkPacket{" +
-				"isAdmin=" + isAdmin +
-				'}';
+	public String getName() {
+		return name;
+	}
+
+	public AccountNamePacket setName(String name) {
+		this.name = name;
+		return this;
 	}
 }

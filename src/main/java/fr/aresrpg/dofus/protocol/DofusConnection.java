@@ -3,7 +3,6 @@ package fr.aresrpg.dofus.protocol;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class DofusConnection<T extends SelectableChannel & ByteChannel> {
@@ -34,50 +33,57 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 
 			if(key.isReadable()) {
 				ByteChannel channel = (ByteChannel) key.channel();
-				int read;
 				boolean decode = false;
-				while( (read = channel.read(buffer)) > 0 ) {
-					buffer.flip();
-					byte[] bytes = new byte[read];
-					buffer.get(bytes);
-					int i = 0;
-					for(; i < bytes.length ; i++){
-						if(bytes[i] == DELIMITER){
-							decode = true;
-							break;
+				while(true) {
+					while(buffer.position() > 0 || channel.read(buffer) > 0 ) {
+						int read = buffer.position();
+						buffer.flip();
+						byte[] bytes = new byte[read];
+						buffer.get(bytes);
+						int i = 0;
+						for(; i < bytes.length ; i++){
+							if(bytes[i] == DELIMITER){
+								decode = true;
+								break;
+							}
 						}
+
+						buffer.clear();
+						if(i != bytes.length -1)
+							buffer.put(bytes , i , bytes.length - i);
+						currentPacket.append(new String(bytes, 0 , i));
+						if(decode)
+							break;
 					}
 
-					buffer.clear();
-					if(i != bytes.length -1)
-						buffer.put(bytes , i , bytes.length - i);
-					currentPacket.append(new String(bytes, 0 , i));
-				}
-				if(decode && !currentPacket.toString().isEmpty()) {
-					String packet = currentPacket.toString();
-					currentPacket = new StringBuilder();
-					String[] parts = packet.split("\\" + SEPARATOR);
-					ProtocolRegistry registry;
-					switch (parts[0].length()) {
-						case 3:
-						case 2:
-							registry = ProtocolRegistry.getRegistry(parts[0]);
-							parts = Arrays.copyOfRange(parts , 1 , parts.length-1);
-							break;
-						default:
-							registry = ProtocolRegistry.getRegistry(parts[0].substring(0 , 3));
-							if(registry != null) parts[0] = parts[0].substring(registry.getId().length());
-							break;
+					if(decode) {
+						currentPacket.deleteCharAt(currentPacket.length()-1); // Remove \0
+						String packet = currentPacket.toString();
+						currentPacket = new StringBuilder();
+						String[] parts = packet.split("\\" + SEPARATOR);
+						ProtocolRegistry registry;
+						switch (parts[0].length()) {
+							case 2:
+								registry = ProtocolRegistry.getRegistry(parts[0].substring(0 , 2));
+								break;
+							default:
+								registry = ProtocolRegistry.getRegistry(parts[0].substring(0 , 3));
+								break;
+						}
+						if(registry != null) {
+							parts[0] = parts[0].substring(registry.getId().length());//Remove id
+							try {
+								Packet p = registry.getPacket().newInstance();
+								p.read(new StringDofusStream(parts));
+								p.handle(handler);
+							} catch (ReflectiveOperationException e) {
+								e.printStackTrace();
+							}
+						}
 					}
-					if(registry == null)
-						return;
-					try {
-						Packet p = registry.getPacket().newInstance();
-						p.read(new StringDofusStream(parts));
-						p.handle(handler);
-					} catch (ReflectiveOperationException e) {
-						e.printStackTrace();
-					}
+					if(buffer.position() == 0)
+						break;
+
 				}
 			}
 		}
@@ -91,18 +97,23 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		if(!indexAtEnd)
 			sb.append(packet.getId());
 		String[] out = stream.getOut();
-		if(out.length == 1)
-			sb.append(out[0]);
-		else {
-			sb.append(SEPARATOR);
-			for(int i = 0 ; i < out.length ; i++) {
-				sb.append(out[i]);
-				if(i != out.length -1)
+		if(out != null){
+			if(out.length == 1)
+				sb.append(out[0]);
+			else {
+				if(!indexAtEnd)
 					sb.append(SEPARATOR);
+				for(int i = 0 ; i < out.length ; i++) {
+					sb.append(out[i]);
+					if(i != out.length -1)
+						sb.append(SEPARATOR);
+				}
 			}
 		}
 		if(indexAtEnd)
-			sb.append(packet.getId()).append(DELIMITER);
+			sb.append(packet.getId());
+		sb.append(DELIMITER);
+		System.out.println(sb.toString());
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 }

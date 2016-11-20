@@ -26,6 +26,11 @@ public class StringDofusStream implements DofusStream{
 	}
 
 	@Override
+	public int available() {
+		return in.length;
+	}
+
+	@Override
 	public DofusStream write(String value) {
 		return write(write++ , value);
 	}
