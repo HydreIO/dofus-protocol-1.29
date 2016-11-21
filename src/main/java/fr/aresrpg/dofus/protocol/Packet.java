@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public interface Packet {
-	void read(DofusStream stream) throws UnsupportedEncodingException, IOException;
+	void read(DofusStream stream) throws IOException;
 
 	void write(DofusStream stream) throws IOException;
 

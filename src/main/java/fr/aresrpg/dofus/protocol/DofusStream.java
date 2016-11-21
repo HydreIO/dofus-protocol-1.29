@@ -29,5 +29,7 @@ public interface DofusStream {
 
 	DofusStream allocate(int size);
 
+	DofusStream allocatePacket(int size);
 
+	DofusStream nextPacket();
 }

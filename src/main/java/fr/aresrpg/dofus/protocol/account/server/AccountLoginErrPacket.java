@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.protocol.server.account;
+package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
@@ -15,9 +15,9 @@ public class AccountLoginErrPacket implements Packet{
 	public void read(DofusStream stream) {
 		String value = stream.read();
 		err = Error.valueOf(value.charAt(0));
-		if(err == Error.INVALID_ACCOUNT_WITH_DURATION)
+		if(err == Error.KICKED)
 			time = Integer.parseInt(value.substring(1)) * 24 * 64 + stream.readInt() * 64 + stream.readInt();
-		else if(err == Error.NEW_VERSION)
+		else if(err == Error.BAD_VERSION)
 			version = value.substring(1);
 	}
 
@@ -43,26 +43,26 @@ public class AccountLoginErrPacket implements Packet{
 	public String toString() {
 		return "AccountLoginErrPacket{" +
 				"err=" + err +
-				(err == Error.INVALID_ACCOUNT_WITH_DURATION ? ", time=" + time : "")+
-				(err == Error.NEW_VERSION ? ", version='" + version + '\'' : "")+
+				(err == Error.KICKED ? ", time=" + time : "")+
+				(err == Error.BAD_VERSION ? ", version='" + version + '\'' : "")+
 				'}';
 	}
 
 	public enum Error {
-		ALREADY_CONNECTING('a'),
+		ALREADY_LOGGED('a'),
 		BANNED('b'),
-		ALREADY_CONNECTED('c'),
+		ALREADY_LOGGED_GAME_SERVER('c'),
 		DISCONNECTED('d'),
 		OLD_ACCOUNT_USE_NEW('e'),
 		BAD_PASSWORD('f'),
-		INVALID_ACCOUNT_WITH_DURATION('k'),
+		KICKED('k'),
 		ACCOUNT_IN_MAINTENANCE('m'),
-		CONNECTION_NOT_TERMINATED('n'),
+		CONNECTION_NOT_FINISHED('n'),
 		CHOSE_NICKNAME('r'),
 		OLD_ACCOUNT('o'),
 		INVALID_ACCOUNT('p'),
 		NICKNAME_ALREADY_USED('s'),
-		NEW_VERSION('v'),
+		BAD_VERSION('v'),
 		SERVER_FULL('w');
 
 

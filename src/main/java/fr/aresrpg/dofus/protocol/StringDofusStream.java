@@ -5,7 +5,8 @@ import java.util.Arrays;
 public class StringDofusStream implements DofusStream{
 
 	private String[] in;
-	private String[] out;
+	private String[][] out;
+	private int packetIndex = 0;
 	private int read = 0;
 	private int write = 0;
 
@@ -13,7 +14,9 @@ public class StringDofusStream implements DofusStream{
 		this.in = in;
 	}
 
-	public StringDofusStream() {}
+	public StringDofusStream() {
+		this.out = new String[1][0];
+	}
 
 	@Override
 	public String read() {
@@ -27,7 +30,7 @@ public class StringDofusStream implements DofusStream{
 
 	@Override
 	public int available() {
-		return in.length;
+		return in.length - read;
 	}
 
 	@Override
@@ -37,20 +40,34 @@ public class StringDofusStream implements DofusStream{
 
 	@Override
 	public DofusStream write(int index, String value) {
-		out[index] = value;
+		out[packetIndex][index] = value;
 		return this;
 	}
 
 	@Override
 	public DofusStream allocate(int size) {
-		if(out == null)
-			out = new String[size];
+		if(out[packetIndex] == null)
+			out[packetIndex] = new String[size];
 		else
-			out = Arrays.copyOf(out , size);
+			out[packetIndex] = Arrays.copyOf(out[packetIndex] , size);
 		return this;
 	}
 
-	public String[] getOut() {
+	@Override
+	public DofusStream allocatePacket(int size) {
+		out = Arrays.copyOf(out , size);
+		return this;
+	}
+
+	@Override
+	public DofusStream nextPacket() {
+		packetIndex++;
+		write = 0;
+		read = 0;
+		return this;
+	}
+
+	public String[][] getOut() {
 		return out;
 	}
 }

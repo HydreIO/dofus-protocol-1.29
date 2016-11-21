@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.protocol.server.account;
+package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;

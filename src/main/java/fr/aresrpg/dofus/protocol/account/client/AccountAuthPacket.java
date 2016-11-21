@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.protocol.client;
+package fr.aresrpg.dofus.protocol.account.client;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
@@ -22,7 +22,10 @@ public class AccountAuthPacket implements Packet{
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(version + '\n' + pseudo + '\n' + hashedPassword + '\n');
+		stream.allocatePacket(2)
+				.allocate(1).write(version)
+				.nextPacket()
+				.allocate(1).write(pseudo + '\n' + hashedPassword + '\n');
 	}
 
 	@Override
