@@ -28,4 +28,8 @@ public interface PacketHandler {
 	void handle(AccountQuestionPacket accountQuestionPacket);
 
 	void handle(AccountSelectServerPacket accountSelectServerPacket);
+
+	void handle(AccountYGameServerPacket accountYGameServerPacket);
+
+	void handle(AccountGameServerPacket accountGameServerPacket);
 }

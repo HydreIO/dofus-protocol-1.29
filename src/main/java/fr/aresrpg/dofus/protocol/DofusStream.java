@@ -5,11 +5,11 @@ public interface DofusStream {
 
 	String read(int index);
 
-	default int readInt(){
+	default int readInt() {
 		return Integer.parseInt(read());
 	}
 
-	default int readInt(int index){
+	default int readInt(int index) {
 		return Integer.parseInt(read(index));
 	}
 
@@ -19,15 +19,16 @@ public interface DofusStream {
 
 	DofusStream write(int index, String value);
 
-	default void writeInt(int value){
+	default DofusStream writeInt(int value) {
 		write(Integer.toString(value));
+		return this;
 	}
 
-	default void writeInt(int index , int value){
-		write(index , Integer.toString(value));
+	default DofusStream writeInt(int index, int value) {
+		write(index, Integer.toString(value));
+		return this;
 	}
 
 	DofusStream allocate(int size);
-
 
 }
