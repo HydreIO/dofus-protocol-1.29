@@ -3,6 +3,7 @@ package fr.aresrpg.dofus.protocol;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class DofusConnection<T extends SelectableChannel & ByteChannel> {
@@ -13,12 +14,14 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final Selector selector;
 	private final PacketHandler handler;
 	private final ByteBuffer buffer = ByteBuffer.allocate(512);
+	private final ProtocolRegistry.Bound bound;
 	private StringBuilder currentPacket = new StringBuilder();
 
-	public DofusConnection(T channel, PacketHandler handler) throws IOException {
+	public DofusConnection(T channel, PacketHandler handler , ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
 		this.channel = channel;
 		this.handler = handler;
+		this.bound = bound;
 		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
@@ -70,16 +73,20 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 						currentPacket = new StringBuilder();
 						String[] parts = packet.split("\\" + SEPARATOR);
 						ProtocolRegistry registry;
+						if(parts[0].length() < 2)
+							break;
 						switch (parts[0].length()) {
 							case 2:
-								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 2), false);
+								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 2), false , bound);
 								break;
 							default:
-								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 3), false);
+								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 3), false , bound);
 								break;
 						}
 						if (registry != null) {
 							parts[0] = parts[0].substring(registry.getId().length());// Remove id
+							if(parts.length > 1 && parts[0].isEmpty())
+								parts = Arrays.copyOfRange(parts , 1 , parts.length);
 							try {
 								Packet p = registry.getPacket().newInstance();
 								p.read(new StringDofusStream(parts));

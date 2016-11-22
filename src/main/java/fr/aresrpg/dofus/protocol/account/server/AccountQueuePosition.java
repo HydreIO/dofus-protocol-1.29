@@ -1,6 +1,7 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.util.Convert;
 
 import java.io.IOException;
 
@@ -9,7 +10,7 @@ public class AccountQueuePosition implements Packet {
 	private int position;
 	private int totalSubscriber;
 	private int totalNoSubscribed;
-	private int subscribed;
+	private boolean subscribed;
 	private int positionInQueue;
 
 	@Override
@@ -18,23 +19,23 @@ public class AccountQueuePosition implements Packet {
 		this.position = pos.isEmpty() ? -1 : Integer.parseInt(pos);
 		this.totalSubscriber = stream.readInt();
 		this.totalNoSubscribed = stream.readInt();
-		this.subscribed = stream.readInt();
+		this.subscribed = Convert.toInt(stream.read() , 0) == 1;
 		this.positionInQueue = stream.readInt();
 	}
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-		stream.allocate(5).write(position == -1 ? "" : String.valueOf(position)).writeInt(totalSubscriber).writeInt(totalNoSubscribed).writeInt(subscribed).writeInt(positionInQueue);
+		stream.allocate(5).write(position == -1 ? "" : String.valueOf(position)).writeInt(totalSubscriber).writeInt(totalNoSubscribed).writeInt(subscribed ? 1 : 0).writeInt(positionInQueue);
 	}
 
 	@Override
 	public void handle(PacketHandler handler) {
-
+		handler.handle(this);
 	}
 
 	@Override
 	public String toString() {
-		return "AccountQueuePosition(position:" + position + "|totalabo:" + totalSubscriber + "|totalnonabo:" + totalNoSubscribed + "|subscribed:" + subscribed + "|positioninqueue:" + positionInQueue
+		return "AccountQueuePosition(position:" + position + "|totalSubscriber:" + totalSubscriber + "|totalNoSubscribed:" + totalNoSubscribed + "|subscribed:" + subscribed + "|positioninqueue:" + positionInQueue
 				+ ")[" + getId() + "]";
 	}
 }

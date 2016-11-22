@@ -196,16 +196,25 @@ public final class Crypt {
 		public int getLayerObject2Num() {
 			return layerObject2Num;
 		}
+
+		@Override
+		public String toString() {
+			return "Cell{" +
+					"movement=" + movement +
+					", layerObject2Interactive=" + layerObject2Interactive +
+					", layerObject2Num=" + layerObject2Num +
+					'}';
+		}
 	}
 
-	public static List<Cell> uncompressData(String data) {
+	//TODO: Verify compatibility https://github.com/Emudofus/Dofus/blob/1b54a30e02f637c912bf14afdf6ea8b7df45ea73/ank/battlefield/utils/Compressor.as#L26
+	public static List<Cell> uncompressMap(String data) {
 		List<Cell> cells = new ArrayList<>(data.length()/10);
 		for(int i = 0 ; i < data.length()/10 ; i++){
 			int index = i * 10;
 			String cell = data.substring(index , index + 10);
 
 			int movement = (indexOfHash(cell.charAt(2)) & 56) >> 3;
-			System.out.println(movement);
 			boolean layerObject2Num = ((indexOfHash(cell.charAt(0)) & 2) << 12) + ((indexOfHash(cell.charAt(7)) & 1) << 12) + (indexOfHash(cell.charAt(8)) << 6) + indexOfHash(cell.charAt(9)) == 1;
 			int layerObject2Interactive = (indexOfHash(cell.charAt(7)) & 2) >> 1;
 			cells.add(new Cell(movement , layerObject2Num , layerObject2Interactive));

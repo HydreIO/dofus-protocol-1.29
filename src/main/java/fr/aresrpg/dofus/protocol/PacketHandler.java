@@ -5,8 +5,15 @@ import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
+import fr.aresrpg.dofus.protocol.game.client.GameCreatePacket;
+import fr.aresrpg.dofus.protocol.game.client.GameExtraInformationPacket;
+import fr.aresrpg.dofus.protocol.game.server.GameMapDataPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
+import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
+import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
+import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
+import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 
 public interface PacketHandler {
 	void register(DofusConnection<?> connection);
@@ -58,4 +65,22 @@ public interface PacketHandler {
 	void handle(AccountCharactersListPacket accountCharactersListPacket);
 
 	void handle(AccountSelectCharacterPacket accountSelectCharacterPacket);
+
+	void handle(AccountGetQueuePosition accountGetQueuePosition);
+
+	void handle(AccountQueuePosition accountQueuePosition);
+
+	void handle(MountXpPacket mountXpPacket);
+
+	void handle(GameExtraInformationPacket gameExtraInformationPacket);
+
+	void handle(InfoMessagePacket infoMessagePacket);
+
+	void handle(SpecializationSetPacket specializationSetPacket);
+
+	void handle(InfoMapPacket infoMapPacket);
+
+	void handle(GameCreatePacket gameCreatePacket);
+
+	void handle(GameMapDataPacket gameMapDataPacket);
 }
