@@ -1,13 +1,12 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountIdentity implements Packet{
+public class AccountIdentity implements Packet {
 	private String identity;
+
 	@Override
 	public void read(DofusStream stream) throws IOException {
 		identity = stream.read();
@@ -34,8 +33,6 @@ public class AccountIdentity implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountIdentity{" +
-				"identity='" + identity + '\'' +
-				'}';
+		return "AccountIdentity(" + "identity:'" + identity + "\')[" + getId() + "]";
 	}
 }

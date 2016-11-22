@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountSetCharacterPacket implements Packet{
+public class AccountSetCharacterPacket implements Packet {
 	private int characterId;
 
 	@Override
@@ -22,5 +20,10 @@ public class AccountSetCharacterPacket implements Packet{
 	@Override
 	public void handle(PacketHandler handler) {
 
+	}
+
+	@Override
+	public String toString() {
+		return "AccountSetCharacterPacket(characterid:" + characterId + ")[" + getId() + "]";
 	}
 }

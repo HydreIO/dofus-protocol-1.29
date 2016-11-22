@@ -1,16 +1,24 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
-public class AccountAuthPacket implements Packet{
+public class AccountAuthPacket implements Packet {
 
 	private String version;
 	private String pseudo;
 	private String hashedPassword;
 
-	public AccountAuthPacket() {}
+	public AccountAuthPacket() {
+	}
+
+	@Override
+	public String toString() {
+		return "Auth(version:" + version + "|pseudo:" + hidePseudo() + "|pass:**)[" + getId() + "]";
+	}
+
+	private String hidePseudo() {
+		return this.pseudo.substring(3) + "**";
+	}
 
 	@Override
 	public void read(DofusStream stream) {
@@ -32,7 +40,6 @@ public class AccountAuthPacket implements Packet{
 	public void handle(PacketHandler handler) {
 		handler.handle(this);
 	}
-
 
 	public String getHashedPassword() {
 		return hashedPassword;

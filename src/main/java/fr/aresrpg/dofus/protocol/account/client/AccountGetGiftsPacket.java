@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountGetGiftsPacket implements Packet{
+public class AccountGetGiftsPacket implements Packet {
 	private String language;
 
 	@Override
@@ -35,8 +33,6 @@ public class AccountGetGiftsPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountGetGiftsPacket{" +
-				"language='" + language + '\'' +
-				'}';
+		return "AccountGetGiftsPacket(lang:'" + language + '\'' + ")[" + getId() + "]";
 	}
 }

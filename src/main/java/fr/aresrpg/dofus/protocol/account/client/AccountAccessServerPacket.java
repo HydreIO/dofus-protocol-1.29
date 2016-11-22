@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountAccessServerPacket implements Packet{
+public class AccountAccessServerPacket implements Packet {
 	private int serverId;
 
 	@Override
@@ -30,9 +28,7 @@ public class AccountAccessServerPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountAccessServerPacket{" +
-				"serverId=" + serverId +
-				'}';
+		return "AccountAccessServerPacket(serverid:" + serverId + ")[" + getId() + "]";
 	}
 
 	@Override

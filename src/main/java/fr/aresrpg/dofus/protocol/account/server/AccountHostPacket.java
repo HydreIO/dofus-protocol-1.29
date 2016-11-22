@@ -1,27 +1,25 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.server.DofusServer;
 import fr.aresrpg.dofus.structures.server.ServerState;
 
 import java.util.Arrays;
 
-public class AccountHostPacket implements Packet{
+public class AccountHostPacket implements Packet {
 	private DofusServer[] servers;
 
 	@Override
 	public void read(DofusStream stream) {
 		int available = stream.available();
 		servers = new DofusServer[available];
-		for(int i = 0 ; i < available ; i++){
+		for (int i = 0; i < available; i++) {
 			String[] data = stream.read().split(";");
 			int id = Integer.parseInt(data[0]);
 			int state = Integer.parseInt(data[1]);
 			int population = Integer.parseInt(data[2]);
 			boolean requireSubscription = Integer.parseInt(data[3]) == 1;
-			servers[i] = new DofusServer(id , ServerState.valueOf(state) , population , requireSubscription);
+			servers[i] = new DofusServer(id, ServerState.valueOf(state), population, requireSubscription);
 		}
 	}
 
@@ -41,8 +39,6 @@ public class AccountHostPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountHostPacket{" +
-				"servers=" + Arrays.toString(servers) +
-				'}';
+		return "AccountHostPacket(" + "servers:" + Arrays.toString(servers) + ")[" + getId() + "]";
 	}
 }

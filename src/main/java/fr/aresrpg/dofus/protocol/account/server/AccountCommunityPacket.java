@@ -1,11 +1,9 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.Community;
 
-public class AccountCommunityPacket implements Packet{
+public class AccountCommunityPacket implements Packet {
 
 	private Community community;
 
@@ -35,8 +33,6 @@ public class AccountCommunityPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountCommunityPacket{" +
-				"community=" + community +
-				'}';
+		return "AccountCommunityPacket(" + "community:" + community + ")[" + getId() + "]";
 	}
 }
