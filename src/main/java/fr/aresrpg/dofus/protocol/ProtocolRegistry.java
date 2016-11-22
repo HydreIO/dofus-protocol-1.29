@@ -18,7 +18,7 @@ public enum ProtocolRegistry {
 	GAME_HELLO_CONNECTION(Layer.HELLO , 'C', HelloConnectionPacket.class),
 
 	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT , 'f' , true , AccountAuthPacket.class),
-	ACCOUNT_QUEUE_POSITION(Layer.ACCOUNT , 'f' , AccountGetQueuePosition.class),
+	ACCOUNT_QUEUE_POSITION(Layer.ACCOUNT , 'f' , AccountQueuePosition.class),
 	ACCOUNT_LOGIN_ERROR(Layer.ACCOUNT , 'l' , State.ERROR , AccountLoginErrPacket.class),
 	ACCOUNT_LOGIN_OK(Layer.ACCOUNT , 'l' , State.OK , AccountLoginOkPacket.class),
 	ACCOUNT_PSEUDO(Layer.ACCOUNT , 'd' , AccountPseudoPacket.class),
