@@ -56,6 +56,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					if (decode) {
 						currentPacket.deleteCharAt(currentPacket.length() - 1); // Remove \0
 						String packet = currentPacket.toString();
+						// System.out.println("[RECEIVE] <- " + packet);
 						currentPacket = new StringBuilder();
 						String[] parts = packet.split("\\" + SEPARATOR);
 						ProtocolRegistry registry;
@@ -111,6 +112,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				sb.append(packet.getId());
 			sb.append('\n').append(DELIMITER);
 		}
+		// System.out.println("[SEND] -> " + sb.toString());
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 
