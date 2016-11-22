@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Crypt {
-	private static final char[] hash = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C',
+	private static final char[] HASH = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C',
 			'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_' };
+
+	private static final char[] HEX_CHAR = "0123456789ABCDEF".toCharArray();
 
 	private Crypt() {
 	}
@@ -18,7 +20,7 @@ public final class Crypt {
 		for (int i = 0; i < password.length(); i++) {
 			int aPass = password.charAt(i) / 16;
 			int bPass = password.charAt(i) % 16;
-			result = result + hash[(aPass + (int) key.charAt(i)) % hash.length] + hash[(bPass + (int) key.charAt(i)) % hash.length];
+			result = result + HASH[(aPass + (int) key.charAt(i)) % HASH.length] + HASH[(bPass + (int) key.charAt(i)) % HASH.length];
 		}
 		return result;
 	}
@@ -71,10 +73,10 @@ public final class Crypt {
 		int cur = port;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 2; i > 0; i--) {
-			sb.append(hash[cur >> (6 * i)]);
+			sb.append(HASH[cur >> (6 * i)]);
 			cur &= (int)(Math.pow(64 , i) -1);
 		}
-		sb.append(hash[cur]);
+		sb.append(HASH[cur]);
 		return sb.toString();
 	}
 
@@ -88,9 +90,13 @@ public final class Crypt {
 		return port;
 	}
 
+	public static int decryptPort(String ePort) {
+		return decryptPort(ePort.toCharArray());
+	}
+
 	public static int indexOfHash(char ch){
-		for(int i = 0 ; i < hash.length ; i++)
-			if(hash[i] == ch)
+		for(int i = 0; i < HASH.length ; i++)
+			if(HASH[i] == ch)
 				return i;
 		return -1;
 	}
@@ -111,6 +117,22 @@ public final class Crypt {
 			sb.append((char) (a ^ b));
 		}
 		return decode(sb.toString());
+	}
+
+	public static char checksum(String s){
+		int v = 0;
+		for(char c : s.toCharArray())
+			v += c & 15;
+		return HEX_CHAR[v & 15];
+	}
+
+	public static String getRandomNetworkKey() { //From ankama
+		int size = (int) (Math.round(Math.random() * 20) + 10);
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0 ; i < size ; i++)
+			sb.append(HASH[(int) (Math.random() * HASH.length)]);
+		String check = checksum(sb.toString()) + sb.toString();
+		return check + checksum(check);
 	}
 
 	private static String decode(String s) {
@@ -189,6 +211,10 @@ public final class Crypt {
 			cells.add(new Cell(movement , layerObject2Num , layerObject2Interactive));
 		}
 		return cells;
+	}
+
+	public static void main(String[] args) {
+		System.out.println((char)65 + " " + (char)91);
 	}
 
 }
