@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.basic.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class BasicConfirmPacket implements Packet{
+public class BasicConfirmPacket implements Packet {
 	@Override
 	public void read(DofusStream stream) throws IOException {
 
@@ -20,5 +18,10 @@ public class BasicConfirmPacket implements Packet{
 	@Override
 	public void handle(PacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "BasicConfirmPacket()[" + getId() + "]";
 	}
 }

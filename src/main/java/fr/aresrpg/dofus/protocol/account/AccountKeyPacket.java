@@ -1,20 +1,17 @@
 package fr.aresrpg.dofus.protocol.account;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
-import fr.aresrpg.dofus.protocol.account.server.AccountTicketOkPacket;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountKeyPacket implements Packet{
+public class AccountKeyPacket implements Packet {
 	protected int key;
 	protected String data;
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
 		String buf = stream.read();
-		key = Integer.parseInt(String.valueOf(buf.charAt(0)) ,16);
+		key = Integer.parseInt(String.valueOf(buf.charAt(0)), 16);
 		data = buf.substring(1);
 	}
 
@@ -48,9 +45,6 @@ public class AccountKeyPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountKeyPacket{" +
-				"key=" + key +
-				", data='" + data + '\'' +
-				'}';
+		return "AccountKeyPacket(" + "key:" + key + ", data:'" + data + "\'}[" + getId() + "]";
 	}
 }

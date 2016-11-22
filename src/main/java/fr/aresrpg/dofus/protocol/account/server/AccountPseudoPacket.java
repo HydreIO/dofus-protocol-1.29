@@ -1,10 +1,8 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
-public class AccountPseudoPacket implements Packet{
+public class AccountPseudoPacket implements Packet {
 	private String name;
 
 	@Override
@@ -29,5 +27,10 @@ public class AccountPseudoPacket implements Packet{
 	public AccountPseudoPacket setName(String name) {
 		this.name = name;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "AccountPseudoPacket(name:" + name + ")[" + getId() + "]";
 	}
 }

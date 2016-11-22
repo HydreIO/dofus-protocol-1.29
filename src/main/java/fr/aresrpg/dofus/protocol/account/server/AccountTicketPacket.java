@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountTicketPacket implements Packet{
+public class AccountTicketPacket implements Packet {
 	private String ticket;
 
 	@Override
@@ -35,8 +33,6 @@ public class AccountTicketPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountTicketPacket{" +
-				"ticket='" + ticket + '\'' +
-				'}';
+		return "AccountTicketPacket(ticket:'" + ticket + "\')[" + getId() + "]";
 	}
 }

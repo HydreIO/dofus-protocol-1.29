@@ -1,16 +1,16 @@
 package fr.aresrpg.dofus.protocol.hello.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
-public class HelloGamePacket implements Packet{
+public class HelloGamePacket implements Packet {
 
 	@Override
-	public void read(DofusStream stream) {}
+	public void read(DofusStream stream) {
+	}
 
 	@Override
-	public void write(DofusStream stream) {}
+	public void write(DofusStream stream) {
+	}
 
 	@Override
 	public void handle(PacketHandler handler) {
@@ -19,6 +19,6 @@ public class HelloGamePacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "HelloGamePacket{}";
+		return "HelloGamePacket()[" + getId() + "]";
 	}
 }

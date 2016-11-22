@@ -1,16 +1,14 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountServerListPacket implements Packet{
+public class AccountServerListPacket implements Packet {
 	private int subscriptionDuration;
-	private Map<Integer , Integer> characters;
+	private Map<Integer, Integer> characters;
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
@@ -18,13 +16,14 @@ public class AccountServerListPacket implements Packet{
 		characters = new HashMap<>();
 		while (stream.available() != 0) {
 			String[] data = stream.read().split(",");
-			characters.put(Integer.parseInt(data[0]) , Integer.parseInt(data[1]));
+			characters.put(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
 		}
 	}
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-
+		stream.writeInt(subscriptionDuration);
+		characters.forEach((k, v) -> stream.write(k + "," + v));
 	}
 
 	@Override
@@ -42,9 +41,6 @@ public class AccountServerListPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountServerListPacket{" +
-				"subscriptionDuration=" + subscriptionDuration +
-				", characters=" + characters +
-				'}';
+		return "AccountServerListPacket(subscriptionDuration:" + subscriptionDuration + "|characters:" + characters + ")[" + getId() + "]";
 	}
 }

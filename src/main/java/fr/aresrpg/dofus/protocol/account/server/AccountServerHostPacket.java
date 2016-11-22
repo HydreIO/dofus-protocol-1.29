@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
-public class AccountServerHostPacket implements Packet{
+public class AccountServerHostPacket implements Packet {
 	private String ip;
 	private int port;
 	private String ticketKey;
@@ -58,10 +56,6 @@ public class AccountServerHostPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountServerHostPacket{" +
-				"ip='" + ip + '\'' +
-				", port=" + port +
-				", ticketKey='" + ticketKey + '\'' +
-				'}';
+		return "AccountServerHostPacket(ip:'" + ip + '\'' + "|port:" + port + "|ticketKey:'" + ticketKey + "\'})[" + getId() + "]";
 	}
 }

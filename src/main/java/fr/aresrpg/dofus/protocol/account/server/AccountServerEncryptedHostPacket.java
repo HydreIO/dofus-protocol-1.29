@@ -1,13 +1,11 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.util.Crypt;
 
 import java.io.IOException;
 
-public class AccountServerEncryptedHostPacket implements Packet{
+public class AccountServerEncryptedHostPacket implements Packet {
 	private String ip;
 	private int port;
 	private String ticketKey;
@@ -15,8 +13,8 @@ public class AccountServerEncryptedHostPacket implements Packet{
 	@Override
 	public void read(DofusStream stream) throws IOException {
 		String data = stream.read();
-		this.ip = Crypt.decryptIp(data.substring(0 , 8));
-		this.port = Crypt.decryptPort(data.substring(8 , 11));
+		this.ip = Crypt.decryptIp(data.substring(0, 8));
+		this.port = Crypt.decryptPort(data.substring(8, 11));
 		this.ticketKey = data.substring(11);
 	}
 
@@ -59,10 +57,6 @@ public class AccountServerEncryptedHostPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountServerEncryptedHostPacket{" +
-				"ip='" + ip + '\'' +
-				", port=" + port +
-				", ticketKey='" + ticketKey + '\'' +
-				'}';
+		return "AccountServerEncryptedHostPacket(ip:'" + ip + '\'' + "|port:" + port + "|ticketKey='" + ticketKey + "\')[" + getId() + "]";
 	}
 }
