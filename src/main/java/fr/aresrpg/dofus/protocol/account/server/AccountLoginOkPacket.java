@@ -1,10 +1,8 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
-public class AccountLoginOkPacket implements Packet{
+public class AccountLoginOkPacket implements Packet {
 	private boolean isAdmin;
 
 	@Override
@@ -24,8 +22,6 @@ public class AccountLoginOkPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountLoginOkPacket{" +
-				"isAdmin=" + isAdmin +
-				'}';
+		return "AccountLoginOkPacket(isAdmin:" + isAdmin + ")[" + getId() + "]";
 	}
 }

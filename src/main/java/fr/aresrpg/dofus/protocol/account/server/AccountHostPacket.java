@@ -5,6 +5,7 @@ import fr.aresrpg.dofus.structures.server.DofusServer;
 import fr.aresrpg.dofus.structures.server.ServerState;
 
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class AccountHostPacket implements Packet {
 	private DofusServer[] servers;
@@ -25,7 +26,12 @@ public class AccountHostPacket implements Packet {
 
 	@Override
 	public void write(DofusStream stream) {
-
+		stream.allocate(servers.length);
+		for (DofusServer s : servers) {
+			StringJoiner joiner = new StringJoiner(";");
+			joiner.add(String.valueOf(s.getId())).add(String.valueOf(s.getState())).add(String.valueOf(s.getServerPopulation())).add(String.valueOf(s.needSubscription() ? 1 : 0));
+			stream.write(joiner.toString());
+		}
 	}
 
 	@Override

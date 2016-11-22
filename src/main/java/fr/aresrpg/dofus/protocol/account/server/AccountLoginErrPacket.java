@@ -1,13 +1,13 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
-public class AccountLoginErrPacket implements Packet{
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
+public class AccountLoginErrPacket implements Packet {
 	private Error err;
-
-	//In minute
+	// In minute
 	private int time;
 	private String version;
 
@@ -15,15 +15,29 @@ public class AccountLoginErrPacket implements Packet{
 	public void read(DofusStream stream) {
 		String value = stream.read();
 		err = Error.valueOf(value.charAt(0));
-		if(err == Error.KICKED)
+		if (err == Error.KICKED)
 			time = Integer.parseInt(value.substring(1)) * 24 * 64 + stream.readInt() * 64 + stream.readInt();
-		else if(err == Error.BAD_VERSION)
+		else if (err == Error.BAD_VERSION)
 			version = value.substring(1);
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-
+		switch (err) {
+			case KICKED:
+				Duration d = Duration.ofMinutes(time);
+				long days = d.get(ChronoUnit.DAYS);
+				long hours = d.minusDays(days).get(ChronoUnit.HOURS);
+				long minutes = d.minus(Duration.ofDays(days).plusHours(hours)).get(ChronoUnit.MINUTES);
+				stream.allocate(3).write(String.valueOf(err.getKey() + days)).writeInt((int) hours).writeInt((int) minutes);
+				return;
+			case BAD_VERSION:
+				stream.allocate(1).write(err.getKey() + version);
+				return;
+			default:
+				stream.allocate(1).write(String.valueOf(err.getKey()));
+				return;
+		}
 	}
 
 	@Override
@@ -41,11 +55,7 @@ public class AccountLoginErrPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "AccountLoginErrPacket{" +
-				"err=" + err +
-				(err == Error.KICKED ? ", time=" + time : "")+
-				(err == Error.BAD_VERSION ? ", version='" + version + '\'' : "")+
-				'}';
+		return "AccountLoginErrPacket(err:" + err.name() + (err == Error.KICKED ? "|time:" + time : "") + (err == Error.BAD_VERSION ? "|version:'" + version + '\'' : "") + ")[" + getId() + "]";
 	}
 
 	public enum Error {
@@ -65,7 +75,6 @@ public class AccountLoginErrPacket implements Packet{
 		BAD_VERSION('v'),
 		SERVER_FULL('w');
 
-
 		private final char key;
 
 		Error(char key) {
@@ -77,8 +86,8 @@ public class AccountLoginErrPacket implements Packet{
 		}
 
 		public static Error valueOf(char key) {
-			for(Error s : values())
-				if(s.getKey() == key)
+			for (Error s : values())
+				if (s.getKey() == key)
 					return s;
 			return null;
 		}

@@ -31,11 +31,11 @@ public class DofusServer {
 
 	@Override
 	public String toString() {
-		return "DofusServer{" +
-				"id=" + id +
-				", state=" + state +
-				", serverPopulation=" + serverPopulation +
-				", needSubscription=" + needSubscription +
-				'}';
+		return "DofusServer[" +
+				"id:" + id +
+				"|state:" + state +
+				"|serverPopulation:" + serverPopulation +
+				"|needSubscription:" + needSubscription +
+				']';
 	}
 }
