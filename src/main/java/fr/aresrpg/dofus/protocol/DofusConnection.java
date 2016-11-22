@@ -3,7 +3,6 @@ package fr.aresrpg.dofus.protocol;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class DofusConnection<T extends SelectableChannel & ByteChannel> {
@@ -34,19 +33,19 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 			if (key.isReadable()) {
 				ByteChannel channel = (ByteChannel) key.channel();
 				boolean decode = false;
-				while(true) {
-					read: while(buffer.position() > 0 || channel.read(buffer) > 0 ) {
+				while (true) {
+					read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
 						int read = buffer.position();
 						buffer.flip();
 						byte[] bytes = new byte[read];
 						buffer.get(bytes);
 						buffer.clear();
-						for(int i = 0; i < bytes.length ; i++){
-							if(bytes[i] == DELIMITER){
+						for (int i = 0; i < bytes.length; i++) {
+							if (bytes[i] == DELIMITER) {
 								i++;
 								decode = true;
-								buffer.put(bytes , i , bytes.length - i);
-								currentPacket.append(new String(bytes, 0 , i));
+								buffer.put(bytes, i, bytes.length - i);
+								currentPacket.append(new String(bytes, 0, i));
 								break read;
 							}
 						}
@@ -57,16 +56,15 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					if (decode) {
 						currentPacket.deleteCharAt(currentPacket.length() - 1); // Remove \0
 						String packet = currentPacket.toString();
-						//System.out.println("[RECEIVE] <- " + packet);
 						currentPacket = new StringBuilder();
 						String[] parts = packet.split("\\" + SEPARATOR);
 						ProtocolRegistry registry;
 						switch (parts[0].length()) {
 							case 2:
-								registry = ProtocolRegistry.getRegistry(parts[0].substring(0 , 2) , false);
+								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 2), false);
 								break;
 							default:
-								registry = ProtocolRegistry.getRegistry(parts[0].substring(0 , 3) , false);
+								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 3), false);
 								break;
 						}
 						if (registry != null) {
@@ -94,26 +92,25 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		StringBuilder sb = new StringBuilder();
 		boolean indexAtEnd = ProtocolRegistry.getRegistry(packet.getClass()).isIndexAtEnd();
 		String[][] outs = stream.getOut();
-		if(!indexAtEnd){
+		if (!indexAtEnd) {
 			sb.append(packet.getId());
 		}
-		for(int i = 0; i < outs.length ; i++){
+		for (int i = 0; i < outs.length; i++) {
 			String[] out = outs[i];
 
-			if(!indexAtEnd && i == 0 && out.length > 1)
+			if (!indexAtEnd && i == 0 && out.length > 1)
 				sb.append(SEPARATOR);
-			if(out != null){
-				for(int y = 0 ; y < out.length ; y++) {
+			if (out != null) {
+				for (int y = 0; y < out.length; y++) {
 					sb.append(out[y]);
-					if(y != out.length -1)
+					if (y != out.length - 1)
 						sb.append(SEPARATOR);
 				}
 			}
-			if(i == outs.length -1 && indexAtEnd)
+			if (i == outs.length - 1 && indexAtEnd)
 				sb.append(packet.getId());
 			sb.append('\n').append(DELIMITER);
 		}
-		//System.out.println("[SEND] -> " + sb.toString());
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 
