@@ -1,7 +1,6 @@
 package fr.aresrpg.dofus.protocol;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public interface Packet {
 	void read(DofusStream stream) throws IOException;
