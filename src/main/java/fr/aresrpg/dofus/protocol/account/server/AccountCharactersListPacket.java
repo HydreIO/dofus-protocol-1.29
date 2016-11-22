@@ -43,6 +43,7 @@ public class AccountCharactersListPacket implements Packet {
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
+		stream.allocate(characters.length + 1);
 		stream.writeInt(subscriptionTime);
 		stream.writeInt(getCharacters().length);
 		for (AvailableCharacter c : getCharacters()) {
