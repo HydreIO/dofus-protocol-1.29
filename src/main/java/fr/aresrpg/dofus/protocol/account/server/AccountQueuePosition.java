@@ -14,7 +14,8 @@ public class AccountQueuePosition implements Packet {
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
-		this.position = stream.readInt();
+		String pos = stream.read();
+		this.position = pos.isEmpty() ? -1 : Integer.parseInt(pos);
 		this.totalSubscriber = stream.readInt();
 		this.totalNoSubscribed = stream.readInt();
 		this.subscribed = stream.readInt();
@@ -23,7 +24,7 @@ public class AccountQueuePosition implements Packet {
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-		stream.allocate(5).writeInt(position).writeInt(totalSubscriber).writeInt(totalNoSubscribed).writeInt(subscribed).writeInt(positionInQueue);
+		stream.allocate(5).write(position == -1 ? "" : String.valueOf(position)).writeInt(totalSubscriber).writeInt(totalNoSubscribed).writeInt(subscribed).writeInt(positionInQueue);
 	}
 
 	@Override
