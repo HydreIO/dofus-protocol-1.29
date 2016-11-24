@@ -25,7 +25,7 @@ public enum ProtocolRegistry {
 	GAME_HELLO_CONNECTION(Layer.HELLO , 'C', Bound.SERVER , HelloConnectionPacket.class),
 
 	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT , 'f' , true , Bound.CLIENT , AccountAuthPacket.class),
-	ACCOUNT_GET_QUEUE_POSITION(Layer.ACCOUNT , 'f', true , Bound.CLIENT , AccountGetQueuePosition.class),
+	ACCOUNT_GET_QUEUE_POSITION(Layer.ACCOUNT , 'f' , Bound.CLIENT , AccountGetQueuePosition.class),
 	ACCOUNT_QUEUE_POSITION(Layer.ACCOUNT , 'f' , Bound.SERVER , AccountQueuePosition.class),
 	ACCOUNT_LOGIN_ERROR(Layer.ACCOUNT , 'l' , State.ERROR , Bound.SERVER , AccountLoginErrPacket.class),
 	ACCOUNT_LOGIN_OK(Layer.ACCOUNT , 'l' , State.OK , Bound.SERVER , AccountLoginOkPacket.class),
@@ -165,7 +165,6 @@ public enum ProtocolRegistry {
 
 		if(code[1] <= 'A' || code[1] >= 'z')
 			return null;
-
 		Layer layer = Layer.valueOf(code[0]);
 		if(layer == null)
 			return null;

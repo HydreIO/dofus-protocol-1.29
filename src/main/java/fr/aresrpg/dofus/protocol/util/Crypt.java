@@ -98,22 +98,22 @@ public final class Crypt {
 		for(int i = 0; i < HASH.length ; i++)
 			if(HASH[i] == ch)
 				return i;
-		return -1;
+		throw new ArrayIndexOutOfBoundsException(ch + " is not in hash array");
 	}
 
 	public static String prepareKey(String key) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0  ; i < key.length() ; i+=2) {
-			sb.append((char)Long.parseLong(key.substring(i , i +2) , 16));
+			sb.append((char)Integer.parseInt(key.substring(i , i +2) , 16));
 		}
 		return decode(sb.toString());
 	}
 
-	public static String decypherData(String data , String preparedKey , int checksum) throws UnsupportedEncodingException {
+	public static String decipherData(String data , String preparedKey , int checksum) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0  ; i < data.length() ; i+=2) {
-			long a = Long.parseLong(data.substring(i , i+2) , 16);
-			long b = (long) preparedKey.charAt(((i>>1) + checksum) % preparedKey.length());
+			int a = Integer.parseInt(data.substring(i , i+2) , 16);
+			int b = preparedKey.charAt((i/2 + checksum) % preparedKey.length());
 			sb.append((char) (a ^ b));
 		}
 		return decode(sb.toString());
@@ -207,17 +207,28 @@ public final class Crypt {
 		}
 	}
 
-	//TODO: Verify compatibility https://github.com/Emudofus/Dofus/blob/1b54a30e02f637c912bf14afdf6ea8b7df45ea73/ank/battlefield/utils/Compressor.as#L26
-	public static List<Cell> uncompressMap(String data) {
-		List<Cell> cells = new ArrayList<>(data.length()/10);
-		for(int i = 0 ; i < data.length()/10 ; i++){
-			int index = i * 10;
-			String cell = data.substring(index , index + 10);
+	public static List<Cell> uncompressMap(String d) {
+		int[] data = new int[d.length()];
+		for(int i = 0 ; i < data.length ; i++)
+			data[i] = indexOfHash(d.charAt(i));
 
-			int movement = (indexOfHash(cell.charAt(2)) & 56) >> 3;
-			boolean layerObject2Num = ((indexOfHash(cell.charAt(0)) & 2) << 12) + ((indexOfHash(cell.charAt(7)) & 1) << 12) + (indexOfHash(cell.charAt(8)) << 6) + indexOfHash(cell.charAt(9)) == 1;
-			int layerObject2Interactive = (indexOfHash(cell.charAt(7)) & 2) >> 1;
-			cells.add(new Cell(movement , layerObject2Num , layerObject2Interactive));
+		List<Cell> cells = new ArrayList<>(data.length/10);
+		for(int i = 0 ; i < data.length/10 ; i++){
+			int index = i * 10;
+			boolean lineOfSight = (data[index] & 1) == 1;
+			int layerGroundRot = (data[index + 1] & 48) >> 4;
+			int groundLevel = data[index + 1] & 15;
+			int movement = (data[index + 2] & 56) >> 3;
+			int layerGroundNum = ((data[index] & 24) << 6) + ((data[index + 2] & 7) << 6) + data[index + 3];
+			int groundSlope = (data[index + 4] & 60) >> 2;
+			boolean layerGroundFlip = (data[index + 4] & 2) >> 1 == 1;
+			int layerObject1Num = ((data[index] & 4) << 11) + ((data[index + 4] & 1) << 12) + (data[index + 5] << 6) + data[index + 6];
+			int layerObject1Rot = (data[index + 7] & 48) >> 4;
+			boolean layerObject1Flip = (data[index + 7] & 8) >> 3 == 1;
+			boolean layerObject2Flip = (data[index + 7] & 4) >> 2 == 1;
+			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1  == 1;
+			int layerObject2Num = ((data[index] & 2) << 12) + ((data[index + 7] & 1) << 12) + (data[index + 8] << 6) + data[index + 9];
+			cells.add(new Cell(movement , layerObject2Interactive , layerObject2Num));
 		}
 		return cells;
 	}

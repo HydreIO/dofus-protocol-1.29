@@ -70,25 +70,32 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 						currentPacket.deleteCharAt(currentPacket.length() - 1); // Remove \0
 						String packet = currentPacket.toString();
 						System.out.println("[RECEIVE] <- " + packet);
-						currentPacket = new StringBuilder();
 						String[] parts = packet.split("\\" + SEPARATOR);
-						ProtocolRegistry registry;
-						if(parts[0].length() < 2)
-							break;
-						switch (parts[0].length()) {
-							case 2:
-								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 2), false , bound);
-								break;
-							default:
-								registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 3), false , bound);
-								break;
+						ProtocolRegistry registry = null;
+						if(parts[0].length() > 2) {
+							switch (parts[0].length()) {
+								case 2:
+									registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 2), false , bound);
+									break;
+								default:
+									registry = ProtocolRegistry.getRegistry(parts[0].substring(0, 3), false , bound);
+									break;
+							}
 						}
+						int length = packet.length();
+						if(registry == null && length >= 3)
+							registry = ProtocolRegistry.getRegistry(packet.substring(length - 4 , length - 1) , true , bound);
+						if(registry == null && length >= 2)
+							registry = ProtocolRegistry.getRegistry(packet.substring(length - 3 , length - 1) , true , bound);
+
 						if (registry != null) {
 							parts[0] = parts[0].substring(registry.getId().length());// Remove id
+
 							if(parts.length > 1 && parts[0].isEmpty())
 								parts = Arrays.copyOfRange(parts , 1 , parts.length);
 							try {
 								Packet p = registry.getPacket().newInstance();
+								currentPacket = new StringBuilder();
 								p.read(new StringDofusStream(parts));
 								p.handle(handler);
 							} catch (ReflectiveOperationException e) {
