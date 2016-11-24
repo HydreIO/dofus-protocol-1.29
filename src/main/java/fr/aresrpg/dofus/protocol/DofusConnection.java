@@ -15,6 +15,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final PacketHandler handler;
 	private final ByteBuffer buffer = ByteBuffer.allocate(512);
 	private final ProtocolRegistry.Bound bound;
+	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
 
 	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
@@ -22,6 +23,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.channel = channel;
 		this.handler = handler;
 		this.bound = bound;
+		this.label = label;
 		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
