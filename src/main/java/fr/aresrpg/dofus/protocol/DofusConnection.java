@@ -17,7 +17,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final ProtocolRegistry.Bound bound;
 	private StringBuilder currentPacket = new StringBuilder();
 
-	public DofusConnection(T channel, PacketHandler handler , ProtocolRegistry.Bound bound) throws IOException {
+	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
 		this.channel = channel;
 		this.handler = handler;
@@ -25,6 +25,13 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
+	}
+
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
 	}
 
 	public void close() {
@@ -69,7 +76,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					if (decode) {
 						currentPacket.deleteCharAt(currentPacket.length() - 1); // Remove \0
 						String packet = currentPacket.toString();
-						System.out.println("[RECEIVE] <- " + packet);
+						System.out.println("[RECEIVE from " + label + "] <- " + packet);
 						String[] parts = packet.split("\\" + SEPARATOR);
 						ProtocolRegistry registry = null;
 						if(parts[0].length() > 2) {
@@ -136,7 +143,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				sb.append(packet.getId());
 			sb.append('\n').append(DELIMITER);
 		}
-		System.out.println("[SEND] -> " + sb.toString());
+		System.out.println("[SEND to " + label + "] -> " + sb.toString());
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 
