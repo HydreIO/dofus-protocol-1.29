@@ -98,7 +98,11 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 							registry = ProtocolRegistry.getRegistry(packet.substring(length - 3 , length - 1) , true , bound);
 
 						if (registry != null) {
-							parts[0] = parts[0].substring(registry.getId().length());// Remove id
+							int index = registry.isIndexAtEnd() ? parts.length - 1 : 0;
+							if(registry.isIndexAtEnd())
+								parts[index] = parts[index].substring(0 , parts[index].length() - registry.getId().length() - 1);// Remove id
+							else
+								parts[index] = parts[index].substring(registry.getId().length());// Remove id
 
 							if(parts.length > 1 && parts[0].isEmpty())
 								parts = Arrays.copyOfRange(parts , 1 , parts.length);
