@@ -6,11 +6,11 @@ public interface DofusStream {
 	String read(int index);
 
 	default int readInt() {
-		return Integer.parseInt(read());
+		return Integer.parseInt(read().trim());
 	}
 
 	default int readInt(int index) {
-		return Integer.parseInt(read(index));
+		return Integer.parseInt(read(index).trim());
 	}
 
 	int available();
