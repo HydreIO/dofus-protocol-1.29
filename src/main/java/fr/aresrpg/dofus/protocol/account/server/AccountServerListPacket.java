@@ -22,7 +22,7 @@ public class AccountServerListPacket implements Packet {
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-		stream.writeInt(subscriptionDuration);
+		stream.allocate(1 + characters.size()).writeInt(subscriptionDuration);
 		characters.forEach((k, v) -> stream.write(k + "," + v));
 	}
 
