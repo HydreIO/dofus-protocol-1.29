@@ -83,4 +83,8 @@ public interface PacketHandler {
 	void handle(GameCreatePacket gameCreatePacket);
 
 	void handle(GameMapDataPacket gameMapDataPacket);
+
+	default boolean parse(ProtocolRegistry registry, String packet){
+		throw new UnsupportedOperationException();
+	}
 }

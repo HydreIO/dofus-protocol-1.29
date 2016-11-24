@@ -97,28 +97,33 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 						if(registry == null && length >= 2)
 							registry = ProtocolRegistry.getRegistry(packet.substring(length - 2 , length) , true , bound);
 
-						if (registry != null) {
-							int index = registry.isIndexAtEnd() ? parts.length - 1 : 0;
-							if(registry.isIndexAtEnd())
-								parts[index] = parts[index].substring(0 , parts[index].length() - registry.getId().length() - 1);// Remove id
-							else
-								parts[index] = parts[index].substring(registry.getId().length());// Remove id
-
-							if(parts.length > 1 && parts[0].isEmpty())
-								parts = Arrays.copyOfRange(parts , 1 , parts.length);
-							try {
-								Packet p = registry.getPacket().newInstance();
+						try {
+							if(handler.parse(registry , packet))
 								currentPacket = new StringBuilder();
-								p.read(new StringDofusStream(parts));
-								p.handle(handler);
-							} catch (ReflectiveOperationException e) {
-								e.printStackTrace();
+							break;
+						} catch (UnsupportedOperationException ignored){
+							if (registry != null) {
+								int index = registry.isIndexAtEnd() ? parts.length - 1 : 0;
+								if(registry.isIndexAtEnd())
+									parts[index] = parts[index].substring(0 , parts[index].length() - registry.getId().length() - 1);// Remove id
+								else
+									parts[index] = parts[index].substring(registry.getId().length());// Remove id
+
+								if(parts.length > 1 && parts[0].isEmpty())
+									parts = Arrays.copyOfRange(parts , 1 , parts.length);
+								try {
+									Packet p = registry.getPacket().newInstance();
+									currentPacket = new StringBuilder();
+									p.read(new StringDofusStream(parts));
+									p.handle(handler);
+								} catch (ReflectiveOperationException e) {
+									e.printStackTrace();
+								}
 							}
 						}
-					}
-					if (buffer.position() == 0)
-						break;
-
+						if (buffer.position() == 0)
+							break;
+						}
 				}
 			}
 		}
