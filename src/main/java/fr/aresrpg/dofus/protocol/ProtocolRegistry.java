@@ -33,7 +33,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_COMMUNITY(Layer.ACCOUNT , 'c' , Bound.SERVER , AccountCommunityPacket.class),
 	ACCOUNT_HOST(Layer.ACCOUNT , 'H' , Bound.SERVER , AccountHostPacket.class),
 	ACCOUNT_QUESTION(Layer.ACCOUNT , 'Q' , Bound.SERVER , AccountQuestionPacket.class),
-	ACCOUNT_LIST_SERVER(Layer.ACCOUNT , 'x' , Bound.SERVER , AccountListServersPacket.class),
+	ACCOUNT_LIST_SERVER(Layer.ACCOUNT , 'x' , Bound.CLIENT , AccountListServersPacket.class),
 	ACCOUNT_SERVER_LIST(Layer.ACCOUNT , 'x' , State.OK , Bound.SERVER , AccountServerListPacket.class),
 	ACCOUNT_ACCESS_SERVER(Layer.ACCOUNT , 'X' , Bound.CLIENT , AccountAccessServerPacket.class),
 	ACCOUNT_SET_CHARACTER(Layer.ACCOUNT , 'S' , Bound.CLIENT , AccountSetCharacterPacket.class),
