@@ -19,7 +19,7 @@ public class AccountServerHostPacket implements Packet {
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-		stream.allocate(1).write(ip + ';' + port + ';' + ticketKey);
+		stream.allocate(1).write(ip + ':' + port + ';' + ticketKey);
 	}
 
 	@Override
