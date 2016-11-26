@@ -18,7 +18,8 @@ public class AccountCharactersListPacket implements Packet {
 		subscriptionTime = stream.readInt();
 		int nb = stream.readInt();
 		characters = new AvailableCharacter[nb];
-		for (int i = 0; i < nb; i++) {
+		int i = 0;
+		while (stream.available() > 0) {
 			String[] data = StringUtils.split(stream.read(), ";");
 			int id = Integer.parseInt(data[0]);
 			String pseudo = data[1];
@@ -36,7 +37,7 @@ public class AccountCharactersListPacket implements Packet {
 			boolean isDead = Convert.toInt(data[10], 0) == 1;
 			int deathCount = Convert.toInt(data[11], 0);
 			int lvlMax = Convert.toInt(data[12], 0);
-			characters[i] = new AvailableCharacter(id, pseudo, level, gfxId, color1, color2,
+			characters[i++] = new AvailableCharacter(id, pseudo, level, gfxId, color1, color2,
 					color3, accessories, merchant, serverId, isDead, deathCount, lvlMax);
 		}
 	}
@@ -47,14 +48,15 @@ public class AccountCharactersListPacket implements Packet {
 		stream.writeInt(subscriptionTime);
 		stream.writeInt(getCharacters().length);
 		for (AvailableCharacter c : getCharacters()) {
+			if (c == null) break;
 			StringJoiner sb = new StringJoiner(";");
 			sb.add(s(c.getId()))
 					.add(c.getPseudo())
 					.add(s(c.getLevel()))
 					.add(s(c.getGfxId()))
-					.add(s(c.getColor1()))
-					.add(s(c.getColor2()))
-					.add(s(c.getColor3()));
+					.add(Integer.toString(c.getColor1(), 16))
+					.add(Integer.toString(c.getColor2(), 16))
+					.add(Integer.toString(c.getColor3(), 16));
 			StringJoiner accs = new StringJoiner(",");
 			for (int i : c.getAccessories())
 				accs.add(Convert.fromInt(i));
