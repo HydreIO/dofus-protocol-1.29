@@ -103,15 +103,15 @@ public final class Crypt {
 
 	public static String prepareKey(String key) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0  ; i < key.length() ; i+=2) {
-			sb.append((char)Integer.parseInt(key.substring(i , i +2) , 16));
+		for(int i = 0 ; i < key.length() ; i+=2) {
+			sb.append((char)Integer.parseInt(key.substring(i , i+2) , 16));
 		}
 		return decode(sb.toString());
 	}
 
 	public static String decipherData(String data , String preparedKey , int checksum) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0  ; i < data.length() ; i+=2) {
+		for(int i = 0 ; i < data.length() ; i+=2) {
 			int a = Integer.parseInt(data.substring(i , i+2) , 16);
 			int b = preparedKey.charAt((i/2 + checksum) % preparedKey.length());
 			sb.append((char) (a ^ b));
@@ -231,10 +231,6 @@ public final class Crypt {
 			cells.add(new Cell(movement , layerObject2Interactive , layerObject2Num));
 		}
 		return cells;
-	}
-
-	public static void main(String[] args) {
-		System.out.println((char)65 + " " + (char)91);
 	}
 
 }

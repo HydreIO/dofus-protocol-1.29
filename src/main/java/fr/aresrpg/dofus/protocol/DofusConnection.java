@@ -90,6 +90,8 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	}
 
 	private void decode(String packet) throws IOException {
+		if(packet.length() == 0)
+			return;
 		System.out.println("[RECEIVE from " + label + "] <- " + packet);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
 		ProtocolRegistry registry = getId(fullPacket);
@@ -124,6 +126,8 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	}
 
 	private ProtocolRegistry getId(String packet) {
+		if(packet.length() < 2)
+			return null;
 		int size = packet.length() >= 3 ? 3 : 2;
 		ProtocolRegistry registry = ProtocolRegistry.getRegistry(packet.substring(0 , size) , false , bound);
 		if(registry == null)
