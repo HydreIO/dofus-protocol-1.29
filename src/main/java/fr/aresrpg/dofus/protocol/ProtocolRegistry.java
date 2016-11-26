@@ -133,9 +133,9 @@ public enum ProtocolRegistry {
 
 	static {
 		for(ProtocolRegistry registry : values()){
-			if(registry.bound.isClient())
+			if(registry.bound == Bound.CLIENT || registry.bound == null)
 				registerRegistry(CLIENT_REGISTRY , registry);
-			if(registry.bound.isServer())
+			if(registry.bound == Bound.SERVER || registry.bound == null)
 				registerRegistry(SERVER_REGISTRY , registry);
 		}
 	}
@@ -157,8 +157,6 @@ public enum ProtocolRegistry {
 	}
 
 	public static ProtocolRegistry getRegistry(String id, boolean indexAtEnd, Bound bound) {
-		if(bound == Bound.BOTH)
-			throw new IllegalArgumentException("Invalid bound");
 		if(id.length() != 3 && id.length() != 2)
 			throw new IllegalArgumentException("Packet id must have 3 or 2 char");
 		char[] code = id.toCharArray();
@@ -233,32 +231,22 @@ public enum ProtocolRegistry {
 	}
 
 	public enum Bound {
-		CLIENT(false , true),
-		SERVER(true , false),
-		BOTH(true , true);
+		CLIENT("\n\0"),
+		SERVER("\0");
 
-		private boolean server;
-		private boolean client;
+		public static final Bound BOTH = null;
+		private final String delimiter;
 
-		Bound(boolean server, boolean client) {
-			this.server = server;
-			this.client = client;
+		Bound(String delimiter) {
+			this.delimiter = delimiter;
 		}
 
-		public boolean isServer() {
-			return server;
+		public String getDelimiter() {
+			return delimiter;
 		}
 
-		public void setServer(boolean server) {
-			this.server = server;
-		}
-
-		public boolean isClient() {
-			return client;
-		}
-
-		public void setClient(boolean client) {
-			this.client = client;
+		public Bound getOther() {
+			return this == CLIENT ? SERVER : CLIENT;
 		}
 	}
 }
