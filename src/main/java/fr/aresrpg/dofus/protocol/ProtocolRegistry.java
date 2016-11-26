@@ -5,8 +5,8 @@ import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
-import fr.aresrpg.dofus.protocol.game.client.GameCreatePacket;
-import fr.aresrpg.dofus.protocol.game.client.GameExtraInformationPacket;
+import fr.aresrpg.dofus.protocol.game.client.*;
+import fr.aresrpg.dofus.protocol.game.server.GameJoinPacket;
 import fr.aresrpg.dofus.protocol.game.server.GameMapDataPacket;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
@@ -57,6 +57,11 @@ public enum ProtocolRegistry {
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
 	GAME_CREATE(Layer.GAME, 'C', Bound.CLIENT, GameCreatePacket.class),
 	GAME_MAP_DATA(Layer.GAME, 'D', 'M', Bound.SERVER, GameMapDataPacket.class),
+	GAME_JOIN(Layer.GAME, 'J', State.OK, Bound.SERVER, GameJoinPacket.class),
+	GAME_END_TURN(Layer.GAME, 't', Bound.CLIENT, GameEndTurnPacket.class),
+	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
+	GAME_FREE_MY_SOUL(Layer.GAME, 'F', Bound.CLIENT, FreeMySoulPacket.class),
+	GAME_SET_PLAYER_POSITION(Layer.GAME, 'p', Bound.CLIENT, GameSetPlayerPositionPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),

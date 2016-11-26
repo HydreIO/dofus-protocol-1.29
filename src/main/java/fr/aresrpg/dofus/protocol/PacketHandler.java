@@ -5,9 +5,8 @@ import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
-import fr.aresrpg.dofus.protocol.game.client.GameCreatePacket;
-import fr.aresrpg.dofus.protocol.game.client.GameExtraInformationPacket;
-import fr.aresrpg.dofus.protocol.game.server.GameMapDataPacket;
+import fr.aresrpg.dofus.protocol.game.client.*;
+import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -87,7 +86,22 @@ public interface PacketHandler {
 
 	void handle(PlayerMountPacket playerMountPacket);
 
+	void handle(GameJoinPacket gameJoinPacket);
+
+	void handle(GameEndTurnPacket gameEndTurnPacket);
+
+	void handle(GameTurnOkPacket gameTurnOkPacket);
+
+	void handle(FreeMySoulPacket freeMySoulPacket);
+
+	void handle(LeaveGamePacket leaveGamePacket);
+
+	void handle(GameSetPlayerPositionPacket gameSetPlayerPositionPacket);
+
+	void handle(GamePositionStartPacket gamePositionStartPacket);
+
 	default boolean parse(ProtocolRegistry registry, String packet) {
 		throw new UnsupportedOperationException();
 	}
+
 }
