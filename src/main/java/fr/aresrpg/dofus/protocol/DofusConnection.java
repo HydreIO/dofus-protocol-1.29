@@ -103,7 +103,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				currentPacket = new StringBuilder();
 		} catch (UnsupportedOperationException ignored) {
 			if (registry != null) {
-				System.out.println(registry.isIndexAtEnd() + " " + packet + " " + Arrays.toString(packet.getBytes()));
 				if (registry.isIndexAtEnd())
 					packet = packet.substring(0 , packet.length() - registry.getId().length());
 				else
