@@ -47,8 +47,10 @@ public class AccountCharactersListPacket implements Packet {
 		stream.allocate(characters.length + 2);
 		stream.writeInt(subscriptionTime);
 		stream.writeInt(getCharacters().length);
+		int i = 0;
 		for (AvailableCharacter c : getCharacters()) {
-			if (c == null) break;
+			if (c == null)
+				break;
 			StringJoiner sb = new StringJoiner(";");
 			sb.add(s(c.getId()))
 					.add(c.getPseudo())
@@ -58,8 +60,8 @@ public class AccountCharactersListPacket implements Packet {
 					.add(Integer.toString(c.getColor2(), 16))
 					.add(Integer.toString(c.getColor3(), 16));
 			StringJoiner accs = new StringJoiner(",");
-			for (int i : c.getAccessories())
-				accs.add(Convert.fromInt(i));
+			for (int a : c.getAccessories())
+				accs.add(Convert.fromInt(a));
 			sb.add(accs.toString())
 					.add(c.isMerchant() ? s(1) : s(0))
 					.add(s(c.getServerId()))
@@ -67,7 +69,9 @@ public class AccountCharactersListPacket implements Packet {
 					.add(s(c.getDeathCount()))
 					.add(s(c.getLvlMax()));
 			stream.write(sb.toString());
+			i++;
 		}
+		stream.allocate(i + 2); //Desallocate
 	}
 
 	private static String s(Object o) { // juste car la flemme de faire des String.valueOf dans le write
