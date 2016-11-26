@@ -13,6 +13,7 @@ public class GameMapDataPacket implements Packet{
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
+		stream.read(); //Skip separator
 		mapId = stream.readInt();
 		subid = stream.read();
 		decryptKey = stream.read();
@@ -20,7 +21,8 @@ public class GameMapDataPacket implements Packet{
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-		stream.allocate(3).writeInt(mapId).write(subid).write(decryptKey);
+		stream.allocate(4).write("") //Force separator
+				.writeInt(mapId).write(subid).write(decryptKey);
 	}
 
 	@Override

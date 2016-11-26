@@ -21,4 +21,9 @@ public class InfoMessagePacket implements Packet{
 	public void handle(PacketHandler handler) {
 		handler.handle(this);
 	}
+
+	@Override
+	public String toString() {
+		return "InfoMessagePacket()[" + getId() + ']';
+	}
 }
