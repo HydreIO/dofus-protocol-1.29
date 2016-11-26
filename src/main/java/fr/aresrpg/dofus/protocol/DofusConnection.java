@@ -47,7 +47,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		while (iter.hasNext()) {
 			SelectionKey key = iter.next();
 			iter.remove();
-			if(key.isReadable())
+			if (key.isReadable())
 				readFrom((ReadableByteChannel) key.channel());
 		}
 	}
@@ -55,35 +55,42 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private void readFrom(ReadableByteChannel channel) throws IOException {
 		StringBuilder packet = new StringBuilder();
 		loop: while (channel.isOpen()) {
-			read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
-				int read = buffer.position();
-				buffer.flip();
-				byte[] bytes = new byte[read];
-				buffer.get(bytes);
-				buffer.clear();
-				for (int i = 0; i < bytes.length; i++) {
-					if (check(bytes , i , bound.getDelimiter().toCharArray())) {
-						int dIndex = i + bound.getDelimiter().length();
-						buffer.put(bytes, dIndex, bytes.length - dIndex);
-						packet.append(new String(bytes, 0, i));
-						decode(packet.toString());
-						if(buffer.position() == 0)
-							break loop;
-						packet = new StringBuilder();
-						break read;
+			try {
+				read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
+					int read = buffer.position();
+					buffer.flip();
+					byte[] bytes = new byte[read];
+					buffer.get(bytes);
+					buffer.clear();
+					for (int i = 0; i < bytes.length; i++) {
+						if (check(bytes, i, bound.getDelimiter().toCharArray())) {
+							int dIndex = i + bound.getDelimiter().length();
+							buffer.put(bytes, dIndex, bytes.length - dIndex);
+							packet.append(new String(bytes, 0, i));
+							decode(packet.toString());
+							if (buffer.position() == 0)
+								break loop;
+							packet = new StringBuilder();
+							break read;
+						}
 					}
-				}
 
-				packet.append(new String(bytes));
+					packet.append(new String(bytes));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (!(e instanceof AsynchronousCloseException))
+					System.exit(0);
 			}
 		}
+
 	}
 
-	private static boolean check(byte[] toCheck , int index , char[] expected) {
-		if(index + expected.length > toCheck.length)
+	private static boolean check(byte[] toCheck, int index, char[] expected) {
+		if (index + expected.length > toCheck.length)
 			return false;
-		for(int i = 0 ; i < expected.length ; i++){
-			if(toCheck[i + index] != expected[i])
+		for (int i = 0; i < expected.length; i++) {
+			if (toCheck[i + index] != expected[i])
 				return false;
 		}
 		return true;
@@ -95,7 +102,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		System.out.println("[RECEIVE from " + label + "] <- " + packet);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
 		ProtocolRegistry registry = getId(fullPacket);
-		if(registry == null) //Try with only current packet
+		if (registry == null) // Try with only current packet
 			registry = getId(packet);
 		else
 			packet = fullPacket;
@@ -106,7 +113,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		} catch (UnsupportedOperationException ignored) {
 			if (registry != null) {
 				if (registry.isIndexAtEnd())
-					packet = packet.substring(0 , packet.length() - registry.getId().length());
+					packet = packet.substring(0, packet.length() - registry.getId().length());
 				else
 					packet = packet.substring(registry.getId().length());
 				currentPacket = new StringBuilder();
@@ -118,7 +125,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					e.printStackTrace();
 				}
 			} else {
-				if(currentPacket.length() != 0)
+				if (currentPacket.length() != 0)
 					currentPacket.append(bound.getDelimiter());
 				currentPacket.append(packet);
 			}
@@ -129,9 +136,9 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		if(packet.length() < 2)
 			return null;
 		int size = packet.length() >= 3 ? 3 : 2;
-		ProtocolRegistry registry = ProtocolRegistry.getRegistry(packet.substring(0 , size) , false , bound);
-		if(registry == null)
-			registry = ProtocolRegistry.getRegistry(packet.substring(packet.length() - size , packet.length()) , true , bound);
+		ProtocolRegistry registry = ProtocolRegistry.getRegistry(packet.substring(0, size), false, bound);
+		if (registry == null)
+			registry = ProtocolRegistry.getRegistry(packet.substring(packet.length() - size, packet.length()), true, bound);
 		return registry;
 	}
 
