@@ -8,10 +8,11 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.game.client.GameCreatePacket;
 import fr.aresrpg.dofus.protocol.game.client.GameExtraInformationPacket;
 import fr.aresrpg.dofus.protocol.game.server.GameMapDataPacket;
-import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
+import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
+import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 
@@ -84,7 +85,9 @@ public interface PacketHandler {
 
 	void handle(GameMapDataPacket gameMapDataPacket);
 
-	default boolean parse(ProtocolRegistry registry, String packet){
+	void handle(PlayerMountPacket playerMountPacket);
+
+	default boolean parse(ProtocolRegistry registry, String packet) {
 		throw new UnsupportedOperationException();
 	}
 }
