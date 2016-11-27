@@ -5,6 +5,7 @@ import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
+import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
@@ -46,6 +47,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
+	//ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
 
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
 
@@ -69,6 +71,8 @@ public enum ProtocolRegistry {
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
+
+	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT , 'C' , Bound.BOTH , ChatSubscribeChannelPacket.class),
 
 	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class);
 

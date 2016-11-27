@@ -235,6 +235,8 @@ public final class Crypt {
 			boolean layerObject2Flip = (data[index + 7] & 4) >> 2 == 1;
 			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1 == 1;
 			int layerObject2Num = ((data[index] & 2) << 12) + ((data[index + 7] & 1) << 12) + (data[index + 8] << 6) + data[index + 9];
+			if(movement != 0)
+				System.out.println("cell: " + movement + " at " + i);
 			cells.add(new Cell(movement, layerObject2Interactive, layerObject2Num));
 		}
 		return cells;
