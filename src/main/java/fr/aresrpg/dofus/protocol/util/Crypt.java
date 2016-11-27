@@ -105,6 +105,10 @@ public final class Crypt {
 		throw new ArrayIndexOutOfBoundsException(ch + " is not in hash array");
 	}
 
+	public static char hashToIndex(int i) {
+		return HASH[i];
+	}
+
 	public static String prepareKey(String key) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < key.length(); i += 2) {

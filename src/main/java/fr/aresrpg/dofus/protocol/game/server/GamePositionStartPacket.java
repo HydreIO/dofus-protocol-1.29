@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.util.Crypt;
 import java.io.IOException;
 
 /**
- * 
+ *
  * @since
  */
 public class GamePositionStartPacket implements Packet {
@@ -17,21 +17,33 @@ public class GamePositionStartPacket implements Packet {
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
-		String var4 = stream.read();
-		String var5 = stream.read();
+		this.placesTeam0 = readTeam(stream.read());
+		this.placesTeam1 = readTeam(stream.read());
 		this.currentTeam = stream.readInt();
-		this.placesTeam0 = new int[var4.length() / 2];
-		this.placesTeam1 = new int[var5.length() / 2];
-		int i = 0;
-		for (int var7 = 0; var7 < var4.length(); var7 += 2, i++)
-			this.placesTeam0[i] = (Crypt.indexOfHash(var4.charAt(var7)) << 6) + Crypt.indexOfHash(var4.charAt(var7 + 1));
-		i = 0;
-		for (int var9 = 0; var9 < var5.length(); var9 += 2, i++)
-			this.placesTeam1[i] = (Crypt.indexOfHash(var5.charAt(var9)) << 6) + Crypt.indexOfHash(var5.charAt(var9 + 1));
+	}
+
+	private static int[] readTeam(String data) {
+		int[] team = new int[data.length()/2];
+		for (int i = 0; i < data.length(); i += 2)
+			team[i/2] = (Crypt.indexOfHash(data.charAt(i)) << 6) +
+					Crypt.indexOfHash(data.charAt(i + 1));
+		return team;
 	}
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
+		stream.allocate(3).write(writeTeam(placesTeam0))
+				.write(writeTeam(placesTeam1))
+				.writeInt(currentTeam);
+	}
+
+	private static String writeTeam(int[] team) {
+		StringBuilder sb = new StringBuilder(team.length * 2);
+		for(int place : team){
+			char hash = Crypt.hashToIndex(place);
+			sb.append((char)(hash >> 6)).append((char)(hash & 0x3F));
+		}
+		return sb.toString();
 	}
 
 	@Override
