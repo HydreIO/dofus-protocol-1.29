@@ -6,8 +6,7 @@ import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
-import fr.aresrpg.dofus.protocol.game.server.GameJoinPacket;
-import fr.aresrpg.dofus.protocol.game.server.GameMapDataPacket;
+import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -62,6 +61,10 @@ public enum ProtocolRegistry {
 	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
 	GAME_FREE_MY_SOUL(Layer.GAME, 'F', Bound.CLIENT, FreeMySoulPacket.class),
 	GAME_SET_PLAYER_POSITION(Layer.GAME, 'p', Bound.CLIENT, GameSetPlayerPositionPacket.class),
+	GAME_ON_READY(Layer.GAME, 'R', Bound.SERVER, GameOnReadyPacket.class),
+	GAME_START_POSITION_PACKET(Layer.GAME, 'P', Bound.SERVER, GamePositionStartPacket.class),
+	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, LeaveGamePacket.class),
+	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
@@ -89,7 +92,7 @@ public enum ProtocolRegistry {
 	private final char key;
 	private final boolean indexAtEnd;
 	private final char state;
-	private final Bound bound;
+	private final Bound bound; // Celui qui reçoit
 
 	ProtocolRegistry(Layer layer, char key, char state, boolean indexAtEnd, Bound bound, Class<? extends Packet> packet) {
 		this.layer = layer;

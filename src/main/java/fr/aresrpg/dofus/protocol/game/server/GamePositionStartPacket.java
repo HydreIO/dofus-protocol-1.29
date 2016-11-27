@@ -4,6 +4,7 @@ import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.util.Crypt;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  *
@@ -16,6 +17,11 @@ public class GamePositionStartPacket implements Packet {
 	private int[] placesTeam1;
 
 	@Override
+	public String toString() {
+		return "GamePositionStartPacket(placeTeam0:" + Arrays.toString(placesTeam0) + "|placesTeam1:" + Arrays.toString(placesTeam1) + "|currentTeam:" + currentTeam + ")[" + getId() + "]";
+	}
+
+	@Override
 	public void read(DofusStream stream) throws IOException {
 		this.placesTeam0 = readTeam(stream.read());
 		this.placesTeam1 = readTeam(stream.read());
@@ -23,9 +29,9 @@ public class GamePositionStartPacket implements Packet {
 	}
 
 	private static int[] readTeam(String data) {
-		int[] team = new int[data.length()/2];
+		int[] team = new int[data.length() / 2];
 		for (int i = 0; i < data.length(); i += 2)
-			team[i/2] = (Crypt.indexOfHash(data.charAt(i)) << 6) +
+			team[i / 2] = (Crypt.indexOfHash(data.charAt(i)) << 6) +
 					Crypt.indexOfHash(data.charAt(i + 1));
 		return team;
 	}
@@ -39,10 +45,8 @@ public class GamePositionStartPacket implements Packet {
 
 	private static String writeTeam(int[] team) {
 		StringBuilder sb = new StringBuilder(team.length * 2);
-		for(int place : team){
-			char hash = Crypt.hashToIndex(place);
-			sb.append((char)(hash >> 6)).append((char)(hash & 0x3F));
-		}
+		for (int place : team)
+			sb.append(Crypt.hashToIndex(place >> 6)).append(Crypt.hashToIndex(place & 0x3F));
 		return sb.toString();
 	}
 

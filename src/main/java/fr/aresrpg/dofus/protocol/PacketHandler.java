@@ -100,6 +100,12 @@ public interface PacketHandler {
 
 	void handle(GamePositionStartPacket gamePositionStartPacket);
 
+	void handle(GameOnReadyPacket gameOnReadyPacket);
+
+	void handle(GameStartPacket gameStartPacket);
+
+	void handle(GameEndPacket gameEndPacket);
+
 	default boolean parse(ProtocolRegistry registry, String packet) {
 		throw new UnsupportedOperationException();
 	}
