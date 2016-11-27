@@ -12,6 +12,13 @@ public final class Crypt {
 
 	private static final char[] HEX_CHAR = "0123456789ABCDEF".toCharArray();
 
+	private static final int[] ZKARRAY = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+			39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63 };
+
+	public static int decode64(char val) {
+		return ZKARRAY[val];
+	}
+
 	private Crypt() {
 	}
 
@@ -62,9 +69,9 @@ public final class Crypt {
 	public static String cryptIp(String ip) {
 		String[] splitted = ip.split("\\.");
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < splitted.length ; i++){
+		for (int i = 0; i < splitted.length; i++) {
 			int v = Integer.parseInt(splitted[i]);
-			sb.append((char)((v >> 4) + 48)).append((char)((v & 15) + 48));
+			sb.append((char) ((v >> 4) + 48)).append((char) ((v & 15) + 48));
 		}
 		return sb.toString();
 	}
@@ -74,18 +81,18 @@ public final class Crypt {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 2; i > 0; i--) {
 			sb.append(HASH[cur >> (6 * i)]);
-			cur &= (int)(Math.pow(64 , i) -1);
+			cur &= (int) (Math.pow(64, i) - 1);
 		}
 		sb.append(HASH[cur]);
 		return sb.toString();
 	}
 
 	public static int decryptPort(char[] chars) {
-		if(chars.length != 3)
+		if (chars.length != 3)
 			throw new IllegalArgumentException("Port must be encrypted in 3 chars");
 		int port = 0;
 		for (int i = 0; i < 2; i++)
-			port += (int)(Math.pow(64 , 2 - i) * indexOfHash(chars[i]));
+			port += (int) (Math.pow(64, 2 - i) * indexOfHash(chars[i]));
 		port += indexOfHash(chars[2]);
 		return port;
 	}
@@ -94,42 +101,42 @@ public final class Crypt {
 		return decryptPort(ePort.toCharArray());
 	}
 
-	public static int indexOfHash(char ch){
-		for(int i = 0; i < HASH.length ; i++)
-			if(HASH[i] == ch)
+	public static int indexOfHash(char ch) {
+		for (int i = 0; i < HASH.length; i++)
+			if (HASH[i] == ch)
 				return i;
 		throw new ArrayIndexOutOfBoundsException(ch + " is not in hash array");
 	}
 
 	public static String prepareKey(String key) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0 ; i < key.length() ; i+=2) {
-			sb.append((char)Integer.parseInt(key.substring(i , i+2) , 16));
+		for (int i = 0; i < key.length(); i += 2) {
+			sb.append((char) Integer.parseInt(key.substring(i, i + 2), 16));
 		}
 		return decode(sb.toString());
 	}
 
-	public static String decipherData(String data , String preparedKey , int checksum) throws UnsupportedEncodingException {
+	public static String decipherData(String data, String preparedKey, int checksum) throws UnsupportedEncodingException {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0 ; i < data.length() ; i+=2) {
-			int a = Integer.parseInt(data.substring(i , i+2) , 16);
-			int b = preparedKey.charAt((i/2 + checksum) % preparedKey.length());
+		for (int i = 0; i < data.length(); i += 2) {
+			int a = Integer.parseInt(data.substring(i, i + 2), 16);
+			int b = preparedKey.charAt((i / 2 + checksum) % preparedKey.length());
 			sb.append((char) (a ^ b));
 		}
 		return decode(sb.toString());
 	}
 
-	public static char checksum(String s){
+	public static char checksum(String s) {
 		int v = 0;
-		for(char c : s.toCharArray())
+		for (char c : s.toCharArray())
 			v += c & 15;
 		return HEX_CHAR[v & 15];
 	}
 
-	public static String getRandomNetworkKey() { //From ankama
+	public static String getRandomNetworkKey() { // From ankama
 		int size = (int) (Math.round(Math.random() * 20) + 10);
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0 ; i < size ; i++)
+		for (int i = 0; i < size; i++)
 			sb.append(HASH[(int) (Math.random() * HASH.length)]);
 		String check = checksum(sb.toString()) + sb.toString();
 		return check + checksum(check);
@@ -149,16 +156,16 @@ public final class Crypt {
 				if (s.charAt(i + 1) == 'u' && i + 5 < len) {
 					// unicode hex sequence
 					try {
-						sb.append((char)Integer.parseInt(s.substring(i + 2 , i + 4) , 16));
+						sb.append((char) Integer.parseInt(s.substring(i + 2, i + 4), 16));
 						i += 2;
-					} catch (NumberFormatException e){
+					} catch (NumberFormatException e) {
 						sb.append('%');
 					}
 				} else {
 					try {
-						sb.append((char)Integer.parseInt(s.substring(i + 1 , i + 3) , 16));
+						sb.append((char) Integer.parseInt(s.substring(i + 1, i + 3), 16));
 						i += 2;
-					} catch (NumberFormatException e){
+					} catch (NumberFormatException e) {
 						sb.append('%');
 					}
 				}
@@ -172,7 +179,6 @@ public final class Crypt {
 		}
 		return sb.toString();
 	}
-
 
 	public static class Cell {
 		private int movement;
@@ -209,11 +215,11 @@ public final class Crypt {
 
 	public static List<Cell> uncompressMap(String d) {
 		int[] data = new int[d.length()];
-		for(int i = 0 ; i < data.length ; i++)
+		for (int i = 0; i < data.length; i++)
 			data[i] = indexOfHash(d.charAt(i));
 
-		List<Cell> cells = new ArrayList<>(data.length/10);
-		for(int i = 0 ; i < data.length/10 ; i++){
+		List<Cell> cells = new ArrayList<>(data.length / 10);
+		for (int i = 0; i < data.length / 10; i++) {
 			int index = i * 10;
 			boolean lineOfSight = (data[index] & 1) == 1;
 			int layerGroundRot = (data[index + 1] & 48) >> 4;
@@ -226,12 +232,11 @@ public final class Crypt {
 			int layerObject1Rot = (data[index + 7] & 48) >> 4;
 			boolean layerObject1Flip = (data[index + 7] & 8) >> 3 == 1;
 			boolean layerObject2Flip = (data[index + 7] & 4) >> 2 == 1;
-			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1  == 1;
+			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1 == 1;
 			int layerObject2Num = ((data[index] & 2) << 12) + ((data[index + 7] & 1) << 12) + (data[index + 8] << 6) + data[index + 9];
-			cells.add(new Cell(movement , layerObject2Interactive , layerObject2Num));
+			cells.add(new Cell(movement, layerObject2Interactive, layerObject2Num));
 		}
 		return cells;
 	}
 
 }
-
