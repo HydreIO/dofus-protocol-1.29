@@ -11,7 +11,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 
 	private final T channel;
 	private final Selector selector;
-	private final PacketHandler handler;
+	private PacketHandler handler;
 	private final ByteBuffer buffer = ByteBuffer.allocate(512);
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
@@ -34,6 +34,11 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		return this;
 	}
 
+	public DofusConnection changeHandler(PacketHandler handler) {
+		this.handler = handler;
+		return this;
+	}
+
 	/**
 	 * @return the label
 	 */
@@ -45,7 +50,8 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		buffer.clear();
 		channel.close();
 		selector.close();
-		onClose.run();
+		if (onClose != null)
+			onClose.run();
 	}
 
 	public void read() throws IOException {
@@ -85,9 +91,9 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					packet.append(new String(bytes));
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				if (!(e instanceof AsynchronousCloseException)) {
 					System.exit(0);
-					e.printStackTrace();
 				}
 			}
 		}
