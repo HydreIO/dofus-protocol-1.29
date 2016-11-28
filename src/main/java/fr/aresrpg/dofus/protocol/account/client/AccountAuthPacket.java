@@ -13,14 +13,7 @@ public class AccountAuthPacket implements Packet {
 
 	@Override
 	public String toString() {
-		return "Auth(version:" + version + "|pseudo:" + hidePseudo() + "|hashedPassword:***)[" + getId() + "]";
-	}
-
-	private String hidePseudo() {
-		if(this.pseudo.length() <= 3)
-			return "***";
-		else
-			return this.pseudo.substring(0 , 3) + "***";
+		return "Auth(version:" + version + "|pseudo:" + pseudo.substring(5) + "***|hashedPassword:***)[" + getId() + "]";
 	}
 
 	@Override
