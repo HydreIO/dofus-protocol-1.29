@@ -11,7 +11,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 
 	private final T channel;
 	private final Selector selector;
-	private PacketHandler handler;
+	private final PacketHandler handler;
 	private final ByteBuffer buffer = ByteBuffer.allocate(512);
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
@@ -31,11 +31,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 
 	public DofusConnection handleClosing(Runnable r) {
 		this.onClose = r;
-		return this;
-	}
-
-	public DofusConnection changeHandler(PacketHandler handler) {
-		this.handler = handler;
 		return this;
 	}
 
