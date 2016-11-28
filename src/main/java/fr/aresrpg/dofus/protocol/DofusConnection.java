@@ -16,7 +16,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
-	private Runnable onClose;
 
 	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
@@ -27,11 +26,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
-	}
-
-	public DofusConnection handleClosing(Runnable r) {
-		this.onClose = r;
-		return this;
 	}
 
 	/**
@@ -45,8 +39,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		buffer.clear();
 		channel.close();
 		selector.close();
-		if (onClose != null)
-			onClose.run();
 	}
 
 	public void read() throws IOException {
@@ -63,34 +55,26 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private void readFrom(ReadableByteChannel channel) throws IOException {
 		StringBuilder packet = new StringBuilder();
 		loop: while (channel.isOpen()) {
-			try {
-				read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
-					int read = buffer.position();
-					buffer.flip();
-					byte[] bytes = new byte[read];
-					buffer.get(bytes);
-					buffer.clear();
-					for (int i = 0; i < bytes.length; i++) {
-						if (check(bytes, i, bound.getDelimiter().toCharArray())) {
-							int dIndex = i + bound.getDelimiter().length();
-							buffer.put(bytes, dIndex, bytes.length - dIndex);
-							packet.append(new String(bytes, 0, i));
-							decode(packet.toString());
-							if (buffer.position() == 0)
-								break loop;
-							packet = new StringBuilder();
-							break read;
-						}
+			read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
+				int read = buffer.position();
+				buffer.flip();
+				byte[] bytes = new byte[read];
+				buffer.get(bytes);
+				buffer.clear();
+				for (int i = 0; i < bytes.length; i++) {
+					if (check(bytes, i, bound.getDelimiter().toCharArray())) {
+						int dIndex = i + bound.getDelimiter().length();
+						buffer.put(bytes, dIndex, bytes.length - dIndex);
+						packet.append(new String(bytes, 0, i));
+						decode(packet.toString());
+						if (buffer.position() == 0)
+							break loop;
+						packet = new StringBuilder();
+						break read;
 					}
+				}
 
-					packet.append(new String(bytes));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				if (!(e instanceof AsynchronousCloseException)) {
-					close();
-					System.exit(0);
-				}
+				packet.append(new String(bytes));
 			}
 		}
 
