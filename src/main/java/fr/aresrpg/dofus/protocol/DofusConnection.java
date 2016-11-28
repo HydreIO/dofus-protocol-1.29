@@ -78,9 +78,10 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 					packet.append(new String(bytes));
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
-				if (!(e instanceof AsynchronousCloseException))
+				if (!(e instanceof AsynchronousCloseException)) {
 					System.exit(0);
+					e.printStackTrace();
+				}
 			}
 		}
 
