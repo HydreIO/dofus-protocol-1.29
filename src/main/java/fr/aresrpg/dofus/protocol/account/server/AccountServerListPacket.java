@@ -1,10 +1,12 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.structures.server.Server;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AccountServerListPacket implements Packet {
 	private int subscriptionDuration;
@@ -41,6 +43,7 @@ public class AccountServerListPacket implements Packet {
 
 	@Override
 	public String toString() {
-		return "AccountServerListPacket(subscriptionDuration:" + subscriptionDuration + "|characters:" + characters + ")[" + getId() + "]";
+		return "AccountServerListPacket(subscriptionDuration:" + subscriptionDuration + "|characters:"
+				+ characters.entrySet().stream().map(e -> Server.fromId(e.getKey()) + "=" + e.getValue()).collect(Collectors.joining(", ")) + ")[" + getId() + "]";
 	}
 }
