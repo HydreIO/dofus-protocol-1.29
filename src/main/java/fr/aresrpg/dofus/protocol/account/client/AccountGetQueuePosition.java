@@ -1,18 +1,18 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.IOException;
 
 public class AccountGetQueuePosition implements Packet {
 
 	@Override
-	public void read(DofusStream stream) throws IOException {}
+	public void read(DofusStream stream) throws IOException {
+	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {}
+	public void write(DofusStream stream) throws IOException {
+	}
 
 	@Override
 	public void handle(PacketHandler handler) {
@@ -21,6 +21,6 @@ public class AccountGetQueuePosition implements Packet {
 
 	@Override
 	public String toString() {
-		return "AccountQueuePosition()[" + getId() + "]";
+		return "AccountGetQueuePosition()[" + getId() + "]";
 	}
 }

@@ -16,6 +16,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
+	private Runnable onClose;
 
 	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
@@ -26,6 +27,11 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
+	}
+
+	public DofusConnection handleClosing(Runnable r) {
+		this.onClose = r;
+		return this;
 	}
 
 	/**
@@ -39,6 +45,8 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		buffer.clear();
 		channel.close();
 		selector.close();
+		if (onClose != null)
+			onClose.run();
 	}
 
 	public void read() throws IOException {
@@ -79,8 +87,10 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				if (!(e instanceof AsynchronousCloseException))
+				if (!(e instanceof AsynchronousCloseException)) {
+					close();
 					System.exit(0);
+				}
 			}
 		}
 
@@ -97,7 +107,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	}
 
 	private void decode(String packet) throws IOException {
-		if(packet.length() == 0)
+		if (packet.length() == 0)
 			return;
 		System.out.println("[RECEIVE from " + label + "] <- " + packet);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
@@ -133,7 +143,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	}
 
 	private ProtocolRegistry getId(String packet) {
-		if(packet.length() < 2)
+		if (packet.length() < 2)
 			return null;
 		int size = packet.length() >= 3 ? 3 : 2;
 		ProtocolRegistry registry = ProtocolRegistry.getRegistry(packet.substring(0, size), false, bound);
