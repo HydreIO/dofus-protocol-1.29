@@ -139,6 +139,8 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		ProtocolRegistry registry = ProtocolRegistry.getRegistry(packet.substring(0, size), false, bound);
 		if (registry == null)
 			registry = ProtocolRegistry.getRegistry(packet.substring(packet.length() - size, packet.length()), true, bound);
+		if (registry == null && size != 2)
+			registry = ProtocolRegistry.getRegistry(packet.substring(packet.length() - 2, packet.length()), true, bound);
 		return registry;
 	}
 
