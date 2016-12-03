@@ -16,4 +16,11 @@ public class StringUtils {
 		buf.add(v);
 		return buf.toArray(new String[buf.size()]);
 	}
+
+	public static String[][] splitArray(String[] split , String pattern) {
+		String[][] buf = new String[split.length][];
+		for(int i = 0 ; i < buf.length ; i++)
+			buf[i] = split[i].split(pattern);
+		return buf;
+	}
 }

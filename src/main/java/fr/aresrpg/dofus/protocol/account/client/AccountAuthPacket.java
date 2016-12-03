@@ -2,6 +2,8 @@ package fr.aresrpg.dofus.protocol.account.client;
 
 import fr.aresrpg.dofus.protocol.*;
 
+import java.util.Arrays;
+
 public class AccountAuthPacket implements Packet {
 
 	private String version;
@@ -13,15 +15,22 @@ public class AccountAuthPacket implements Packet {
 
 	@Override
 	public String toString() {
-		return "Auth(version:" + version + "|pseudo:" + pseudo.substring(5) + "***|hashedPassword:***)[" + getId() + "]";
+		return "Auth(version:" + version + "|pseudo:" + pseudo + "***|hashedPassword (hidden):"+ hidePassword() + ")[" + getId() + "]";
 	}
 
-	@Override
+	public String hidePassword() {
+		if(hashedPassword.length() > 5)
+			return hashedPassword.substring(0 , 4) + "****";
+		else
+			return "****";
+	}
+ 	@Override
 	public void read(DofusStream stream) {
-		String data[] = stream.read().split("\n");
-		version = data[0];
-		pseudo = data[1];
-		hashedPassword = data[2];
+		version = stream.read();
+		String data[] = stream.nextPacket().read().split("\n");
+		System.out.println(Arrays.toString(data));
+		pseudo = data[0];
+		hashedPassword = data[1];
 	}
 
 	@Override

@@ -4,18 +4,17 @@ import java.util.Arrays;
 
 public class StringDofusStream implements DofusStream{
 
-	private String[] in;
-	private String[][] out;
+	private String[][] buffer;
 	private int packetIndex = 0;
 	private int read = 0;
 	private int write = 0;
 
-	public StringDofusStream(String[] in) {
-		this.in = in;
+	public StringDofusStream(String[][] buffer) {
+		this.buffer = buffer;
 	}
 
 	public StringDofusStream() {
-		this.out = new String[1][0];
+		this.buffer = new String[1][0];
 	}
 
 	@Override
@@ -25,12 +24,12 @@ public class StringDofusStream implements DofusStream{
 
 	@Override
 	public String read(int index) {
-		return in[index];
+		return buffer[packetIndex][index];
 	}
 
 	@Override
 	public int available() {
-		return in.length - read;
+		return buffer[packetIndex].length - read;
 	}
 
 	@Override
@@ -40,22 +39,22 @@ public class StringDofusStream implements DofusStream{
 
 	@Override
 	public DofusStream write(int index, String value) {
-		out[packetIndex][index] = value;
+		buffer[packetIndex][index] = value;
 		return this;
 	}
 
 	@Override
 	public DofusStream allocate(int size) {
-		if(out[packetIndex] == null)
-			out[packetIndex] = new String[size];
+		if(buffer[packetIndex] == null)
+			buffer[packetIndex] = new String[size];
 		else
-			out[packetIndex] = Arrays.copyOf(out[packetIndex] , size);
+			buffer[packetIndex] = Arrays.copyOf(buffer[packetIndex] , size);
 		return this;
 	}
 
 	@Override
 	public DofusStream allocatePacket(int size) {
-		out = Arrays.copyOf(out , size);
+		buffer = Arrays.copyOf(buffer , size);
 		return this;
 	}
 
@@ -67,7 +66,7 @@ public class StringDofusStream implements DofusStream{
 		return this;
 	}
 
-	public String[][] getOut() {
-		return out;
+	public String[][] getBuffer() {
+		return buffer;
 	}
 }

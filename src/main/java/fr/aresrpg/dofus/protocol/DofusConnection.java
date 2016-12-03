@@ -1,5 +1,7 @@
 package fr.aresrpg.dofus.protocol;
 
+import fr.aresrpg.dofus.protocol.util.StringUtils;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -113,7 +115,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				currentPacket = new StringBuilder();
 				try {
 					Packet p = registry.getPacket().newInstance();
-					p.read(new StringDofusStream(packet.isEmpty() ? new String[0] : packet.split("\\" + SEPARATOR)));
+					p.read(new StringDofusStream(packet.isEmpty() ? new String[0][1] : StringUtils.splitArray(packet.split(bound.getDelimiter()) , "\\" + SEPARATOR)));
 					p.handle(handler);
 				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();
@@ -143,7 +145,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		packet.write(stream);
 		StringBuilder sb = new StringBuilder();
 		boolean indexAtEnd = ProtocolRegistry.getRegistry(packet.getClass()).isIndexAtEnd();
-		String[][] outs = stream.getOut();
+		String[][] outs = stream.getBuffer();
 		if (!indexAtEnd) {
 			sb.append(packet.getId());
 		}
