@@ -114,4 +114,6 @@ public interface PacketHandler {
 	void handle(AccountSelectCharacterOkPacket accountSelectCharacterOkPacket);
 
 	void handle(ChatSubscribeChannelPacket chatSubscribeChannelPacket);
+
+	void handle(GameActionPacket gameActionPacket);
 }

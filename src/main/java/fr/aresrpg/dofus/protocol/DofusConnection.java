@@ -115,7 +115,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				currentPacket = new StringBuilder();
 				try {
 					Packet p = registry.getPacket().newInstance();
-					p.read(new StringDofusStream(packet.isEmpty() ? new String[0][1] : StringUtils.splitArray(packet.split(bound.getDelimiter()) , "\\" + SEPARATOR)));
+					p.read(new StringDofusStream(packet.isEmpty() ? new String[1][0] : StringUtils.splitArray(packet.split(bound.getDelimiter()) , "\\" + SEPARATOR)));
 					p.handle(handler);
 				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();

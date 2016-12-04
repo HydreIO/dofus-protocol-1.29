@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AccountServerListPacket implements Packet {
-	private int subscriptionDuration;
+	private long subscriptionDuration;
 	private Map<Integer, Integer> characters;
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
-		subscriptionDuration = stream.readInt();
+		subscriptionDuration = stream.readLong();
 		characters = new HashMap<>();
 		while (stream.available() != 0) {
 			String[] data = stream.read().split(",");
@@ -24,7 +24,7 @@ public class AccountServerListPacket implements Packet {
 
 	@Override
 	public void write(DofusStream stream) throws IOException {
-		stream.allocate(1 + characters.size()).writeInt(subscriptionDuration);
+		stream.allocate(1 + characters.size()).writeLong(subscriptionDuration);
 		characters.forEach((k, v) -> stream.write(k + "," + v));
 	}
 
@@ -33,7 +33,7 @@ public class AccountServerListPacket implements Packet {
 		handler.handle(this);
 	}
 
-	public int getSubscriptionDuration() {
+	public long getSubscriptionDuration() {
 		return subscriptionDuration;
 	}
 

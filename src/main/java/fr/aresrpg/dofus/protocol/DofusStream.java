@@ -6,7 +6,11 @@ public interface DofusStream {
 	String read(int index);
 
 	default int readInt() {
-		return Integer.parseInt(read().trim());
+		return Integer.parseInt(read());
+	}
+
+	default long readLong() {
+		return Long.parseLong(read());
 	}
 
 	default int readInt(int index) {
@@ -29,9 +33,23 @@ public interface DofusStream {
 		return this;
 	}
 
+	default DofusStream writeLong(long value) {
+		write(Long.toString(value));
+		return this;
+	}
+
+	default DofusStream writeLong(int index, long value) {
+		write(index, Long.toString(value));
+		return this;
+	}
+
 	DofusStream allocate(int size);
 
 	DofusStream allocatePacket(int size);
 
 	DofusStream nextPacket();
+
+	void setWriteIndex(int index);
+
+	void setReadIndex(int index);
 }

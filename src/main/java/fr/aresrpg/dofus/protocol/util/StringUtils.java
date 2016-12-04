@@ -23,4 +23,12 @@ public class StringUtils {
 			buf[i] = split[i].split(pattern);
 		return buf;
 	}
+
+	public static String padLeft(String s, int size , char with) {
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0 ; i < size - s.length() ; i++)
+			sb.append(with);
+		sb.append(s);
+		return sb.toString();
+	}
 }

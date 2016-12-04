@@ -66,6 +66,16 @@ public class StringDofusStream implements DofusStream{
 		return this;
 	}
 
+	@Override
+	public void setWriteIndex(int index) {
+		write = index;
+	}
+
+	@Override
+	public void setReadIndex(int index) {
+		read = index;
+	}
+
 	public String[][] getBuffer() {
 		return buffer;
 	}

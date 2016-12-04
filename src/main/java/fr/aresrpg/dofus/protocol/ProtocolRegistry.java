@@ -68,6 +68,7 @@ public enum ProtocolRegistry {
 	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, LeaveGamePacket.class),
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
+	GAME_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameActionPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
@@ -173,7 +174,7 @@ public enum ProtocolRegistry {
 			throw new IllegalArgumentException("Packet id must have 3 or 2 char");
 		char[] code = id.toCharArray();
 
-		if (code[1] <= 'A' || code[1] >= 'z')
+		if (code[1] < 'A' || code[1] > 'z')
 			return null;
 		Layer layer = Layer.valueOf(code[0]);
 		if (layer == null)
@@ -188,7 +189,6 @@ public enum ProtocolRegistry {
 		ProtocolRegistry[] r = reg[state];
 		if (indexAtEnd && (r.length != 2 && reg[SIZE].length != 2))
 			return null;
-
 		if (r[indexAtEnd ? 1 : 0] != null)
 			return r[indexAtEnd ? 1 : 0];
 		else
