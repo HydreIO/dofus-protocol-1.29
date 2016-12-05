@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class AccountCharactersListPacket implements Packet {
-	private int subscriptionTime;
+	private long subscriptionTime;
 	private AvailableCharacter[] characters;
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
-		subscriptionTime = stream.readInt();
+		subscriptionTime = stream.readLong();
 		int nb = stream.readInt();
 		characters = new AvailableCharacter[nb];
 		int i = 0;
@@ -45,7 +45,7 @@ public class AccountCharactersListPacket implements Packet {
 	@Override
 	public void write(DofusStream stream) throws IOException {
 		stream.allocate(characters.length + 2);
-		stream.writeInt(subscriptionTime);
+		stream.writeLong(subscriptionTime);
 		stream.writeInt(getCharacters().length);
 		int i = 0;
 		for (AvailableCharacter c : getCharacters()) {
@@ -71,7 +71,7 @@ public class AccountCharactersListPacket implements Packet {
 			stream.write(sb.toString());
 			i++;
 		}
-		stream.allocate(i + 2); //Desallocate
+		stream.allocate(i + 2); // Desallocate
 	}
 
 	private static String s(Object o) { // juste car la flemme de faire des String.valueOf dans le write
@@ -83,7 +83,7 @@ public class AccountCharactersListPacket implements Packet {
 		handler.handle(this);
 	}
 
-	public int getSubscriptionTime() {
+	public long getSubscriptionTime() {
 		return subscriptionTime;
 	}
 
