@@ -67,9 +67,9 @@ public class Pathfinding {
 		if(Math.abs(deltaX) == 2 && deltaY == 0)
 			return deltaX > 0 ? PathDirection.DOWN_RIGHT : PathDirection.UP_LEFT;
 		else if(Math.abs(deltaY) == 2 && deltaX == 0)
-			return deltaY > 0 ? PathDirection.DOWN_LEFT : PathDirection.UP_LEFT;
+			return deltaY > 0 ? PathDirection.DOWN_LEFT : PathDirection.UP_RIGHT;
 		else if(Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? PathDirection.UP : PathDirection.LEFT;
+			return deltaX > 0 ? PathDirection.LEFT : PathDirection.UP;
 		else if(Math.abs(deltaX) == 1 && deltaY == 1)
 			return deltaX > 0 ? PathDirection.DOWN : PathDirection.RIGHT;
 		else
@@ -97,15 +97,16 @@ public class Pathfinding {
 			last = points.get(i);
 		}
 
+		map.put(getId(last.x , last.y , width) , direction);
 		return map;
 	}
 
 	private static boolean isValid(Node n , List<Crypt.Cell> cells , int width){
-		int id = getId(n.y , n.x , width);
+		int id = getId(n.x , n.y , width);
 		if(id >= 0 && id < cells.size()) {
 			Crypt.Cell cell = cells.get(id);
 			return cell.getMovement() != 0;
-		}else
+		} else
 			return false;
 	}
 
@@ -117,8 +118,8 @@ public class Pathfinding {
 		return (int) ((id  % (width -0.5)) * 2);
 	}
 
-	public static int getId(int line , double column , int width) {
-		return (int) (line * (width - 0.5) + column/2);
+	public static int getId(int column, int line , int width) {
+		return (int) (line * (width - 0.5) + column/2.0);
 	}
 
 	private static List<Point> recreatePath(Map<Node, Node> cameFrom, Node node) {
