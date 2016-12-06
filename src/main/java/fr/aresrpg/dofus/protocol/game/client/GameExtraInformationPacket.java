@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 
 import java.io.IOException;
 
-public class GameExtraInformationPacket implements Packet{
+public class GameExtraInformationPacket implements Packet {
 	@Override
 	public void read(DofusStream stream) throws IOException {
 

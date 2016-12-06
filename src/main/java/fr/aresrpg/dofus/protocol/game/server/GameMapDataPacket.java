@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 
 import java.io.IOException;
 
-public class GameMapDataPacket implements Packet{
+public class GameMapDataPacket implements Packet {
 	private int mapId;
 	private String subid;
 	private String decryptKey;

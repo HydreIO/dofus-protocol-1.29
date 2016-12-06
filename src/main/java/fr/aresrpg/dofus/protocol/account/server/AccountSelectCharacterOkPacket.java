@@ -8,7 +8,7 @@ import fr.aresrpg.dofus.structures.character.Item;
 
 import java.io.IOException;
 
-public class AccountSelectCharacterOkPacket implements Packet{
+public class AccountSelectCharacterOkPacket implements Packet {
 	private Character character;
 
 	@Override

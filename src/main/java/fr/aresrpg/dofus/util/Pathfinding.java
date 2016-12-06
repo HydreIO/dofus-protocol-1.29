@@ -7,8 +7,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import static fr.aresrpg.dofus.util.Maps.getId;
-
 public class Pathfinding {
 
 	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width) {
@@ -89,23 +87,23 @@ public class Pathfinding {
 		PathDirection direction = getDirection(points.get(0).x , points.get(0).y ,
 				points.get(1).x , points.get(1).y);
 		Point last = points.get(1);
-		map.put(getId(last.x , last.y , width) , direction);
+		map.put(Maps.getId(last.x , last.y , width) , direction);
 		for(int i = 2 ; i < points.size() ; i++){
 			PathDirection current = getDirection(last.x , last.y ,
 					points.get(i).x , points.get(i).y);
 			if(current != direction) {
-				map.put(getId(last.x , last.y , width) , direction);
+				map.put(Maps.getId(last.x , last.y , width) , direction);
 				direction = current;
 			}
 			last = points.get(i);
 		}
 
-		map.put(getId(last.x , last.y , width) , direction);
+		map.put(Maps.getId(last.x , last.y , width) , direction);
 		return map;
 	}
 
 	private static boolean isValid(Node n , Cell[] cells , int width){
-		int id = getId(n.x , n.y , width);
+		int id = Maps.getId(n.x , n.y , width);
 		if(id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
 			return cell.getMovement() != 0;

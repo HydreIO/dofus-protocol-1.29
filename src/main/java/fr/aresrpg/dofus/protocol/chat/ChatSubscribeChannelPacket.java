@@ -8,7 +8,7 @@ import fr.aresrpg.dofus.structures.Chat;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ChatSubscribeChannelPacket implements Packet{
+public class ChatSubscribeChannelPacket implements Packet {
 	private boolean add;
 	private Chat[] channels;
 

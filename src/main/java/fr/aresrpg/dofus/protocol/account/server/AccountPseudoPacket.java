@@ -1,6 +1,8 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
 
 public class AccountPseudoPacket implements Packet {
 	private String name;

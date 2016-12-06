@@ -7,7 +7,7 @@ import fr.aresrpg.dofus.util.Convert;
 
 import java.io.IOException;
 
-public class MountXpPacket implements Packet{
+public class MountXpPacket implements Packet {
 
 	private int percent;
 

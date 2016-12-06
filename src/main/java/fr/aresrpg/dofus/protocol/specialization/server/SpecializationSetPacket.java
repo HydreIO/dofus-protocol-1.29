@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 
 import java.io.IOException;
 
-public class SpecializationSetPacket implements Packet{
+public class SpecializationSetPacket implements Packet {
 
 	private int specialization;
 
