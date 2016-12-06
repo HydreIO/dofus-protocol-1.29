@@ -16,7 +16,9 @@ import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ProtocolRegistry {
 
@@ -58,6 +60,7 @@ public enum ProtocolRegistry {
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
 	GAME_CREATE(Layer.GAME, 'C', Bound.CLIENT, GameCreatePacket.class),
 	GAME_MAP_DATA(Layer.GAME, 'D', 'M', Bound.SERVER, GameMapDataPacket.class),
+	GAME_MAP_FRAME(Layer.GAME , 'D' , 'F' , Bound.SERVER , GameMapFramePacket.class),
 	GAME_JOIN(Layer.GAME, 'J', State.OK, Bound.SERVER, GameJoinPacket.class),
 	GAME_END_TURN(Layer.GAME, 't', Bound.CLIENT, GameEndTurnPacket.class),
 	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
@@ -69,6 +72,7 @@ public enum ProtocolRegistry {
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
 	GAME_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameActionPacket.class),
+	//GAME_MOVEMENT(Layer.GAME , 'M' , Bound.SERVER , GameMovementPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),

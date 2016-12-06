@@ -1,9 +1,11 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.protocol.util.Convert;
-import fr.aresrpg.dofus.protocol.util.StringUtils;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.character.AvailableCharacter;
+import fr.aresrpg.dofus.util.Convert;
+import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
 import java.util.Arrays;

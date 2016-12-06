@@ -1,10 +1,7 @@
-package fr.aresrpg.dofus.protocol.util;
+package fr.aresrpg.dofus.util;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Crypt {
 	private static final char[] HASH = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C',
@@ -109,7 +106,7 @@ public final class Crypt {
 		return HASH[i];
 	}
 
-	public static String prepareKey(String key) throws UnsupportedEncodingException {
+	public static String prepareKey(String key) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < key.length(); i += 2) {
 			sb.append((char) Integer.parseInt(key.substring(i, i + 2), 16));
@@ -117,7 +114,7 @@ public final class Crypt {
 		return decode(sb.toString());
 	}
 
-	public static String decipherData(String data, String preparedKey, int checksum) throws UnsupportedEncodingException {
+	public static String decipherData(String data, String preparedKey, int checksum) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < data.length(); i += 2) {
 			int a = Integer.parseInt(data.substring(i, i + 2), 16);
@@ -179,69 +176,6 @@ public final class Crypt {
 				sb.append(ch);
 		}
 		return sb.toString();
-	}
-
-	public static class Cell {
-		private int movement;
-		private boolean layerObject2Interactive;
-		private int layerObject2Num;
-
-		public Cell(int movement, boolean layerObject2Interactive, int layerObject2Num) {
-			this.movement = movement;
-			this.layerObject2Interactive = layerObject2Interactive;
-			this.layerObject2Num = layerObject2Num;
-		}
-
-		public int getMovement() {
-			return movement;
-		}
-
-		public boolean isLayerObject2Interactive() {
-			return layerObject2Interactive;
-		}
-
-		public int getLayerObject2Num() {
-			return layerObject2Num;
-		}
-
-		@Override
-		public String toString() {
-			return "Cell{" +
-					"movement=" + movement +
-					", layerObject2Interactive=" + layerObject2Interactive +
-					", layerObject2Num=" + layerObject2Num +
-					'}';
-		}
-	}
-
-	public static List<Cell> uncompressMap(String d) {
-		int[] data = new int[d.length()];
-		for (int i = 0; i < data.length; i++)
-			data[i] = indexOfHash(d.charAt(i));
-
-		List<Cell> cells = new ArrayList<>(data.length / 10);
-		for (int i = 0; i < data.length / 10; i++) {
-			int index = i * 10;
-			boolean lineOfSight = (data[index] & 1) == 1;
-			int layerGroundRot = (data[index + 1] & 48) >> 4;
-			int groundLevel = data[index + 1] & 15;
-			int movement = (data[index + 2] & 56) >> 3;
-			int layerGroundNum = ((data[index] & 24) << 6) + ((data[index + 2] & 7) << 6) + data[index + 3];
-			int groundSlope = (data[index + 4] & 60) >> 2;
-			boolean layerGroundFlip = (data[index + 4] & 2) >> 1 == 1;
-			int layerObject1Num = ((data[index] & 4) << 11) + ((data[index + 4] & 1) << 12) + (data[index + 5] << 6) + data[index + 6];
-			int layerObject1Rot = (data[index + 7] & 48) >> 4;
-			boolean layerObject1Flip = (data[index + 7] & 8) >> 3 == 1;
-			boolean layerObject2Flip = (data[index + 7] & 4) >> 2 == 1;
-			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1 == 1;
-			int layerObject2Num = ((data[index] & 2) << 12) + ((data[index + 7] & 1) << 12) + (data[index + 8] << 6) + data[index + 9];
-			if(movement == 1)
-				System.out.println("at " + i + " layerObject1Num" +layerObject1Num + " layerObject2Num" + layerObject2Num);
-			if(groundLevel != 7)
-				System.out.println("groundLvel:" + groundLevel + " at " + i);
-			cells.add(new Cell(movement, layerObject2Interactive, layerObject2Num));
-		}
-		return cells;
 	}
 
 }

@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.protocol.util;
+package fr.aresrpg.dofus.util;
 
 public class Convert {
 	public static int toInt(String value, int def, int base) {

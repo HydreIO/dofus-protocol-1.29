@@ -1,14 +1,17 @@
-package fr.aresrpg.dofus.protocol.util;
-
+package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
+
+import static fr.aresrpg.dofus.util.Maps.getId;
 
 public class Pathfinding {
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, List<Crypt.Cell> cell, int width) {
+	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width) {
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 		Set<Node> closedList = new HashSet<>();
 		Map<Node , Node> cameFrom = new HashMap<>();
@@ -101,25 +104,13 @@ public class Pathfinding {
 		return map;
 	}
 
-	private static boolean isValid(Node n , List<Crypt.Cell> cells , int width){
+	private static boolean isValid(Node n , Cell[] cells , int width){
 		int id = getId(n.x , n.y , width);
-		if(id >= 0 && id < cells.size()) {
-			Crypt.Cell cell = cells.get(id);
+		if(id >= 0 && id < cells.length) {
+			Cell cell = cells[id];
 			return cell.getMovement() != 0;
 		} else
 			return false;
-	}
-
-	public static int getLine(int id , int width) {
-		return (int) (id  / (width -0.5));
-	}
-
-	public static int getColumn(int id , int width) {
-		return (int) ((id  % (width -0.5)) * 2);
-	}
-
-	public static int getId(int column, int line , int width) {
-		return (int) (line * (width - 0.5) + column/2.0);
 	}
 
 	private static List<Point> recreatePath(Map<Node, Node> cameFrom, Node node) {

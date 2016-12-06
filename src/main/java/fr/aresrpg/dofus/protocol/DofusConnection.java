@@ -1,6 +1,6 @@
 package fr.aresrpg.dofus.protocol;
 
-import fr.aresrpg.dofus.protocol.util.StringUtils;
+import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

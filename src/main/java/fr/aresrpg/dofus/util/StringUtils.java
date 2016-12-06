@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.protocol.util;
+package fr.aresrpg.dofus.util;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,9 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.protocol.util.Crypt;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.util.Crypt;
 
 import java.io.IOException;
 import java.util.Arrays;

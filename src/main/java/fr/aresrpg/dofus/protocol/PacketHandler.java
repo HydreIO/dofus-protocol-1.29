@@ -116,4 +116,8 @@ public interface PacketHandler {
 	void handle(ChatSubscribeChannelPacket chatSubscribeChannelPacket);
 
 	void handle(GameActionPacket gameActionPacket);
+
+	void handle(GameMovementPacket gameMovementPacket);
+
+	void handle(GameMapFramePacket gameMapFramePacket);
 }

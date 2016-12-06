@@ -1,14 +1,17 @@
-package fr.aresrpg.dofus.protocol.util;
+package fr.aresrpg.dofus.util;
+
+import flash.swf.Action;
+import flash.swf.ActionHandler;
+import flash.swf.TagDecoder;
+import flash.swf.TagHandler;
+import flash.swf.actions.ConstantPool;
+import flash.swf.actions.Push;
+import flash.swf.tags.DoAction;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import flash.swf.*;
-import flash.swf.actions.ConstantPool;
-import flash.swf.actions.Push;
-import flash.swf.tags.DoAction;
 
 public class SwfVariableExtractor extends TagHandler {
 

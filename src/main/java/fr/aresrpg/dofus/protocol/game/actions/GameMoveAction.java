@@ -1,9 +1,9 @@
 package fr.aresrpg.dofus.protocol.game.actions;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.util.Compressor;
-import fr.aresrpg.dofus.protocol.util.Crypt;
 import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.util.Compressor;
+import fr.aresrpg.dofus.util.Crypt;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class GameMoveAction implements GameAction{
 		String data = stream.read();
 		path = new LinkedHashMap<>();
 		for(int i = 0 ; i < data.length() ; i+=3) {
-			path.put(Compressor.decompressCellId(data.substring(i + 1 , i + 3)) ,
+			path.put(Compressor.uncompressCellId(data.substring(i + 1 , i + 3)) ,
 					PathDirection.valueOf(Crypt.indexOfHash(data.charAt(i))));
 		}
 	}

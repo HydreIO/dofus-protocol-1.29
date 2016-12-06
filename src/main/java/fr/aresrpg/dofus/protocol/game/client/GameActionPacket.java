@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.protocol.game.actions.GameAction;
 import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
 import fr.aresrpg.dofus.protocol.game.actions.UnknownAction;
-import fr.aresrpg.dofus.protocol.util.StringUtils;
+import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
 
