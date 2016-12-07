@@ -9,8 +9,8 @@ public class Compressor {
 	private Compressor() {}
 
 	public static String compressCellId(int cellId) {
-		return "" + hashToIndex((cellId & 4032) >> 6) +
-				hashToIndex(cellId & 63);
+		return "" + hashToIndex((cellId & 0xFC0) >> 6) +
+				hashToIndex(cellId & 0x3F);
 	}
 
 	public static int uncompressCellId(String cellId) {

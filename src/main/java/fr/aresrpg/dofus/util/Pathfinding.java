@@ -27,7 +27,7 @@ public class Pathfinding {
 						continue;
 					if(closedList.contains(n))
 						continue;
-					n.cost = node.cost + Math.abs(xTo - n.x) + Math.abs(yTo - n.y);
+					n.cost = node.cost + (xTo - n.x)*(xTo - n.x) + (yTo - n.y)*(yTo - n.y);
 					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
 					if(openList.contains(n)) {
 						openList.remove(n);
@@ -70,9 +70,9 @@ public class Pathfinding {
 		else if(Math.abs(deltaY) == 2 && deltaX == 0)
 			return deltaY > 0 ? PathDirection.DOWN_LEFT : PathDirection.UP_RIGHT;
 		else if(Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? PathDirection.LEFT : PathDirection.UP;
+			return deltaX > 0 ? PathDirection.RIGHT : PathDirection.UP;
 		else if(Math.abs(deltaX) == 1 && deltaY == 1)
-			return deltaX > 0 ? PathDirection.DOWN : PathDirection.RIGHT;
+			return deltaX > 0 ? PathDirection.DOWN : PathDirection.LEFT;
 		else
 			return null;
 	}
@@ -87,7 +87,6 @@ public class Pathfinding {
 		PathDirection direction = getDirection(points.get(0).x , points.get(0).y ,
 				points.get(1).x , points.get(1).y);
 		Point last = points.get(1);
-		map.put(Maps.getId(last.x , last.y , width) , direction);
 		for(int i = 2 ; i < points.size() ; i++){
 			PathDirection current = getDirection(last.x , last.y ,
 					points.get(i).x , points.get(i).y);

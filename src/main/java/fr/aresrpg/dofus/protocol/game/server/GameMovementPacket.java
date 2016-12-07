@@ -6,6 +6,7 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GameMovementPacket implements Packet {
 	private int cell;
@@ -49,6 +50,7 @@ public class GameMovementPacket implements Packet {
 			/*switch (actionId) {
 				case 1:
 			}*/
+			break;
 		}
 	}
 

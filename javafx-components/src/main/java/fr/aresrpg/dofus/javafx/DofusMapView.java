@@ -13,31 +13,39 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
+import java.awt.*;
+import java.util.List;
 
 public class DofusMapView extends Region {
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
+	private ObjectProperty<List<Point>> path;
 	private Canvas cellCanvas;
 	private Canvas idCanvas;
+	private Canvas pathCanvas;
 
 	public DofusMapView() {
 		this.cellCanvas = new Canvas();
 		this.idCanvas = new Canvas();
+		this.pathCanvas = new Canvas();
 		getChildren().add(cellCanvas);
 		getChildren().add(idCanvas);
+		getChildren().add(pathCanvas);
 		this.map = new SimpleObjectProperty<>();
 		this.full = new SimpleBooleanProperty(true);
 		this.cellId = new SimpleBooleanProperty(true);
-		this.map.addListener((obs , oldValue , newValue) -> draw());
-		this.full.addListener((obs , oldValue , newValue) -> draw());
+		this.path = new SimpleObjectProperty<>();
 		widthProperty().addListener((obs , oldValue , newValue) -> draw());
 		heightProperty().addListener((obs , oldValue , newValue) -> draw());
+		this.map.addListener((obs , oldValue , newValue) -> drawCells());
+		this.full.addListener((obs , oldValue , newValue) -> drawCells());
+		this.path.addListener((obs , oldValue , newValue) -> drawPath());
 		this.cellId.addListener((obs , oldValue , newValue) -> idCanvas.setVisible(newValue));
 	}
 
 
-	protected void draw() {
+	protected void drawCells() {
 		double width = getWidth();
 		double height = getHeight();
 		DofusMap map = this.map.get();
@@ -48,7 +56,7 @@ public class DofusMapView extends Region {
 		int mHeight = map.getHeight();
 		double multiplier = Math.min(width / mWidth , height / mHeight);
 		double dMultiplier = multiplier/2;
-		System.out.println(dMultiplier);
+
 		height = mHeight * multiplier - (full ? 0 : multiplier);
 		width = mWidth * multiplier - (full ? 0 : multiplier);
 		setCanvasHeight(height);
@@ -101,6 +109,44 @@ public class DofusMapView extends Region {
 
 	}
 
+	protected void drawPath() {
+		double width = getWidth();
+		double height = getHeight();
+		DofusMap map = this.map.get();
+		boolean full = this.full.get();
+		List<Point> path = this.path.get();
+		if(path == null || path.size() < 1)
+			return;
+		if (map == null)
+			return;
+		int mWidth = map.getWidth();
+		int mHeight = map.getHeight();
+		double multiplier = Math.min(width / mWidth , height / mHeight);
+		double dMultiplier = multiplier/2;
+
+		height = mHeight * multiplier - (full ? 0 : multiplier);
+		width = mWidth * multiplier - (full ? 0 : multiplier);
+
+		pathCanvas.setHeight(height);
+		pathCanvas.setWidth(width);
+
+		GraphicsContext g = pathCanvas.getGraphicsContext2D();
+		g.clearRect(0, 0, width , height); //Clear canvas
+		g.setStroke(Color.BLUEVIOLET);
+
+		for(int i = 0 ; i < path.size() -1; i++) {
+			g.strokeLine(path.get(i).x * dMultiplier + dMultiplier
+					, path.get(i).y * dMultiplier + dMultiplier
+					, path.get(i + 1).x * dMultiplier + dMultiplier
+					, path.get(i + 1).y * dMultiplier + dMultiplier);
+		}
+	}
+
+	private void draw() {
+		drawCells();
+		drawPath();
+	}
+
 	private void setCanvasWidth(double width) {
 		cellCanvas.setWidth(width);
 		idCanvas.setWidth(width);
@@ -122,5 +168,17 @@ public class DofusMapView extends Region {
 
 	public ObjectProperty<DofusMap> mapProperty() {
 		return map;
+	}
+
+	public List<Point> getPath() {
+		return path.get();
+	}
+
+	public void setPath(List<Point> path) {
+		this.path.set(path);
+	}
+
+	public ObjectProperty<List<Point>> pathProperty() {
+		return path;
 	}
 }

@@ -120,4 +120,6 @@ public interface PacketHandler {
 	void handle(GameMovementPacket gameMovementPacket);
 
 	void handle(GameMapFramePacket gameMapFramePacket);
+
+	void handle(GameActionACKPacket gameActionACKPacket);
 }

@@ -72,7 +72,8 @@ public enum ProtocolRegistry {
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
 	GAME_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameActionPacket.class),
-	//GAME_MOVEMENT(Layer.GAME , 'M' , Bound.SERVER , GameMovementPacket.class),
+	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT , GameActionACKPacket.class),
+	GAME_MOVEMENT(Layer.GAME , 'M' , Bound.SERVER , GameMovementPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
