@@ -1,5 +1,6 @@
 package fr.aresrpg.dofus.protocol;
 
+import fr.aresrpg.dofus.Hastebin;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
@@ -95,7 +96,9 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private void decode(String packet) throws IOException {
 		if (packet.length() == 0)
 			return;
-		System.out.println("[RECEIVE from " + label + "] <- " + packet);
+		String print = "[RECEIVE from " + label + "] <- " + packet;
+		Hastebin.record.add(print);
+		System.out.println(print);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
 		ProtocolRegistry registry = getId(fullPacket);
 		if (registry == null) // Try with only current packet
@@ -115,7 +118,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				currentPacket = new StringBuilder();
 				try {
 					Packet p = registry.getPacket().newInstance();
-					p.read(new StringDofusStream(packet.isEmpty() ? new String[1][0] : StringUtils.splitArray(packet.split(bound.getDelimiter()) , "\\" + SEPARATOR)));
+					p.read(new StringDofusStream(packet.isEmpty() ? new String[1][0] : StringUtils.splitArray(packet.split(bound.getDelimiter()), "\\" + SEPARATOR)));
 					p.handle(handler);
 				} catch (ReflectiveOperationException e) {
 					e.printStackTrace();
@@ -163,7 +166,9 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				sb.append(packet.getId());
 			sb.append(bound.getOther().getDelimiter());
 		}
-		System.out.println("[SEND to " + label + "] -> " + sb.toString() + " " + Arrays.toString(sb.toString().getBytes()));
+		String print = "[SEND to " + label + "] -> " + sb.toString();
+		Hastebin.record.add(print);
+		System.out.println(print + " " + Arrays.toString(sb.toString().getBytes()));
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 
