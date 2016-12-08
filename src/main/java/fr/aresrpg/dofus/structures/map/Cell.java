@@ -129,7 +129,4 @@ public class Cell {
 		this.frame = frame;
 	}
 
-	public int getLayerObject2Num() {
-		return layerObject2Num;
-	}
 }

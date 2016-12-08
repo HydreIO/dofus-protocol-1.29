@@ -17,7 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class DofusMapView extends Region {
-	private static final Image img = new Image("http://www.dofus-astuce.com/wp-content/uploads/2010/02/Bl%C3%A9.png");
+	private static final Image wheat = new Image("http://www.dofus-astuce.com/wp-content/uploads/2010/02/Bl%C3%A9.png");
+	private static final Image chanvre = new Image("http://wiki-dofus.eu/_images/5/53/Min_chan.png");
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
@@ -147,12 +148,24 @@ public class DofusMapView extends Region {
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
-			if(c.getLayerObject2Num() == 7511)
-				gc.drawImage(img , xp - dMultiplier/2 , yp - dMultiplier/2 , dMultiplier, dMultiplier);
-
-			if(i == currentPos) {
+			switch (c.getLayerObject2Num()) {
+				case 7511:
+					gc.setFill(Color.LIGHTYELLOW);
+					gc.drawImage(wheat, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
+					break;
+				case 7514:
+					gc.setFill(Color.GREENYELLOW);
+					gc.drawImage(chanvre, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
+					break;
+				case 7515:
+					
+					break;
+				default:
+					break;
+			}
+			if (i == currentPos) {
 				gc.setFill(Color.BROWN);
-				gc.fillOval(xp - dMultiplier/2 , yp - dMultiplier/2 , dMultiplier, dMultiplier);
+				gc.fillOval(xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
 			}
 			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}
