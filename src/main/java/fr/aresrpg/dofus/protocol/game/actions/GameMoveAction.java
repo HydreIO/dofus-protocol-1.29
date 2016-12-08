@@ -11,8 +11,6 @@ import java.util.Map;
 public class GameMoveAction implements GameAction{
 	private Map<Integer , PathDirection> path;
 
-
-
 	@Override
 	public void read(DofusStream stream) {
 		String data = stream.read();

@@ -5,6 +5,7 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.protocol.game.actions.GameAction;
 import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
+import fr.aresrpg.dofus.protocol.game.actions.GameUseRessourceAction;
 import fr.aresrpg.dofus.protocol.game.actions.UnknownAction;
 import fr.aresrpg.dofus.util.StringUtils;
 
@@ -22,6 +23,9 @@ public class GameActionPacket implements Packet{
 		switch (id) {
 			case 1:
 				action = new GameMoveAction();
+				break;
+			case 500:
+				action = new GameUseRessourceAction();
 				break;
 			default:
 				action = new UnknownAction();
