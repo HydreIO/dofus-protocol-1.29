@@ -14,6 +14,7 @@ public class Cell {
 	boolean layerObject2Flip;
 	boolean layerObject2Interactive;
 	int layerObject2Num;
+	private Frame frame;
 
 	public Cell(boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, boolean layerGroundFlip, int layerObject1Num, int layerObject1Rot,
 		boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
@@ -118,5 +119,17 @@ public class Cell {
 
 	public int getMovement() {
 		return movement;
+	}
+
+	public Frame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(Frame frame) {
+		this.frame = frame;
+	}
+
+	public int getLayerObject2Num() {
+		return layerObject2Num;
 	}
 }

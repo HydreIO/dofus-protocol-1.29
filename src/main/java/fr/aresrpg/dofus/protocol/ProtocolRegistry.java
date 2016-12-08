@@ -190,14 +190,19 @@ public enum ProtocolRegistry {
 		if (code.length == 3 && code[2] >= 'A' && code[2] <= 'z')
 			state = code[2] - 'A';
 
-		ProtocolRegistry[][] reg = (bound == Bound.SERVER ? SERVER_REGISTRY : CLIENT_REGISTRY)[layer.ordinal()][code[1] - 'A'];
-		ProtocolRegistry[] r = reg[state];
-		if (indexAtEnd && (r.length != 2 && reg[SIZE].length != 2))
-			return null;
-		if (r[indexAtEnd ? 1 : 0] != null)
-			return r[indexAtEnd ? 1 : 0];
-		else
-			return reg[SIZE][indexAtEnd ? 1 : 0];
+		try {
+			ProtocolRegistry[][] reg = (bound == Bound.SERVER ? SERVER_REGISTRY : CLIENT_REGISTRY)[layer.ordinal()][code[1] - 'A'];
+			ProtocolRegistry[] r = reg[state];
+			if (indexAtEnd && (r.length != 2 && reg[SIZE].length != 2))
+				return null;
+			if (r[indexAtEnd ? 1 : 0] != null)
+				return r[indexAtEnd ? 1 : 0];
+			else
+				return reg[SIZE][indexAtEnd ? 1 : 0];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println(code[1]);
+			return  null;
+		}
 	}
 
 	public static ProtocolRegistry getRegistry(Class<? extends Packet> packetClass) {

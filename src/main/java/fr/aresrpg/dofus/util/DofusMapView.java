@@ -10,12 +10,14 @@ import java.util.function.IntConsumer;
 import javafx.beans.property.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class DofusMapView extends Region {
+	private static final Image img = new Image("http://www.dofus-astuce.com/wp-content/uploads/2010/02/Bl%C3%A9.png");
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
@@ -145,9 +147,12 @@ public class DofusMapView extends Region {
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
-			if (i == currentPos) {
+			if(c.getLayerObject2Num() == 7511)
+				gc.drawImage(img , xp - dMultiplier/2 , yp - dMultiplier/2 , dMultiplier, dMultiplier);
+
+			if(i == currentPos) {
 				gc.setFill(Color.BROWN);
-				gc.fillOval(xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
+				gc.fillOval(xp - dMultiplier/2 , yp - dMultiplier/2 , dMultiplier, dMultiplier);
 			}
 			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}

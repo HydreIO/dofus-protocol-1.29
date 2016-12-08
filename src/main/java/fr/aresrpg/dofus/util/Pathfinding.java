@@ -103,9 +103,15 @@ public class Pathfinding {
 		int id = Maps.getId(n.x, n.y, width);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
-			return last ? cell.getMovement() != 0 : cell.getMovement() == 4 || cell.getMovement() == 6;
+			return last ? cell.getMovement() != 0 : isValidCell(cell);
 		} else
 			return false;
+	}
+
+	private static boolean isValidCell(Cell cell) {
+		boolean isValid = cell.getMovement() == 4 || cell.getMovement() == 6;
+		isValid &= cell.getFrame() == null || cell.getFrame().getId() != 4;
+		return isValid;
 	}
 
 	private static List<Point> recreatePath(Map<Node, Node> cameFrom, Node node) {
