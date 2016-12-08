@@ -2,6 +2,8 @@ package fr.aresrpg.dofus.structures.map;
 
 import fr.aresrpg.dofus.structures.character.Character;
 
+import java.util.Set;
+
 public class DofusMap {
 	private int id;
 	private int width;
@@ -15,10 +17,10 @@ public class DofusMap {
 	private int x, z;
 	private Cell[] cells;
 	private int[] ressources;
-	private Character[] players;
-	private Mob[] mobs;
-	private Npc[] npcs;
-	private Percepteur[] percos;
+	private Set<Character> players;
+	private Set<Mob> mobs;
+	private Set<Npc> npcs;
+	private Set<Percepteur> percos;
 
 	public DofusMap(int id, int width, int height, int musicId, int capabilities, boolean outdoor, int backgroundId, Cell[] cells) {
 		this.id = id;
@@ -90,13 +92,6 @@ public class DofusMap {
 	}
 
 	/**
-	 * @return the mobs
-	 */
-	public Mob[] getMobs() {
-		return mobs;
-	}
-
-	/**
 	 * @return the musicId
 	 */
 	public int getMusicId() {
@@ -104,23 +99,30 @@ public class DofusMap {
 	}
 
 	/**
+	 * @return the mobs
+	 */
+	public Set<Mob> getMobs() {
+		return mobs;
+	}
+
+	/**
 	 * @return the npcs
 	 */
-	public Npc[] getNpcs() {
+	public Set<Npc> getNpcs() {
 		return npcs;
 	}
 
 	/**
 	 * @return the percos
 	 */
-	public Percepteur[] getPercos() {
+	public Set<Percepteur> getPercos() {
 		return percos;
 	}
 
 	/**
 	 * @return the players
 	 */
-	public Character[] getPlayers() {
+	public Set<Character> getPlayers() {
 		return players;
 	}
 
