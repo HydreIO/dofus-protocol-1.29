@@ -75,6 +75,13 @@ public class DofusMapView extends Region {
 		this.onCellClick = onCellClick;
 	}
 
+	public void clearPath() {
+		if (this.path != null && this.path.get() != null) {
+			this.path.setValue(null);
+			drawPath();
+		}
+	}
+
 	protected void drawCells() {
 		double width = getWidth();
 		double height = getHeight();
@@ -138,9 +145,9 @@ public class DofusMapView extends Region {
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
-			if(i == currentPos) {
+			if (i == currentPos) {
 				gc.setFill(Color.BROWN);
-				gc.fillOval(xp - dMultiplier/2 , yp - dMultiplier/2 , dMultiplier, dMultiplier);
+				gc.fillOval(xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
 			}
 			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}
