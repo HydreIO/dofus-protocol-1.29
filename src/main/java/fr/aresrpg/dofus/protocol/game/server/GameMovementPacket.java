@@ -6,14 +6,18 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GameMovementPacket implements Packet {
-	private int cell;
-	private String name;
+	private List<Integer> cell;
+	private List<String> name;
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
+		cell = new ArrayList<>();
+		name = new ArrayList<>();
 		stream.read(); //Split separator
 		while(stream.available() > 0){
 			String s = stream.read();
@@ -27,11 +31,11 @@ public class GameMovementPacket implements Packet {
 					continue;
 			}
 			String[] data = StringUtils.split(s.substring(1), ";");
-			this.cell = Integer.parseInt(data[0]);
+			this.cell.add(Integer.parseInt(data[0]));
 			int dir = Integer.parseInt(data[1]);
 			int bonusValue = Integer.parseInt(data[2]);
 			int entityId = Integer.parseInt(data[3]);
-			this.name = data[4];
+			this.name.add(data[4]);
 			String[] actionIdData = data[5].split(","); //if length == 2 id + title
 			int actionId = Integer.parseInt(actionIdData[0]);
 			boolean noFlip = false;
@@ -50,7 +54,6 @@ public class GameMovementPacket implements Packet {
 			/*switch (actionId) {
 				case 1:
 			}*/
-			break;
 		}
 	}
 
@@ -64,11 +67,11 @@ public class GameMovementPacket implements Packet {
 		handler.handle(this);
 	}
 
-	public int getCell() {
+	public List<Integer> getCell() {
 		return cell;
 	}
 
-	public String getName() {
+	public List<String> getName() {
 		return name;
 	}
 }

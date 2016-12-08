@@ -20,6 +20,7 @@ public class DofusMapView extends Region {
 	private BooleanProperty full;
 	private BooleanProperty cellId;
 	private ObjectProperty<List<Point>> path;
+	private IntegerProperty currentPosition;
 	private Canvas cellCanvas;
 	private Canvas idCanvas;
 	private Canvas pathCanvas;
@@ -36,12 +37,15 @@ public class DofusMapView extends Region {
 		this.full = new SimpleBooleanProperty(true);
 		this.cellId = new SimpleBooleanProperty(true);
 		this.path = new SimpleObjectProperty<>();
+		this.currentPosition = new SimpleIntegerProperty(-1);
 		widthProperty().addListener((obs, oldValue, newValue) -> draw());
 		heightProperty().addListener((obs, oldValue, newValue) -> draw());
+		this.currentPosition.addListener((obs, oldValue, newValue) -> drawCells());
 		this.map.addListener((obs, oldValue, newValue) -> drawCells());
 		this.full.addListener((obs, oldValue, newValue) -> drawCells());
 		this.path.addListener((obs, oldValue, newValue) -> drawPath());
 		this.cellId.addListener((obs, oldValue, newValue) -> idCanvas.setVisible(newValue));
+
 		setOnMouseClicked((mouseEvent) -> {
 			if (this.onCellClick == null)
 				return;
@@ -57,7 +61,6 @@ public class DofusMapView extends Region {
 				double multiplier = Math.min(width / mWidth, height / mHeight);
 				double dMultiplier = multiplier / 2;
 				int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth());
-				System.out.println("id = " + id);
 				if (id > 0 && id < map.getCells().length)
 					onCellClick.accept(id);
 			}
@@ -77,6 +80,7 @@ public class DofusMapView extends Region {
 		double height = getHeight();
 		DofusMap map = this.map.get();
 		boolean full = this.full.get();
+		int currentPos = this.currentPosition.get();
 		if (map == null)
 			return;
 		int mWidth = map.getWidth();
@@ -122,6 +126,9 @@ public class DofusMapView extends Region {
 				case 6:
 					gc.setFill(Color.SADDLEBROWN);
 					break;
+				case 7:
+					gc.setFill(Color.AQUA);
+					break;
 				default:
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
@@ -131,6 +138,10 @@ public class DofusMapView extends Region {
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
+			if(i == currentPos) {
+				gc.setFill(Color.BROWN);
+				gc.fillOval(xp - dMultiplier/2 , yp - dMultiplier/2 , dMultiplier, dMultiplier);
+			}
 			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}
 
@@ -142,8 +153,6 @@ public class DofusMapView extends Region {
 		DofusMap map = this.map.get();
 		boolean full = this.full.get();
 		List<Point> path = this.path.get();
-		if (path == null || path.size() < 1)
-			return;
 		if (map == null)
 			return;
 		int mWidth = map.getWidth();
@@ -159,6 +168,10 @@ public class DofusMapView extends Region {
 
 		GraphicsContext g = pathCanvas.getGraphicsContext2D();
 		g.clearRect(0, 0, width, height); // Clear canvas
+
+		System.out.println(path);
+		if (path == null || path.size() < 1)
+			return;
 		g.setStroke(Color.CRIMSON);
 
 		for (int i = 0; i < path.size() - 1; i++) {
@@ -205,5 +218,13 @@ public class DofusMapView extends Region {
 
 	public ObjectProperty<List<Point>> pathProperty() {
 		return path;
+	}
+
+	public void setCurrentPosition(int currentPosition) {
+		this.currentPosition.set(currentPosition);
+	}
+
+	public int getCurrentPosition() {
+		return currentPosition.get();
 	}
 }

@@ -22,26 +22,24 @@ public class Pathfinding {
 				return recreatePath(cameFrom, node);
 			else
 				for (Node n : getNeighbors(node)) {
-				if (!isValid(n, cell, width)) {
-					System.out.println("INVALID !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					continue;
-				}
-				if (closedList.contains(n))
-					continue;
-				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-				if (openList.contains(n)) {
-					openList.remove(n);
-				}
-				if (present != null) {
-					if (present.cost < n.cost)
+					if (!isValid(n, cell, width , n.x == xTo && n.y == yTo))
 						continue;
-					else
-						openList.remove(present);
+					if (closedList.contains(n))
+						continue;
+					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+					if (openList.contains(n)) {
+						openList.remove(n);
+					}
+					if (present != null) {
+						if (present.cost < n.cost)
+							continue;
+						else
+							openList.remove(present);
+					}
+					openList.add(n);
+					cameFrom.put(n, node);
 				}
-				openList.add(n);
-				cameFrom.put(n, node);
-			}
 		}
 		return null;
 	}
@@ -101,13 +99,11 @@ public class Pathfinding {
 		return map;
 	}
 
-	private static boolean isValid(Node n, Cell[] cells, int width) {
+	private static boolean isValid(Node n, Cell[] cells, int width , boolean last) {
 		int id = Maps.getId(n.x, n.y, width);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
-			boolean last = id == cells.length - 1; // TODO jvoulai faire en sorte que si c'est la cell last du path il autorise que ce soit un "2" mais ça detect pas last
-			System.out.println("last ================== ? " + last);
-			return last ? cell.getMovement() == 4 || cell.getMovement() == 2 : cell.getMovement() == 4;
+			return last ? cell.getMovement() != 0 : cell.getMovement() == 4 || cell.getMovement() == 6;
 		} else
 			return false;
 	}
