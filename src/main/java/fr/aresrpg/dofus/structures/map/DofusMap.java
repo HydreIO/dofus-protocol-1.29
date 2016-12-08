@@ -14,7 +14,7 @@ public class DofusMap {
 	private int subarea;
 	private int x, z;
 	private Cell[] cells;
-	private Ressource[] ressources; // mieux vaut faire une seule fois le traitement des cells a la création plutot qu'a chaque fois qu'on cherche une ressource donc c'est mieux d'avoir deux array je pense
+	private int[] ressources;
 	private Character[] players;
 	private Mob[] mobs;
 	private Npc[] npcs;
@@ -127,7 +127,7 @@ public class DofusMap {
 	/**
 	 * @return the ressources
 	 */
-	public Ressource[] getRessources() {
+	public int[] getRessources() {
 		return ressources;
 	}
 
