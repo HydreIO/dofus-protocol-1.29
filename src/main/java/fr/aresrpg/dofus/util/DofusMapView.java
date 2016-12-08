@@ -77,6 +77,13 @@ public class DofusMapView extends Region {
 		this.onCellClick = onCellClick;
 	}
 
+	public void clearPath() {
+		if (this.path != null && this.path.get() != null) {
+			this.path.setValue(null);
+			drawPath();
+		}
+	}
+
 	protected void drawCells() {
 		double width = getWidth();
 		double height = getHeight();
