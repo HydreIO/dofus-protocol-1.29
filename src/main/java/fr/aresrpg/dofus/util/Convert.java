@@ -12,7 +12,7 @@ public class Convert {
 		return toInt(value, def, 10);
 	}
 
-	public static String fromInt(int val) {
+	public static String fromHexInt(int val) {
 		return val == 0 ? "" : Integer.toHexString(val);
 	}
 }

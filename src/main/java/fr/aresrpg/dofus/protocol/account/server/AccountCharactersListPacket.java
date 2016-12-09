@@ -63,7 +63,7 @@ public class AccountCharactersListPacket implements Packet {
 					.add(Integer.toString(c.getColor3(), 16));
 			StringJoiner accs = new StringJoiner(",");
 			for (int a : c.getAccessories())
-				accs.add(Convert.fromInt(a));
+				accs.add(Convert.fromHexInt(a));
 			sb.add(accs.toString())
 					.add(c.isMerchant() ? s(1) : s(0))
 					.add(s(c.getServerId()))
