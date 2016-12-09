@@ -2,7 +2,6 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
-import fr.aresrpg.dofus.structures.map.DofusMap;
 
 import java.awt.Point;
 import java.util.*;
@@ -74,13 +73,6 @@ public class Pathfinding {
 			return deltaX > 0 ? PathDirection.DOWN : PathDirection.LEFT;
 		else
 			return null;
-	}
-
-	public static List<Point> cellsToPoints(List<Cell> cells, DofusMap map) {
-		List<Point> points = new ArrayList<>();
-		for (int i = 0; i < map.getCells().length; i++)
-			points.add(new Point(Maps.getColumn(i, map.getWidth()), Maps.getLine(i, map.getWidth())));
-		return points;
 	}
 
 	public static Map<Integer, PathDirection> makeShortPath(List<Point> points, int width) {

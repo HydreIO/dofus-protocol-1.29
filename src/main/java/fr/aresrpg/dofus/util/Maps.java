@@ -7,7 +7,7 @@ import fr.aresrpg.dofus.structures.map.DofusMap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.Map;
 
 public class Maps {
 	private Maps() {
@@ -44,48 +44,4 @@ public class Maps {
 		return (int) (line * (width - 0.5) + column / 2.0);
 	}
 
-	public static void main(String[] args) {
-		System.out.println("line = " + line(293, 15, 17));
-		System.out.println(293 % 14);
-	}
-
-	static int line(int id, int width, int height) {
-		if (id == 0) return id;
-		int index = 0;
-		int max = width + height - 2;
-		int sub = width - 1;
-		int val = width * 2 - 1;
-		if (id <= val) return id % sub == 0 ? sub : id % sub;
-		while (id / sub >= max) {
-			id -= width;
-			index++;
-		}
-		while (id % sub != 0) {
-			id -= width;
-			index++;
-		}
-		return width - 1 + index;
-	}
-
-	public static void mazin(String[] args) {
-		int largeur = 15;
-		int hauteur = 17;
-		int max = largeur + hauteur - 1; // 31
-		int firstin = -1;
-		int second = -1;
-		int same = hauteur - largeur + 1; // hauteur tjr positive donc ntm
-
-		List<String> ss = new ArrayList<>();
-		for (int x = 0; x < max; x++) {
-			for (int y = 0; y < max; y++) {
-				if (y <= largeur - firstin && y >= largeur - second) {
-					ss.add(x + " " + y);
-				}
-			}
-			firstin--;
-			second++;
-		}
-		ss.forEach(System.out::println);
-		System.out.println("Length = " + ss.size());
-	}
 }
