@@ -32,6 +32,14 @@ public class Maps {
 				(int) data.get("backgroundNum"), cells);
 	}
 
+	public static int distance(int cellId1, int cellId2, DofusMap map) {
+		int xto = getLine(cellId1, map.getWidth());
+		int xfrom = getLine(cellId2, map.getWidth());
+		int yto = getColumn(cellId1, map.getWidth());
+		int yfrom = getColumn(cellId2, map.getWidth());
+		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
+	}
+
 	public static int getLine(int id, int width) {
 		return (int) (id / (width - 0.5));
 	}
