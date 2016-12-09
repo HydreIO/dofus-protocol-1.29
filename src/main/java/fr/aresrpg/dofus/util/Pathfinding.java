@@ -2,6 +2,7 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
+import fr.aresrpg.dofus.structures.map.DofusMap;
 
 import java.awt.Point;
 import java.util.*;
@@ -22,24 +23,24 @@ public class Pathfinding {
 				return recreatePath(cameFrom, node);
 			else
 				for (Node n : getNeighbors(node)) {
-					if (!isValid(n, cell, width , n.x == xTo && n.y == yTo))
-						continue;
-					if (closedList.contains(n))
-						continue;
-					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-					if (openList.contains(n)) {
-						openList.remove(n);
-					}
-					if (present != null) {
-						if (present.cost < n.cost)
-							continue;
-						else
-							openList.remove(present);
-					}
-					openList.add(n);
-					cameFrom.put(n, node);
+				if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
+					continue;
+				if (closedList.contains(n))
+					continue;
+				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+				if (openList.contains(n)) {
+					openList.remove(n);
 				}
+				if (present != null) {
+					if (present.cost < n.cost)
+						continue;
+					else
+						openList.remove(present);
+				}
+				openList.add(n);
+				cameFrom.put(n, node);
+			}
 		}
 		return null;
 	}
@@ -75,6 +76,13 @@ public class Pathfinding {
 			return null;
 	}
 
+	public static List<Point> cellsToPoints(List<Cell> cells, DofusMap map) {
+		List<Point> points = new ArrayList<>();
+		for (int i = 0; i < map.getCells().length; i++)
+			points.add(new Point(Maps.getColumn(i, map.getWidth()), Maps.getLine(i, map.getWidth())));
+		return points;
+	}
+
 	public static Map<Integer, PathDirection> makeShortPath(List<Point> points, int width) {
 		if (points == null)
 			return null;
@@ -99,7 +107,7 @@ public class Pathfinding {
 		return map;
 	}
 
-	private static boolean isValid(Node n, Cell[] cells, int width , boolean last) {
+	private static boolean isValid(Node n, Cell[] cells, int width, boolean last) {
 		int id = Maps.getId(n.x, n.y, width);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
