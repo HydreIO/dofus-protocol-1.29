@@ -17,29 +17,34 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class DofusMapView extends Region {
-	private static final Image wheat = new Image("http://www.dofus-astuce.com/wp-content/uploads/2010/02/Bl%C3%A9.png");
-	private static final Image chanvre = new Image("http://wiki-dofus.eu/_images/5/53/Min_chan.png");
+	private static final Image wheat = new Image("https://i.imgur.com/LzUi53W.png");
+	private static final Image chanvre = new Image("https://i.imgur.com/UWJKJwc.png");
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
 	private ObjectProperty<List<Point>> path;
+	private ObjectProperty<List<Point>> serverpath;
 	private IntegerProperty currentPosition;
 	private Canvas cellCanvas;
 	private Canvas idCanvas;
 	private Canvas pathCanvas;
+	private Canvas spathCanvas;
 	private IntConsumer onCellClick;
 
 	public DofusMapView() {
 		this.cellCanvas = new Canvas();
 		this.idCanvas = new Canvas();
 		this.pathCanvas = new Canvas();
+		this.spathCanvas = new Canvas();
 		getChildren().add(cellCanvas);
 		getChildren().add(idCanvas);
 		getChildren().add(pathCanvas);
+		getChildren().add(spathCanvas);
 		this.map = new SimpleObjectProperty<>();
 		this.full = new SimpleBooleanProperty(true);
 		this.cellId = new SimpleBooleanProperty(true);
 		this.path = new SimpleObjectProperty<>();
+		this.serverpath = new SimpleObjectProperty<>();
 		this.currentPosition = new SimpleIntegerProperty(-1);
 		widthProperty().addListener((obs, oldValue, newValue) -> draw());
 		heightProperty().addListener((obs, oldValue, newValue) -> draw());
@@ -47,6 +52,7 @@ public class DofusMapView extends Region {
 		this.map.addListener((obs, oldValue, newValue) -> drawCells());
 		this.full.addListener((obs, oldValue, newValue) -> drawCells());
 		this.path.addListener((obs, oldValue, newValue) -> drawPath());
+		this.serverpath.addListener((obs, oldValue, newValue) -> drawServerPath());
 		this.cellId.addListener((obs, oldValue, newValue) -> idCanvas.setVisible(newValue));
 
 		setOnMouseClicked((mouseEvent) -> {
@@ -81,6 +87,10 @@ public class DofusMapView extends Region {
 	public void clearPath() {
 		if (this.path != null && this.path.get() != null) {
 			this.path.setValue(null);
+			drawPath();
+		}
+		if (this.serverpath != null && this.serverpath.get() != null) {
+			this.serverpath.setValue(null);
 			drawPath();
 		}
 	}
@@ -158,7 +168,7 @@ public class DofusMapView extends Region {
 					gc.drawImage(chanvre, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
 					break;
 				case 7515:
-					
+
 					break;
 				default:
 					break;
@@ -205,6 +215,39 @@ public class DofusMapView extends Region {
 		}
 	}
 
+	public void drawServerPath() {
+		double width = getWidth();
+		double height = getHeight();
+		DofusMap map = this.map.get();
+		boolean full = this.full.get();
+		List<Point> servpath = this.serverpath.get();
+		if (map == null)
+			return;
+		int mWidth = map.getWidth();
+		int mHeight = map.getHeight();
+		double multiplier = Math.min(width / mWidth, height / mHeight);
+		double dMultiplier = multiplier / 2;
+
+		height = mHeight * multiplier - (full ? 0 : multiplier);
+		width = mWidth * multiplier - (full ? 0 : multiplier);
+
+		spathCanvas.setHeight(height);
+		spathCanvas.setWidth(width);
+
+		GraphicsContext g = spathCanvas.getGraphicsContext2D();
+		g.clearRect(0, 0, width, height); // Clear canvas
+
+		System.out.println(servpath);
+		if (servpath == null || servpath.size() < 1)
+			return;
+		g.setStroke(Color.MIDNIGHTBLUE);
+
+		for (int i = 0; i < servpath.size() - 1; i++) {
+			g.strokeLine(servpath.get(i).x * dMultiplier + dMultiplier, servpath.get(i).y * dMultiplier + dMultiplier, servpath.get(i + 1).x * dMultiplier + dMultiplier,
+					servpath.get(i + 1).y * dMultiplier + dMultiplier);
+		}
+	}
+
 	private void draw() {
 		drawCells();
 		drawPath();
@@ -239,6 +282,21 @@ public class DofusMapView extends Region {
 
 	public void setPath(List<Point> path) {
 		this.path.set(path);
+	}
+
+	/**
+	 * @return the serverpath
+	 */
+	public ObjectProperty<List<Point>> getServerpath() {
+		return serverpath;
+	}
+
+	/**
+	 * @param serverpath
+	 *            the serverpath to set
+	 */
+	public void setServerpath(ObjectProperty<List<Point>> serverpath) {
+		this.serverpath = serverpath;
 	}
 
 	public ObjectProperty<List<Point>> pathProperty() {
