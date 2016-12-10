@@ -9,15 +9,13 @@ import fr.aresrpg.dofus.protocol.game.actions.GameActions;
 import fr.aresrpg.dofus.protocol.game.actions.UnknownAction;
 import fr.aresrpg.dofus.util.Convert;
 
-import java.io.IOException;
-
 public class GameServerActionPacket implements GameActionPacket{
 	private GameAction action;
 	private int lastAction;
 	private int entityId;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";" , 4);
 		this.lastAction = Convert.toInt(data[0] , 0);
 		int id = Integer.parseInt(data[1]);
@@ -43,7 +41,7 @@ public class GameServerActionPacket implements GameActionPacket{
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		action.write(stream);
 		String data = stream.read();
 		stream.setWriteIndex(0);

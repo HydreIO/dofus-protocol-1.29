@@ -5,7 +5,6 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.server.Server;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +14,7 @@ public class AccountServerListPacket implements Packet {
 	private Map<Integer, Integer> characters;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		subscriptionDuration = stream.readLong();
 		characters = new HashMap<>();
 		while (stream.available() != 0) {
@@ -25,7 +24,7 @@ public class AccountServerListPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1 + characters.size()).writeLong(subscriptionDuration);
 		characters.forEach((k, v) -> stream.write(k + "," + v));
 	}

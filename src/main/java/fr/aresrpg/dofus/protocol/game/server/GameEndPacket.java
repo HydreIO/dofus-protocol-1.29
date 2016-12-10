@@ -1,12 +1,13 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.character.Item;
 import fr.aresrpg.dofus.structures.game.FightType;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
@@ -42,7 +43,7 @@ public class GameEndPacket implements Packet {
 	private int winDisgrace;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String duration = stream.read();
 		if (duration.contains(";")) {
 			String[] data = duration.split(";");
@@ -117,7 +118,7 @@ public class GameEndPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(4)
 				.write(bonus == -1 ? Integer.toString(duration) : duration + ";" + bonus)
 				.writeInt(senderId)

@@ -8,6 +8,7 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
+import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -15,8 +16,16 @@ import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
+import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
+import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
+import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
 
 public interface PacketHandler {
+
+	default boolean parse(ProtocolRegistry registry, String packet) {
+		throw new UnsupportedOperationException();
+	}
+
 	void register(DofusConnection<?> connection);
 
 	void handle(HelloGamePacket helloGamePacket);
@@ -107,10 +116,6 @@ public interface PacketHandler {
 
 	void handle(GameEndPacket gameEndPacket);
 
-	default boolean parse(ProtocolRegistry registry, String packet) {
-		throw new UnsupportedOperationException();
-	}
-
 	void handle(AccountSelectCharacterOkPacket accountSelectCharacterOkPacket);
 
 	void handle(ChatSubscribeChannelPacket chatSubscribeChannelPacket);
@@ -124,4 +129,36 @@ public interface PacketHandler {
 	void handle(GameClientActionPacket gameClientActionPacket);
 
 	void handle(GameServerActionPacket gameServerActionPacket);
+
+	void handle(GuildStatPacket guildStatPacket);
+
+	void handle(SpellChangeOptionPacket spellChangeOptionPacket);
+
+	void handle(SpellListPacket spellListPacket);
+
+	void handle(SubareaListPacket subareaListPacket);
+
+	void handle(AccountRestrictionsPacket accountRestrictionsPacket);
+
+	void handle(GamePositionsPacket gamePositionPacket);
+
+	void handle(GameClientReadyPacket gameReadyPacket);
+
+	void handle(GameServerReadyPacket gameServerReadyPacket);
+
+	void handle(GameStartToPlayPacket gameStartToPlayPacket);
+
+	void handle(GameTurnListPacket gameTurnListPacket);
+
+	void handle(GameTurnEndPacket gameTurnEndPacket);
+
+	void handle(GameTurnMiddlePacket gameTurnMiddlePacket);
+
+	void handle(GameTurnStartPacket gameTurnStartPacket);
+
+	void handle(GameTurnFinishPacket gameTurnFinishPacket);
+
+	void handle(GameTurnReadyPacket gameTurnReadyPacket);
+
+	void handle(GameActionFinishPacket gameActionFinishPacket);
 }

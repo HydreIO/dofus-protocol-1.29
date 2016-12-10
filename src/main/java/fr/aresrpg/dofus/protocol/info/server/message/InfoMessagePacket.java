@@ -4,18 +4,16 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 public class InfoMessagePacket implements Packet{
 	private int messageId;
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
 		this.messageId = Integer.parseInt(data[0]);
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).writeInt(messageId);
 	}
 

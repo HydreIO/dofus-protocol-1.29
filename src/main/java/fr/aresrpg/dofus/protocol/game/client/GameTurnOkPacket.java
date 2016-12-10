@@ -4,8 +4,6 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 /**
  * 
  * @since
@@ -15,13 +13,13 @@ public class GameTurnOkPacket implements Packet {
 	private String spriteId;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		if (stream.available() > 0)
 			this.spriteId = stream.read();
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		if (spriteId != null) stream.allocate(1).write(spriteId);
 	}
 

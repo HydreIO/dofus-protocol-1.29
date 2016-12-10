@@ -12,8 +12,6 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 /**
  * 
  * @since
@@ -21,12 +19,12 @@ import java.io.IOException;
 public class GameEndTurnPacket implements Packet {
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 
 	}
 

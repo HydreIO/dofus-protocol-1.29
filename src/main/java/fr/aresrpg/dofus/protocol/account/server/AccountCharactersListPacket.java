@@ -7,7 +7,6 @@ import fr.aresrpg.dofus.structures.character.AvailableCharacter;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
@@ -16,7 +15,7 @@ public class AccountCharactersListPacket implements Packet {
 	private AvailableCharacter[] characters;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		subscriptionTime = stream.readLong();
 		int nb = stream.readInt();
 		characters = new AvailableCharacter[nb];
@@ -45,7 +44,7 @@ public class AccountCharactersListPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(characters.length + 2);
 		stream.writeLong(subscriptionTime);
 		stream.writeInt(getCharacters().length);

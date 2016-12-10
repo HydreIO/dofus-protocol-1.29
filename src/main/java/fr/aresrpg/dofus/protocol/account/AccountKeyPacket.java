@@ -4,21 +4,19 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 public class AccountKeyPacket implements Packet {
 	protected int key;
 	protected String data;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String buf = stream.read();
 		key = Integer.parseInt(String.valueOf(buf.charAt(0)), 16);
 		data = buf.substring(1);
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).write(key + data);
 	}
 

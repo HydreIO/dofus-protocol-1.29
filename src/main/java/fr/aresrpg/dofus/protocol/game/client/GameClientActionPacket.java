@@ -9,13 +9,11 @@ import fr.aresrpg.dofus.protocol.game.actions.GameActions;
 import fr.aresrpg.dofus.protocol.game.actions.UnknownAction;
 import fr.aresrpg.dofus.util.StringUtils;
 
-import java.io.IOException;
-
 public class GameClientActionPacket implements GameActionPacket{
 	private GameAction action;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String data = stream.read();
 		int id = Integer.parseInt(data.substring(0 , 3));
 		action = createAction(id);
@@ -37,7 +35,7 @@ public class GameClientActionPacket implements GameActionPacket{
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		action.write(stream);
 		String data = stream.read();
 		stream.setWriteIndex(0);

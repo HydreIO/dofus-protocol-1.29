@@ -5,19 +5,17 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.util.Convert;
 
-import java.io.IOException;
-
 public class MountXpPacket implements Packet {
 
 	private int percent;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		percent = Convert.toInt(stream.read() , 0);
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).writeInt(percent);
 	}
 

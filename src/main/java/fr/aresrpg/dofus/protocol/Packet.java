@@ -1,11 +1,9 @@
 package fr.aresrpg.dofus.protocol;
 
-import java.io.IOException;
-
 public interface Packet {
-	void read(DofusStream stream) throws IOException;
+	void read(DofusStream stream);
 
-	void write(DofusStream stream) throws IOException;
+	void write(DofusStream stream);
 
 	void handle(PacketHandler handler);
 

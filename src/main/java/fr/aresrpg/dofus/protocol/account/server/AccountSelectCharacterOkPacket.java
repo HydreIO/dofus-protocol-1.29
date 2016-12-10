@@ -6,13 +6,11 @@ import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.character.Character;
 import fr.aresrpg.dofus.structures.character.Item;
 
-import java.io.IOException;
-
 public class AccountSelectCharacterOkPacket implements Packet {
 	private Character character;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		stream.read();//Skip separator
 		int id = stream.readInt();
 		String pseudo = stream.read();
@@ -28,7 +26,7 @@ public class AccountSelectCharacterOkPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(11).write("") //Set separator
 				.writeInt(character.getId())
 				.write(character.getPseudo())

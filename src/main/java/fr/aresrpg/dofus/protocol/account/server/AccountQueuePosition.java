@@ -5,8 +5,6 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.util.Convert;
 
-import java.io.IOException;
-
 public class AccountQueuePosition implements Packet {
 
 	private int position;
@@ -16,7 +14,7 @@ public class AccountQueuePosition implements Packet {
 	private int positionInQueue;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String pos = stream.read();
 		this.position = pos.isEmpty() ? -1 : Integer.parseInt(pos);
 		this.totalSubscriber = stream.readInt();
@@ -26,7 +24,7 @@ public class AccountQueuePosition implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(5).write(position == -1 ? "" : String.valueOf(position)).writeInt(totalSubscriber).writeInt(totalNoSubscribed).writeInt(subscribed ? 1 : 0).writeInt(positionInQueue);
 	}
 

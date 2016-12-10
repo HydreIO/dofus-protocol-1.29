@@ -8,6 +8,7 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
+import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -15,8 +16,13 @@ import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
+import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
+import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
+import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ProtocolRegistry {
 
@@ -48,6 +54,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
 	// ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
+	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT , 'R' , Bound.SERVER , AccountRestrictionsPacket.class),
 
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
 
@@ -69,17 +76,39 @@ public enum ProtocolRegistry {
 	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, LeaveGamePacket.class),
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
+	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),
+	GAME_PLAYER_READY(Layer.GAME , 'R' , Bound.CLIENT , GameClientReadyPacket.class),
+	GAME_SERVER_READY(Layer.GAME , 'R' , Bound.SERVER , GameServerReadyPacket.class),
+	GAME_START_TO_PLAY(Layer.GAME , 'S' , Bound.SERVER , GameStartToPlayPacket.class),
+	GAME_POSITIONS(Layer.GAME , 'I' , 'C', Bound.SERVER , GamePositionsPacket.class),
+	GAME_FIGHT_CHALLENGE(Layer.GAME , 'd' , Bound.SERVER, GameFightChallengePacket.class),
+	GAME_TURN_LIST(Layer.GAME , 'T' , 'L' , Bound.SERVER , GameTurnListPacket.class),
+	GAME_TURN_MIDDLE(Layer.GAME , 'T' , 'M' , Bound.SERVER , GameTurnMiddlePacket.class),
+	GAME_TURN_END(Layer.GAME , 't' , Bound.CLIENT , GameTurnEndPacket.class),
+	GAME_TURN_START(Layer.GAME , 'T' , 'S' , Bound.SERVER , GameTurnStartPacket.class),
+	GAME_TURN_FINISH(Layer.GAME , 'T', 'F' , Bound.SERVER , GameTurnFinishPacket.class),
+	GAME_TURN_READY(Layer.GAME , 'T' , 'R' , Bound.SERVER , GameTurnReadyPacket.class),
+
+	//Game Action
 	GAME_CLIENT_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameClientActionPacket.class),
 	GAME_SERVER_ACTION(Layer.GAME , 'A' , Bound.SERVER, GameServerActionPacket.class),
+	GAME_ACTION_START(Layer.GAME , 'A' , 'S' , Bound.SERVER , GameActionStartPacket.class),
+	GAME_ACTION_FINISH(Layer.GAME , 'A' , 'F' , Bound.SERVER , GameActionStartPacket.class),
 	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
-	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),
+
+	GUILD_STATS(Layer.GAME , 'S', Bound.SERVER , GuildStatPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
 
-	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class);
+	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class),
+
+	SPELL_LIST(Layer.SPELL , 'L' , Bound.SERVER , SpellListPacket.class),
+	SPELL_CHANGE_OPTION(Layer.SPELL , 'L' , 'o' , Bound.SERVER , SpellChangeOptionPacket.class),
+
+	SUBAREA_LIST(Layer.SUBAREA , 'l' , Bound.SERVER , SubareaListPacket.class);
 
 	public static class State {
 		private State() {
@@ -227,7 +256,7 @@ public enum ProtocolRegistry {
 		MOUNT('R'),
 		SPELL('S'),
 		HELLO('H'),
-		ALIGNMENT('a'),
+		SUBAREA('a'),
 		WAYPOINT('W'),
 		INFO('I'),
 		SPECIALIZATION('Z');

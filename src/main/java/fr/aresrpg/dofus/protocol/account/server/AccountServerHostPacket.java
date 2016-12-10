@@ -4,15 +4,13 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 public class AccountServerHostPacket implements Packet {
 	private String ip;
 	private int port;
 	private String ticketKey;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
 		ip = data[0];
 		port = Integer.parseInt(data[1]);
@@ -20,7 +18,7 @@ public class AccountServerHostPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).write(ip + ':' + port + ';' + ticketKey);
 	}
 

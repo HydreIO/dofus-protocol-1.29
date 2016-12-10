@@ -11,6 +11,10 @@ public interface DofusStream {
 		return Integer.parseInt(read());
 	}
 
+	default int readIntRadix(int radix) {
+		return Integer.parseInt(read() , radix);
+	}
+
 	default long readLong() {
 		return Long.parseLong(read());
 	}
@@ -24,6 +28,10 @@ public interface DofusStream {
 			cons.accept(read());
 	}
 
+	default int readIntRadix(int index, int radix) {
+		return Integer.parseInt(read(index), radix);
+	}
+
 	int available();
 
 	DofusStream write(String value);
@@ -34,9 +42,19 @@ public interface DofusStream {
 		write(Integer.toString(value));
 		return this;
 	}
+	default DofusStream writeIntRadix(int value, int radix) {
+		write(Integer.toString(value, radix));
+		return this;
+	}
+
 
 	default DofusStream writeInt(int index, int value) {
 		write(index, Integer.toString(value));
+		return this;
+	}
+
+	default DofusStream writeIntRadix(int index, int value, int radix) {
+		write(index, Integer.toString(value , radix));
 		return this;
 	}
 
