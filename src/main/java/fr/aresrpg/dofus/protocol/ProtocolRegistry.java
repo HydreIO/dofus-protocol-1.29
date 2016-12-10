@@ -16,9 +16,7 @@ import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public enum ProtocolRegistry {
 
@@ -49,7 +47,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
-	//ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
+	// ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
 
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
 
@@ -60,7 +58,7 @@ public enum ProtocolRegistry {
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
 	GAME_CREATE(Layer.GAME, 'C', Bound.CLIENT, GameCreatePacket.class),
 	GAME_MAP_DATA(Layer.GAME, 'D', 'M', Bound.SERVER, GameMapDataPacket.class),
-	GAME_MAP_FRAME(Layer.GAME , 'D' , 'F' , Bound.SERVER , GameMapFramePacket.class),
+	GAME_MAP_FRAME(Layer.GAME, 'D', 'F', Bound.SERVER, GameMapFramePacket.class),
 	GAME_JOIN(Layer.GAME, 'J', State.OK, Bound.SERVER, GameJoinPacket.class),
 	GAME_END_TURN(Layer.GAME, 't', Bound.CLIENT, GameEndTurnPacket.class),
 	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
@@ -71,14 +69,14 @@ public enum ProtocolRegistry {
 	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, LeaveGamePacket.class),
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
-	GAME_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameActionPacket.class),
-	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT , GameActionACKPacket.class),
-	GAME_MOVEMENT(Layer.GAME , 'M' , Bound.SERVER , GameMovementPacket.class),
+	GAME_ACTION(Layer.GAME, 'A', Bound.BOTH, GameActionPacket.class),
+	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
+	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
-	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT , 'C' , Bound.BOTH , ChatSubscribeChannelPacket.class),
+	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
 
 	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class);
 
@@ -201,7 +199,7 @@ public enum ProtocolRegistry {
 				return reg[SIZE][indexAtEnd ? 1 : 0];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println(code[1]);
-			return  null;
+			return null;
 		}
 	}
 
