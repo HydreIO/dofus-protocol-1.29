@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * BotFather (C) - Dofus 1.29
+ * This class is part of an AresRPG Project.
+ *
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
+ * 
+ *         Created 2016
+ *******************************************************************************/
 package fr.aresrpg.dofus.structures.game;
 
 import fr.aresrpg.dofus.structures.PathDirection;
@@ -12,7 +20,7 @@ public class GameMovementActor {
 	private long id;
 	private int cellId;
 	private PathDirection orientation;
-	private int sprite;
+	private int classeId;
 	private int scaleX;
 	private int scaleY;
 	private int sex;
@@ -20,7 +28,7 @@ public class GameMovementActor {
 	private int color1;
 	private int color2;
 	private int color3;
-	private int accessories;
+	private int[] accessories;
 	private int life;
 	private int pa;
 	private int pm;

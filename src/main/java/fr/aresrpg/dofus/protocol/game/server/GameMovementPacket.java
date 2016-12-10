@@ -1,9 +1,9 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.game.movement.MovementCreateInvocation;
 import fr.aresrpg.dofus.structures.PathDirection;
-import fr.aresrpg.dofus.structures.game.GameMovementActor;
-import fr.aresrpg.dofus.structures.game.GameMovementType;
+import fr.aresrpg.dofus.structures.game.*;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
@@ -19,23 +19,40 @@ public class GameMovementPacket implements Packet {
 		stream.forEach(this::parseActor);
 	}
 
-	private void parseActor(String data) {
-		GameMovementType type = GameMovementType.fromChar(data.charAt(0));
-		data = data.substring(1);
+	private void parseActor(String datas) {
+		GameMovementType type = GameMovementType.fromChar(datas.charAt(0));
+		String[] data = datas.substring(1).split(";"); // loc10
 		switch (type) {
-			case SHOW:
-				int cellid;
-				PathDirection direction;
-				int bonusvalue;
-				int id;
-				String pseudo;
-				
-				break;
 			case UPDATE:
-				
+			case SHOW:
+				int cellid = Integer.parseInt(data[0]); // loc11
+				PathDirection direction = PathDirection.valueOf(Integer.parseInt(data[1])); // loc12
+				int bonusvalue = Integer.parseInt(data[2]); // loc13
+				int id = Integer.parseInt(data[3]); // loc14
+				String pseudo = data[4]; // loc15
+				String[] actionIdData = data[5].split(","); // loc16 & split = loc22
+				String gfx = data[6]; // loc17
+				boolean loc18 = false;
+				boolean loc19 = true;
+				if (gfx.charAt(gfx.length() - 1) == '*') {
+
+				}
+				String[] gfx1 = gfx.split("^"); // loc20
+				String gfx2 = gfx1.length == 2 ? gfx1[0] : gfx; // loc21
+				GameMovementAction action = GameMovementAction.fromId(Integer.parseInt(actionIdData[0])); // loc23
+				String loc24 = actionIdData.length == 2 ? actionIdData[1] : ""; // loc24
+				switch (action) {
+					case CREATE_INVOCATION:
+						new MovementCreateInvocation(action.getId(), id, id, id, false, cellid, direction, id, cellid, bonusvalue, id, null);
+						break;
+					case CREATE_MONSTER:
+						break;
+					default:
+						break;
+				}
 				break;
 			case REMOVE:
-				actors.add(GameMovementActor.withRemove(Integer.parseInt(data)));
+				actors.add(GameMovementActor.withRemove(Integer.parseInt(datas)));
 				break;
 			default:
 				return;
