@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class GameMoveAction extends GameAction {
 	private Map<Integer, PathDirection> path;
+	private Map<Integer, String> mob; // quand un mob bouge c'est la forme "GA;1;-6;afUdf8" 1 = move | -6 = index du mob reçu dans le packet GM | afUdf8 = path
+	// pour un player c'est GA0 et l'id du joueur a la place de l'index du mob
 
 	@Override
 	public void readClient(DofusStream stream) {
