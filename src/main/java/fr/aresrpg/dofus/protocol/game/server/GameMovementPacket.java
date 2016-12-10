@@ -1,18 +1,48 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.game.GameMovementActor;
+import fr.aresrpg.dofus.structures.game.GameMovementType;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+// GM| +240;1;0;2451939;Joe-larecolte;4;40^100;0;0,0,0,2451941;f10000;fb0000;f7cc9b;215c,,,,;0;;;;;0;;|+269;1
 public class GameMovementPacket implements Packet {
-	private List<Integer> cell;
-	private List<String> name;
+	private Set<GameMovementActor> actors = new HashSet<>();
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
+		stream.read();
+		stream.forEach(this::parseActor);
+	}
+
+	private void parseActor(String data) {
+		GameMovementType type = GameMovementType.fromChar(data.charAt(0));
+		data = data.substring(1);
+		switch (type) {
+			case SHOW:
+				int cellid;
+				PathDirection direction;
+				int bonusvalue;
+				int id;
+				String pseudo;
+				
+				break;
+			case UPDATE:
+				
+				break;
+			case REMOVE:
+				actors.add(GameMovementActor.withRemove(Integer.parseInt(data)));
+				break;
+			default:
+				return;
+		}
+	}
+
+	public void reazd(DofusStream stream) throws IOException {
 		cell = new ArrayList<>();
 		name = new ArrayList<>();
 		stream.read(); // Split separator
@@ -33,6 +63,7 @@ public class GameMovementPacket implements Packet {
 			int bonusValue = Integer.parseInt(data[2]);
 			int entityId = Integer.parseInt(data[3]);
 			this.name.add(data[4]);
+			// System.out.println("BYTEEEEEEEEEEEEEEEEEEEEE [" + Arrays.toString(data[4].getBytes()) + "]");
 			String[] actionIdData = data[5].split(","); // if length == 2 id + title
 			int actionId = Integer.parseInt(actionIdData[0]);
 			boolean noFlip = false;
@@ -54,6 +85,11 @@ public class GameMovementPacket implements Packet {
 			 * }
 			 */
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "GameMovementPacket [cell=" + cell + ", name=" + name + "]";
 	}
 
 	@Override

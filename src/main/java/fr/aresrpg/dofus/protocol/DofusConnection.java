@@ -1,6 +1,5 @@
 package fr.aresrpg.dofus.protocol;
 
-import fr.aresrpg.dofus.Hastebin;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
@@ -97,7 +96,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		if (packet.length() == 0)
 			return;
 		String print = "[RECEIVE from " + label + "] <- " + packet;
-		Hastebin.record.add(print);
 		System.out.println(print);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
 		ProtocolRegistry registry = getId(fullPacket);
@@ -167,7 +165,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 			sb.append(bound.getOther().getDelimiter());
 		}
 		String print = "[SEND to " + label + "] -> " + sb.toString();
-		Hastebin.record.add(print);
 		System.out.println(print + " " + Arrays.toString(sb.toString().getBytes()));
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}

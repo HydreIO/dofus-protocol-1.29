@@ -1,5 +1,7 @@
 package fr.aresrpg.dofus.protocol;
 
+import java.util.function.Consumer;
+
 public interface DofusStream {
 	String read();
 
@@ -15,6 +17,11 @@ public interface DofusStream {
 
 	default int readInt(int index) {
 		return Integer.parseInt(read(index).trim());
+	}
+
+	default void forEach(Consumer<String> cons) {
+		while (available() > 0)
+			cons.accept(read());
 	}
 
 	int available();
