@@ -15,8 +15,10 @@ public class GameActionPacket implements Packet {
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
+		// actuellement prend en compte les packet de forme GAxxx et GA;x; mais j'ai vu qu'il y a aussi GAx;x; dans le cas d'un player qui bouge sur la map par exemple
+		// sa send un GA0;1; donc faudra prendre en compte ça aussi :/
 		String data = stream.read();
-		serverAction = data.charAt(0) == ';';
+		serverAction = data.charAt(0) == ';'; // detect si c'est GAxxx donc player -> server ou alors GA;x; pour server -> player
 		stream.setReadIndex(0);
 		this.id = isServerAction() ? Integer.parseInt(data.substring(1, data.indexOf(';', 1))) : Integer.parseInt(data.substring(0, 3));
 		parseAction(GameActionEnum.fromId(id)).setIsServer(isServerAction()).read(stream);
