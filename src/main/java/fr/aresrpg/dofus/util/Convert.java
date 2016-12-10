@@ -12,7 +12,15 @@ public class Convert {
 		return toInt(value, def, 10);
 	}
 
+	public static int toInt(String value) {
+		return toInt(value, 0, 10);
+	}
+
 	public static String fromHexInt(int val) {
 		return val == 0 ? "" : Integer.toHexString(val);
+	}
+
+	public static String toDofusString(int val) {
+		return val == 0 ? "" : Integer.toString(val);
 	}
 }
