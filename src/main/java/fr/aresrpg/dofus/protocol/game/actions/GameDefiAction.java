@@ -1,6 +1,7 @@
 package fr.aresrpg.dofus.protocol.game.actions;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.structures.game.DuelResponse;
 
 /**
  * 
@@ -9,10 +10,10 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 public class GameDefiAction extends GameAction {
 
 	private int attacker, target;
-	private boolean cancel;
+	private DuelResponse response;
 
-	public GameDefiAction(boolean canceling) {
-		this.cancel = canceling;
+	public GameDefiAction(DuelResponse response) {
+		this.response = response;
 	}
 
 	@Override
@@ -22,27 +23,31 @@ public class GameDefiAction extends GameAction {
 
 	@Override
 	public void writeClient(DofusStream stream) {
-		GameActionEnum ac = isCancel() ? GameActionEnum.DUEL_CANCEL : GameActionEnum.DUEL_ASK;
-		stream.allocate(1).write(toDofusId(ac.getId()) + getTarget());
+		stream.allocate(1).write(toDofusId(getResponse().toAction().getId()) + getTarget());
 	}
 
 	@Override
 	public void readServer(DofusStream stream) {
-		// TODO
-
+		String[] data = stream.read().split(";");
+		this.attacker = Integer.parseInt(data[2]);
+		this.target = Integer.parseInt(data[3]);
 	}
 
 	@Override
 	public void writeServer(DofusStream stream) {
-		// TODO
+		stream.allocate(1).write(";" + toDofusId(getResponse().toAction().getId()) + ";" + getAttacker() + getTarget());
+	}
 
+	@Override
+	public String toString() {
+		return "GameDefiAction [attacker=" + attacker + ", target=" + target + ", response=" + response + "]";
 	}
 
 	/**
-	 * @return the cancel
+	 * @return the response
 	 */
-	public boolean isCancel() {
-		return cancel;
+	public DuelResponse getResponse() {
+		return response;
 	}
 
 	/**
