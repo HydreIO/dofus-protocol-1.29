@@ -8,26 +8,38 @@ import fr.aresrpg.dofus.util.Crypt;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class GameMoveAction implements GameAction{
-	private Map<Integer , PathDirection> path;
+public class GameMoveAction extends GameAction {
+	private Map<Integer, PathDirection> path;
 
 	@Override
-	public void read(DofusStream stream) {
+	public void readClient(DofusStream stream) {
 		String data = stream.read();
 		path = new LinkedHashMap<>();
-		for(int i = 0 ; i < data.length() ; i+=3) {
-			path.put(Compressor.uncompressCellId(data.substring(i + 1 , i + 3)) ,
+		for (int i = 0; i < data.length(); i += 3) {
+			path.put(Compressor.uncompressCellId(data.substring(i + 1, i + 3)),
 					PathDirection.valueOf(Crypt.indexOfHash(data.charAt(i))));
 		}
 	}
 
 	@Override
-	public void write(DofusStream stream) {
+	public void writeClient(DofusStream stream) {
 		StringBuilder sb = new StringBuilder();
-		for(Map.Entry<Integer , PathDirection> point : path.entrySet())
+		for (Map.Entry<Integer, PathDirection> point : path.entrySet())
 			sb.append(Crypt.hashToIndex(point.getValue().ordinal()))
 					.append(Compressor.compressCellId(point.getKey()));
 		stream.allocate(1).write(sb.toString());
+	}
+
+	@Override
+	public void readServer(DofusStream stream) {
+		// TODO
+
+	}
+
+	@Override
+	public void writeServer(DofusStream stream) {
+		// TODO
+
 	}
 
 	public GameMoveAction setPath(Map<Integer, PathDirection> path) {
@@ -45,4 +57,5 @@ public class GameMoveAction implements GameAction{
 				"path=" + path +
 				'}';
 	}
+
 }

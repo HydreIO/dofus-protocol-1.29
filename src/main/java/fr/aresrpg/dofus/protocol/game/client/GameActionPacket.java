@@ -1,39 +1,53 @@
 package fr.aresrpg.dofus.protocol.game.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
-import fr.aresrpg.dofus.protocol.game.actions.GameAction;
-import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
-import fr.aresrpg.dofus.protocol.game.actions.GameUseRessourceAction;
-import fr.aresrpg.dofus.protocol.game.actions.UnknownAction;
+import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.game.actions.*;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
 
-public class GameActionPacket implements Packet{
+public class GameActionPacket implements Packet {
 
 	private int id;
 	private GameAction action;
+	private boolean serverAction;
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
 		String data = stream.read();
-		id = Integer.parseInt(data.substring(0 , 3));
-		switch (id) {
-			case 1:
-				action = new GameMoveAction();
-				break;
-			case 500:
-				action = new GameUseRessourceAction();
-				break;
-			default:
-				action = new UnknownAction();
-				break;
-		}
-		stream.write(data.substring(3));
+		serverAction = data.charAt(0) == ';';
 		stream.setReadIndex(0);
-		action.read(stream);
+		this.id = isServerAction() ? Integer.parseInt(data.substring(1, data.indexOf(';', 1))) : Integer.parseInt(data.substring(0, 3));
+		parseAction(GameActionEnum.fromId(id)).setIsServer(isServerAction()).read(stream);
+	}
+
+	private GameAction parseAction(GameActionEnum action) {
+		switch (action) {
+			case MOVE:
+				return new GameMoveAction();
+			case HARVEST_RESSOURCE:
+				return new GameUseRessourceAction();
+			case DUEL_ASK:
+				return new GameDefiAction(false);
+			case DUEL_CANCEL:
+				return new GameDefiAction(true);
+			default:
+				return new UnknownAction();
+		}
+	}
+
+	/**
+	 * @return the serverAction
+	 */
+	public boolean isServerAction() {
+		return serverAction;
+	}
+
+	/**
+	 * @return the action
+	 */
+	public GameAction getAction() {
+		return action;
 	}
 
 	@Override
@@ -41,7 +55,7 @@ public class GameActionPacket implements Packet{
 		action.write(stream);
 		String data = stream.read();
 		stream.setWriteIndex(0);
-		stream.write(StringUtils.padLeft(Integer.toString(id) , 3 , '0') + data);
+		stream.write(StringUtils.padLeft(Integer.toString(id), 3, '0') + data);
 	}
 
 	@Override
@@ -51,7 +65,7 @@ public class GameActionPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "GameActionPacket(id=" + id+ ", action=" + action + ")[" + getId() + ']';
+		return "GameActionPacket(id=" + id + ", action=" + action + ")[" + getId() + ']';
 	}
 
 	public GameActionPacket setAction(GameAction action) {

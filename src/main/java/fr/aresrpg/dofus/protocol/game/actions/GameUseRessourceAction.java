@@ -2,20 +2,32 @@ package fr.aresrpg.dofus.protocol.game.actions;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 
-public class GameUseRessourceAction implements GameAction{
+public class GameUseRessourceAction extends GameAction {
 	private int cellId;
 	private int jobId;
 
 	@Override
-	public void read(DofusStream stream) {
+	public void readClient(DofusStream stream) {
 		String[] data = stream.read().split(";");
 		this.cellId = Integer.parseInt(data[0]);
 		this.jobId = Integer.parseInt(data[1]);
 	}
 
 	@Override
-	public void write(DofusStream stream) {
+	public void writeClient(DofusStream stream) {
 		stream.allocate(1).write(cellId + ";" + jobId);
+	}
+
+	@Override
+	public void readServer(DofusStream stream) {
+		// TODO
+
+	}
+
+	@Override
+	public void writeServer(DofusStream stream) {
+		// TODO
+
 	}
 
 	public int getCellId() {
@@ -35,4 +47,5 @@ public class GameUseRessourceAction implements GameAction{
 		this.jobId = jobId;
 		return this;
 	}
+
 }
