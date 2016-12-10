@@ -7,7 +7,7 @@ public class GameErrorAction implements GameAction{
 	public void read(DofusStream stream) {}
 
 	@Override
-	public void write(DofusStream stream) {}
+	public void write(DofusStream stream) {stream.allocate(1).write(""); }
 
 	@Override
 	public String toString() {
