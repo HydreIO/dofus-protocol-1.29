@@ -9,6 +9,11 @@ public class Item {
 		this.amount = amount;
 	}
 
+	@Override
+	public String toString() {
+		return "Item [data=" + data + ", amount=" + amount + "]";
+	}
+
 	public int getAmount() {
 		return amount;
 	}
