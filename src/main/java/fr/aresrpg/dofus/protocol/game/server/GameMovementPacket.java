@@ -4,6 +4,7 @@ import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.game.movement.MovementCreateInvocation;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.*;
+import fr.aresrpg.dofus.util.DofusTitle;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
@@ -35,12 +36,40 @@ public class GameMovementPacket implements Packet {
 				boolean loc18 = false;
 				boolean loc19 = true;
 				if (gfx.charAt(gfx.length() - 1) == '*') {
-
+					gfx = gfx.substring(0, gfx.length() - 1);
+					loc18 = true;
+				}
+				if (gfx.charAt(0) == '*') {
+					loc19 = false;
+					gfx = gfx.substring(1);
 				}
 				String[] gfx1 = gfx.split("^"); // loc20
 				String gfx2 = gfx1.length == 2 ? gfx1[0] : gfx; // loc21
 				GameMovementAction action = GameMovementAction.fromId(Integer.parseInt(actionIdData[0])); // loc23
 				String loc24 = actionIdData.length == 2 ? actionIdData[1] : ""; // loc24
+				DofusTitle loc25;
+				if (loc24.length() > 0) {
+					String[] loc26 = loc24.split("*");
+					loc25 = new DofusTitle(Integer.parseInt(loc26[0]), loc26[1]);
+				}
+				int loc27 = 100;
+				int loc28 = 100;
+				if (gfx1.length == 2) {
+					String loc29 = gfx1[1];
+					int loc29number;
+					boolean isnan = true;
+					try {
+						loc29number = Integer.parseInt(loc29);
+					} catch (Exception e) {
+						isnan = false;
+					}
+					if (isnan) {
+						String[] loc30 = loc29.split("x");
+						loc27 = loc30.length == 2 ? Integer.parseInt(loc30[0]) : 100;
+						loc28 = loc30.length == 2 ? Integer.parseInt(loc30[1]) : 100;
+					} else
+						loc27 = loc28 = Integer.parseInt(loc29);
+				}
 				switch (action) {
 					case CREATE_INVOCATION:
 						new MovementCreateInvocation(action.getId(), id, id, id, false, cellid, direction, id, cellid, bonusvalue, id, null);
