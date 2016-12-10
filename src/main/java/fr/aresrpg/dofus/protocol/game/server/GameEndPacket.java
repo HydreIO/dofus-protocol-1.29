@@ -1,13 +1,13 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.character.Item;
+import fr.aresrpg.dofus.structures.game.FightType;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.StringJoiner;
 
 /**
@@ -18,7 +18,7 @@ public class GameEndPacket implements Packet {
 
 	private int duration;
 	private int bonus;
-	private int fightType;
+	private FightType fightType;
 	private int senderId;
 	private Item[] drop;
 	private int code;
@@ -44,19 +44,19 @@ public class GameEndPacket implements Packet {
 	@Override
 	public void read(DofusStream stream) throws IOException {
 		String duration = stream.read();
-		if(duration.contains(";")) {
+		if (duration.contains(";")) {
 			String[] data = duration.split(";");
 			this.duration = Integer.parseInt(data[0]);
 			this.bonus = Integer.parseInt(data[1]);
-		}else {
+		} else {
 			this.duration = Integer.parseInt(duration);
 			this.bonus = -1;
 		}
 		this.senderId = stream.readInt();
-		this.fightType = stream.readInt();
-		String[] data = StringUtils.split(stream.read() , ";");
+		this.fightType = FightType.fromId(stream.readInt());
+		String[] data = StringUtils.split(stream.read(), ";");
 		code = Integer.parseInt(data[0]);
-		if(code == 6){
+		if (code == 6) {
 			drop = readItem(data[1]);
 			kama = Integer.parseInt(data[2]);
 		} else {
@@ -64,49 +64,54 @@ public class GameEndPacket implements Packet {
 			name = data[2];
 			level = Integer.parseInt(data[3]);
 			dead = data[4].equals("1");
-			minHonour = -1;
-			honour = -1;
-			maxHonour = -1;
-			winHonour = -1;
-			rank = -1;
-			disgrace = -1;
-			winDisgrace = -1;
+			minHonour = 0;
+			honour = 0;
+			maxHonour = 0;
+			winHonour = 0;
+			rank = 0;
+			disgrace = 0;
+			winDisgrace = 0;
 			switch (fightType) {
-				case 0:
-					minXp = Integer.parseInt(data[5]);
-					xp = Integer.parseInt(data[6]);
-					maxXp = Integer.parseInt(data[7]);
-					winXp = Integer.parseInt(data[8]);
-					guildXp = Integer.parseInt(data[9]);
-					mountXp = Convert.toInt(data[10] , -1);
-					drop = readItem(data[11]);
-					kama = Integer.parseInt(data[12]);
-					break;
-				case 1:
-					minHonour = Integer.parseInt(data[5]);
-					honour = Integer.parseInt(data[6]);
-					maxHonour = Integer.parseInt(data[7]);
-					winHonour = Integer.parseInt(data[8]);
-					rank = Integer.parseInt(data[9]);
-					disgrace = Integer.parseInt(data[10]);
-					winDisgrace = Integer.parseInt(data[11]);
+				case AGRESSION:
+					minHonour = Convert.toInt(data[5]);
+					honour = Convert.toInt(data[6]);
+					maxHonour = Convert.toInt(data[7]);
+					winHonour = Convert.toInt(data[8]);
+					rank = Convert.toInt(data[9]);
+					disgrace = Convert.toInt(data[10]);
+					winDisgrace = Convert.toInt(data[11]);
 					drop = readItem(data[12]);
-					kama = Integer.parseInt(data[13]);
-					minXp = Integer.parseInt(data[14]);
-					xp = Integer.parseInt(data[15]);
-					maxXp = Integer.parseInt(data[16]);
-					winXp = Integer.parseInt(data[17]);
+					kama = Convert.toInt(data[13]);
+					minXp = Convert.toInt(data[14]);
+					xp = Convert.toInt(data[15]);
+					maxXp = Convert.toInt(data[16]);
+					winXp = Convert.toInt(data[17]);
+					break;
+				case MONSTER:
+					minXp = Convert.toInt(data[5]);
+					xp = Convert.toInt(data[6]);
+					maxXp = Convert.toInt(data[7]);
+					winXp = Convert.toInt(data[8]);
+					guildXp = Convert.toInt(data[9], 0);
+					mountXp = Convert.toInt(data[10], 0);
+					drop = readItem(data[11]);
+					kama = Convert.toInt(data[12]);
+					break;
+				case DUEL:
+					break;
+				case PERCO:
+
 					break;
 			}
 		}
 	}
 
-	private static Item[] readItem(String data){
+	private static Item[] readItem(String data) {
 		String[] d = data.split(",");
 		Item[] items = new Item[d.length];
-		for(int i = 0 ; i < items.length ; i++){
+		for (int i = 0; i < items.length; i++) {
 			String[] amount = d[i].split("~");
-			items[i] = new Item(Integer.parseInt(amount[0]) , Integer.parseInt(amount[1]));
+			items[i] = new Item(Convert.toInt(amount[0], 0), Convert.toInt(amount[1], 0));
 		}
 		return items;
 	}
@@ -116,9 +121,10 @@ public class GameEndPacket implements Packet {
 		stream.allocate(4)
 				.write(bonus == -1 ? Integer.toString(duration) : duration + ";" + bonus)
 				.writeInt(senderId)
-				.writeInt(fightType);
+				.writeInt(fightType.getId());
 		StringJoiner joiner = new StringJoiner(";");
-		if(code == 6)
+		joiner.add(Integer.toString(code));
+		if (code == 6)
 			joiner.add(writeItem(drop)).add(Integer.toString(kama));
 		else {
 			joiner.add(Integer.toString(characterId))
@@ -126,38 +132,49 @@ public class GameEndPacket implements Packet {
 					.add(Integer.toString(level))
 					.add(dead ? "1" : "0");
 			switch (fightType) {
-				case 0:
-					joiner.add(Integer.toString(minXp))
-							.add(Integer.toString(xp))
-							.add(Integer.toString(winXp))
-							.add(Integer.toString(guildXp))
-							.add(Integer.toString(mountXp))
-							.add(writeItem(drop))
-							.add(Integer.toString(kama));
+				case DUEL:
 					break;
-				case 1:
-					joiner.add(Integer.toString(minHonour))
-							.add(Integer.toString(honour))
-							.add(Integer.toString(maxHonour))
-							.add(Integer.toString(winHonour))
-							.add(Integer.toString(rank))
-							.add(Integer.toString(disgrace))
-							.add(Integer.toString(winDisgrace))
+				case MONSTER:
+					joiner.add(Convert.toDofusString(minXp))
+							.add(Convert.toDofusString(xp))
+							.add(Convert.toDofusString(maxXp))
+							.add(Convert.toDofusString(winXp))
+							.add(Convert.toDofusString(guildXp))
+							.add(Convert.toDofusString(mountXp))
 							.add(writeItem(drop))
-							.add(Integer.toString(kama))
-							.add(Integer.toString(minXp))
-							.add(Integer.toString(xp))
-							.add(Integer.toString(maxXp))
-							.add(Integer.toString(winXp));
+							.add(Convert.toDofusString(kama));
+					break;
+				case AGRESSION:
+					joiner.add(Convert.toDofusString(minHonour))
+							.add(Convert.toDofusString(honour))
+							.add(Convert.toDofusString(maxHonour))
+							.add(Convert.toDofusString(winHonour))
+							.add(Convert.toDofusString(rank))
+							.add(Convert.toDofusString(disgrace))
+							.add(Convert.toDofusString(winDisgrace))
+							.add(writeItem(drop))
+							.add(Convert.toDofusString(kama))
+							.add(Convert.toDofusString(minXp))
+							.add(Convert.toDofusString(xp))
+							.add(Convert.toDofusString(maxXp))
+							.add(Convert.toDofusString(winXp));
 					break;
 			}
 		}
 		stream.write(joiner.toString());
 	}
 
+	@Override
+	public String toString() {
+		return "GameEndPacket [duration=" + duration + ", bonus=" + bonus + ", fightType=" + fightType + ", senderId=" + senderId + ", drop=" + Arrays.toString(drop) + ", code=" + code
+				+ ", characterId=" + characterId + ", name=" + name + ", level=" + level + ", dead=" + dead + ", minXp=" + minXp + ", xp=" + xp + ", maxXp=" + maxXp + ", winXp=" + winXp + ", guildXp="
+				+ guildXp + ", mountXp=" + mountXp + ", kama=" + kama + ", minHonour=" + minHonour + ", honour=" + honour + ", maxHonour=" + maxHonour + ", winHonour=" + winHonour + ", rank=" + rank
+				+ ", disgrace=" + disgrace + ", winDisgrace=" + winDisgrace + "]";
+	}
+
 	private static String writeItem(Item[] items) {
 		StringJoiner sb = new StringJoiner(",");
-		for(Item item : items)
+		for (Item item : items)
 			sb.add(item.getData() + "~" + item.getAmount());
 		return sb.toString();
 	}
@@ -175,7 +192,10 @@ public class GameEndPacket implements Packet {
 		return bonus;
 	}
 
-	public int getFightType() {
+	/**
+	 * @return the fightType
+	 */
+	public FightType getFightType() {
 		return fightType;
 	}
 
@@ -262,4 +282,5 @@ public class GameEndPacket implements Packet {
 	public int getWinDisgrace() {
 		return winDisgrace;
 	}
+
 }

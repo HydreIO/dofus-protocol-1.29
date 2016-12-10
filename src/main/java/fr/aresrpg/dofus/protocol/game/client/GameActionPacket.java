@@ -2,6 +2,7 @@ package fr.aresrpg.dofus.protocol.game.client;
 
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.game.actions.*;
+import fr.aresrpg.dofus.structures.game.DuelResponse;
 import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
@@ -24,15 +25,17 @@ public class GameActionPacket implements Packet {
 	private GameAction parseAction(GameActionEnum action) {
 		switch (action) {
 			case MOVE:
-				return new GameMoveAction();
-			case HARVEST_RESSOURCE:
-				return new GameUseRessourceAction();
-			case DUEL_ASK:
-				return new GameDefiAction(false);
-			case DUEL_CANCEL:
-				return new GameDefiAction(true);
+				return this.action = new GameMoveAction();
+			case INTERACTIVE_OBJECT:
+				return this.action = new GameUseRessourceAction();
+			case ASK_FIGHT:
+				return this.action = new GameDefiAction(DuelResponse.REQUEST);
+			case DECLINE_FIGHT:
+				return this.action = new GameDefiAction(DuelResponse.DECLINED);
+			case ACCEPT_FIGHT:
+				return this.action = new GameDefiAction(DuelResponse.ACCEPTED);
 			default:
-				return new UnknownAction();
+				return this.action = new UnknownAction();
 		}
 	}
 
@@ -65,7 +68,7 @@ public class GameActionPacket implements Packet {
 
 	@Override
 	public String toString() {
-		return "GameActionPacket(id=" + id + ", action=" + action + ")[" + getId() + ']';
+		return "GameActionPacket [id=" + id + ", action=" + action + ", serverAction=" + serverAction + "]";
 	}
 
 	public GameActionPacket setAction(GameAction action) {
