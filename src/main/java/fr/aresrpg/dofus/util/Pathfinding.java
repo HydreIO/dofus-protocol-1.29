@@ -22,24 +22,24 @@ public class Pathfinding {
 				return recreatePath(cameFrom, node);
 			else
 				for (Node n : getNeighbors(node)) {
-				if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
-					continue;
-				if (closedList.contains(n))
-					continue;
-				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-				if (openList.contains(n)) {
-					openList.remove(n);
-				}
-				if (present != null) {
-					if (present.cost < n.cost)
+					if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
 						continue;
-					else
-						openList.remove(present);
+					if (closedList.contains(n))
+						continue;
+					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+					if (openList.contains(n)) {
+						openList.remove(n);
+					}
+					if (present != null) {
+						if (present.cost < n.cost)
+							continue;
+						else
+							openList.remove(present);
+					}
+					openList.add(n);
+					cameFrom.put(n, node);
 				}
-				openList.add(n);
-				cameFrom.put(n, node);
-			}
 		}
 		return null;
 	}
