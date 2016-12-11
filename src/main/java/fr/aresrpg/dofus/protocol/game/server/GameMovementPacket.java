@@ -1,13 +1,17 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.GameMovementAction;
 import fr.aresrpg.dofus.structures.game.GameMovementType;
 import fr.aresrpg.dofus.util.DofusTitle;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 // GM| +240;1;0;2451939;Joe-larecolte;4;40^100;0;0,0,0,2451941;f10000;fb0000;f7cc9b;215c,,,,;0;;;;;0;;|+269;1
 public class GameMovementPacket implements Packet {
@@ -49,7 +53,7 @@ public class GameMovementPacket implements Packet {
 				String loc24 = actionIdData.length == 2 ? actionIdData[1] : ""; // loc24
 				DofusTitle loc25;
 				if (loc24.length() > 0) {
-					String[] loc26 = loc24.split("*");
+					String[] loc26 = loc24.split("\\*");
 					loc25 = new DofusTitle(Integer.parseInt(loc26[0]), loc26[1]);
 				}
 				int loc27 = 100;
