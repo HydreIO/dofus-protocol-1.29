@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.structures;
+package fr.aresrpg.dofus.structures.item;
 
 import fr.aresrpg.dofus.util.Convert;
 

@@ -8,9 +8,9 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
-import fr.aresrpg.dofus.structures.Accessory;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.Alignement;
+import fr.aresrpg.dofus.structures.item.Accessory;
 
 import java.util.Arrays;
 

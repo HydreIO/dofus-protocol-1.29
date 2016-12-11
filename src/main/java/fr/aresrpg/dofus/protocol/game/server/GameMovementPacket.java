@@ -13,9 +13,9 @@ import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
 import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.protocol.game.movement.MovementCreatePlayer.PlayerInFight;
 import fr.aresrpg.dofus.protocol.game.movement.MovementCreatePlayer.PlayerOutsideFight;
-import fr.aresrpg.dofus.structures.Accessory;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.*;
+import fr.aresrpg.dofus.structures.item.Accessory;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.Pair;
 
