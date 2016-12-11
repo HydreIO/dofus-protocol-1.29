@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Pathfinding {
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width) {
+	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean useDiagonale) {
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 		Set<Node> closedList = new HashSet<>();
 		Map<Node, Node> cameFrom = new HashMap<>();
@@ -21,25 +21,25 @@ public class Pathfinding {
 			if (node.x == xTo && node.y == yTo)
 				return recreatePath(cameFrom, node);
 			else
-				for (Node n : getNeighbors(node)) {
-					if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
-						continue;
-					if (closedList.contains(n))
-						continue;
-					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-					if (openList.contains(n)) {
-						openList.remove(n);
-					}
-					if (present != null) {
-						if (present.cost < n.cost)
-							continue;
-						else
-							openList.remove(present);
-					}
-					openList.add(n);
-					cameFrom.put(n, node);
+				for (Node n : (useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node))) {
+				if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
+					continue;
+				if (closedList.contains(n))
+					continue;
+				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+				if (openList.contains(n)) {
+					openList.remove(n);
 				}
+				if (present != null) {
+					if (present.cost < n.cost)
+						continue;
+					else
+						openList.remove(present);
+				}
+				openList.add(n);
+				cameFrom.put(n, node);
+			}
 		}
 		return null;
 	}
@@ -55,7 +55,18 @@ public class Pathfinding {
 					else
 						nodes[i++] = new Node(node.x + x, node.y + y);
 				}
+		return nodes;
+	}
 
+	private static Node[] getNeighborsWithoutDiagonals(Node node) {
+		Node[] nodes = new Node[4];
+		int i = 0;
+		for (int x = -1; x <= 1; x++)
+			for (int y = -1; y <= 1; y++)
+				if (!(x == 0 && y == 0)) {
+					if (x != 0 && y != 0)
+						nodes[i++] = new Node(node.x + x, node.y + y);
+				}
 		return nodes;
 	}
 

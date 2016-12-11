@@ -32,12 +32,20 @@ public class Maps {
 				(int) data.get("backgroundNum"), cells);
 	}
 
-	public static int distance(int cellId1, int cellId2, DofusMap map) {
-		int xto = getLine(cellId1, map.getWidth());
-		int xfrom = getLine(cellId2, map.getWidth());
-		int yto = getColumn(cellId1, map.getWidth());
-		int yfrom = getColumn(cellId2, map.getWidth());
+	public static int distance(int from, int to, DofusMap map) {
+		int xto = getLine(to, map.getWidth());
+		int xfrom = getLine(from, map.getWidth());
+		int yto = getColumn(to, map.getWidth());
+		int yfrom = getColumn(from, map.getWidth());
 		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
+	}
+
+	public static int distanceManathan(int from, int to, DofusMap map) {
+		int xto = getLine(to, map.getWidth());
+		int xfrom = getLine(from, map.getWidth());
+		int yto = getColumn(to, map.getWidth());
+		int yfrom = getColumn(from, map.getWidth());
+		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
 	}
 
 	public static int getLine(int id, int width) {

@@ -167,7 +167,7 @@ public class DofusMapView extends Region {
 				gc.setFill(Color.BROWN);
 				gc.fillOval(xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
 			}
-			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
+			gid.fillText((Maps.getColumn(i, mWidth) + "," + Maps.getLine(i, mWidth)), xp, yp + gc.getFont().getSize() / 4);
 		}
 
 	}
