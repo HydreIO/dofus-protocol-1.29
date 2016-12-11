@@ -59,7 +59,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
-	// ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
+	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
 	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT , 'R' , Bound.SERVER , AccountRestrictionsPacket.class),
 
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
@@ -266,7 +266,7 @@ public enum ProtocolRegistry {
 		HOUSE('h'),
 		ENEMY('i'),
 		HOUSE_CODE('k'),
-		OBJECT('O'),
+		ITEM('O'),
 		GROUP('P'),
 		MOUNT('R'),
 		SPELL('S'),

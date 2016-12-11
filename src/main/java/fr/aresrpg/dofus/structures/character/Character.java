@@ -1,5 +1,7 @@
 package fr.aresrpg.dofus.structures.character;
 
+import fr.aresrpg.dofus.structures.item.Item;
+
 import java.util.Arrays;
 
 public class Character{

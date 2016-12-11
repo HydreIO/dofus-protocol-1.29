@@ -4,7 +4,9 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.character.Character;
-import fr.aresrpg.dofus.structures.character.Item;
+import fr.aresrpg.dofus.structures.item.Item;
+
+import java.util.StringJoiner;
 
 public class AccountSelectCharacterOkPacket implements Packet {
 	private Character character;
@@ -21,12 +23,18 @@ public class AccountSelectCharacterOkPacket implements Packet {
 		int color1 = Integer.parseInt(stream.read(), 16);
 		int color2 = Integer.parseInt(stream.read(), 16);
 		int color3 = Integer.parseInt(stream.read(), 16);
-		String items = stream.read();
-		character = new Character(id , pseudo , level , guild , sex , gfxID , color1 , color2 , color3 , new Item[0]);
+		String[] rawItems = stream.read().split(";");
+		Item[] items = new Item[rawItems.length];
+		for(int i = 0 ; i < rawItems.length ; i++)
+			items[i] = Item.parseItem(rawItems[i]);
+		character = new Character(id , pseudo , level , guild , sex , gfxID , color1 , color2 , color3 , items);
 	}
 
 	@Override
 	public void write(DofusStream stream) {
+		StringJoiner rawItems = new StringJoiner(";");
+		for(Item i : character.getItems())
+			rawItems.add(Item.serializeItem(i));
 		stream.allocate(11).write("") //Set separator
 				.writeInt(character.getId())
 				.write(character.getPseudo())
@@ -37,16 +45,11 @@ public class AccountSelectCharacterOkPacket implements Packet {
 				.write(Integer.toString(character.getColor1(), 16))
 				.write(Integer.toString(character.getColor2(), 16))
 				.write(Integer.toString(character.getColor3(), 16))
-				.write(""); // Items
+				.write(rawItems.toString()); // Items
 	}
 
 	@Override
 	public void handle(PacketHandler handler) {
 		handler.handle(this);
-	}
-
-	@Override
-	public String toString() {
-		return "AccountSelectCharacterOkPacket(character=" + character + ")[" + getId() + ']';
 	}
 }
