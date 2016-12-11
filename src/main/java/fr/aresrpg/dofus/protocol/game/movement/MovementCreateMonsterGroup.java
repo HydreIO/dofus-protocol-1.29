@@ -11,9 +11,9 @@ import java.util.Arrays;
 public class MovementCreateMonsterGroup implements MovementAction {
 
 	private int id;
-	private int entitytype;
+	private int[] entitytype;
 	private int sprite;
-	private int lvl;
+	private int[] lvl;
 	private int scaleX;
 	private int scaleY;
 	private boolean noFlip;
@@ -39,7 +39,8 @@ public class MovementCreateMonsterGroup implements MovementAction {
 	 * @param accessories
 	 * @param bonusValue
 	 */
-	public MovementCreateMonsterGroup(int id, int entitytype, int sprite, int lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2, int color3,
+	public MovementCreateMonsterGroup(int id, int[] entitytype, int sprite, int[] lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2,
+		int color3,
 		int[] accessories,
 		int bonusValue) {
 		this.id = id;
@@ -83,23 +84,15 @@ public class MovementCreateMonsterGroup implements MovementAction {
 	/**
 	 * @return the entitytype
 	 */
-	public int getEntitytype() {
+	public int[] getEntitytype() {
 		return entitytype;
 	}
 
 	/**
 	 * @return the lvl
 	 */
-	public int getLvl() {
+	public int[] getLvl() {
 		return lvl;
-	}
-
-	/**
-	 * @param lvl
-	 *            the lvl to set
-	 */
-	public void setLvl(int lvl) {
-		this.lvl = lvl;
 	}
 
 	/**
@@ -254,9 +247,9 @@ public class MovementCreateMonsterGroup implements MovementAction {
 
 	@Override
 	public String toString() {
-		return "MovementCreateMonsterGroup [id=" + id + ", entitytype=" + entitytype + ", sprite=" + sprite + ", lvl=" + lvl + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip
-				+ ", cellid=" + cellid + ", orientation=" + orientation + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories=" + Arrays.toString(accessories)
-				+ ", bonusValue=" + bonusValue + "]";
+		return "MovementCreateMonsterGroup [id=" + id + ", entitytype=" + Arrays.toString(entitytype) + ", sprite=" + sprite + ", lvl=" + Arrays.toString(lvl) + ", scaleX=" + scaleX + ", scaleY="
+				+ scaleY + ", noFlip=" + noFlip + ", cellid=" + cellid + ", orientation=" + orientation + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
+				+ Arrays.toString(accessories) + ", bonusValue=" + bonusValue + "]";
 	}
 
 }

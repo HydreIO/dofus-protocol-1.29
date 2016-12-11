@@ -31,6 +31,7 @@ public class DofusMapView extends Region {
 	private Canvas idCanvas;
 	private Canvas pathCanvas;
 	private IntConsumer onCellClick;
+	private boolean drawing = false;
 
 	public DofusMapView() {
 		this.cellCanvas = new Canvas();
@@ -95,6 +96,13 @@ public class DofusMapView extends Region {
 		drawCells();
 	}
 
+	public void clearActors() {
+		this.players.clear();
+		this.mobs.clear();
+		this.npcs.clear();
+		drawCells();
+	}
+
 	/**
 	 * @param onCellClick
 	 *            the onCellClick to set
@@ -111,6 +119,8 @@ public class DofusMapView extends Region {
 	}
 
 	protected void drawCells() {
+		if (drawing) return;
+		drawing = true;
 		double width = getWidth();
 		double height = getHeight();
 		DofusMap map = this.map.get();
@@ -188,13 +198,15 @@ public class DofusMapView extends Region {
 				default:
 					break;
 			}
+			final int cl = i;
 			if (i == currentPos) drawOval(gc, Color.BROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
-			else this.players.values().stream().forEach(v -> drawOval(gc, Color.DARKBLUE, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
-			this.mobs.values().stream().forEach(v -> drawOval(gc, Color.FORESTGREEN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
-			this.npcs.values().stream().forEach(v -> drawOval(gc, Color.SADDLEBROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
-			gid.fillText((Maps.getColumn(i, mWidth) + "," + Maps.getLine(i, mWidth)), xp, yp + gc.getFont().getSize() / 4);
+			else this.players.values().stream().filter(po -> po == cl).forEach(v -> drawOval(gc, Color.DARKBLUE, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
+			this.mobs.values().stream().filter(po -> po == cl).forEach(v -> drawOval(gc, Color.FORESTGREEN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			this.npcs.values().stream().filter(po -> po == cl).forEach(v -> drawOval(gc, Color.SADDLEBROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			// gid.fillText((Maps.getColumn(i, mWidth) + "," + Maps.getLine(i, mWidth)), xp, yp + gc.getFont().getSize() / 4);
+			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}
-
+		drawing = false;
 	}
 
 	private void drawOval(GraphicsContext gc, Color c, double x, double y, double w, double h) {
@@ -256,6 +268,7 @@ public class DofusMapView extends Region {
 
 	public void setMap(DofusMap map) {
 		this.map.set(map);
+		clearActors();
 		draw();
 	}
 

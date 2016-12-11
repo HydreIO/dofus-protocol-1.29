@@ -16,6 +16,10 @@ public class Convert {
 		return toInt(value, 0, 10);
 	}
 
+	public static int toHexInt(String value) {
+		return toInt(value, 0, 16);
+	}
+
 	public static String fromHexInt(int val) {
 		return val == 0 ? "" : Integer.toHexString(val);
 	}
