@@ -6,6 +6,8 @@ import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
+import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -19,6 +21,10 @@ import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
 import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
+import fr.aresrpg.dofus.protocol.waypoint.WaypointLeavePacket;
+import fr.aresrpg.dofus.protocol.waypoint.client.WaypointUsePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.WaypointCreatePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.WaypointUseErrorPacket;
 
 public interface PacketHandler {
 
@@ -163,4 +169,16 @@ public interface PacketHandler {
 	void handle(GameActionFinishPacket gameActionFinishPacket);
 
 	void handle(GameEffectPacket gameEffectPacket);
+
+	void handle(WaypointLeavePacket waypointLeavePacket);
+
+	void handle(WaypointUseErrorPacket waypointUseErrorPacket);
+
+	void handle(WaypointCreatePacket waypointCreatePacket);
+
+	void handle(ChatUseSmileyPacket chatUseSmileyPacket);
+
+	void handle(WaypointUsePacket waypointUsePacket);
+
+	void handle(EmoteUsePacket emoteUsePacket);
 }
