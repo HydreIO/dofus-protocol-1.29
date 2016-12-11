@@ -6,6 +6,8 @@ import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
+import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -19,6 +21,10 @@ import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
 import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
+import fr.aresrpg.dofus.protocol.waypoint.WaypointLeavePacket;
+import fr.aresrpg.dofus.protocol.waypoint.client.WaypointUsePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.WaypointCreatePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.WaypointUseErrorPacket;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,8 +32,8 @@ import java.util.Map;
 
 public enum ProtocolRegistry {
 
-	GAME_HELLO_GAME(Layer.HELLO, 'G', Bound.SERVER, HelloGamePacket.class),
-	GAME_HELLO_CONNECTION(Layer.HELLO, 'C', Bound.SERVER, HelloConnectionPacket.class),
+	HELLO_GAME(Layer.HELLO, 'G', Bound.SERVER, HelloGamePacket.class),
+	HELLO_CONNECTION(Layer.HELLO, 'C', Bound.SERVER, HelloConnectionPacket.class),
 
 	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT, 'f', true, Bound.CLIENT, AccountAuthPacket.class),
 	ACCOUNT_GET_QUEUE_POSITION(Layer.ACCOUNT, 'f', Bound.CLIENT, AccountGetQueuePosition.class),
@@ -103,13 +109,21 @@ public enum ProtocolRegistry {
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
+	CHAT_USE_SMILEY(Layer.BASIC , 'S' , Bound.CLIENT , ChatUseSmileyPacket.class), //Fuck you dofus Basic for chat
 
 	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class),
 
 	SPELL_LIST(Layer.SPELL , 'L' , Bound.SERVER , SpellListPacket.class),
 	SPELL_CHANGE_OPTION(Layer.SPELL , 'L' , 'o' , Bound.SERVER , SpellChangeOptionPacket.class),
 
-	SUBAREA_LIST(Layer.SUBAREA , 'l' , Bound.SERVER , SubareaListPacket.class);
+	SUBAREA_LIST(Layer.SUBAREA , 'l' , Bound.SERVER , SubareaListPacket.class),
+
+	EMOTE_USE(Layer.EMOTE , 'U' , Bound.CLIENT , EmoteUsePacket.class),
+
+	WAYPOINT_CREATE(Layer.WAYPOINT , 'C' , Bound.SERVER , WaypointCreatePacket.class),
+	WAYPOINT_USE(Layer.WAYPOINT , 'U' , Bound.CLIENT , WaypointUsePacket.class),
+	WAYPOINT_LEAVE(Layer.WAYPOINT , 'V' , Bound.BOTH , WaypointLeavePacket.class),
+	WAYPOINT_USE_ERROR(Layer.WAYPOINT , 'U' , Bound.SERVER , WaypointUseErrorPacket.class),;
 
 	public static class State {
 		private State() {
@@ -244,7 +258,7 @@ public enum ProtocolRegistry {
 		CHAT('c'),
 		DIALOG('D'),
 		EXCHANGE('E'),
-		ENVIRONMENT('e'),
+		EMOTE('e'),
 		FRIEND('F'),
 		FIGHT('f'),
 		GAME('G'),
