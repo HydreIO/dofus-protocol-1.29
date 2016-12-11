@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * BotFather (C) - Dofus 1.29
+ * This class is part of an AresRPG Project.
+ *
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
+ * 
+ *         Created 2016
+ *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.*;
@@ -78,20 +86,23 @@ public class GameMovementPacket implements Packet {
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
-						actors.put(action, new MovementCreateInvocation(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
+						actors.put(action, new MovementCreateInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
+								Integer.parseInt(data[8]),
 								Integer.parseInt(data[9]),
 								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Convert::toInt).toArray()));
 						break;
 					case CREATE_MONSTER:
 						actors.put(action,
-								new MovementCreateMonster(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
+								new MovementCreateMonster(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
+										Integer.parseInt(data[9]),
 										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Convert::toInt).toArray()));
 						break;
 					case CREATE_MONSTER_GROUP:
 						String[] loc35 = data[8].split(",");
-						actors.put(action, new MovementCreateMonsterGroup(action.getId(), Integer.parseInt(data[7]), loc27, loc28, loc18, cellid, direction, Integer.parseInt(loc35[0]),
-								Integer.parseInt(loc35[1]),
-								Integer.parseInt(loc35[2]), Arrays.stream(data[9].split(",")).mapToInt(Convert::toInt).toArray(), bonusvalue));
+						actors.put(action,
+								new MovementCreateMonsterGroup(id, Convert.toInt(pseudo), action.getId(), Integer.parseInt(data[7]), loc27, loc28, loc18, cellid, direction, Integer.parseInt(loc35[0]),
+										Integer.parseInt(loc35[1]),
+										Integer.parseInt(loc35[2]), Arrays.stream(data[9].split(",")).mapToInt(Convert::toInt).toArray(), bonusvalue));
 						break;
 					case CREATE_MUTANT_WITH_NAME:
 						break;

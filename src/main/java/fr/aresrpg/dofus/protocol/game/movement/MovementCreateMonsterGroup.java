@@ -10,6 +10,8 @@ import java.util.Arrays;
  */
 public class MovementCreateMonsterGroup implements MovementAction {
 
+	private int id;
+	private int entitytype;
 	private int sprite;
 	private int lvl;
 	private int scaleX;
@@ -37,9 +39,11 @@ public class MovementCreateMonsterGroup implements MovementAction {
 	 * @param accessories
 	 * @param bonusValue
 	 */
-	public MovementCreateMonsterGroup(int sprite, int lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2, int color3, int[] accessories,
+	public MovementCreateMonsterGroup(int id, int entitytype, int sprite, int lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2, int color3,
+		int[] accessories,
 		int bonusValue) {
-		super();
+		this.id = id;
+		this.entitytype = entitytype;
 		this.sprite = sprite;
 		this.lvl = lvl;
 		this.scaleX = scaleX;
@@ -67,6 +71,20 @@ public class MovementCreateMonsterGroup implements MovementAction {
 	 */
 	public void setSprite(int sprite) {
 		this.sprite = sprite;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the entitytype
+	 */
+	public int getEntitytype() {
+		return entitytype;
 	}
 
 	/**
@@ -236,8 +254,9 @@ public class MovementCreateMonsterGroup implements MovementAction {
 
 	@Override
 	public String toString() {
-		return "GameMovementMonsterGroup [sprite=" + sprite + ", lvl=" + lvl + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip + ", cellid=" + cellid + ", orientation="
-				+ orientation + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories=" + Arrays.toString(accessories) + ", bonusValue=" + bonusValue + "]";
+		return "MovementCreateMonsterGroup [id=" + id + ", entitytype=" + entitytype + ", sprite=" + sprite + ", lvl=" + lvl + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip
+				+ ", cellid=" + cellid + ", orientation=" + orientation + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories=" + Arrays.toString(accessories)
+				+ ", bonusValue=" + bonusValue + "]";
 	}
 
 }

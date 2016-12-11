@@ -10,6 +10,8 @@ import java.util.Arrays;
  */
 public class MovementCreateInvocation implements MovementAction {
 
+	private int id;
+	private int entityType;
 	private int spriteType;
 	private int gfxId;
 	private int scaleX;
@@ -37,9 +39,11 @@ public class MovementCreateInvocation implements MovementAction {
 	 * @param color3
 	 * @param accessories
 	 */
-	public MovementCreateInvocation(int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2, int color3,
+	public MovementCreateInvocation(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1,
+		int color2, int color3,
 		int[] accessories) {
-		super();
+		this.id = id;
+		this.entityType = entitytype;
 		this.spriteType = spriteType;
 		this.gfxId = gfxId;
 		this.scaleX = scaleX;
@@ -74,6 +78,20 @@ public class MovementCreateInvocation implements MovementAction {
 	 */
 	public int getGfxId() {
 		return gfxId;
+	}
+
+	/**
+	 * @return the entityType
+	 */
+	public int getEntityType() {
+		return entityType;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
 	}
 
 	/**
@@ -236,8 +254,9 @@ public class MovementCreateInvocation implements MovementAction {
 
 	@Override
 	public String toString() {
-		return "MovementCreateInvocation [spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip + ", cellId=" + cellId + ", orientation="
-				+ orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories=" + Arrays.toString(accessories) + "]";
+		return "MovementCreateInvocation [id=" + id + ", entityType=" + entityType + ", spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip="
+				+ noFlip + ", cellId=" + cellId + ", orientation=" + orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
+				+ Arrays.toString(accessories) + "]";
 	}
 
 }

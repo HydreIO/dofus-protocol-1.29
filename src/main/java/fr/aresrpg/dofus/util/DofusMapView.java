@@ -4,7 +4,7 @@ import fr.aresrpg.dofus.structures.map.Cell;
 import fr.aresrpg.dofus.structures.map.DofusMap;
 
 import java.awt.Point;
-import java.util.List;
+import java.util.*;
 import java.util.function.IntConsumer;
 
 import javafx.beans.property.*;
@@ -24,6 +24,9 @@ public class DofusMapView extends Region {
 	private BooleanProperty cellId;
 	private ObjectProperty<List<Point>> path;
 	private IntegerProperty currentPosition;
+	private Map<Integer, Integer> mobs = new HashMap<>();
+	private Map<Integer, Integer> players = new HashMap<>();
+	private Map<Integer, Integer> npcs = new HashMap<>();
 	private Canvas cellCanvas;
 	private Canvas idCanvas;
 	private Canvas pathCanvas;
@@ -68,6 +71,28 @@ public class DofusMapView extends Region {
 					onCellClick.accept(id);
 			}
 		});
+	}
+
+	public void addPlayer(int id, int cellid) {
+		this.players.put(id, cellid);
+		drawCells();
+	}
+
+	public void addMob(int id, int cellid) {
+		this.mobs.put(id, cellid);
+		drawCells();
+	}
+
+	public void addNpc(int id, int cellid) {
+		this.npcs.put(id, cellid);
+		drawCells();
+	}
+
+	public void removeActor(int id) {
+		this.players.remove(id);
+		this.mobs.remove(id);
+		this.npcs.remove(id);
+		drawCells();
 	}
 
 	/**
@@ -134,7 +159,7 @@ public class DofusMapView extends Region {
 					gc.setFill(Color.CHARTREUSE);
 					break;
 				case 6:
-					gc.setFill(Color.SADDLEBROWN);
+					gc.setFill(Color.SANDYBROWN);
 					break;
 				case 7:
 					gc.setFill(Color.AQUA);
@@ -163,13 +188,18 @@ public class DofusMapView extends Region {
 				default:
 					break;
 			}
-			if (i == currentPos) {
-				gc.setFill(Color.BROWN);
-				gc.fillOval(xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
-			}
+			if (i == currentPos) drawOval(gc, Color.BROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
+			else this.players.values().stream().forEach(v -> drawOval(gc, Color.DARKBLUE, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
+			this.mobs.values().stream().forEach(v -> drawOval(gc, Color.FORESTGREEN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			this.npcs.values().stream().forEach(v -> drawOval(gc, Color.SADDLEBROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
 			gid.fillText((Maps.getColumn(i, mWidth) + "," + Maps.getLine(i, mWidth)), xp, yp + gc.getFont().getSize() / 4);
 		}
 
+	}
+
+	private void drawOval(GraphicsContext gc, Color c, double x, double y, double w, double h) {
+		gc.setFill(c);
+		gc.fillOval(x, y, w, h);
 	}
 
 	protected void drawPath() {
