@@ -4,8 +4,6 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 /**
  * 
  * @since
@@ -21,14 +19,14 @@ public class GameOnReadyPacket implements Packet {
 	}
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String val = stream.read();
 		this.ready = val.charAt(0) == '1';
 		this.playerid = val.substring(1);
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).write((ready ? "1" : "0") + playerid);
 	}
 

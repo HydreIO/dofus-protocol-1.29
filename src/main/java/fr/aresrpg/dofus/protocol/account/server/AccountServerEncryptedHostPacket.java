@@ -5,15 +5,13 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.util.Crypt;
 
-import java.io.IOException;
-
 public class AccountServerEncryptedHostPacket implements Packet {
 	private String ip;
 	private int port;
 	private String ticketKey;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String data = stream.read();
 		this.ip = Crypt.decryptIp(data.substring(0, 8));
 		this.port = Crypt.decryptPort(data.substring(8, 11));
@@ -21,7 +19,7 @@ public class AccountServerEncryptedHostPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).write(ip + ticketKey);
 	}
 

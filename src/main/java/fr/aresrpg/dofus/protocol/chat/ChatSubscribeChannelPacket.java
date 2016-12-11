@@ -5,7 +5,6 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.Chat;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class ChatSubscribeChannelPacket implements Packet {
@@ -13,7 +12,7 @@ public class ChatSubscribeChannelPacket implements Packet {
 	private Chat[] channels;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		String data = stream.read();
 		add = data.charAt(0) == '+';
 		channels = new Chat[data.length() -1];
@@ -23,7 +22,7 @@ public class ChatSubscribeChannelPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		StringBuilder builder = new StringBuilder().append(add ? '+' : '-');
 		for(Chat channel : channels)
 			builder.append(channel.getCode());

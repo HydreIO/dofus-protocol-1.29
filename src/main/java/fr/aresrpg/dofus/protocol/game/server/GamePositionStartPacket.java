@@ -5,7 +5,6 @@ import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.util.Crypt;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -24,7 +23,7 @@ public class GamePositionStartPacket implements Packet {
 	}
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		this.placesTeam0 = readTeam(stream.read());
 		this.placesTeam1 = readTeam(stream.read());
 		this.currentTeam = stream.readInt();
@@ -39,7 +38,7 @@ public class GamePositionStartPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(3).write(writeTeam(placesTeam0))
 				.write(writeTeam(placesTeam1))
 				.writeInt(currentTeam);

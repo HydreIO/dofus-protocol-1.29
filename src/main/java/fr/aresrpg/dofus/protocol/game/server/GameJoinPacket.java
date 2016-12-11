@@ -1,9 +1,9 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.game.FightType;
-
-import java.io.IOException;
 
 /**
  * 
@@ -19,7 +19,7 @@ public class GameJoinPacket implements Packet {
 	private boolean isDuel;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		this.state = stream.readInt();
 		this.cancelButton = stream.readInt() != 0;
 		this.isDuel = stream.readInt() != 0;
@@ -35,7 +35,7 @@ public class GameJoinPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(6).writeInt(getState()).writeInt(isCancelButton() ? 1 : 0).writeInt(isDuel() ? 1 : 0).writeInt(isSpectator() ? 1 : 0).writeInt(getStartTimer())
 				.writeInt(getFightType().getId());
 	}

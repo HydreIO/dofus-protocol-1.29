@@ -4,8 +4,6 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 /**
  * 
  * @since
@@ -15,19 +13,20 @@ public class GameSetPlayerPositionPacket implements Packet {
 	private int cellNum;
 
 	@Override
-	public String toString() {
-		return "GameSetPlayerPositionPacket(cellNum:" + cellNum + ")[" + getId() + "]";
-	}
-
-	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		this.cellNum = stream.readInt();
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(1).writeInt(cellNum);
 	}
+
+	@Override
+	public void handle(PacketHandler handler) {
+		handler.handle(this);
+	}
+
 
 	/**
 	 * @return the cellNum
@@ -45,8 +44,7 @@ public class GameSetPlayerPositionPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
-		handler.handle(this);
+	public String toString() {
+		return "GameSetPlayerPositionPacket(cellNum:" + cellNum + ")[" + getId() + "]";
 	}
-
 }

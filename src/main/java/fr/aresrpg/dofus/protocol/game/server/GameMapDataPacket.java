@@ -4,15 +4,13 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-import java.io.IOException;
-
 public class GameMapDataPacket implements Packet {
 	private int mapId;
 	private String subid;
 	private String decryptKey;
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		stream.read(); //Skip separator
 		mapId = stream.readInt();
 		subid = stream.read();
@@ -20,7 +18,7 @@ public class GameMapDataPacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(4).write("") //Force separator
 				.writeInt(mapId).write(subid).write(decryptKey);
 	}

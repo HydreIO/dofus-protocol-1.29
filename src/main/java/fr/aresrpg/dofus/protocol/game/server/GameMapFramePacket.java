@@ -1,11 +1,12 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.Packet;
+import fr.aresrpg.dofus.protocol.PacketHandler;
 import fr.aresrpg.dofus.structures.map.Frame;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class GameMapFramePacket implements Packet {
 	}
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		stream.read(); // Skip separator
 		frames = new HashMap<>(stream.available());
 		while (stream.available() > 0) {
@@ -33,7 +34,7 @@ public class GameMapFramePacket implements Packet {
 	}
 
 	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 		stream.allocate(frames.size() + 1).write(""); // Separator
 		frames.forEach((k, v) -> stream.write(k.intValue() + ";" + v.getId() + ";" + (v.isInteractive() == null ? "" : v.isInteractive().booleanValue() ? "1" : "0")));
 	}
