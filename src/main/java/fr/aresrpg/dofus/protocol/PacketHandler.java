@@ -161,4 +161,6 @@ public interface PacketHandler {
 	void handle(GameTurnReadyPacket gameTurnReadyPacket);
 
 	void handle(GameActionFinishPacket gameActionFinishPacket);
+
+	void handle(GameEffectPacket gameEffectPacket);
 }
