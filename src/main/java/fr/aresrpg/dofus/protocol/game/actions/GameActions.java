@@ -1,10 +1,13 @@
 package fr.aresrpg.dofus.protocol.game.actions;
 
+import fr.aresrpg.dofus.protocol.game.actions.client.GameLaunchSpellAction;
+
 import static fr.aresrpg.dofus.protocol.ProtocolRegistry.Bound;
 
 public enum GameActions {
 	ERROR(0 , GameErrorAction.class , Bound.SERVER),
-	MOVE(1 , GameMoveAction.class , Bound.BOTH);
+	MOVE(1 , GameMoveAction.class , Bound.BOTH),
+	LAUNCH_SPELL(300 , GameLaunchSpellAction.class , Bound.CLIENT);
 
 	private final int id;
 	private final Class<? extends GameAction> action;
