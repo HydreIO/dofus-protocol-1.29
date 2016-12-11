@@ -88,6 +88,7 @@ public enum ProtocolRegistry {
 	GAME_TURN_START(Layer.GAME , 'T' , 'S' , Bound.SERVER , GameTurnStartPacket.class),
 	GAME_TURN_FINISH(Layer.GAME , 'T', 'F' , Bound.SERVER , GameTurnFinishPacket.class),
 	GAME_TURN_READY(Layer.GAME , 'T' , 'R' , Bound.SERVER , GameTurnReadyPacket.class),
+	GAME_EFFECT(Layer.GAME, 'I' , 'E' , Bound.SERVER , GameEffectPacket.class),
 
 	//Game Action
 	GAME_CLIENT_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameClientActionPacket.class),
