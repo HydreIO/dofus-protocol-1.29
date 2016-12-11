@@ -8,6 +8,7 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
+import fr.aresrpg.dofus.protocol.exchange.server.ExchangeListPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -119,6 +120,8 @@ public enum ProtocolRegistry {
 	SUBAREA_LIST(Layer.SUBAREA , 'l' , Bound.SERVER , SubareaListPacket.class),
 
 	EMOTE_USE(Layer.EMOTE , 'U' , Bound.CLIENT , EmoteUsePacket.class),
+
+	EXCHANGE_LIST(Layer.EXCHANGE , 'L' , Bound.SERVER , ExchangeListPacket.class),
 
 	WAYPOINT_CREATE(Layer.WAYPOINT , 'C' , Bound.SERVER , WaypointCreatePacket.class),
 	WAYPOINT_USE(Layer.WAYPOINT , 'U' , Bound.CLIENT , WaypointUsePacket.class),

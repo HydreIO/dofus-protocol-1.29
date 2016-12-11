@@ -11,16 +11,22 @@ public class Item {
 	private int quantity;
 	private int position;
 	private Effect[] effects;
-	/*private int price;
+	private int price;
 	private int skin;
-	private int mood;*/
+	//private int mood;
 
-	public Item(int id, int uniqueId, int quantity, int position, Effect[] effects) {
+	public Item(int id, int uniqueId, int quantity, int position, Effect[] effects, int price, int skin) {
 		this.id = id;
 		this.uniqueId = uniqueId;
 		this.quantity = quantity;
 		this.position = position;
 		this.effects = effects;
+		this.price = price;
+		this.skin = skin;
+	}
+
+	public Item(int id, int uniqueId, int quantity, int position, Effect[] effects) {
+		this(id , uniqueId , quantity , position , effects , -1 , -1);
 	}
 
 	public int getId() {
@@ -43,6 +49,14 @@ public class Item {
 		return effects;
 	}
 
+	public int getSkin() {
+		return skin;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
 	@Override
 	public String toString() {
 		return "Item{" +
@@ -55,32 +69,33 @@ public class Item {
 	}
 
 	public static Item parseItem(String d){
-		String[] data = d.split(";");
-		String[] rawEffects = data[4].split(",");
-		Effect[] effects = new Effect[rawEffects.length];
-		for(int i = 0 ; i < rawEffects.length ; i++)
-			effects[i] = parseEffect(rawEffects[i]);
+		String[] data = d.split("~");
 		return new Item(
 				Integer.parseInt(data[0] , 16),
 				Integer.parseInt(data[1] , 16),
 				Integer.parseInt(data[2] , 16),
 				data[3].isEmpty() ? -1 : Integer.parseInt(data[3] , 16),
-				effects
+				parseEffects(data[4])
 		);
 	}
 
 	public static String serializeItem(Item i){
-		StringJoiner rawEffects = new StringJoiner(",");
-		for(Effect e : i.getEffects())
-			rawEffects.add(serializeEffect(e));
-		return Integer.toHexString(i.getId()) + ";" +
-				Integer.toHexString(i.getUniqueId()) + ";" +
-				Integer.toHexString(i.getQuantity()) + ";" +
-				(i.getPosition() == -1 ? "" : Integer.toHexString(i.getPosition())) + ";" +
-				rawEffects;
+		return Integer.toHexString(i.getId()) + "~" +
+				Integer.toHexString(i.getUniqueId()) + "~" +
+				Integer.toHexString(i.getQuantity()) + "~" +
+				(i.getPosition() == -1 ? "" : Integer.toHexString(i.getPosition())) + "~" +
+				serializeEffects(i.getEffects());
 	}
 
-	private static Effect parseEffect(String d){
+	public static Effect[] parseEffects(String d) {
+		String[] rawEffects = d.split(",");
+		Effect[] effects = new Effect[rawEffects.length];
+		for(int i = 0 ; i < rawEffects.length ; i++)
+			effects[i] = parseEffect(rawEffects[i]);
+		return effects;
+	}
+
+	public static Effect parseEffect(String d){
 		String[] data = d.split("#");
 		return new Effect(
 				Integer.parseInt(data[0]),
@@ -93,7 +108,14 @@ public class Item {
 		);
 	}
 
-	private static String serializeEffect(Effect e){
+	public static String serializeEffects(Effect[] effects){
+		StringJoiner rawEffects = new StringJoiner(",");
+		for(Effect e : effects)
+			rawEffects.add(serializeEffect(e));
+		return rawEffects.toString();
+	}
+
+	public static String serializeEffect(Effect e){
 		return e.getType() + "#" +
 				e.getParam1() + "#" +
 				e.getParam2() + "#" +
