@@ -113,6 +113,36 @@ public class GameMovementPacket implements Packet {
 		}
 	}
 
+	/**
+	 * @return the type
+	 */
+	public GameMovementType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(GameMovementType type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the actors
+	 */
+	public Map<GameMovementAction, MovementAction> getActors() {
+		return actors;
+	}
+
+	/**
+	 * @param actors
+	 *            the actors to set
+	 */
+	public void setActors(Map<GameMovementAction, MovementAction> actors) {
+		this.actors = actors;
+	}
+
 	@Override
 	public void write(DofusStream stream) {
 
@@ -125,6 +155,7 @@ public class GameMovementPacket implements Packet {
 
 	@Override
 	public String toString() {
-		return "GameMovementPacket [actors=" + actors + "]";
+		return "GameMovementPacket [type=" + type + ", actors=" + actors + "]";
 	}
+
 }
