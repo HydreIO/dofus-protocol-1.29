@@ -8,6 +8,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.game;
 
+import fr.aresrpg.dofus.protocol.game.movement.MovementRemoveActor;
 import fr.aresrpg.dofus.structures.PathDirection;
 
 /**
@@ -50,8 +51,8 @@ public class GameMovementActor {
 		this.orientation = orientation;
 	}
 
-	public static GameMovementActor withRemove(int playerId) {
-		return new GameMovementActor(playerId, GameMovementType.REMOVE, 0, null);
+	public static GameMovementActor withRemoveMovement(MovementRemoveActor movement) {
+		return new GameMovementActor(movement.getId(), GameMovementType.REMOVE, 0, null);
 	}
 
 	/**

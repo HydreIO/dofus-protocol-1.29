@@ -8,80 +8,80 @@ import java.util.Arrays;
  * 
  * @since
  */
-public class MovementCreateInvocation implements MovementAction {
+public class MovementCreateMonsterGroup implements MovementAction {
 
-	private int spriteType;
-	private int gfxId;
+	private int sprite;
+	private int lvl;
 	private int scaleX;
 	private int scaleY;
 	private boolean noFlip;
-	private int cellId;
+	private int cellid;
 	private PathDirection orientation;
-	private int powerLvl;
 	private int color1;
 	private int color2;
 	private int color3;
 	private int[] accessories;
+	private int bonusValue;
 
 	/**
-	 * @param spriteType
-	 * @param gfxId
+	 * @param sprite
+	 * @param lvl
 	 * @param scaleX
 	 * @param scaleY
 	 * @param noFlip
-	 * @param cellId
+	 * @param cellid
 	 * @param orientation
-	 * @param powerLvl
 	 * @param color1
 	 * @param color2
 	 * @param color3
 	 * @param accessories
+	 * @param bonusValue
 	 */
-	public MovementCreateInvocation(int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2, int color3,
-		int[] accessories) {
+	public MovementCreateMonsterGroup(int sprite, int lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2, int color3, int[] accessories,
+		int bonusValue) {
 		super();
-		this.spriteType = spriteType;
-		this.gfxId = gfxId;
+		this.sprite = sprite;
+		this.lvl = lvl;
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 		this.noFlip = noFlip;
-		this.cellId = cellId;
+		this.cellid = cellid;
 		this.orientation = orientation;
-		this.powerLvl = powerLvl;
 		this.color1 = color1;
 		this.color2 = color2;
 		this.color3 = color3;
 		this.accessories = accessories;
+		this.bonusValue = bonusValue;
 	}
 
 	/**
-	 * @return the spriteType
+	 * @return the sprite
 	 */
-	public int getSpriteType() {
-		return spriteType;
+	public int getSprite() {
+		return sprite;
 	}
 
 	/**
-	 * @param spriteType
-	 *            the spriteType to set
+	 * @param sprite
+	 *            the sprite to set
 	 */
-	public void setSpriteType(int spriteType) {
-		this.spriteType = spriteType;
+	public void setSprite(int sprite) {
+		this.sprite = sprite;
 	}
 
 	/**
-	 * @return the gfxId
+	 * @return the lvl
 	 */
-	public int getGfxId() {
-		return gfxId;
+	public int getLvl() {
+		return lvl;
 	}
 
 	/**
-	 * @param gfxId
-	 *            the gfxId to set
+	 * @param lvl
+	 *            the lvl to set
 	 */
-	public void setGfxId(int gfxId) {
-		this.gfxId = gfxId;
+	public void setLvl(int lvl) {
+		this.lvl = lvl;
 	}
 
 	/**
@@ -130,18 +130,18 @@ public class MovementCreateInvocation implements MovementAction {
 	}
 
 	/**
-	 * @return the cellId
+	 * @return the cellid
 	 */
-	public int getCellId() {
-		return cellId;
+	public int getCellid() {
+		return cellid;
 	}
 
 	/**
-	 * @param cellId
-	 *            the cellId to set
+	 * @param cellid
+	 *            the cellid to set
 	 */
-	public void setCellId(int cellId) {
-		this.cellId = cellId;
+	public void setCellid(int cellid) {
+		this.cellid = cellid;
 	}
 
 	/**
@@ -157,21 +157,6 @@ public class MovementCreateInvocation implements MovementAction {
 	 */
 	public void setOrientation(PathDirection orientation) {
 		this.orientation = orientation;
-	}
-
-	/**
-	 * @return the powerLvl
-	 */
-	public int getPowerLvl() {
-		return powerLvl;
-	}
-
-	/**
-	 * @param powerLvl
-	 *            the powerLvl to set
-	 */
-	public void setPowerLvl(int powerLvl) {
-		this.powerLvl = powerLvl;
 	}
 
 	/**
@@ -234,10 +219,25 @@ public class MovementCreateInvocation implements MovementAction {
 		this.accessories = accessories;
 	}
 
+	/**
+	 * @return the bonusValue
+	 */
+	public int getBonusValue() {
+		return bonusValue;
+	}
+
+	/**
+	 * @param bonusValue
+	 *            the bonusValue to set
+	 */
+	public void setBonusValue(int bonusValue) {
+		this.bonusValue = bonusValue;
+	}
+
 	@Override
 	public String toString() {
-		return "MovementCreateInvocation [spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip + ", cellId=" + cellId + ", orientation="
-				+ orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories=" + Arrays.toString(accessories) + "]";
+		return "GameMovementMonsterGroup [sprite=" + sprite + ", lvl=" + lvl + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip + ", cellid=" + cellid + ", orientation="
+				+ orientation + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories=" + Arrays.toString(accessories) + ", bonusValue=" + bonusValue + "]";
 	}
 
 }

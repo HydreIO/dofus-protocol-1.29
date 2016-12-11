@@ -1,18 +1,18 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.protocol.game.movement.MovementCreateInvocation;
+import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.structures.PathDirection;
-import fr.aresrpg.dofus.structures.game.*;
+import fr.aresrpg.dofus.structures.game.GameMovementAction;
+import fr.aresrpg.dofus.structures.game.GameMovementType;
 import fr.aresrpg.dofus.util.DofusTitle;
-import fr.aresrpg.dofus.util.StringUtils;
 
 import java.io.IOException;
 import java.util.*;
 
 // GM| +240;1;0;2451939;Joe-larecolte;4;40^100;0;0,0,0,2451941;f10000;fb0000;f7cc9b;215c,,,,;0;;;;;0;;|+269;1
 public class GameMovementPacket implements Packet {
-	private Set<GameMovementActor> actors = new HashSet<>();
+	private Set<MovementAction> actors = new HashSet<>();
 
 	@Override
 	public void read(DofusStream stream) throws IOException {
@@ -44,7 +44,7 @@ public class GameMovementPacket implements Packet {
 					gfx = gfx.substring(1);
 				}
 				String[] gfx1 = gfx.split("^"); // loc20
-				String gfx2 = gfx1.length == 2 ? gfx1[0] : gfx; // loc21
+				int gfx2 = Integer.parseInt(gfx1.length == 2 ? gfx1[0] : gfx); // loc21
 				GameMovementAction action = GameMovementAction.fromId(Integer.parseInt(actionIdData[0])); // loc23
 				String loc24 = actionIdData.length == 2 ? actionIdData[1] : ""; // loc24
 				DofusTitle loc25;
@@ -72,74 +72,50 @@ public class GameMovementPacket implements Packet {
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
-						new MovementCreateInvocation(action.getId(), id, id, id, false, cellid, direction, id, cellid, bonusvalue, id, null);
+						actors.add(new MovementCreateInvocation(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
+								Integer.parseInt(data[9]),
+								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Integer::parseInt).toArray()));
 						break;
 					case CREATE_MONSTER:
+						actors.add(
+								new MovementCreateMonster(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
+										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Integer::parseInt).toArray()));
+						break;
+					case CREATE_MONSTER_GROUP:
+						String[] loc35 = data[8].split(",");
+						new MovementCreateMonsterGroup(action.getId(), Integer.parseInt(data[7]), loc27, loc28, loc18, cellid, direction, Integer.parseInt(loc35[0]), Integer.parseInt(loc35[1]),
+								Integer.parseInt(loc35[2]), Arrays.stream(data[9].split(",")).mapToInt(Integer::parseInt).toArray(), bonusvalue);
+						break;
+					case CREATE_MUTANT_WITH_NAME:
+						break;
+					case CREATE_MUTANT_WITHOUT_NAME:
+						break;
+					case CREATE_NPC:
+						// TODO
+						break;
+					case CREATE_OFFLINE_PLAYER:
+						break;
+					case CREATE_PARK_MOUNT:
+						break;
+					case CREATE_PERCO:
+						break;
+					case CREATE_PRISM:
 						break;
 					default:
+						// TODO
 						break;
 				}
 				break;
 			case REMOVE:
-				actors.add(GameMovementActor.withRemove(Integer.parseInt(datas)));
+				actors.add(new MovementRemoveActor(Integer.parseInt(datas)));
 				break;
 			default:
 				return;
 		}
 	}
 
-	public void reazd(DofusStream stream) throws IOException {
-		cell = new ArrayList<>();
-		name = new ArrayList<>();
-		stream.read(); // Split separator
-		while (stream.available() > 0) {
-			String s = stream.read();
-			boolean item = false;
-			switch (s.charAt(0)) {
-				case '~':
-					item = true;
-				case '+':
-					break;
-				case '-':
-					continue;
-			}
-			String[] data = StringUtils.split(s.substring(1), ";");
-			this.cell.add(Integer.parseInt(data[0]));
-			int dir = Integer.parseInt(data[1]);
-			int bonusValue = Integer.parseInt(data[2]);
-			int entityId = Integer.parseInt(data[3]);
-			this.name.add(data[4]);
-			// System.out.println("BYTEEEEEEEEEEEEEEEEEEEEE [" + Arrays.toString(data[4].getBytes()) + "]");
-			String[] actionIdData = data[5].split(","); // if length == 2 id + title
-			int actionId = Integer.parseInt(actionIdData[0]);
-			boolean noFlip = false;
-			boolean ghostMode = true;
-			String gfx = data[6];
-			if (gfx.charAt(gfx.length() - 1) == '*') {
-				gfx = gfx.substring(0, gfx.length() - 1);
-				noFlip = true;
-			}
-			if (gfx.charAt(0) == '*') {
-				gfx = gfx.substring(1);
-				ghostMode = false;
-			}
-			String[] gfxData = gfx.split("\\^");
-			int gfxId = Integer.parseInt(gfxData[0]);
-			/*
-			 * switch (actionId) {
-			 * case 1:
-			 * }
-			 */
-		}
-	}
-
 	@Override
-	public String toString() {
-		return "GameMovementPacket [cell=" + cell + ", name=" + name + "]";
-	}
-
-	@Override
-	public void write(DofusStream stream) throws IOException {
+	public void write(DofusStream stream) {
 
 	}
 
@@ -148,11 +124,8 @@ public class GameMovementPacket implements Packet {
 		handler.handle(this);
 	}
 
-	public List<Integer> getCell() {
-		return cell;
-	}
-
-	public List<String> getName() {
-		return name;
+	@Override
+	public String toString() {
+		return "GameMovementPacket [actors=" + actors + "]";
 	}
 }

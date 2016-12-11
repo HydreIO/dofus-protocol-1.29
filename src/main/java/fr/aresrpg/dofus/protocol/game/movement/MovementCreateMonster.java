@@ -8,7 +8,7 @@ import java.util.Arrays;
  * 
  * @since
  */
-public class MovementCreateInvocation implements MovementAction {
+public class MovementCreateMonster implements MovementAction {
 
 	private int spriteType;
 	private int gfxId;
@@ -37,7 +37,7 @@ public class MovementCreateInvocation implements MovementAction {
 	 * @param color3
 	 * @param accessories
 	 */
-	public MovementCreateInvocation(int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2, int color3,
+	public MovementCreateMonster(int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2, int color3,
 		int[] accessories) {
 		super();
 		this.spriteType = spriteType;
