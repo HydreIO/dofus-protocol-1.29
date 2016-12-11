@@ -14,6 +14,7 @@ package fr.aresrpg.dofus.structures.game;
  */
 public enum GameMovementAction {
 
+	NONE(0),
 	DEFAULT(0), // none id
 	CREATE_INVOCATION(-1),
 	CREATE_MONSTER(-2),

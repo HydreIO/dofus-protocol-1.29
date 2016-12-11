@@ -7,15 +7,15 @@ import fr.aresrpg.dofus.structures.game.GameMovementAction;
 import fr.aresrpg.dofus.structures.game.GameMovementType;
 import fr.aresrpg.dofus.util.DofusTitle;
 
-import java.io.IOException;
 import java.util.*;
 
 // GM| +240;1;0;2451939;Joe-larecolte;4;40^100;0;0,0,0,2451941;f10000;fb0000;f7cc9b;215c,,,,;0;;;;;0;;|+269;1
 public class GameMovementPacket implements Packet {
-	private Set<MovementAction> actors = new HashSet<>();
+	private GameMovementType type;
+	private Map<GameMovementAction, MovementAction> actors = new HashMap<>();
 
 	@Override
-	public void read(DofusStream stream) throws IOException {
+	public void read(DofusStream stream) {
 		stream.read();
 		stream.forEach(this::parseActor);
 	}
@@ -72,12 +72,12 @@ public class GameMovementPacket implements Packet {
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
-						actors.add(new MovementCreateInvocation(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
+						actors.put(action, new MovementCreateInvocation(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
 								Integer.parseInt(data[9]),
 								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Integer::parseInt).toArray()));
 						break;
 					case CREATE_MONSTER:
-						actors.add(
+						actors.put(action,
 								new MovementCreateMonster(action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
 										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Integer::parseInt).toArray()));
 						break;
@@ -101,13 +101,12 @@ public class GameMovementPacket implements Packet {
 						break;
 					case CREATE_PRISM:
 						break;
-					default:
-						// TODO
+					case DEFAULT: // switch default (player)
 						break;
 				}
 				break;
 			case REMOVE:
-				actors.add(new MovementRemoveActor(Integer.parseInt(datas)));
+				actors.put(GameMovementAction.NONE, new MovementRemoveActor(Integer.parseInt(datas)));
 				break;
 			default:
 				return;
