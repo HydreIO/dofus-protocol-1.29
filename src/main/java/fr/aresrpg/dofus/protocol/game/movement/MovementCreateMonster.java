@@ -1,5 +1,6 @@
 package fr.aresrpg.dofus.protocol.game.movement;
 
+import fr.aresrpg.dofus.structures.Accessory;
 import fr.aresrpg.dofus.structures.PathDirection;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class MovementCreateMonster implements MovementAction {
 	private int color1;
 	private int color2;
 	private int color3;
-	private int[] accessories;
+	private Accessory[] accessories;
 
 	/**
 	 * @param spriteType
@@ -41,7 +42,7 @@ public class MovementCreateMonster implements MovementAction {
 	 */
 	public MovementCreateMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2,
 		int color3,
-		int[] accessories) {
+		Accessory[] accessories) {
 		this.id = id;
 		this.entitytype = entitytype;
 		this.spriteType = spriteType;
@@ -226,16 +227,8 @@ public class MovementCreateMonster implements MovementAction {
 	/**
 	 * @return the accessories
 	 */
-	public int[] getAccessories() {
+	public Accessory[] getAccessories() {
 		return accessories;
-	}
-
-	/**
-	 * @param accessories
-	 *            the accessories to set
-	 */
-	public void setAccessories(int[] accessories) {
-		this.accessories = accessories;
 	}
 
 	@Override

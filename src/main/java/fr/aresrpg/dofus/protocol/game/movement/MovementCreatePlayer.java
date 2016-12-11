@@ -8,6 +8,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
+import fr.aresrpg.dofus.structures.Accessory;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.Alignement;
 
@@ -236,7 +237,7 @@ public class MovementCreatePlayer implements MovementAction {
 		private int color1;
 		private int color2;
 		private int color3;
-		private int[] accessories;
+		private Accessory[] accessories;
 		private int life;
 		private int pa;
 		private int pm;
@@ -255,7 +256,7 @@ public class MovementCreatePlayer implements MovementAction {
 		 * @param resis
 		 * @param team
 		 */
-		public PlayerInFight(int lvl, int color1, int color2, int color3, int[] accessories, int life, int pa, int pm, int[] resis, int team) {
+		public PlayerInFight(int lvl, int color1, int color2, int color3, Accessory[] accessories, int life, int pa, int pm, int[] resis, int team) {
 			this.lvl = lvl;
 			this.color1 = color1;
 			this.color2 = color2;
@@ -331,16 +332,8 @@ public class MovementCreatePlayer implements MovementAction {
 		/**
 		 * @return the accessories
 		 */
-		public int[] getAccessories() {
+		public Accessory[] getAccessories() {
 			return accessories;
-		}
-
-		/**
-		 * @param accessories
-		 *            the accessories to set
-		 */
-		public void setAccessories(int[] accessories) {
-			this.accessories = accessories;
 		}
 
 		/**
@@ -430,7 +423,7 @@ public class MovementCreatePlayer implements MovementAction {
 		private int color1;
 		private int color2;
 		private int color3;
-		private int[] accessories;
+		private Accessory[] accessories;
 		private int aura;
 		private int emot;
 		private int emotTimer;
@@ -450,7 +443,7 @@ public class MovementCreatePlayer implements MovementAction {
 		 * @param emblem
 		 * @param restrictions
 		 */
-		public PlayerOutsideFight(int color1, int color2, int color3, int[] accessories, int aura, int emot, int emotTimer, String guildname, String[] emblem, int restrictions) {
+		public PlayerOutsideFight(int color1, int color2, int color3, Accessory[] accessories, int aura, int emot, int emotTimer, String guildname, String[] emblem, int restrictions) {
 			this.color1 = color1;
 			this.color2 = color2;
 			this.color3 = color3;
@@ -511,16 +504,8 @@ public class MovementCreatePlayer implements MovementAction {
 		/**
 		 * @return the accessories
 		 */
-		public int[] getAccessories() {
+		public Accessory[] getAccessories() {
 			return accessories;
-		}
-
-		/**
-		 * @param accessories
-		 *            the accessories to set
-		 */
-		public void setAccessories(int[] accessories) {
-			this.accessories = accessories;
 		}
 
 		/**

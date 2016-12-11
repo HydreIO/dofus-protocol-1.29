@@ -13,6 +13,7 @@ import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
 import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.protocol.game.movement.MovementCreatePlayer.PlayerInFight;
 import fr.aresrpg.dofus.protocol.game.movement.MovementCreatePlayer.PlayerOutsideFight;
+import fr.aresrpg.dofus.structures.Accessory;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.*;
 import fr.aresrpg.dofus.util.Convert;
@@ -75,20 +76,20 @@ public class GameMovementPacket implements Packet {
 						loc27 = loc30.length == 2 ? Integer.parseInt(loc30[0]) : 100;
 						loc28 = loc30.length == 2 ? Integer.parseInt(loc30[1]) : 100;
 					} else
-						loc27 = loc28 = Integer.parseInt(loc29);
+						loc27 = loc28 = Integer.parseInt(loc29.split(",")[0]);
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
 						actors.add(new Pair(action, new MovementCreateInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
 								Integer.parseInt(data[8]),
 								Integer.parseInt(data[9]),
-								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Convert::toInt).toArray())));
+								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
 						break;
 					case CREATE_MONSTER:
 						actors.add(new Pair(action,
 								new MovementCreateMonster(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
 										Integer.parseInt(data[9]),
-										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).mapToInt(Convert::toInt).toArray())));
+										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
 						break;
 					case CREATE_MONSTER_GROUP:
 						String[] loc35 = data[8].split(",");
@@ -97,7 +98,7 @@ public class GameMovementPacket implements Packet {
 										Arrays.stream(data[7].split(",")).mapToInt(Convert::toInt).toArray(), loc27, loc28, loc18,
 										cellid, direction, Convert.toHexInt(loc35[0]),
 										Convert.toHexInt(loc35[1]),
-										Convert.toHexInt(loc35[2]), Arrays.stream(data[9].split(",")).mapToInt(Convert::toInt).toArray(), bonusvalue)));
+										Convert.toHexInt(loc35[2]), Arrays.stream(data[9].split(",")).map(Accessory::parse).toArray(Accessory[]::new), bonusvalue)));
 						break;
 					case CREATE_MUTANT_WITH_NAME:
 						break;
@@ -119,14 +120,15 @@ public class GameMovementPacket implements Packet {
 						String[] loc67 = data[isFight ? 9 : 8].split(",");
 						PlayerInFight pif = isFight
 								? new PlayerInFight(Convert.toInt(data[8]), Integer.parseInt(data[10], 16), Integer.parseInt(data[11], 16), Integer.parseInt(data[12], 16),
-										Arrays.stream(data[13].split(",")).mapToInt(Convert::toHexInt).toArray(),
+										Arrays.stream(data[13].split(",")).map(Accessory::parse).toArray(Accessory[]::new),
 										Convert.toInt(data[14]), Convert.toInt(data[15]), Convert.toInt(data[16]), new int[] { Convert.toInt(data[17]), Convert.toInt(data[18]),
 												Convert.toInt(data[19]), Convert.toInt(data[20]), Convert.toInt(data[21]), Convert.toInt(data[22]), Convert.toInt(data[23]) },
 										Convert.toInt(data[16]))
 								: null;
 						PlayerOutsideFight pof = isFight ? null
 								: new PlayerOutsideFight(Integer.parseInt(data[9], 16), Integer.parseInt(data[10], 16), Integer.parseInt(data[11], 16),
-										Arrays.stream(data[12].split(",")).mapToInt(Convert::toHexInt).toArray(), Convert.toInt(data[13]), Convert.toInt(data[14]), Convert.toInt(data[15]), data[16],
+										Arrays.stream(data[12].split(",")).map(Accessory::parse).toArray(Accessory[]::new), Convert.toInt(data[13]), Convert.toInt(data[14]), Convert.toInt(data[15]),
+										data[16],
 										data[17].split(","), Convert.toInt(data[18]));
 						actors.add(new Pair(GameMovementAction.DEFAULT, new MovementCreatePlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
 								new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false), Convert.toInt(loc67[2]),
