@@ -3,8 +3,9 @@ package fr.aresrpg.dofus.protocol.game.server;
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
-import fr.aresrpg.dofus.structures.character.Item;
+import fr.aresrpg.dofus.structures.game.Effect;
 import fr.aresrpg.dofus.structures.game.FightType;
+import fr.aresrpg.dofus.structures.item.Item;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
 
@@ -112,7 +113,7 @@ public class GameEndPacket implements Packet {
 		Item[] items = new Item[d.length];
 		for (int i = 0; i < items.length; i++) {
 			String[] amount = d[i].split("~");
-			items[i] = new Item(Convert.toInt(amount[0], 0), Convert.toInt(amount[1], 0));
+			items[i] = new Item(-1 , Convert.toInt(amount[0], 0), Convert.toInt(amount[1], 0) , -1 , new Effect[0]);
 		}
 		return items;
 	}
@@ -176,7 +177,7 @@ public class GameEndPacket implements Packet {
 	private static String writeItem(Item[] items) {
 		StringJoiner sb = new StringJoiner(",");
 		for (Item item : items)
-			sb.add(item.getData() + "~" + item.getAmount());
+			sb.add(item.getUniqueId() + "~" + item.getQuantity());
 		return sb.toString();
 	}
 
