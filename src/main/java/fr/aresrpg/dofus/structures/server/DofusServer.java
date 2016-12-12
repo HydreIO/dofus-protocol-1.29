@@ -2,7 +2,7 @@ package fr.aresrpg.dofus.structures.server;
 
 public class DofusServer {
 	private final int id;
-	private final ServerState state;
+	private ServerState state;
 	private final int serverPopulation;
 	private final boolean needSubscription;
 
@@ -15,6 +15,21 @@ public class DofusServer {
 
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		return obj instanceof DofusServer && ((DofusServer) obj).getId() == id;
+	}
+
+	/**
+	 * @param state
+	 *            the state to set
+	 */
+	public void setState(ServerState state) {
+		this.state = state;
 	}
 
 	public ServerState getState() {
