@@ -1,15 +1,19 @@
 package fr.aresrpg.dofus.protocol.info.server.message;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.structures.InfosMessage;
 
-public class InfoMessagePacket implements Packet{
+public class InfoMessagePacket implements Packet {
+
 	private int messageId;
+	private String extraDatas;
+
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
 		this.messageId = Integer.parseInt(data[0]);
+		for (int i = 1; i < data.length - 1; i++)
+			this.extraDatas += data[i];
 	}
 
 	@Override
@@ -19,6 +23,17 @@ public class InfoMessagePacket implements Packet{
 
 	public int getMessageId() {
 		return messageId;
+	}
+
+	public InfosMessage getMessage() {
+		return InfosMessage.fromId(getMessageId());
+	}
+
+	/**
+	 * @return the extraDatas
+	 */
+	public String getExtraDatas() {
+		return extraDatas;
 	}
 
 	public InfoMessagePacket setMessageId(int messageId) {
@@ -33,6 +48,7 @@ public class InfoMessagePacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "InfoMessagePacket()[" + getId() + ']';
+		return "InfoMessagePacket [messageId=" + messageId + ", extraDatas=" + extraDatas + "]";
 	}
+
 }
