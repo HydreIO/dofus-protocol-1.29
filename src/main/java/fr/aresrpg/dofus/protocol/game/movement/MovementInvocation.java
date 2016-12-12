@@ -3,16 +3,14 @@ package fr.aresrpg.dofus.protocol.game.movement;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.item.Accessory;
 
-import java.util.Arrays;
-
 /**
  * 
  * @since
  */
-public class MovementCreateMonster implements MovementAction {
+public class MovementInvocation implements MovementAction {
 
 	private int id;
-	private int entitytype;
+	private int entityType;
 	private int spriteType;
 	private int gfxId;
 	private int scaleX;
@@ -40,11 +38,11 @@ public class MovementCreateMonster implements MovementAction {
 	 * @param color3
 	 * @param accessories
 	 */
-	public MovementCreateMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2,
-		int color3,
+	public MovementInvocation(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1,
+		int color2, int color3,
 		Accessory[] accessories) {
 		this.id = id;
-		this.entitytype = entitytype;
+		this.entityType = entitytype;
 		this.spriteType = spriteType;
 		this.gfxId = gfxId;
 		this.scaleX = scaleX;
@@ -79,6 +77,20 @@ public class MovementCreateMonster implements MovementAction {
 	 */
 	public int getGfxId() {
 		return gfxId;
+	}
+
+	/**
+	 * @return the entityType
+	 */
+	public int getEntityType() {
+		return entityType;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
 	}
 
 	/**
@@ -233,22 +245,8 @@ public class MovementCreateMonster implements MovementAction {
 
 	@Override
 	public String toString() {
-		return "MovementCreateMonster [id=" + id + ", entitytype=" + entitytype + ", spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip
-				+ ", cellId=" + cellId + ", orientation=" + orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
-				+ Arrays.toString(accessories) + "]";
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @return the entitytype
-	 */
-	public int getEntitytype() {
-		return entitytype;
+		return "MovementCreateInvocation [id=" + id + ", entityType=" + entityType + ", spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip="
+				+ noFlip
+				+ ", cellId=" + cellId + ", orientation=" + orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + "]";
 	}
 }

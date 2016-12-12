@@ -11,8 +11,8 @@ package fr.aresrpg.dofus.protocol.game.server;
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
 import fr.aresrpg.dofus.protocol.game.movement.*;
-import fr.aresrpg.dofus.protocol.game.movement.MovementCreatePlayer.PlayerInFight;
-import fr.aresrpg.dofus.protocol.game.movement.MovementCreatePlayer.PlayerOutsideFight;
+import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerInFight;
+import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerOutsideFight;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.game.*;
 import fr.aresrpg.dofus.structures.item.Accessory;
@@ -80,21 +80,21 @@ public class GameMovementPacket implements Packet {
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
-						actors.add(new Pair(action, new MovementCreateInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
+						actors.add(new Pair(action, new MovementInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
 								Integer.parseInt(data[8]),
 								Integer.parseInt(data[9]),
 								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
 						break;
 					case CREATE_MONSTER:
 						actors.add(new Pair(action,
-								new MovementCreateMonster(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
+								new MovementMonster(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
 										Integer.parseInt(data[9]),
 										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
 						break;
 					case CREATE_MONSTER_GROUP:
 						String[] loc35 = data[8].split(",");
 						actors.add(new Pair(action,
-								new MovementCreateMonsterGroup(id, Arrays.stream(pseudo.split(",")).mapToInt(Convert::toInt).toArray(), action.getId(),
+								new MovementMonsterGroup(id, Arrays.stream(pseudo.split(",")).mapToInt(Convert::toInt).toArray(), action.getId(),
 										Arrays.stream(data[7].split(",")).mapToInt(Convert::toInt).toArray(), loc27, loc28, loc18,
 										cellid, direction, Convert.toHexInt(loc35[0]),
 										Convert.toHexInt(loc35[1]),
@@ -130,7 +130,7 @@ public class GameMovementPacket implements Packet {
 										Arrays.stream(data[12].split(",")).map(Accessory::parse).toArray(Accessory[]::new), Convert.toInt(data[13]), Convert.toInt(data[14]), Convert.toInt(data[15]),
 										data[16],
 										data[17].split(","), Convert.toInt(data[18]));
-						actors.add(new Pair(GameMovementAction.DEFAULT, new MovementCreatePlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
+						actors.add(new Pair(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
 								new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false), Convert.toInt(loc67[2]),
 								pif, pof)));
 						break;

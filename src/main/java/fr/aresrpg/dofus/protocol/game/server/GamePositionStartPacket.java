@@ -1,8 +1,6 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.util.Crypt;
 
 import java.util.Arrays;
@@ -20,6 +18,27 @@ public class GamePositionStartPacket implements Packet {
 	@Override
 	public String toString() {
 		return "GamePositionStartPacket(placeTeam0:" + Arrays.toString(placesTeam0) + "|placesTeam1:" + Arrays.toString(placesTeam1) + "|currentTeam:" + currentTeam + ")[" + getId() + "]";
+	}
+
+	/**
+	 * @return the currentTeam
+	 */
+	public int getCurrentTeam() {
+		return currentTeam;
+	}
+
+	/**
+	 * @return the placesTeam0
+	 */
+	public int[] getPlacesTeam0() {
+		return placesTeam0;
+	}
+
+	/**
+	 * @return the placesTeam1
+	 */
+	public int[] getPlacesTeam1() {
+		return placesTeam1;
 	}
 
 	@Override

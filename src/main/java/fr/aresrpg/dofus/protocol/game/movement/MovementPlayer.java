@@ -18,7 +18,7 @@ import java.util.Arrays;
  * 
  * @since
  */
-public class MovementCreatePlayer implements MovementAction {
+public class MovementPlayer implements MovementAction {
 
 	private int id;
 	private String pseudo;
@@ -46,7 +46,7 @@ public class MovementCreatePlayer implements MovementAction {
 	 * @param playerInFight
 	 * @param playerOutsideFight
 	 */
-	public MovementCreatePlayer(int id, String pseudo, int sprite, int cell, int scaleX, int scaleY, PathDirection orientation, int sex, Alignement alignement, int rank, PlayerInFight playerInFight,
+	public MovementPlayer(int id, String pseudo, int sprite, int cell, int scaleX, int scaleY, PathDirection orientation, int sex, Alignement alignement, int rank, PlayerInFight playerInFight,
 		PlayerOutsideFight playerOutsideFight) {
 		this.id = id;
 		this.pseudo = pseudo;

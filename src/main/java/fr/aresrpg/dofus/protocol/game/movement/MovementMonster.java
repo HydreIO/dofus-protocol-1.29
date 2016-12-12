@@ -9,91 +9,84 @@ import java.util.Arrays;
  * 
  * @since
  */
-public class MovementCreateMonsterGroup implements MovementAction {
+public class MovementMonster implements MovementAction {
 
 	private int id;
-	private int[] entitytype;
-	private int sprite;
-	private int[] lvl;
+	private int entitytype;
+	private int spriteType;
+	private int gfxId;
 	private int scaleX;
 	private int scaleY;
 	private boolean noFlip;
-	private int cellid;
+	private int cellId;
 	private PathDirection orientation;
+	private int powerLvl;
 	private int color1;
 	private int color2;
 	private int color3;
 	private Accessory[] accessories;
-	private int bonusValue;
 
 	/**
-	 * @param sprite
-	 * @param lvl
+	 * @param spriteType
+	 * @param gfxId
 	 * @param scaleX
 	 * @param scaleY
 	 * @param noFlip
-	 * @param cellid
+	 * @param cellId
 	 * @param orientation
+	 * @param powerLvl
 	 * @param color1
 	 * @param color2
 	 * @param color3
 	 * @param accessories
-	 * @param bonusValue
 	 */
-	public MovementCreateMonsterGroup(int id, int[] entitytype, int sprite, int[] lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2,
+	public MovementMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2,
 		int color3,
-		Accessory[] accessories,
-		int bonusValue) {
+		Accessory[] accessories) {
 		this.id = id;
 		this.entitytype = entitytype;
-		this.sprite = sprite;
-		this.lvl = lvl;
+		this.spriteType = spriteType;
+		this.gfxId = gfxId;
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 		this.noFlip = noFlip;
-		this.cellid = cellid;
+		this.cellId = cellId;
 		this.orientation = orientation;
+		this.powerLvl = powerLvl;
 		this.color1 = color1;
 		this.color2 = color2;
 		this.color3 = color3;
 		this.accessories = accessories;
-		this.bonusValue = bonusValue;
 	}
 
 	/**
-	 * @return the sprite
+	 * @return the spriteType
 	 */
-	public int getSprite() {
-		return sprite;
+	public int getSpriteType() {
+		return spriteType;
 	}
 
 	/**
-	 * @param sprite
-	 *            the sprite to set
+	 * @param spriteType
+	 *            the spriteType to set
 	 */
-	public void setSprite(int sprite) {
-		this.sprite = sprite;
+	public void setSpriteType(int spriteType) {
+		this.spriteType = spriteType;
 	}
 
 	/**
-	 * @return the id
+	 * @return the gfxId
 	 */
-	public int getId() {
-		return id;
+	public int getGfxId() {
+		return gfxId;
 	}
 
 	/**
-	 * @return the entitytype
+	 * @param gfxId
+	 *            the gfxId to set
 	 */
-	public int[] getEntitytype() {
-		return entitytype;
-	}
-
-	/**
-	 * @return the lvl
-	 */
-	public int[] getLvl() {
-		return lvl;
+	public void setGfxId(int gfxId) {
+		this.gfxId = gfxId;
 	}
 
 	/**
@@ -142,18 +135,18 @@ public class MovementCreateMonsterGroup implements MovementAction {
 	}
 
 	/**
-	 * @return the cellid
+	 * @return the cellId
 	 */
-	public int getCellid() {
-		return cellid;
+	public int getCellId() {
+		return cellId;
 	}
 
 	/**
-	 * @param cellid
-	 *            the cellid to set
+	 * @param cellId
+	 *            the cellId to set
 	 */
-	public void setCellid(int cellid) {
-		this.cellid = cellid;
+	public void setCellId(int cellId) {
+		this.cellId = cellId;
 	}
 
 	/**
@@ -169,6 +162,21 @@ public class MovementCreateMonsterGroup implements MovementAction {
 	 */
 	public void setOrientation(PathDirection orientation) {
 		this.orientation = orientation;
+	}
+
+	/**
+	 * @return the powerLvl
+	 */
+	public int getPowerLvl() {
+		return powerLvl;
+	}
+
+	/**
+	 * @param powerLvl
+	 *            the powerLvl to set
+	 */
+	public void setPowerLvl(int powerLvl) {
+		this.powerLvl = powerLvl;
 	}
 
 	/**
@@ -223,26 +231,24 @@ public class MovementCreateMonsterGroup implements MovementAction {
 		return accessories;
 	}
 
-	/**
-	 * @return the bonusValue
-	 */
-	public int getBonusValue() {
-		return bonusValue;
-	}
-
-	/**
-	 * @param bonusValue
-	 *            the bonusValue to set
-	 */
-	public void setBonusValue(int bonusValue) {
-		this.bonusValue = bonusValue;
-	}
-
 	@Override
 	public String toString() {
-		return "MovementCreateMonsterGroup [id=" + id + ", entitytype=" + Arrays.toString(entitytype) + ", sprite=" + sprite + ", lvl=" + Arrays.toString(lvl) + ", scaleX=" + scaleX + ", scaleY="
-				+ scaleY + ", noFlip=" + noFlip + ", cellid=" + cellid + ", orientation=" + orientation + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
-				+ Arrays.toString(accessories) + ", bonusValue=" + bonusValue + "]";
+		return "MovementCreateMonster [id=" + id + ", entitytype=" + entitytype + ", spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip
+				+ ", cellId=" + cellId + ", orientation=" + orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
+				+ Arrays.toString(accessories) + "]";
 	}
 
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the entitytype
+	 */
+	public int getEntitytype() {
+		return entitytype;
+	}
 }
