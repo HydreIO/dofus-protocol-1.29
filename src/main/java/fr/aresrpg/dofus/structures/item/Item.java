@@ -1,6 +1,7 @@
 package fr.aresrpg.dofus.structures.item;
 
 import fr.aresrpg.dofus.structures.game.Effect;
+import fr.aresrpg.dofus.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
@@ -69,7 +70,7 @@ public class Item {
 	}
 
 	public static Item parseItem(String d){
-		String[] data = d.split("~");
+		String[] data = StringUtils.split(d , "~");
 		return new Item(
 				Integer.parseInt(data[0] , 16),
 				Integer.parseInt(data[1] , 16),
@@ -96,13 +97,15 @@ public class Item {
 	}
 
 	public static Effect parseEffect(String d){
+		if(d.isEmpty())
+			return null;
 		String[] data = d.split("#");
 		return new Effect(
-				Integer.parseInt(data[0]),
-				Integer.parseInt(data[1]),
-				Integer.parseInt(data[2]),
-				Integer.parseInt(data[3]),
-				Integer.parseInt(data[4]),
+				Integer.parseInt(data[0], 16),
+				Integer.parseInt(data[1], 16),
+				Integer.parseInt(data[2], 16),
+				Integer.parseInt(data[3], 16),
+				/*Integer.parseInt(data[4])*/ -1, //TODO
 				-1,
 				-1
 		);

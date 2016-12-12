@@ -52,4 +52,19 @@ public class AccountSelectCharacterOkPacket implements Packet {
 	public void handle(PacketHandler handler) {
 		handler.handle(this);
 	}
+
+	public Character getCharacter() {
+		return character;
+	}
+
+	public AccountSelectCharacterOkPacket setCharacter(Character character) {
+		this.character = character;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "AccountSelectCharacterOkPacket(character=" + character +
+				")[" + getId() + ']';
+	}
 }

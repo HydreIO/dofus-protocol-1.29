@@ -3,23 +3,23 @@ package fr.aresrpg.dofus.structures.map;
 import fr.aresrpg.dofus.util.Maps;
 
 public class Cell {
-	int id;
-	int mapWidth;
-	boolean lineOfSight;
-	int layerGroundRot;
-	int groundLevel;
-	int movement;
-	int layerGroundNum;
-	int groundSlope;
-	int x, y;
-	boolean layerGroundFlip;
-	int layerObject1Num;
-	int layerObject1Rot;
-	boolean layerObject1Flip;
-	boolean layerObject2Flip;
-	boolean layerObject2Interactive;
-	int layerObject2Num;
-	private Frame frame;
+	private int id;
+	private int mapWidth;
+	private boolean lineOfSight;
+	private int layerGroundRot;
+	private int groundLevel;
+	private int movement;
+	private int layerGroundNum;
+	private int groundSlope;
+	private int x, y;
+	private boolean layerGroundFlip;
+	private int layerObject1Num;
+	private int layerObject1Rot;
+	private boolean layerObject1Flip;
+	private boolean layerObject2Flip;
+	private boolean layerObject2Interactive;
+	private int layerObject2Num;
+	private int frame;
 
 	public Cell(int mapwidth, int id, int x, int y, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, boolean layerGroundFlip,
 		int layerObject1Num,
@@ -176,12 +176,15 @@ public class Cell {
 		return movement;
 	}
 
-	public Frame getFrame() {
+	public int getFrame() {
 		return frame;
 	}
 
-	public void setFrame(Frame frame) {
-		this.frame = frame;
+	public void applyFrame(Frame frame) {
+		this.frame = frame.getId();
+		if(frame.isInteractive() != null) {
+			this.layerObject2Interactive = frame.isInteractive();
+		}
 	}
 
 	@Override
@@ -189,7 +192,7 @@ public class Cell {
 		return "Cell [id=" + id + ", mapWidth=" + mapWidth + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement=" + movement
 				+ ", layerGroundNum=" + layerGroundNum + ", groundSlope=" + groundSlope + ", x=" + x + ", y=" + y + ", layerGroundFlip=" + layerGroundFlip + ", layerObject1Num=" + layerObject1Num
 				+ ", layerObject1Rot=" + layerObject1Rot + ", layerObject1Flip=" + layerObject1Flip + ", layerObject2Flip=" + layerObject2Flip + ", layerObject2Interactive=" + layerObject2Interactive
-				+ ", layerObject2Num=" + layerObject2Num + ", frame=" + frame + "]";
+				+ ", layerObject2Num=" + layerObject2Num + ']';
 	}
 
 }
