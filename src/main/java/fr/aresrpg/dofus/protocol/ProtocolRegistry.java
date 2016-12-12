@@ -8,6 +8,8 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
+import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
+import fr.aresrpg.dofus.protocol.exchange.server.ExchangeCreatePacket;
 import fr.aresrpg.dofus.protocol.exchange.server.ExchangeListPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
@@ -122,6 +124,8 @@ public enum ProtocolRegistry {
 	EMOTE_USE(Layer.EMOTE , 'U' , Bound.CLIENT , EmoteUsePacket.class),
 
 	EXCHANGE_LIST(Layer.EXCHANGE , 'L' , Bound.SERVER , ExchangeListPacket.class),
+	EXCHANGE_CREATE(Layer.EXCHANGE , 'C' , Bound.SERVER , ExchangeCreatePacket.class),
+	EXCHANGE_LEAVE(Layer.EXCHANGE , 'V' , Bound.SERVER , ExchangeLeavePacket.class),
 
 	WAYPOINT_CREATE(Layer.WAYPOINT , 'C' , Bound.SERVER , WaypointCreatePacket.class),
 	WAYPOINT_USE(Layer.WAYPOINT , 'U' , Bound.CLIENT , WaypointUsePacket.class),
