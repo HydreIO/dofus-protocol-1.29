@@ -105,7 +105,15 @@ public class GameMovementPacket implements Packet {
 					case CREATE_MUTANT_WITHOUT_NAME:
 						break;
 					case CREATE_NPC:
-						// TODO
+						int extraclip;
+						try {
+							extraclip = Integer.parseInt(data[12]);
+						} catch (Exception e) {
+							extraclip = -1;
+						}
+						actors.add(new Pair(action,
+								new MovementNpc(id, action.getId(), gfx2, loc27, loc28, cellid, direction, Integer.parseInt(data[7]), Convert.toHexInt(data[8]), Convert.toHexInt(data[9]),
+										Convert.toHexInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new), extraclip, Convert.toInt(data[13]))));
 						break;
 					case CREATE_OFFLINE_PLAYER:
 						break;
