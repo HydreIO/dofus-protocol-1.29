@@ -19,22 +19,39 @@ public class Cell {
 	boolean layerObject2Flip;
 	boolean layerObject2Interactive;
 	int layerObject2Num;
-	private Frame frame;
 
-	public Cell(int mapwidth, int id, int x, int y, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, boolean layerGroundFlip,
-		int layerObject1Num,
-		int layerObject1Rot,
-		boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
-		this.lineOfSight = lineOfSight;
+	/**
+	 * @param id
+	 * @param mapWidth
+	 * @param lineOfSight
+	 * @param layerGroundRot
+	 * @param groundLevel
+	 * @param movement
+	 * @param layerGroundNum
+	 * @param groundSlope
+	 * @param x
+	 * @param y
+	 * @param layerGroundFlip
+	 * @param layerObject1Num
+	 * @param layerObject1Rot
+	 * @param layerObject1Flip
+	 * @param layerObject2Flip
+	 * @param layerObject2Interactive
+	 * @param layerObject2Num
+	 */
+	public Cell(int id, int mapWidth, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, int x, int y, boolean layerGroundFlip,
+		int layerObject1Num, int layerObject1Rot, boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
+		super();
 		this.id = id;
-		this.mapWidth = mapwidth;
-		this.x = x;
-		this.y = y;
+		this.mapWidth = mapWidth;
+		this.lineOfSight = lineOfSight;
 		this.layerGroundRot = layerGroundRot;
 		this.groundLevel = groundLevel;
 		this.movement = movement;
 		this.layerGroundNum = layerGroundNum;
 		this.groundSlope = groundSlope;
+		this.x = x;
+		this.y = y;
 		this.layerGroundFlip = layerGroundFlip;
 		this.layerObject1Num = layerObject1Num;
 		this.layerObject1Rot = layerObject1Rot;
@@ -176,20 +193,12 @@ public class Cell {
 		return movement;
 	}
 
-	public Frame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(Frame frame) {
-		this.frame = frame;
-	}
-
 	@Override
 	public String toString() {
 		return "Cell [id=" + id + ", mapWidth=" + mapWidth + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement=" + movement
 				+ ", layerGroundNum=" + layerGroundNum + ", groundSlope=" + groundSlope + ", x=" + x + ", y=" + y + ", layerGroundFlip=" + layerGroundFlip + ", layerObject1Num=" + layerObject1Num
 				+ ", layerObject1Rot=" + layerObject1Rot + ", layerObject1Flip=" + layerObject1Flip + ", layerObject2Flip=" + layerObject2Flip + ", layerObject2Interactive=" + layerObject2Interactive
-				+ ", layerObject2Num=" + layerObject2Num + ", frame=" + frame + "]";
+				+ ", layerObject2Num=" + layerObject2Num + "]";
 	}
 
 }

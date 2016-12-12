@@ -26,7 +26,6 @@ public class Maps {
 		String key = Crypt.prepareKey(decryptKey);
 		cellData = Crypt.decipherData(cellData, key, Integer.parseInt(Character.toString(Crypt.checksum(key)), 16) * 2);
 		int width = (int) data.get("width");
-		System.out.println("a la recherche du x et y lol : ===================== " + data);
 		Cell[] cells = Compressor.uncompressMap(cellData, width);
 		return new DofusMap((int) data.get("id"), width,
 				(int) data.get("height"), (int) data.get("musicId"),
