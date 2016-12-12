@@ -8,6 +8,8 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
+import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
+import fr.aresrpg.dofus.protocol.exchange.server.ExchangeCreatePacket;
 import fr.aresrpg.dofus.protocol.exchange.server.ExchangeListPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
@@ -184,4 +186,8 @@ public interface PacketHandler {
 	void handle(EmoteUsePacket emoteUsePacket);
 
 	void handle(ExchangeListPacket exchangeListPacket);
+
+	void handle(ExchangeCreatePacket exchangeCreatePacket);
+
+	void handle(ExchangeLeavePacket exchangeLeavePacket);
 }

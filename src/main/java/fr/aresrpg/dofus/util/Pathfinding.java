@@ -3,8 +3,9 @@ package fr.aresrpg.dofus.util;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Pathfinding {
 
@@ -121,7 +122,7 @@ public class Pathfinding {
 
 	private static boolean isValidCell(Cell cell) {
 		boolean isValid = cell.getMovement() == 4 || cell.getMovement() == 6;
-		isValid &= cell.getFrame() == null || cell.getFrame().getId() != 4;
+		isValid &= cell.getLayerObject2Num() == 0;
 		return isValid;
 	}
 

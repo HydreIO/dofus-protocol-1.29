@@ -36,7 +36,7 @@ public class GameMapFramePacket implements Packet {
 	@Override
 	public void write(DofusStream stream) {
 		stream.allocate(frames.size() + 1).write(""); // Separator
-		frames.forEach((k, v) -> stream.write(k.intValue() + ";" + v.getId() + ";" + (v.isInteractive() == null ? "" : v.isInteractive().booleanValue() ? "1" : "0")));
+		frames.forEach((k, v) -> stream.write(k + ";" + v.getId() + ";" + (v.isInteractive() == null ? "" : v.isInteractive() ? "1" : "0")));
 	}
 
 	@Override
