@@ -10,14 +10,44 @@ public class Mob {
 	private int sprite;
 	private int cellId;
 	private int lvl;
-	private int stars;
+	private int pa;
+	private int pm;
 
-	public Mob(int id, int sprite, int cellid, int lvl, int stars) {
+	public Mob(int id, int sprite, int cellid, int lvl) {
 		this.id = id;
 		this.sprite = sprite;
 		this.cellId = cellid;
 		this.lvl = lvl;
-		this.stars = stars;
+	}
+
+	/**
+	 * @return the pa
+	 */
+	public int getPa() {
+		return pa;
+	}
+
+	/**
+	 * @return the pm
+	 */
+	public int getPm() {
+		return pm;
+	}
+
+	/**
+	 * @param pa
+	 *            the pa to set
+	 */
+	public void setPa(int pa) {
+		this.pa = pa;
+	}
+
+	/**
+	 * @param pm
+	 *            the pm to set
+	 */
+	public void setPm(int pm) {
+		this.pm = pm;
 	}
 
 	/**
@@ -48,11 +78,9 @@ public class Mob {
 		return sprite;
 	}
 
-	/**
-	 * @return the stars
-	 */
-	public int getStars() {
-		return stars;
+	@Override
+	public String toString() {
+		return "Mob [id=" + id + ", sprite=" + sprite + ", cellId=" + cellId + ", lvl=" + lvl + ", pa=" + pa + ", pm=" + pm + "]";
 	}
 
 }
