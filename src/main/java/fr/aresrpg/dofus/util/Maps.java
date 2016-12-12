@@ -25,26 +25,28 @@ public class Maps {
 		String cellData = (String) data.get("mapData");
 		String key = Crypt.prepareKey(decryptKey);
 		cellData = Crypt.decipherData(cellData, key, Integer.parseInt(Character.toString(Crypt.checksum(key)), 16) * 2);
-		Cell[] cells = Compressor.uncompressMap(cellData);
-		return new DofusMap((int) data.get("id"), (int) data.get("width"),
+		int width = (int) data.get("width");
+		System.out.println("a la recherche du x et y lol : ===================== " + data);
+		Cell[] cells = Compressor.uncompressMap(cellData, width);
+		return new DofusMap((int) data.get("id"), width,
 				(int) data.get("height"), (int) data.get("musicId"),
 				(int) data.get("capabilities"), (boolean) data.get("bOutdoor"),
 				(int) data.get("backgroundNum"), cells);
 	}
 
-	public static int distance(int from, int to, DofusMap map) {
-		int xto = getLine(to, map.getWidth());
-		int xfrom = getLine(from, map.getWidth());
-		int yto = getColumn(to, map.getWidth());
-		int yfrom = getColumn(from, map.getWidth());
+	public static int distance(int from, int to, int width) {
+		int xto = getLine(to, width);
+		int xfrom = getLine(from, width);
+		int yto = getColumn(to, width);
+		int yfrom = getColumn(from, width);
 		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
 	}
 
-	public static int distanceManathan(int from, int to, DofusMap map) {
-		int xto = getLine(to, map.getWidth());
-		int xfrom = getLine(from, map.getWidth());
-		int yto = getColumn(to, map.getWidth());
-		int yfrom = getColumn(from, map.getWidth());
+	public static int distanceManathan(int from, int to, int width) {
+		int xto = getLine(to, width);
+		int xfrom = getLine(from, width);
+		int yto = getColumn(to, width);
+		int yfrom = getColumn(from, width);
 		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
 	}
 

@@ -1,12 +1,13 @@
 package fr.aresrpg.dofus.util;
 
-import fr.aresrpg.dofus.structures.map.Cell;
-
 import static fr.aresrpg.dofus.util.Crypt.hashToIndex;
 import static fr.aresrpg.dofus.util.Crypt.indexOfHash;
 
+import fr.aresrpg.dofus.structures.map.Cell;
+
 public class Compressor {
-	private Compressor() {}
+	private Compressor() {
+	}
 
 	public static String compressCellId(int cellId) {
 		return "" + hashToIndex((cellId & 0xFC0) >> 6) +
@@ -17,13 +18,16 @@ public class Compressor {
 		return (indexOfHash(cellId.charAt(0)) << 6) + indexOfHash(cellId.charAt(1));
 	}
 
-	public static Cell[] uncompressMap(String d) {
+	public static Cell[] uncompressMap(String d, int width) {
 		int[] data = new int[d.length()];
 		for (int i = 0; i < data.length; i++)
 			data[i] = indexOfHash(d.charAt(i));
 
 		Cell[] cells = new Cell[data.length / 10];
 		for (int i = 0; i < data.length / 10; i++) {
+			int id = i;
+			int x = Maps.getColumn(id, width);
+			int y = Maps.getLine(id, width);
 			int index = i * 10;
 			boolean lineOfSight = (data[index] & 1) == 1;
 			int layerGroundRot = (data[index + 1] & 48) >> 4;
@@ -39,7 +43,7 @@ public class Compressor {
 			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1 == 1;
 			int layerObject2Num = ((data[index] & 2) << 12) + ((data[index + 7] & 1) << 12) + (data[index + 8] << 6) + data[index + 9];
 
-			cells[i] = new Cell(lineOfSight, layerGroundRot, groundLevel, movement,
+			cells[i] = new Cell(width, i, x, y, lineOfSight, layerGroundRot, groundLevel, movement,
 					layerGroundNum, groundSlope, layerGroundFlip, layerObject1Num,
 					layerObject1Rot, layerObject1Flip, layerObject2Flip, layerObject2Interactive,
 					layerObject2Num);

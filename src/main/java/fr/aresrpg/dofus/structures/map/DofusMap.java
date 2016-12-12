@@ -1,8 +1,6 @@
 package fr.aresrpg.dofus.structures.map;
 
-import fr.aresrpg.dofus.structures.character.Character;
-
-import java.util.Set;
+import java.util.Arrays;
 
 public class DofusMap {
 	private int id;
@@ -17,10 +15,6 @@ public class DofusMap {
 	private int x, z;
 	private Cell[] cells;
 	private int[] ressources;
-	private Set<Character> players;
-	private Set<Mob> mobs;
-	private Set<Npc> npcs;
-	private Set<Percepteur> percos;
 
 	public DofusMap(int id, int width, int height, int musicId, int capabilities, boolean outdoor, int backgroundId, Cell[] cells) {
 		this.id = id;
@@ -99,38 +93,16 @@ public class DofusMap {
 	}
 
 	/**
-	 * @return the mobs
-	 */
-	public Set<Mob> getMobs() {
-		return mobs;
-	}
-
-	/**
-	 * @return the npcs
-	 */
-	public Set<Npc> getNpcs() {
-		return npcs;
-	}
-
-	/**
-	 * @return the percos
-	 */
-	public Set<Percepteur> getPercos() {
-		return percos;
-	}
-
-	/**
-	 * @return the players
-	 */
-	public Set<Character> getPlayers() {
-		return players;
-	}
-
-	/**
 	 * @return the ressources
 	 */
 	public int[] getRessources() {
 		return ressources;
+	}
+
+	@Override
+	public String toString() {
+		return "DofusMap [id=" + id + ", width=" + width + ", height=" + height + ", musicId=" + musicId + ", capabilities=" + capabilities + ", outdoor=" + outdoor + ", backgroundId=" + backgroundId
+				+ ", area=" + area + ", subarea=" + subarea + ", x=" + x + ", z=" + z + ", cells=" + Arrays.toString(cells) + ", ressources=" + Arrays.toString(ressources) + "]";
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class DofusMapView extends Region {
+
 	private static final Image wheat = new Image("https://i.imgur.com/LzUi53W.png");
 	private static final Image chanvre = new Image("https://i.imgur.com/UWJKJwc.png");
 	private ObjectProperty<DofusMap> map;
