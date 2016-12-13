@@ -1,12 +1,10 @@
 package fr.aresrpg.dofus.protocol.exchange.client;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
+import fr.aresrpg.dofus.protocol.DofusStream;
 
-/**
- * 
- * @since
- */
-public class ExchangeBuyItemPacket implements Packet {
+public class ExchangeBuyItemPacket implements ClientPacket {
 
 	private int itemId;
 	private int amount;
@@ -23,8 +21,7 @@ public class ExchangeBuyItemPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
-
 }

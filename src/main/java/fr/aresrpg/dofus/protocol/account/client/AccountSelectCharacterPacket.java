@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class AccountSelectCharacterPacket implements Packet {
+public class AccountSelectCharacterPacket implements ClientPacket {
 	private int characterId;
 
 	@Override
@@ -18,7 +18,7 @@ public class AccountSelectCharacterPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

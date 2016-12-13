@@ -8,28 +8,20 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
-/**
- * 
- * @since
- */
-public class GameEndTurnPacket implements Packet {
+public class GameEndTurnPacket implements ClientPacket {
 
 	@Override
-	public void read(DofusStream stream) {
-
-	}
+	public void read(DofusStream stream) {}
 
 	@Override
-	public void write(DofusStream stream) {
-
-	}
+	public void write(DofusStream stream) {}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

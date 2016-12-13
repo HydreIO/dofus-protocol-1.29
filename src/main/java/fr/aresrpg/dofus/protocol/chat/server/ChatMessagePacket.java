@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.chat.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
-public class ChatMessagePacket implements Packet {
+public class ChatMessagePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
@@ -16,7 +16,8 @@ public class ChatMessagePacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 
 	}
+
 }

@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class AccountIdentity implements Packet {
+public class AccountIdentityPacket implements ClientPacket {
 	private String identity;
 
 	@Override
@@ -18,7 +18,7 @@ public class AccountIdentity implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 
@@ -26,13 +26,13 @@ public class AccountIdentity implements Packet {
 		return identity;
 	}
 
-	public AccountIdentity setIdentity(String identity) {
+	public AccountIdentityPacket setIdentity(String identity) {
 		this.identity = identity;
 		return this;
 	}
 
 	@Override
 	public String toString() {
-		return "AccountIdentity(" + "identity:'" + identity + "\')[" + getId() + "]";
+		return "AccountIdentityPacket(" + "identity:'" + identity + "\')[" + getId() + "]";
 	}
 }

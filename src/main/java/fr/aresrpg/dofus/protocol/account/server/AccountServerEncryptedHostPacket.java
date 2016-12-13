@@ -1,11 +1,11 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.util.Crypt;
 
-public class AccountServerEncryptedHostPacket implements Packet {
+public class AccountServerEncryptedHostPacket implements ServerPacket {
 	private String ip;
 	private int port;
 	private String ticketKey;
@@ -24,7 +24,7 @@ public class AccountServerEncryptedHostPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

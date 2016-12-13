@@ -11,6 +11,7 @@ import flash.swf.tags.DoAction;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class SwfVariableExtractor extends TagHandler {
@@ -27,16 +28,16 @@ public class SwfVariableExtractor extends TagHandler {
 	}
 
 	private class SwfActionVariableExtractor extends ActionHandler {
-		private Object[] stack = new Object[2];
+		private LinkedList<Object> stack = new LinkedList<>();
+		private String path = "";
 		private String[] pool;
 
 		@Override
 		public void push(Push action) {
-			stack[1] = stack[0]; // Bubble stack
 			if (pool != null && action.value instanceof Short)
-				stack[0] = (pool[(short) action.value]);
+				stack.add(pool[(short) action.value]);
 			else
-				stack[0] = action.value;
+				stack.add(action.value);
 		}
 
 		@Override
@@ -45,10 +46,43 @@ public class SwfVariableExtractor extends TagHandler {
 		}
 
 		@Override
-		public void setVariable(Action action) {
-			variables.put(String.valueOf(stack[1]), stack[0]);
+		public void getMember(Action action) {
+			path += "." + stack.removeLast();
 		}
 
+		@Override
+		public void getVariable(Action action) {
+			path += "." + stack.removeLast();
+		}
+
+		@Override
+		public void setMember(Action action) {
+			setVariable(null);
+		}
+
+		@Override
+		public void setVariable(Action action) {
+			if(path.isEmpty()) {
+				System.out.println("EMPTY PATH "  + stack);
+				return;
+			}
+			variables.put(path.substring(1), stack.removeLast());
+			path = "";
+		}
+
+		@Override
+		public void initObject(Action action) {
+			Map<String , Object> members = new HashMap<>();
+			path += "." + stack.removeFirst().toString();
+			int size = stack.size();
+			for(int i = 0 ; i < size/2 ; i++) {
+				String name = stack.removeFirst().toString();
+				Object data = stack.removeFirst();
+				members.put(name, data);
+			}
+			stack.clear();
+			stack.add(members);
+		}
 	}
 
 	public static Map<String, Object> extractVariable(InputStream in) throws IOException {

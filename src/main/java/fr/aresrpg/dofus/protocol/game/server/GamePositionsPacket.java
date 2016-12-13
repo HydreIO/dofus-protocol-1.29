@@ -1,13 +1,13 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GamePositionsPacket implements Packet{
+public class GamePositionsPacket implements ServerPacket {
 	private Map<Integer , Integer> positions;
 
 	@Override
@@ -28,9 +28,10 @@ public class GamePositionsPacket implements Packet{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public Map<Integer, Integer> getPositions() {
 		return positions;

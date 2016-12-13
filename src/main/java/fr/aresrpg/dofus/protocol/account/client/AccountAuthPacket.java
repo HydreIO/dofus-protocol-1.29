@@ -1,12 +1,12 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
 import java.util.Arrays;
 
-public class AccountAuthPacket implements Packet {
+public class AccountAuthPacket implements ClientPacket {
 
 	private String version;
 	private String pseudo;
@@ -44,7 +44,7 @@ public class AccountAuthPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

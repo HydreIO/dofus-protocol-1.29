@@ -1,12 +1,12 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.game.FightEntity;
 import fr.aresrpg.dofus.util.StringUtils;
 
-public class GameTurnMiddlePacket implements Packet{
+public class GameTurnMiddlePacket implements ServerPacket {
 	private FightEntity[] entities;
 
 	@Override
@@ -35,7 +35,7 @@ public class GameTurnMiddlePacket implements Packet{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 }

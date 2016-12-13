@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.game.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class GameCreatePacket implements Packet {
+public class GameCreatePacket implements ClientPacket {
 	public static final int TYPE_SOLO = 1;
 
 	private int gameType;
@@ -20,7 +20,7 @@ public class GameCreatePacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

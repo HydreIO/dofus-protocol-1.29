@@ -1,11 +1,19 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.protocol.account.AccountKeyPacket;
 
-public class AccountTicketOkPacket extends AccountKeyPacket {
+public class AccountTicketOkPacket extends AccountKeyPacket implements ServerPacket{
+
 	@Override
 	public void handle(PacketHandler handler) {
+		ServerPacket.super.handle(handler);
+	}
+
+	@Override
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

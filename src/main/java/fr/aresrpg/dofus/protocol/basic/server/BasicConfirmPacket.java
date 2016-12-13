@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.basic.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
-public class BasicConfirmPacket implements Packet {
+public class BasicConfirmPacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream)  {}
 
@@ -12,7 +12,7 @@ public class BasicConfirmPacket implements Packet {
 	public void write(DofusStream stream) {}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

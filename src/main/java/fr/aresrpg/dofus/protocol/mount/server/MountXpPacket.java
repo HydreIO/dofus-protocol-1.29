@@ -1,11 +1,11 @@
 package fr.aresrpg.dofus.protocol.mount.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.util.Convert;
 
-public class MountXpPacket implements Packet {
+public class MountXpPacket implements ServerPacket {
 
 	private int percent;
 
@@ -20,9 +20,10 @@ public class MountXpPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public int getPercent() {
 		return percent;

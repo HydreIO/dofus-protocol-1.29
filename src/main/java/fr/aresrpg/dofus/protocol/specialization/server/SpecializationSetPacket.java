@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.specialization.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
-public class SpecializationSetPacket implements Packet {
+public class SpecializationSetPacket implements ServerPacket {
 
 	private int specialization;
 
@@ -19,7 +19,7 @@ public class SpecializationSetPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

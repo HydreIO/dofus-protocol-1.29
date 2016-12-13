@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.hello.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
-public class HelloConnectionPacket implements Packet {
+public class HelloConnectionPacket implements ServerPacket {
 	private String hashKey;
 
 	@Override
@@ -32,7 +32,8 @@ public class HelloConnectionPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 }

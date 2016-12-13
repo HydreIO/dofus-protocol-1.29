@@ -8,27 +8,32 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerInFight;
 import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerOutsideFight;
 import fr.aresrpg.dofus.structures.PathDirection;
-import fr.aresrpg.dofus.structures.game.*;
+import fr.aresrpg.dofus.structures.game.Alignement;
+import fr.aresrpg.dofus.structures.game.GameMovementAction;
+import fr.aresrpg.dofus.structures.game.GameMovementType;
 import fr.aresrpg.dofus.structures.item.Accessory;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.Pair;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 // GM| +240;1;0;2451939;Joe-larecolte;4 ;40^100 ;0;0,0,0,2451941;f10000;fb0000;f7cc9b;215c,,,,;0;;; ; ;0;; // pas combat
 // GM| +404;1;0;2397625;Jowed ;3 ;30^100 ;0;0,0,0,2397726;0 ;ff0000;-1 ;,,,, ;1;;;Negro Inshape;8,4i643,2p,9zldr;0;; // pas combat
 
 // GM| +344;1;0;2397625;Jowed ;3 ;30^100 ;0;101 ;0,0,0,2397726;0;ff0000;-1;,,,,;555;7;3;0;0;0;0;0;0;0;0;; // combat not start
 // GM| +293;1;0;-2 ;493 ;-2;1212^100;3;f2c40c;bda64d;-1;0,0,0,0;14;2;3;1 // combat
-public class GameMovementPacket implements Packet {
+public class GameMovementPacket implements ServerPacket {
 	private GameMovementType type;
-	private Set<Pair<GameMovementAction, GameMoveAction>> actors = new HashSet<>();
+	private Set<Pair<GameMovementAction, MovementAction>> actors = new HashSet<>();
 
 	@Override
 	public void read(DofusStream stream) {
@@ -80,20 +85,20 @@ public class GameMovementPacket implements Packet {
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
-						actors.add(new Pair(action, new MovementInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
+						actors.add(new Pair<>(action, new MovementInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
 								Integer.parseInt(data[8]),
 								Integer.parseInt(data[9]),
 								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
 						break;
 					case CREATE_MONSTER:
-						actors.add(new Pair(action,
+						actors.add(new Pair<>(action,
 								new MovementMonster(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
 										Integer.parseInt(data[9]),
 										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
 						break;
 					case CREATE_MONSTER_GROUP:
 						String[] loc35 = data[8].split(",");
-						actors.add(new Pair(action,
+						actors.add(new Pair<>(action,
 								new MovementMonsterGroup(id, Arrays.stream(pseudo.split(",")).mapToInt(Convert::toInt).toArray(), action.getId(),
 										Arrays.stream(data[7].split(",")).mapToInt(Convert::toInt).toArray(), loc27, loc28, loc18,
 										cellid, direction, Convert.toHexInt(loc35[0]),
@@ -111,7 +116,7 @@ public class GameMovementPacket implements Packet {
 						} catch (Exception e) {
 							extraclip = -1;
 						}
-						actors.add(new Pair(action,
+						actors.add(new Pair<>(action,
 								new MovementNpc(id, action.getId(), gfx2, loc27, loc28, cellid, direction, Integer.parseInt(data[7]), Convert.toHexInt(data[8]), Convert.toHexInt(data[9]),
 										Convert.toHexInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new), extraclip, Convert.toInt(data[13]))));
 						break;
@@ -138,7 +143,7 @@ public class GameMovementPacket implements Packet {
 										Arrays.stream(data[12].split(",")).map(Accessory::parse).toArray(Accessory[]::new), Convert.toInt(data[13]), Convert.toInt(data[14]), Convert.toInt(data[15]),
 										data[16],
 										data[17].split(","), Convert.toInt(data[18]));
-						actors.add(new Pair(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
+						actors.add(new Pair<>(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
 								new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false), Convert.toInt(loc67[2]),
 								pif, pof)));
 						break;
@@ -146,10 +151,8 @@ public class GameMovementPacket implements Packet {
 				break;
 			case REMOVE:
 				datas = datas.substring(1);
-				actors.add(new Pair(GameMovementAction.NONE, new MovementRemoveActor(Integer.parseInt(datas))));
+				actors.add(new Pair<>(GameMovementAction.NONE, new MovementRemoveActor(Integer.parseInt(datas))));
 				break;
-			default:
-				return;
 		}
 	}
 
@@ -171,7 +174,7 @@ public class GameMovementPacket implements Packet {
 	/**
 	 * @return the actors
 	 */
-	public Set<Pair<GameMovementAction, GameMoveAction>> getActors() {
+	public Set<Pair<GameMovementAction, MovementAction>> getActors() {
 		return actors;
 	}
 
@@ -181,9 +184,10 @@ public class GameMovementPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	@Override
 	public String toString() {

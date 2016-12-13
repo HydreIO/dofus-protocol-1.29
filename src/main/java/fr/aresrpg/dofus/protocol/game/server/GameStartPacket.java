@@ -1,14 +1,14 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
 /**
  * 
  * @since
  */
-public class GameStartPacket implements Packet {
+public class GameStartPacket implements ServerPacket {
 
 	@Override
 	public String toString() {
@@ -22,8 +22,9 @@ public class GameStartPacket implements Packet {
 	public void write(DofusStream stream) {}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 }

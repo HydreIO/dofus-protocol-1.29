@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class AccountGetGiftsPacket implements Packet {
+public class AccountGetGiftsPacket implements ClientPacket {
 	private String language;
 
 	@Override
@@ -18,7 +18,7 @@ public class AccountGetGiftsPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 
