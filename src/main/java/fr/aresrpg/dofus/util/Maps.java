@@ -34,31 +34,31 @@ public class Maps {
 	}
 
 	public static int distance(int from, int to, int width) {
-		int xto = getLine(to, width);
-		int xfrom = getLine(from, width);
-		int yto = getColumn(to, width);
-		int yfrom = getColumn(from, width);
+		int xto = getX(to, width);
+		int xfrom = getX(from, width);
+		int yto = getY(to, width);
+		int yfrom = getY(from, width);
 		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
 	}
 
 	public static int distanceManathan(int from, int to, int width) {
-		int xto = getLine(to, width);
-		int xfrom = getLine(from, width);
-		int yto = getColumn(to, width);
-		int yfrom = getColumn(from, width);
+		int xto = getX(to, width);
+		int xfrom = getX(from, width);
+		int yto = getY(to, width);
+		int yfrom = getY(from, width);
 		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
 	}
 
-	public static int getLine(int id, int width) {
+	public static int getY(int id, int width) {
 		return (int) (id / (width - 0.5));
 	}
 
-	public static int getColumn(int id, int width) {
+	public static int getX(int id, int width) {
 		return (int) ((id % (width - 0.5)) * 2);
 	}
 
-	public static int getId(int column, int line, int width) {
-		return (int) (line * (width - 0.5) + column / 2.0);
+	public static int getId(int x, int y, int width) {
+		return (int) (x * (width - 0.5) + y / 2.0);
 	}
 
 }
