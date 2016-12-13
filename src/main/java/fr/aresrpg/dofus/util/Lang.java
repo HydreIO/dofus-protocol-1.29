@@ -44,7 +44,7 @@ public class Lang {
 	public static void main(String[] args) throws IOException {
 		Map<String , Integer> versions = getLangVersion("fr");
 		Map<String, Object> d = SwfVariableExtractor.extractVariable(getLangData("fr" , versions.get("items") , "items"));
-		System.out.println(d);
+		System.out.println(d.get("I.u.390"));
 	}
 
 	private static String getText(URL url) throws IOException {
