@@ -2,42 +2,39 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.Constants;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Lang {
-	private Lang(){}
+	private Lang() {
+	}
 
-	public static Map<String , Integer> getLangVersion(String assetsServer, String lang) throws IOException {
-		String[] data =  getText(new URL(assetsServer + Constants.LANG_VERSION_PATH.replace("{lang}" , lang))).substring(3)/*Remove &f=*/.split("\\|");
-		Map<String , Integer> m = new HashMap<>();
-		for(String d : data){
+	public static Map<String, Integer> getLangVersion(String assetsServer, String lang) throws IOException {
+		String[] data = getText(new URL(assetsServer + Constants.LANG_VERSION_PATH.replace("{lang}", lang))).substring(3)/* Remove &f= */.split("\\|");
+		Map<String, Integer> m = new HashMap<>();
+		for (String d : data) {
 			String[] ld = d.split(",");
 			System.out.println(d);
-			m.put(ld[0] , Integer.parseInt(ld[2]));
+			m.put(ld[0], Integer.parseInt(ld[2]));
 		}
 		return m;
 	}
 
-	public static Map<String , Integer> getLangVersion(String lang) throws IOException {
-		return getLangVersion(Constants.DEFAULT_DATA_URL , lang);
+	public static Map<String, Integer> getLangVersion(String lang) throws IOException {
+		return getLangVersion(Constants.DEFAULT_DATA_URL, lang);
 	}
 
-	public static InputStream getLangData(String assetsServer, String lang , int version , String type) throws IOException {
+	public static InputStream getLangData(String assetsServer, String lang, int version, String type) throws IOException {
 		return new URL(assetsServer + Constants.LANG_PATH
-				.replace("{lang}" , lang)
+				.replace("{lang}", lang)
 				.replace("{version}", Integer.toString(version))
-				.replace("{type}" , type)
-		).openStream();
+				.replace("{type}", type)).openStream();
 	}
 
-	public static InputStream getLangData(String lang , int version , String type) throws IOException {
-		return getLangData(Constants.DEFAULT_DATA_URL , lang , version , type);
+	public static InputStream getLangData(String lang, int version, String type) throws IOException {
+		return getLangData(Constants.DEFAULT_DATA_URL, lang, version, type);
 	}
 
 	private static String getText(URL url) throws IOException {
@@ -53,4 +50,9 @@ public class Lang {
 
 		return response.toString();
 	}
+
+	public static Map<String, Object> getDatas(String lang, String data) {
+		return SwfVariableExtractor.extractVariable(getLangData(lang, getLangVersion(lang).get(data), data));
+	}
+
 }
