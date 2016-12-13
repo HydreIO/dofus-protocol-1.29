@@ -1,6 +1,9 @@
 package fr.aresrpg.dofus.structures.map;
 
+import fr.aresrpg.dofus.util.Maps;
+
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class DofusMap {
 	private int id;
@@ -21,6 +24,20 @@ public class DofusMap {
 		this.outdoor = outdoor;
 		this.backgroundId = backgroundId;
 		this.cells = cells;
+	}
+
+	public Cell getCell(Predicate<Cell> cell) {
+		for (Cell c : cells)
+			if (cell.test(c)) return c;
+		return null;
+	}
+
+	public Cell getCell(int x, int y) {
+		return getCell(Maps.getId(x, y, width));
+	}
+
+	public Cell getCell(int id) {
+		return cells[id];
 	}
 
 	public int getId() {
