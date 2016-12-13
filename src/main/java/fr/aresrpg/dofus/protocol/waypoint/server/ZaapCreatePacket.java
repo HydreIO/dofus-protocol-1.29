@@ -7,7 +7,7 @@ import fr.aresrpg.dofus.structures.Waypoint;
 
 import java.util.Arrays;
 
-public class WaypointCreatePacket implements Packet{
+public class ZaapCreatePacket implements Packet{
 	private int respawnWaypoint;
 	private Waypoint[] waypoints;
 
@@ -37,7 +37,7 @@ public class WaypointCreatePacket implements Packet{
 		return respawnWaypoint;
 	}
 
-	public WaypointCreatePacket setRespawnWaypoint(int respawnWaypoint) {
+	public ZaapCreatePacket setRespawnWaypoint(int respawnWaypoint) {
 		this.respawnWaypoint = respawnWaypoint;
 		return this;
 	}
@@ -46,7 +46,7 @@ public class WaypointCreatePacket implements Packet{
 		return waypoints;
 	}
 
-	public WaypointCreatePacket setWaypoints(Waypoint[] waypoints) {
+	public ZaapCreatePacket setWaypoints(Waypoint[] waypoints) {
 		this.waypoints = waypoints;
 		return this;
 	}

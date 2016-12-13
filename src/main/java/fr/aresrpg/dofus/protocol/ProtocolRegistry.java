@@ -24,10 +24,10 @@ import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
 import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
-import fr.aresrpg.dofus.protocol.waypoint.WaypointLeavePacket;
-import fr.aresrpg.dofus.protocol.waypoint.client.WaypointUsePacket;
-import fr.aresrpg.dofus.protocol.waypoint.server.WaypointCreatePacket;
-import fr.aresrpg.dofus.protocol.waypoint.server.WaypointUseErrorPacket;
+import fr.aresrpg.dofus.protocol.waypoint.ZaapLeavePacket;
+import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.ZaapUseErrorPacket;
 
 import java.util.*;
 
@@ -123,14 +123,14 @@ public enum ProtocolRegistry {
 
 	EXCHANGE_LIST(Layer.EXCHANGE, 'L', Bound.SERVER, ExchangeListPacket.class),
 	EXCHANGE_CREATE(Layer.EXCHANGE, 'C', Bound.SERVER, ExchangeCreatePacket.class),
-	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.SERVER, ExchangeLeavePacket.class),
+	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.CLIENT, ExchangeLeavePacket.class),
 	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestPacket.class),
 	EXCHANGE_ASK(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeAskPacket.class),
 
-	WAYPOINT_CREATE(Layer.WAYPOINT, 'C', Bound.SERVER, WaypointCreatePacket.class),
-	WAYPOINT_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, WaypointUsePacket.class),
-	WAYPOINT_LEAVE(Layer.WAYPOINT, 'V', Bound.BOTH, WaypointLeavePacket.class),
-	WAYPOINT_USE_ERROR(Layer.WAYPOINT, 'U', Bound.SERVER, WaypointUseErrorPacket.class),;
+	ZAAP_CREATE(Layer.WAYPOINT, 'C', Bound.SERVER, ZaapCreatePacket.class),
+	ZAAP_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, ZaapUsePacket.class),
+	ZAAP_LEAVE(Layer.WAYPOINT, 'V', Bound.BOTH, ZaapLeavePacket.class),
+	ZAAP_USE_ERROR(Layer.WAYPOINT, 'U', Bound.SERVER, ZaapUseErrorPacket.class),;
 
 	public static class State {
 		private State() {

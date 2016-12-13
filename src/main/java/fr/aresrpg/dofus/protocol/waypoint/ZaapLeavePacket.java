@@ -1,10 +1,10 @@
-package fr.aresrpg.dofus.protocol.waypoint.server;
+package fr.aresrpg.dofus.protocol.waypoint;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class WaypointUseErrorPacket implements Packet{
+public class ZaapLeavePacket implements Packet{
 	@Override
 	public void read(DofusStream stream) {}
 
@@ -18,6 +18,6 @@ public class WaypointUseErrorPacket implements Packet{
 
 	@Override
 	public String toString() {
-		return "WaypointUseErrorPacket()[" + getId() + ']';
+		return "WaypointLeavePacket()[" + getId() + ']';
 	}
 }

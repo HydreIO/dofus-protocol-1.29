@@ -4,7 +4,7 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.Packet;
 import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class WaypointUsePacket implements Packet{
+public class ZaapUsePacket implements Packet{
 	private int waypointId;
 
 	@Override
@@ -26,7 +26,7 @@ public class WaypointUsePacket implements Packet{
 		return waypointId;
 	}
 
-	public WaypointUsePacket setWaypointId(int waypointId) {
+	public ZaapUsePacket setWaypointId(int waypointId) {
 		this.waypointId = waypointId;
 		return this;
 	}

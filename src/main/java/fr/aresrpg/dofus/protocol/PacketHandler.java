@@ -9,7 +9,7 @@ import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeAskPacket;
+import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
@@ -24,10 +24,10 @@ import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
 import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
-import fr.aresrpg.dofus.protocol.waypoint.WaypointLeavePacket;
-import fr.aresrpg.dofus.protocol.waypoint.client.WaypointUsePacket;
-import fr.aresrpg.dofus.protocol.waypoint.server.WaypointCreatePacket;
-import fr.aresrpg.dofus.protocol.waypoint.server.WaypointUseErrorPacket;
+import fr.aresrpg.dofus.protocol.waypoint.ZaapLeavePacket;
+import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
+import fr.aresrpg.dofus.protocol.waypoint.server.ZaapUseErrorPacket;
 
 public interface PacketHandler {
 
@@ -173,15 +173,15 @@ public interface PacketHandler {
 
 	void handle(GameEffectPacket gameEffectPacket);
 
-	void handle(WaypointLeavePacket waypointLeavePacket);
+	void handle(ZaapLeavePacket waypointLeavePacket);
 
-	void handle(WaypointUseErrorPacket waypointUseErrorPacket);
+	void handle(ZaapUseErrorPacket waypointUseErrorPacket);
 
-	void handle(WaypointCreatePacket waypointCreatePacket);
+	void handle(ZaapCreatePacket waypointCreatePacket);
 
 	void handle(ChatUseSmileyPacket chatUseSmileyPacket);
 
-	void handle(WaypointUsePacket waypointUsePacket);
+	void handle(ZaapUsePacket waypointUsePacket);
 
 	void handle(EmoteUsePacket emoteUsePacket);
 
@@ -194,4 +194,10 @@ public interface PacketHandler {
 	void handle(ExchangeRequestPacket exchangeRequestPacket);
 
 	void handle(ExchangeAskPacket exchangeAskPacket);
+
+	void handle(ExchangeAcceptPacket exchangeAcceptPacket);
+
+	void handle(ExchangeBuyItemPacket exchangeBuyItemPacket);
+
+	void handle(ExchangeHdvPacket exchangeHdvPacket);
 }
