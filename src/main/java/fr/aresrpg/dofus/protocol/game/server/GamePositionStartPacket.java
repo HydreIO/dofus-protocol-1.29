@@ -1,6 +1,8 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.util.Crypt;
 
 import java.util.Arrays;
@@ -9,7 +11,7 @@ import java.util.Arrays;
  *
  * @since
  */
-public class GamePositionStartPacket implements Packet {
+public class GamePositionStartPacket implements ServerPacket {
 
 	private int currentTeam;
 	private int[] placesTeam0;
@@ -71,8 +73,9 @@ public class GamePositionStartPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 }

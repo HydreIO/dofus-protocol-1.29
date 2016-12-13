@@ -1,9 +1,11 @@
 package fr.aresrpg.dofus.protocol.info.server.message;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.InfosMessage;
 
-public class InfoMessagePacket implements Packet {
+public class InfoMessagePacket implements ServerPacket {
 
 	private int messageId;
 	private String extraDatas;
@@ -42,7 +44,7 @@ public class InfoMessagePacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

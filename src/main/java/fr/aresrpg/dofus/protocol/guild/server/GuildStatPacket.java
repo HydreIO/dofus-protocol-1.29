@@ -1,11 +1,11 @@
 package fr.aresrpg.dofus.protocol.guild.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.guild.Guild;
 
-public class GuildStatPacket implements Packet{
+public class GuildStatPacket implements ServerPacket {
 	private Guild guild;
 
 	@Override
@@ -29,9 +29,10 @@ public class GuildStatPacket implements Packet{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public Guild getGuild() {
 		return guild;

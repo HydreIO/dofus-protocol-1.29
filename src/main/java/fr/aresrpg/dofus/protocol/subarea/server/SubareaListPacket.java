@@ -1,15 +1,15 @@
 package fr.aresrpg.dofus.protocol.subarea.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.Alignment;
 import fr.aresrpg.dofus.structures.map.Subarea;
 import fr.aresrpg.dofus.util.Convert;
 
 import java.util.Arrays;
 
-public class SubareaListPacket implements Packet {
+public class SubareaListPacket implements ServerPacket {
 	private Subarea[] subareas;
 
 	@Override
@@ -29,7 +29,7 @@ public class SubareaListPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

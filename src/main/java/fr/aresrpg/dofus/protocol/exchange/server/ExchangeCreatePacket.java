@@ -1,13 +1,13 @@
 package fr.aresrpg.dofus.protocol.exchange.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.Exchange;
 
 import java.util.StringJoiner;
 
-public class ExchangeCreatePacket implements Packet{
+public class ExchangeCreatePacket implements ServerPacket{
 	private Exchange type;
 	private ExchangeData data;
 
@@ -63,9 +63,10 @@ public class ExchangeCreatePacket implements Packet{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public Exchange getType() {
 		return type;

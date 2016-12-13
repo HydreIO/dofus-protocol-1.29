@@ -1,14 +1,14 @@
 package fr.aresrpg.dofus.protocol.game.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
 /**
  * 
  * @since
  */
-public class LeaveGamePacket implements Packet {
+public class GameLeavePacket implements ClientPacket {
 
 	private String spriteId;
 
@@ -25,11 +25,11 @@ public class LeaveGamePacket implements Packet {
 
 	@Override
 	public String toString() {
-		return "LeaveGamePacket(" + (spriteId == null ? "" : spriteId) + ")[" + getId() + "]";
+		return "GameLeavePacket(" + (spriteId == null ? "" : spriteId) + ")[" + getId() + "]";
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

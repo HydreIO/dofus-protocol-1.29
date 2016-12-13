@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
-public class GameActionStartPacket implements Packet{
+public class GameActionStartPacket implements ServerPacket {
 	private int characterId;
 
 	@Override
@@ -18,9 +18,10 @@ public class GameActionStartPacket implements Packet{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
-
+	public void handleServer(ServerPacketHandler handler) {
+		handler.handle(this);
 	}
+
 
 	public int getCharacterId() {
 		return characterId;

@@ -10,7 +10,9 @@ import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.ExchangeAskPacket;
-import fr.aresrpg.dofus.protocol.exchange.server.*;
+import fr.aresrpg.dofus.protocol.exchange.server.ExchangeCreatePacket;
+import fr.aresrpg.dofus.protocol.exchange.server.ExchangeListPacket;
+import fr.aresrpg.dofus.protocol.exchange.server.ExchangeRequestPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -29,7 +31,9 @@ import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapUseErrorPacket;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ProtocolRegistry {
 
@@ -56,7 +60,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_KEY(Layer.ACCOUNT, 'k', Bound.BOTH, AccountKeyPacket.class),
 	ACCOUNT_REGION_VERSION(Layer.ACCOUNT, 'V', Bound.BOTH, AccountRegionalVersionPacket.class),
 	ACCOUNT_GET_GIFTS(Layer.ACCOUNT, 'g', Bound.CLIENT, AccountGetGiftsPacket.class),
-	ACCOUNT_IDENTITY(Layer.ACCOUNT, 'i', Bound.CLIENT, AccountIdentity.class),
+	ACCOUNT_IDENTITY(Layer.ACCOUNT, 'i', Bound.CLIENT, AccountIdentityPacket.class),
 	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
@@ -76,11 +80,11 @@ public enum ProtocolRegistry {
 	GAME_JOIN(Layer.GAME, 'J', State.OK, Bound.SERVER, GameJoinPacket.class),
 	GAME_END_TURN(Layer.GAME, 't', Bound.CLIENT, GameEndTurnPacket.class),
 	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
-	GAME_FREE_MY_SOUL(Layer.GAME, 'F', Bound.CLIENT, FreeMySoulPacket.class),
+	GAME_FREE_MY_SOUL(Layer.GAME, 'F', Bound.CLIENT, GameFreeMySoulPacket.class),
 	GAME_SET_PLAYER_POSITION(Layer.GAME, 'p', Bound.CLIENT, GameSetPlayerPositionPacket.class),
 	GAME_ON_READY(Layer.GAME, 'R', Bound.SERVER, GameOnReadyPacket.class),
 	GAME_START_POSITION_PACKET(Layer.GAME, 'P', Bound.SERVER, GamePositionStartPacket.class),
-	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, LeaveGamePacket.class),
+	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, GameLeavePacket.class),
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
 	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),

@@ -1,14 +1,14 @@
 package fr.aresrpg.dofus.protocol.game.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
 /**
  * 
  * @since
  */
-public class GameSetPlayerPositionPacket implements Packet {
+public class GameSetPlayerPositionPacket implements ClientPacket {
 
 	private int cellNum;
 
@@ -23,7 +23,7 @@ public class GameSetPlayerPositionPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

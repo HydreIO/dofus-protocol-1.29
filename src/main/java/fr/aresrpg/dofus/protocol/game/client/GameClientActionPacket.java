@@ -1,15 +1,13 @@
 package fr.aresrpg.dofus.protocol.game.client;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.PacketHandler;
-import fr.aresrpg.dofus.protocol.ProtocolRegistry;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.game.GameActionPacket;
 import fr.aresrpg.dofus.protocol.game.actions.GameAction;
 import fr.aresrpg.dofus.protocol.game.actions.GameActions;
 import fr.aresrpg.dofus.protocol.game.actions.UnknownAction;
 import fr.aresrpg.dofus.util.StringUtils;
 
-public class GameClientActionPacket implements GameActionPacket{
+public class GameClientActionPacket implements GameActionPacket, ClientPacket {
 	private GameAction action;
 
 	@Override
@@ -43,8 +41,13 @@ public class GameClientActionPacket implements GameActionPacket{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public void handle(PacketHandler handler) {
+		ClientPacket.super.handle(handler);
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.account.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
-public class AccountGetCharactersPacket implements Packet {
+public class AccountGetCharactersPacket implements ClientPacket {
 	@Override
 	public void read(DofusStream stream) {}
 
@@ -12,7 +12,7 @@ public class AccountGetCharactersPacket implements Packet {
 	public void write(DofusStream stream) {}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

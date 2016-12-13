@@ -1,8 +1,8 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.game.Effect;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
@@ -10,7 +10,7 @@ import fr.aresrpg.dofus.util.StringUtils;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
-public class GameEffectPacket implements Packet{
+public class GameEffectPacket implements ServerPacket {
 	private Effect effect;
 	private int entities[];
 
@@ -50,9 +50,10 @@ public class GameEffectPacket implements Packet{
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public Effect getEffect() {
 		return effect;

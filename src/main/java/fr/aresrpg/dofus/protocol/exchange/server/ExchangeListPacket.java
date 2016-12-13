@@ -1,14 +1,14 @@
 package fr.aresrpg.dofus.protocol.exchange.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.item.Item;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
 
-public class ExchangeListPacket implements Packet {
+public class ExchangeListPacket implements ServerPacket {
 	private Item[] items;
 	private int kamas = -1;
 
@@ -80,7 +80,7 @@ public class ExchangeListPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

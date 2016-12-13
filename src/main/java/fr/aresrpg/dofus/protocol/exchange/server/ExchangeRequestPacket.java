@@ -1,13 +1,15 @@
 package fr.aresrpg.dofus.protocol.exchange.server;
 
-import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.Exchange;
 
 /**
  * 
  * @since
  */
-public class ExchangeRequestPacket implements Packet {
+public class ExchangeRequestPacket implements ServerPacket {
 
 	private int playerId;
 	private int targetId;
@@ -60,8 +62,9 @@ public class ExchangeRequestPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 }

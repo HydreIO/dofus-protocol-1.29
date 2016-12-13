@@ -1,8 +1,8 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.character.AvailableCharacter;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
@@ -10,7 +10,7 @@ import fr.aresrpg.dofus.util.StringUtils;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
-public class AccountCharactersListPacket implements Packet {
+public class AccountCharactersListPacket implements ServerPacket {
 	private long subscriptionTime;
 	private AvailableCharacter[] characters;
 
@@ -80,7 +80,7 @@ public class AccountCharactersListPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 

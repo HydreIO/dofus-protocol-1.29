@@ -1,14 +1,14 @@
 package fr.aresrpg.dofus.protocol.mount.client;
 
+import fr.aresrpg.dofus.protocol.ClientPacket;
+import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
 
 /**
  * 
  * @since
  */
-public class PlayerMountPacket implements Packet {
+public class PlayerMountPacket implements ClientPacket {
 
 	@Override
 	public void read(DofusStream stream) {}
@@ -17,7 +17,7 @@ public class PlayerMountPacket implements Packet {
 	public void write(DofusStream stream) {}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

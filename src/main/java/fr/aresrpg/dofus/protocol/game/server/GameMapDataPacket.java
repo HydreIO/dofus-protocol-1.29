@@ -1,10 +1,10 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
-public class GameMapDataPacket implements Packet {
+public class GameMapDataPacket implements ServerPacket {
 	private int mapId;
 	private String subid;
 	private String decryptKey;
@@ -24,9 +24,10 @@ public class GameMapDataPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public int getMapId() {
 		return mapId;

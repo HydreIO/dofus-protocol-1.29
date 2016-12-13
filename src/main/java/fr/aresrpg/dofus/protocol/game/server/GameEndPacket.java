@@ -1,8 +1,8 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.ServerPacket;
+import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 import fr.aresrpg.dofus.structures.game.Effect;
 import fr.aresrpg.dofus.structures.game.FightType;
 import fr.aresrpg.dofus.structures.item.Item;
@@ -16,7 +16,7 @@ import java.util.StringJoiner;
  * 
  * @since
  */
-public class GameEndPacket implements Packet {
+public class GameEndPacket implements ServerPacket {
 
 	private int duration;
 	private int bonus;
@@ -182,9 +182,10 @@ public class GameEndPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
+
 
 	public int getDuration() {
 		return duration;
