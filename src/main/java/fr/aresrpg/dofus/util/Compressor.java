@@ -26,8 +26,8 @@ public class Compressor {
 		Cell[] cells = new Cell[data.length / 10];
 		for (int i = 0; i < data.length / 10; i++) {
 			int id = i;
-			int x = Maps.getColumn(id, width);
-			int y = Maps.getLine(id, width);
+			int x = Maps.getX(id, width);
+			int y = Maps.getY(id, width);
 			int index = i * 10;
 			boolean lineOfSight = (data[index] & 1) == 1;
 			int layerGroundRot = (data[index + 1] & 48) >> 4;
@@ -43,10 +43,8 @@ public class Compressor {
 			boolean layerObject2Interactive = (data[index + 7] & 2) >> 1 == 1;
 			int layerObject2Num = ((data[index] & 2) << 12) + ((data[index + 7] & 1) << 12) + (data[index + 8] << 6) + data[index + 9];
 
-			cells[i] = new Cell(width, i, x, y, lineOfSight, layerGroundRot, groundLevel, movement,
-					layerGroundNum, groundSlope, layerGroundFlip, layerObject1Num,
-					layerObject1Rot, layerObject1Flip, layerObject2Flip, layerObject2Interactive,
-					layerObject2Num);
+			cells[i] = new Cell(id, width, lineOfSight, layerGroundRot, groundLevel, movement, layerGroundNum, groundSlope, x, y, layerGroundFlip, layerObject1Num, layerObject1Rot, layerObject1Flip,
+					layerObject2Flip, layerObject2Interactive, layerObject2Num);
 		}
 		return cells;
 	}

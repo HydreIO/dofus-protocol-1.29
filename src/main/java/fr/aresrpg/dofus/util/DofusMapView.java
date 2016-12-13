@@ -178,9 +178,9 @@ public class DofusMapView extends Region {
 				default:
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
-			double xp = Maps.getColumn(i, mWidth) * dMultiplier
+			double xp = Maps.getX(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
-			double yp = Maps.getLine(i, mWidth) * dMultiplier
+			double yp = Maps.getY(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
