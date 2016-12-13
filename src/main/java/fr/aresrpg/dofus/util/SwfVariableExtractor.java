@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Stack;
 
 public class SwfVariableExtractor extends TagHandler {
 
@@ -39,8 +38,6 @@ public class SwfVariableExtractor extends TagHandler {
 				stack.add(pool[(short) action.value]);
 			else
 				stack.add(action.value);
-			//System.out.println(stack.peek());
-			//System.out.println("push");
 		}
 
 		@Override
@@ -50,14 +47,12 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void getMember(Action action) {
-			path += stack.removeLast() + ".";
-			//System.out.println(path);
+			path += "." + stack.removeLast();
 		}
 
 		@Override
 		public void getVariable(Action action) {
-			path += stack.removeLast() + ".";
-			//System.out.println(path);
+			path += "." + stack.removeLast();
 		}
 
 		@Override
@@ -67,29 +62,25 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void setVariable(Action action) {
-			//System.out.println(stack);
-			variables.put(path, stack.removeLast());
+			if(path.isEmpty()) {
+				System.out.println("EMPTY PATH "  + stack);
+				return;
+			}
+			variables.put(path.substring(1), stack.removeLast());
 			path = "";
-		}
-
-		@Override
-		public void initArray(Action action) {
-			//System.out.println("array");
 		}
 
 		@Override
 		public void initObject(Action action) {
 			Map<String , Object> members = new HashMap<>();
-			//System.out.println(stack);
-			String pop = stack.removeFirst().toString();
-			//System.out.println(pop);
-			path += pop;
-			for(int i = 0 ; i < stack.size() ; i+=2) {
-				String name = stack.removeLast().toString();
-				Object data = stack.removeLast();
+			path += "." + stack.removeFirst().toString();
+			int size = stack.size();
+			for(int i = 0 ; i < size/2 ; i++) {
+				String name = stack.removeFirst().toString();
+				Object data = stack.removeFirst();
 				members.put(name, data);
 			}
-			//System.out.println(members);
+			stack.clear();
 			stack.add(members);
 		}
 	}

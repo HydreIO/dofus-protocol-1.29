@@ -40,13 +40,6 @@ public class Lang {
 		return getLangData(Constants.DEFAULT_DATA_URL , lang , version , type);
 	}
 
-
-	public static void main(String[] args) throws IOException {
-		Map<String , Integer> versions = getLangVersion("fr");
-		Map<String, Object> d = SwfVariableExtractor.extractVariable(getLangData("fr" , versions.get("items") , "items"));
-		System.out.println(d.get("I.u.390"));
-	}
-
 	private static String getText(URL url) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
