@@ -191,13 +191,11 @@ public interface PacketHandler {
 
 	void handle(ExchangeLeavePacket exchangeLeavePacket);
 
-	void handle(ExchangeRequestPacket exchangeRequestPacket);
+	void handle(ExchangeRequestOkPacket exchangeRequestPacket);
 
-	void handle(ExchangeAskPacket exchangeAskPacket);
+	void handle(ExchangeRequestPacket exchangeAskPacket);
 
 	void handle(ExchangeAcceptPacket exchangeAcceptPacket);
 
 	void handle(ExchangeBuyItemPacket exchangeBuyItemPacket);
-
-	void handle(ExchangeHdvPacket exchangeHdvPacket);
 }

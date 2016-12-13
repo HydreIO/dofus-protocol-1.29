@@ -2,7 +2,7 @@ package fr.aresrpg.dofus.protocol;
 
 import java.util.Arrays;
 
-public class StringDofusStream implements DofusStream{
+public class StringDofusStream implements DofusStream {
 
 	private String[][] buffer;
 	private int packetIndex = 0;
@@ -34,7 +34,7 @@ public class StringDofusStream implements DofusStream{
 
 	@Override
 	public DofusStream write(String value) {
-		return write(write++ , value);
+		return write(write++, value);
 	}
 
 	@Override
@@ -45,16 +45,16 @@ public class StringDofusStream implements DofusStream{
 
 	@Override
 	public DofusStream allocate(int size) {
-		if(buffer[packetIndex] == null)
+		if (buffer[packetIndex] == null)
 			buffer[packetIndex] = new String[size];
 		else
-			buffer[packetIndex] = Arrays.copyOf(buffer[packetIndex] , size);
+			buffer[packetIndex] = Arrays.copyOf(buffer[packetIndex], size);
 		return this;
 	}
 
 	@Override
 	public DofusStream allocatePacket(int size) {
-		buffer = Arrays.copyOf(buffer , size);
+		buffer = Arrays.copyOf(buffer, size);
 		return this;
 	}
 
@@ -79,4 +79,10 @@ public class StringDofusStream implements DofusStream{
 	public String[][] getBuffer() {
 		return buffer;
 	}
+
+	@Override
+	public String peek() {
+		return read(packetIndex);
+	}
+
 }

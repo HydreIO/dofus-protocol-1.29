@@ -7,7 +7,7 @@ import fr.aresrpg.dofus.structures.Exchange;
  * 
  * @since
  */
-public class ExchangeRequestPacket implements Packet {
+public class ExchangeRequestOkPacket implements Packet {
 
 	private int playerId;
 	private int targetId;
@@ -18,7 +18,7 @@ public class ExchangeRequestPacket implements Packet {
 	 * @param targetId
 	 * @param exchange
 	 */
-	public ExchangeRequestPacket(int playerId, int targetId, Exchange exchange) {
+	public ExchangeRequestOkPacket(int playerId, int targetId, Exchange exchange) {
 		this.playerId = playerId;
 		this.targetId = targetId;
 		this.exchange = exchange;
@@ -35,8 +35,6 @@ public class ExchangeRequestPacket implements Packet {
 	public void write(DofusStream stream) {
 		stream.allocate(3).writeInt(playerId).writeInt(targetId).writeInt(exchange.getCode());
 	}
-	
-	
 
 	/**
 	 * @return the playerId

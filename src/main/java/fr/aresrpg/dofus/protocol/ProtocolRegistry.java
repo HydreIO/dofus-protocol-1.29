@@ -9,7 +9,7 @@ import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeAskPacket;
+import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
@@ -121,11 +121,20 @@ public enum ProtocolRegistry {
 
 	EMOTE_USE(Layer.EMOTE, 'U', Bound.CLIENT, EmoteUsePacket.class),
 
+	// exchange server
 	EXCHANGE_LIST(Layer.EXCHANGE, 'L', Bound.SERVER, ExchangeListPacket.class),
 	EXCHANGE_CREATE(Layer.EXCHANGE, 'C', Bound.SERVER, ExchangeCreatePacket.class),
-	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.CLIENT, ExchangeLeavePacket.class),
-	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestPacket.class),
-	EXCHANGE_ASK(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeAskPacket.class),
+	EXCHANGE_REQUEST_OK(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestOkPacket.class),
+
+	// exchange client
+	EXCHANGE_SHOP(Layer.EXCHANGE, 's', Bound.CLIENT, ExchangeShopPacket.class),
+	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeRequestPacket.class),
+	EXCHANGE_ACCEPT(Layer.EXCHANGE, 'A', Bound.CLIENT, ExchangeAcceptPacket.class),
+	EXCHANGE_READY(Layer.EXCHANGE, 'K', Bound.CLIENT, ExchangeReadyPacket.class),
+	EXCHANGE_MOVE(Layer.EXCHANGE, 'M', 'O', Bound.CLIENT, ExchangeMovePacket.class),
+
+	// exchange both
+	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.BOTH, ExchangeLeavePacket.class),
 
 	ZAAP_CREATE(Layer.WAYPOINT, 'C', Bound.SERVER, ZaapCreatePacket.class),
 	ZAAP_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, ZaapUsePacket.class),

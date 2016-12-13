@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.*;
  * 
  * @since
  */
-public class ExchangeHdvPacket implements Packet { // EH
+public class ExchangeReadyPacket implements Packet {
 
 	@Override
 	public void read(DofusStream stream) {
@@ -20,7 +20,6 @@ public class ExchangeHdvPacket implements Packet { // EH
 
 	@Override
 	public void handle(PacketHandler handler) {
-		handler.handle(this);
 	}
 
 }

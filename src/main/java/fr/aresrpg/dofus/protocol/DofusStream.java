@@ -3,16 +3,22 @@ package fr.aresrpg.dofus.protocol;
 import java.util.function.Consumer;
 
 public interface DofusStream {
+	String peek();
+
 	String read();
 
 	String read(int index);
+
+	default int peekInt() {
+		return Integer.parseInt(peek());
+	}
 
 	default int readInt() {
 		return Integer.parseInt(read());
 	}
 
 	default int readIntRadix(int radix) {
-		return Integer.parseInt(read() , radix);
+		return Integer.parseInt(read(), radix);
 	}
 
 	default long readLong() {
@@ -42,11 +48,11 @@ public interface DofusStream {
 		write(Integer.toString(value));
 		return this;
 	}
+
 	default DofusStream writeIntRadix(int value, int radix) {
 		write(Integer.toString(value, radix));
 		return this;
 	}
-
 
 	default DofusStream writeInt(int index, int value) {
 		write(index, Integer.toString(value));
@@ -54,7 +60,7 @@ public interface DofusStream {
 	}
 
 	default DofusStream writeIntRadix(int index, int value, int radix) {
-		write(index, Integer.toString(value , radix));
+		write(index, Integer.toString(value, radix));
 		return this;
 	}
 
