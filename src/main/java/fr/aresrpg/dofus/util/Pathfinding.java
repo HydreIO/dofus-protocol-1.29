@@ -3,9 +3,8 @@ package fr.aresrpg.dofus.util;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.*;
-import java.util.List;
 
 public class Pathfinding {
 
@@ -25,6 +24,40 @@ public class Pathfinding {
 				for (Node n : (useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node))) {
 				if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
 					continue;
+				if (closedList.contains(n))
+					continue;
+				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+				if (openList.contains(n)) {
+					openList.remove(n);
+				}
+				if (present != null) {
+					if (present.cost < n.cost)
+						continue;
+					else
+						openList.remove(present);
+				}
+				openList.add(n);
+				cameFrom.put(n, node);
+			}
+		}
+		return null;
+	}
+
+	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, boolean useDiagonale) {
+		PriorityQueue<Node> openList = new PriorityQueue<>();
+		Set<Node> closedList = new HashSet<>();
+		Map<Node, Node> cameFrom = new HashMap<>();
+		Node from = new Node(xFrom, yFrom);
+		cameFrom.put(from, null);
+		openList.add(from);
+		while (!openList.isEmpty()) {
+			Node node = openList.poll();
+			closedList.add(node);
+			if (node.x == xTo && node.y == yTo)
+				return recreatePath(cameFrom, node);
+			else
+				for (Node n : (useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node))) {
 				if (closedList.contains(n))
 					continue;
 				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
@@ -146,6 +179,27 @@ public class Pathfinding {
 			this.y = y;
 		}
 
+		/**
+		 * @return the x
+		 */
+		public int getX() {
+			return x;
+		}
+
+		/**
+		 * @return the y
+		 */
+		public int getY() {
+			return y;
+		}
+
+		/**
+		 * @return the cost
+		 */
+		public int getCost() {
+			return cost;
+		}
+
 		@Override
 		public boolean equals(Object o) {
 			if (this == o) return true;
@@ -163,6 +217,10 @@ public class Pathfinding {
 		@Override
 		public int compareTo(Node node) {
 			return Integer.compare(cost, node.cost);
+		}
+
+		public int distanceManathan(int x, int y) {
+			return Math.abs(x - this.x) + Math.abs(y - this.y);
 		}
 
 		@Override

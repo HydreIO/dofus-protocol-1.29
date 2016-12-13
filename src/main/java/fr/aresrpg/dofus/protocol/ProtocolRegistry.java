@@ -153,7 +153,7 @@ public enum ProtocolRegistry {
 	private final char key;
 	private final boolean indexAtEnd;
 	private final char state;
-	private final Bound bound; // Celui qui reçoit
+	private final Bound bound;
 
 	ProtocolRegistry(Layer layer, char key, char state, boolean indexAtEnd, Bound bound, Class<? extends Packet> packet) {
 		this.layer = layer;
