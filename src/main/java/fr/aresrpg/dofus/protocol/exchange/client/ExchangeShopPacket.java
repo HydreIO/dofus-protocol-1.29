@@ -7,7 +7,7 @@ import fr.aresrpg.dofus.structures.Exchange;
  * 
  * @since
  */
-public class ExchangeShopPacket implements Packet {
+public class ExchangeShopPacket implements ClientPacket {
 
 	private Exchange type;
 
@@ -44,13 +44,13 @@ public class ExchangeShopPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
-
+	public String toString() {
+		return "ExchangeShopPacket [type=" + type + "]";
 	}
 
 	@Override
-	public String toString() {
-		return "ExchangeShopPacket [type=" + type + "]";
+	public void handleClient(ClientPacketHandler handler) {
+		handler.handle(this);
 	}
 
 }

@@ -3,10 +3,7 @@ package fr.aresrpg.dofus.protocol;
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeAcceptPacket;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeAskPacket;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeBuyItemPacket;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeHdvPacket;
+import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -66,11 +63,13 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(ZaapUsePacket accountAccessServerPacket);
 
-	void handle(ExchangeBuyItemPacket exchangeBuyItemPacket);
-
-	void handle(ExchangeHdvPacket exchangeHdvPacket);
-
-	void handle(ExchangeAskPacket exchangeAskPacket);
-
 	void handle(EmoteUsePacket emoteUsePacket);
+
+	void handle(ExchangeRequestPacket exchangeRequestPacket);
+
+	void handle(ExchangeMovePacket exchangeMovePacket);
+
+	void handle(ExchangeReadyPacket exchangeReadyPacket);
+
+	void handle(ExchangeShopPacket exchangeShopPacket);
 }

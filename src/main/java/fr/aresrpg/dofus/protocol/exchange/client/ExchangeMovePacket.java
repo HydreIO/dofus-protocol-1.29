@@ -9,7 +9,7 @@ import java.util.Arrays;
  * 
  * @since
  */
-public class ExchangeMovePacket implements Packet { // EMO <+/->id|amount<|price> ...
+public class ExchangeMovePacket implements ClientPacket { // EMO <+/->id|amount<|price> ...
 
 	private MovedItem[] items;
 
@@ -39,7 +39,8 @@ public class ExchangeMovePacket implements Packet { // EMO <+/->id|amount<|price
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
+		handler.handle(this);
 	}
 
 	private MovedItem recordItem(String... datas) {

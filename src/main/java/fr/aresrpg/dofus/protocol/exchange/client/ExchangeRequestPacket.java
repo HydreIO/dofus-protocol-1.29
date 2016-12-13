@@ -8,7 +8,7 @@ import fr.aresrpg.dofus.util.Convert;
  * 
  * @since
  */
-public class ExchangeRequestPacket implements Packet {
+public class ExchangeRequestPacket implements ClientPacket {
 
 	private int targetId;
 	private Exchange exchange;
@@ -71,8 +71,13 @@ public class ExchangeRequestPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "ExchangeRequestPacket [targetId=" + targetId + ", exchange=" + exchange + ", cellid=" + cellid + "]";
 	}
 
 }

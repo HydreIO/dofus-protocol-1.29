@@ -7,7 +7,7 @@ import fr.aresrpg.dofus.structures.Exchange;
  * 
  * @since
  */
-public class ExchangeRequestOkPacket implements Packet {
+public class ExchangeRequestOkPacket implements ServerPacket {
 
 	private int playerId;
 	private int targetId;
@@ -58,7 +58,7 @@ public class ExchangeRequestOkPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
 
