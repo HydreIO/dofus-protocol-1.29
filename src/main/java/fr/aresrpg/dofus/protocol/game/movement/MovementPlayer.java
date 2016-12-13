@@ -62,6 +62,13 @@ public class MovementPlayer implements MovementAction {
 		this.playerOutsideFight = playerOutsideFight;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		return obj instanceof MovementPlayer && ((MovementPlayer) obj).getId() == getId();
+	}
+
 	/**
 	 * @return the id
 	 */
@@ -224,6 +231,10 @@ public class MovementPlayer implements MovementAction {
 	 */
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+
+	public boolean isFight() {
+		return getPlayerInFight() != null;
 	}
 
 	@Override

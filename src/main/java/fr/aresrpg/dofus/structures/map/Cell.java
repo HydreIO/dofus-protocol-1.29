@@ -198,9 +198,14 @@ public class Cell {
 		return frame;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return obj == null ? false : obj == this || (obj instanceof Cell && ((Cell) obj).getId() == getId());
+	}
+
 	public void applyFrame(Frame frame) {
 		this.frame = frame.getId();
-		if(frame.isInteractive() != null) {
+		if (frame.isInteractive() != null) {
 			this.layerObject2Interactive = frame.isInteractive();
 		}
 	}

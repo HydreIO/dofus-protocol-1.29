@@ -9,8 +9,8 @@ import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
-import fr.aresrpg.dofus.protocol.exchange.server.ExchangeCreatePacket;
-import fr.aresrpg.dofus.protocol.exchange.server.ExchangeListPacket;
+import fr.aresrpg.dofus.protocol.exchange.client.ExchangeAskPacket;
+import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -29,9 +29,7 @@ import fr.aresrpg.dofus.protocol.waypoint.client.WaypointUsePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.WaypointCreatePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.WaypointUseErrorPacket;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public enum ProtocolRegistry {
 
@@ -62,8 +60,8 @@ public enum ProtocolRegistry {
 	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
-	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT , 'S' , State.OK , Bound.SERVER , AccountSelectCharacterOkPacket.class),
-	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT , 'R' , Bound.SERVER , AccountRestrictionsPacket.class),
+	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT, 'S', State.OK, Bound.SERVER, AccountSelectCharacterOkPacket.class),
+	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT, 'R', Bound.SERVER, AccountRestrictionsPacket.class),
 
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
 
@@ -86,51 +84,53 @@ public enum ProtocolRegistry {
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
 	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),
-	GAME_PLAYER_READY(Layer.GAME , 'R' , Bound.CLIENT , GameClientReadyPacket.class),
-	GAME_SERVER_READY(Layer.GAME , 'R' , Bound.SERVER , GameServerReadyPacket.class),
-	GAME_START_TO_PLAY(Layer.GAME , 'S' , Bound.SERVER , GameStartToPlayPacket.class),
-	GAME_POSITIONS(Layer.GAME , 'I' , 'C', Bound.SERVER , GamePositionsPacket.class),
-	GAME_FIGHT_CHALLENGE(Layer.GAME , 'd' , Bound.SERVER, GameFightChallengePacket.class),
-	GAME_TURN_LIST(Layer.GAME , 'T' , 'L' , Bound.SERVER , GameTurnListPacket.class),
-	GAME_TURN_MIDDLE(Layer.GAME , 'T' , 'M' , Bound.SERVER , GameTurnMiddlePacket.class),
-	GAME_TURN_END(Layer.GAME , 't' , Bound.CLIENT , GameTurnEndPacket.class),
-	GAME_TURN_START(Layer.GAME , 'T' , 'S' , Bound.SERVER , GameTurnStartPacket.class),
-	GAME_TURN_FINISH(Layer.GAME , 'T', 'F' , Bound.SERVER , GameTurnFinishPacket.class),
-	GAME_TURN_READY(Layer.GAME , 'T' , 'R' , Bound.SERVER , GameTurnReadyPacket.class),
-	GAME_EFFECT(Layer.GAME, 'I' , 'E' , Bound.SERVER , GameEffectPacket.class),
+	GAME_PLAYER_READY(Layer.GAME, 'R', Bound.CLIENT, GameClientReadyPacket.class),
+	GAME_SERVER_READY(Layer.GAME, 'R', Bound.SERVER, GameServerReadyPacket.class),
+	GAME_START_TO_PLAY(Layer.GAME, 'S', Bound.SERVER, GameStartToPlayPacket.class),
+	GAME_POSITIONS(Layer.GAME, 'I', 'C', Bound.SERVER, GamePositionsPacket.class),
+	GAME_FIGHT_CHALLENGE(Layer.GAME, 'd', Bound.SERVER, GameFightChallengePacket.class),
+	GAME_TURN_LIST(Layer.GAME, 'T', 'L', Bound.SERVER, GameTurnListPacket.class),
+	GAME_TURN_MIDDLE(Layer.GAME, 'T', 'M', Bound.SERVER, GameTurnMiddlePacket.class),
+	GAME_TURN_END(Layer.GAME, 't', Bound.CLIENT, GameTurnEndPacket.class),
+	GAME_TURN_START(Layer.GAME, 'T', 'S', Bound.SERVER, GameTurnStartPacket.class),
+	GAME_TURN_FINISH(Layer.GAME, 'T', 'F', Bound.SERVER, GameTurnFinishPacket.class),
+	GAME_TURN_READY(Layer.GAME, 'T', 'R', Bound.SERVER, GameTurnReadyPacket.class),
+	GAME_EFFECT(Layer.GAME, 'I', 'E', Bound.SERVER, GameEffectPacket.class),
 
-	//Game Action
+	// Game Action
 	GAME_CLIENT_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameClientActionPacket.class),
-	GAME_SERVER_ACTION(Layer.GAME , 'A' , Bound.SERVER, GameServerActionPacket.class),
-	GAME_ACTION_START(Layer.GAME , 'A' , 'S' , Bound.SERVER , GameActionStartPacket.class),
-	GAME_ACTION_FINISH(Layer.GAME , 'A' , 'F' , Bound.SERVER , GameActionStartPacket.class),
+	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
+	GAME_ACTION_START(Layer.GAME, 'A', 'S', Bound.SERVER, GameActionStartPacket.class),
+	GAME_ACTION_FINISH(Layer.GAME, 'A', 'F', Bound.SERVER, GameActionStartPacket.class),
 	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
 
-	GUILD_STATS(Layer.GAME , 'S', Bound.SERVER , GuildStatPacket.class),
+	GUILD_STATS(Layer.GAME, 'S', Bound.SERVER, GuildStatPacket.class),
 
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
-	CHAT_USE_SMILEY(Layer.BASIC , 'S' , Bound.CLIENT , ChatUseSmileyPacket.class), //Fuck you dofus Basic for chat
+	CHAT_USE_SMILEY(Layer.BASIC, 'S', Bound.CLIENT, ChatUseSmileyPacket.class), // Fuck you dofus Basic for chat
 
 	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class),
 
-	SPELL_LIST(Layer.SPELL , 'L' , Bound.SERVER , SpellListPacket.class),
-	SPELL_CHANGE_OPTION(Layer.SPELL , 'L' , 'o' , Bound.SERVER , SpellChangeOptionPacket.class),
+	SPELL_LIST(Layer.SPELL, 'L', Bound.SERVER, SpellListPacket.class),
+	SPELL_CHANGE_OPTION(Layer.SPELL, 'L', 'o', Bound.SERVER, SpellChangeOptionPacket.class),
 
-	SUBAREA_LIST(Layer.SUBAREA , 'l' , Bound.SERVER , SubareaListPacket.class),
+	SUBAREA_LIST(Layer.SUBAREA, 'l', Bound.SERVER, SubareaListPacket.class),
 
-	EMOTE_USE(Layer.EMOTE , 'U' , Bound.CLIENT , EmoteUsePacket.class),
+	EMOTE_USE(Layer.EMOTE, 'U', Bound.CLIENT, EmoteUsePacket.class),
 
-	EXCHANGE_LIST(Layer.EXCHANGE , 'L' , Bound.SERVER , ExchangeListPacket.class),
-	EXCHANGE_CREATE(Layer.EXCHANGE , 'C' , Bound.SERVER , ExchangeCreatePacket.class),
-	EXCHANGE_LEAVE(Layer.EXCHANGE , 'V' , Bound.SERVER , ExchangeLeavePacket.class),
+	EXCHANGE_LIST(Layer.EXCHANGE, 'L', Bound.SERVER, ExchangeListPacket.class),
+	EXCHANGE_CREATE(Layer.EXCHANGE, 'C', Bound.SERVER, ExchangeCreatePacket.class),
+	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.SERVER, ExchangeLeavePacket.class),
+	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestPacket.class),
+	EXCHANGE_ASK(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeAskPacket.class),
 
-	WAYPOINT_CREATE(Layer.WAYPOINT , 'C' , Bound.SERVER , WaypointCreatePacket.class),
-	WAYPOINT_USE(Layer.WAYPOINT , 'U' , Bound.CLIENT , WaypointUsePacket.class),
-	WAYPOINT_LEAVE(Layer.WAYPOINT , 'V' , Bound.BOTH , WaypointLeavePacket.class),
-	WAYPOINT_USE_ERROR(Layer.WAYPOINT , 'U' , Bound.SERVER , WaypointUseErrorPacket.class),;
+	WAYPOINT_CREATE(Layer.WAYPOINT, 'C', Bound.SERVER, WaypointCreatePacket.class),
+	WAYPOINT_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, WaypointUsePacket.class),
+	WAYPOINT_LEAVE(Layer.WAYPOINT, 'V', Bound.BOTH, WaypointLeavePacket.class),
+	WAYPOINT_USE_ERROR(Layer.WAYPOINT, 'U', Bound.SERVER, WaypointUseErrorPacket.class),;
 
 	public static class State {
 		private State() {
