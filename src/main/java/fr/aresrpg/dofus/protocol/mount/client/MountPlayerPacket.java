@@ -8,7 +8,7 @@ import fr.aresrpg.dofus.protocol.DofusStream;
  * 
  * @since
  */
-public class PlayerMountPacket implements ClientPacket {
+public class MountPlayerPacket implements ClientPacket {
 
 	@Override
 	public void read(DofusStream stream) {}

@@ -4,7 +4,7 @@ import fr.aresrpg.dofus.protocol.ClientPacket;
 import fr.aresrpg.dofus.protocol.ClientPacketHandler;
 import fr.aresrpg.dofus.protocol.DofusStream;
 
-public class ChatUseSmileyPacket implements ClientPacket{
+public class BasicUseSmileyPacket implements ClientPacket{
 	private int smileyId;
 
 	@Override
@@ -26,7 +26,7 @@ public class ChatUseSmileyPacket implements ClientPacket{
 		return smileyId;
 	}
 
-	public ChatUseSmileyPacket setSmileyId(int smileyId) {
+	public BasicUseSmileyPacket setSmileyId(int smileyId) {
 		this.smileyId = smileyId;
 		return this;
 	}

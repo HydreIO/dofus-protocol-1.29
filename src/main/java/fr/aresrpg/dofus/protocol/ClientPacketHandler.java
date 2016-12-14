@@ -1,17 +1,17 @@
 package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.client.*;
-import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
-import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
+import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 
 public interface ClientPacketHandler extends PacketHandler {
-	void handle(ChatUseSmileyPacket chatUseSmileyPacket);
+	void handle(BasicUseSmileyPacket chatUseSmileyPacket);
 
 	void handle(AccountAuthPacket accountAuthPacket);
 
@@ -57,7 +57,7 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(InfoMapPacket infoMapPacket);
 
-	void handle(PlayerMountPacket playerMountPacket);
+	void handle(MountPlayerPacket playerMountPacket);
 
 	void handle(ExchangeAcceptPacket exchangeAcceptPacket);
 

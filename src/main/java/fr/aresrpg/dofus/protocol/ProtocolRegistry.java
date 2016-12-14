@@ -6,7 +6,7 @@ import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
-import fr.aresrpg.dofus.protocol.chat.client.ChatUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
-import fr.aresrpg.dofus.protocol.mount.client.PlayerMountPacket;
+import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
@@ -33,11 +33,13 @@ import java.util.*;
 
 public enum ProtocolRegistry {
 
+	// HELLO ==========================================================
+	// server
 	HELLO_GAME(Layer.HELLO, 'G', Bound.SERVER, HelloGamePacket.class),
 	HELLO_CONNECTION(Layer.HELLO, 'C', Bound.SERVER, HelloConnectionPacket.class),
 
-	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT, 'f', true, Bound.CLIENT, AccountAuthPacket.class),
-	ACCOUNT_GET_QUEUE_POSITION(Layer.ACCOUNT, 'f', Bound.CLIENT, AccountGetQueuePosition.class),
+	// ACCOUNT ==========================================================
+	// server
 	ACCOUNT_QUEUE_POSITION(Layer.ACCOUNT, 'f', Bound.SERVER, AccountQueuePosition.class),
 	ACCOUNT_LOGIN_ERROR(Layer.ACCOUNT, 'l', State.ERROR, Bound.SERVER, AccountLoginErrPacket.class),
 	ACCOUNT_LOGIN_OK(Layer.ACCOUNT, 'l', State.OK, Bound.SERVER, AccountLoginOkPacket.class),
@@ -45,88 +47,114 @@ public enum ProtocolRegistry {
 	ACCOUNT_COMMUNITY(Layer.ACCOUNT, 'c', Bound.SERVER, AccountCommunityPacket.class),
 	ACCOUNT_HOST(Layer.ACCOUNT, 'H', Bound.SERVER, AccountHostPacket.class),
 	ACCOUNT_QUESTION(Layer.ACCOUNT, 'Q', Bound.SERVER, AccountQuestionPacket.class),
-	ACCOUNT_LIST_SERVER(Layer.ACCOUNT, 'x', Bound.CLIENT, AccountListServersPacket.class),
 	ACCOUNT_SERVER_LIST(Layer.ACCOUNT, 'x', State.OK, Bound.SERVER, AccountServerListPacket.class),
-	ACCOUNT_ACCESS_SERVER(Layer.ACCOUNT, 'X', Bound.CLIENT, AccountAccessServerPacket.class),
-	ACCOUNT_SET_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSetCharacterPacket.class),
 	ACCOUNT_SERVER_ENCRYPTED_HOST(Layer.ACCOUNT, 'X', State.OK, Bound.SERVER, AccountServerEncryptedHostPacket.class),
 	ACCOUNT_SERVER_HOST(Layer.ACCOUNT, 'Y', State.OK, Bound.SERVER, AccountServerHostPacket.class),
 	ACCOUNT_TICKET(Layer.ACCOUNT, 'T', Bound.SERVER, AccountTicketPacket.class),
 	ACCOUNT_TICKET_OK(Layer.ACCOUNT, 'T', State.OK, Bound.SERVER, AccountTicketOkPacket.class),
-	ACCOUNT_KEY(Layer.ACCOUNT, 'k', Bound.BOTH, AccountKeyPacket.class),
-	ACCOUNT_REGION_VERSION(Layer.ACCOUNT, 'V', Bound.BOTH, AccountRegionalVersionPacket.class),
-	ACCOUNT_GET_GIFTS(Layer.ACCOUNT, 'g', Bound.CLIENT, AccountGetGiftsPacket.class),
-	ACCOUNT_IDENTITY(Layer.ACCOUNT, 'i', Bound.CLIENT, AccountIdentityPacket.class),
-	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
-	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
 	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT, 'S', State.OK, Bound.SERVER, AccountSelectCharacterOkPacket.class),
 	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT, 'R', Bound.SERVER, AccountRestrictionsPacket.class),
 
+	// client
+	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT, 'f', true, Bound.CLIENT, AccountAuthPacket.class),
+	ACCOUNT_GET_QUEUE_POSITION(Layer.ACCOUNT, 'f', Bound.CLIENT, AccountGetQueuePosition.class),
+	ACCOUNT_LIST_SERVER(Layer.ACCOUNT, 'x', Bound.CLIENT, AccountListServersPacket.class),
+	ACCOUNT_ACCESS_SERVER(Layer.ACCOUNT, 'X', Bound.CLIENT, AccountAccessServerPacket.class),
+	ACCOUNT_SET_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSetCharacterPacket.class),
+	ACCOUNT_GET_GIFTS(Layer.ACCOUNT, 'g', Bound.CLIENT, AccountGetGiftsPacket.class),
+	ACCOUNT_IDENTITY(Layer.ACCOUNT, 'i', Bound.CLIENT, AccountIdentityPacket.class),
+	ACCOUNT_GET_CHARACTERS(Layer.ACCOUNT, 'L', Bound.CLIENT, AccountGetCharactersPacket.class),
+	ACCOUNT_SELECT_CHARACTER(Layer.ACCOUNT, 'S', Bound.CLIENT, AccountSelectCharacterPacket.class),
+
+	// both
+	ACCOUNT_KEY(Layer.ACCOUNT, 'k', Bound.BOTH, AccountKeyPacket.class),
+	ACCOUNT_REGION_VERSION(Layer.ACCOUNT, 'V', Bound.BOTH, AccountRegionalVersionPacket.class),
+
+	// BASIC ==========================================================
+	// server
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
+	// client
+	BASIC_SMILEY(Layer.BASIC, 'S', Bound.CLIENT, BasicUseSmileyPacket.class),
 
+	// MOUNT ==========================================================
+	// server
 	MOUNT_XP(Layer.MOUNT, 'x', Bound.SERVER, MountXpPacket.class),
+	MOUNT_PLAYER(Layer.MOUNT, 'r', Bound.SERVER, MountPlayerPacket.class),
 
-	PLAYER_MOUNT_PACKET(Layer.MOUNT, 'r', Bound.SERVER, PlayerMountPacket.class),
-
-	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
-	GAME_CREATE(Layer.GAME, 'C', Bound.CLIENT, GameCreatePacket.class),
+	// GAME ==========================================================
+	// server
 	GAME_MAP_DATA(Layer.GAME, 'D', 'M', Bound.SERVER, GameMapDataPacket.class),
 	GAME_MAP_FRAME(Layer.GAME, 'D', 'F', Bound.SERVER, GameMapFramePacket.class),
 	GAME_JOIN(Layer.GAME, 'J', State.OK, Bound.SERVER, GameJoinPacket.class),
-	GAME_END_TURN(Layer.GAME, 't', Bound.CLIENT, GameEndTurnPacket.class),
-	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
-	GAME_FREE_MY_SOUL(Layer.GAME, 'F', Bound.CLIENT, GameFreeMySoulPacket.class),
-	GAME_SET_PLAYER_POSITION(Layer.GAME, 'p', Bound.CLIENT, GameSetPlayerPositionPacket.class),
 	GAME_ON_READY(Layer.GAME, 'R', Bound.SERVER, GameOnReadyPacket.class),
 	GAME_START_POSITION_PACKET(Layer.GAME, 'P', Bound.SERVER, GamePositionStartPacket.class),
-	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, GameLeavePacket.class),
 	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
 	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),
-	GAME_PLAYER_READY(Layer.GAME, 'R', Bound.CLIENT, GameClientReadyPacket.class),
 	GAME_SERVER_READY(Layer.GAME, 'R', Bound.SERVER, GameServerReadyPacket.class),
 	GAME_START_TO_PLAY(Layer.GAME, 'S', Bound.SERVER, GameStartToPlayPacket.class),
 	GAME_POSITIONS(Layer.GAME, 'I', 'C', Bound.SERVER, GamePositionsPacket.class),
 	GAME_FIGHT_CHALLENGE(Layer.GAME, 'd', Bound.SERVER, GameFightChallengePacket.class),
 	GAME_TURN_LIST(Layer.GAME, 'T', 'L', Bound.SERVER, GameTurnListPacket.class),
 	GAME_TURN_MIDDLE(Layer.GAME, 'T', 'M', Bound.SERVER, GameTurnMiddlePacket.class),
-	GAME_TURN_END(Layer.GAME, 't', Bound.CLIENT, GameTurnEndPacket.class),
 	GAME_TURN_START(Layer.GAME, 'T', 'S', Bound.SERVER, GameTurnStartPacket.class),
 	GAME_TURN_FINISH(Layer.GAME, 'T', 'F', Bound.SERVER, GameTurnFinishPacket.class),
 	GAME_TURN_READY(Layer.GAME, 'T', 'R', Bound.SERVER, GameTurnReadyPacket.class),
 	GAME_EFFECT(Layer.GAME, 'I', 'E', Bound.SERVER, GameEffectPacket.class),
-
-	// Game Action
-	GAME_CLIENT_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameClientActionPacket.class),
 	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
 	GAME_ACTION_START(Layer.GAME, 'A', 'S', Bound.SERVER, GameActionStartPacket.class),
 	GAME_ACTION_FINISH(Layer.GAME, 'A', 'F', Bound.SERVER, GameActionStartPacket.class),
+
+	// client
+	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
+	GAME_CREATE(Layer.GAME, 'C', Bound.CLIENT, GameCreatePacket.class),
+	GAME_END_TURN(Layer.GAME, 't', Bound.CLIENT, GameEndTurnPacket.class),
+	GAME_TURN_OK(Layer.GAME, 'T', Bound.CLIENT, GameTurnOkPacket.class),
+	GAME_FREE_MY_SOUL(Layer.GAME, 'F', Bound.CLIENT, GameFreeMySoulPacket.class),
+	GAME_SET_PLAYER_POSITION(Layer.GAME, 'p', Bound.CLIENT, GameSetPlayerPositionPacket.class),
+	GAME_LEAVE(Layer.GAME, 'V', Bound.CLIENT, GameLeavePacket.class),
+	GAME_PLAYER_READY(Layer.GAME, 'R', Bound.CLIENT, GameClientReadyPacket.class),
+	GAME_TURN_END(Layer.GAME, 't', Bound.CLIENT, GameTurnEndPacket.class),
+	GAME_CLIENT_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameClientActionPacket.class),
 	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
 
+	// GUILD ==========================================================
+	// server
 	GUILD_STATS(Layer.GAME, 'S', Bound.SERVER, GuildStatPacket.class),
 
+	// INFO ==========================================================
+	// server
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
+	// client
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
+	// CHAT ==========================================================
+	// both
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
-	CHAT_USE_SMILEY(Layer.BASIC, 'S', Bound.CLIENT, ChatUseSmileyPacket.class), // Fuck you dofus Basic for chat
 
+	// SPECIALIZATION ==========================================================
 	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class),
 
+	// SPELL ==========================================================
+	// server
 	SPELL_LIST(Layer.SPELL, 'L', Bound.SERVER, SpellListPacket.class),
 	SPELL_CHANGE_OPTION(Layer.SPELL, 'L', 'o', Bound.SERVER, SpellChangeOptionPacket.class),
 
-	SUBAREA_LIST(Layer.SUBAREA, 'l', Bound.SERVER, SubareaListPacket.class),
+	// SUBAREA ==========================================================
+	// server
+	SUBAREA_LIST(Layer.AREA, 'l', Bound.SERVER, SubareaListPacket.class),
 
+	// EMOT
+	// client
 	EMOTE_USE(Layer.EMOTE, 'U', Bound.CLIENT, EmoteUsePacket.class),
 
-	// exchange server
+	// EXCHANGE ==========================================================
+	// server
 	EXCHANGE_LIST(Layer.EXCHANGE, 'L', Bound.SERVER, ExchangeListPacket.class),
 	EXCHANGE_CREATE(Layer.EXCHANGE, 'C', Bound.SERVER, ExchangeCreatePacket.class),
 	EXCHANGE_REQUEST_OK(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestOkPacket.class),
-
-	// exchange client
+	// client
 	EXCHANGE_SHOP(Layer.EXCHANGE, 's', Bound.CLIENT, ExchangeShopPacket.class),
 	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeRequestPacket.class),
 	EXCHANGE_ACCEPT(Layer.EXCHANGE, 'A', Bound.CLIENT, ExchangeAcceptPacket.class),
@@ -142,15 +170,21 @@ public enum ProtocolRegistry {
 	EXCHANGE_MOUNT(Layer.EXCHANGE, 'r', Bound.CLIENT, ExchangeMountPacket.class),
 	EXCHANGE_PARK_MOUNT(Layer.EXCHANGE, 'f', Bound.CLIENT, ExchangeParkMountPacket.class),
 	EXCHANGE_REPLAY_CRAFT(Layer.EXCHANGE, 'L', Bound.CLIENT, ExchangeReplayCraftPacket.class),
-
-	// exchange both
+	// both
 	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.BOTH, ExchangeLeavePacket.class),
 
+	// ZAAP ==========================================================
+	// server
 	ZAAP_CREATE(Layer.WAYPOINT, 'C', Bound.SERVER, ZaapCreatePacket.class),
-	ZAAP_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, ZaapUsePacket.class),
-	ZAAP_LEAVE(Layer.WAYPOINT, 'V', Bound.BOTH, ZaapLeavePacket.class),
-	ZAAP_USE_ERROR(Layer.WAYPOINT, 'U', Bound.SERVER, ZaapUseErrorPacket.class),;
+	ZAAP_USE_ERROR(Layer.WAYPOINT, 'U', Bound.SERVER, ZaapUseErrorPacket.class),
 
+	// client
+	ZAAP_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, ZaapUsePacket.class),
+	// both
+	ZAAP_LEAVE(Layer.WAYPOINT, 'V', Bound.BOTH, ZaapLeavePacket.class),
+
+	// <<<< END
+	;
 	public static class State {
 		private State() {
 		}
@@ -292,12 +326,12 @@ public enum ProtocolRegistry {
 		HOUSE('h'),
 		ENEMY('i'),
 		HOUSE_CODE('k'),
-		ITEM('O'),
-		GROUP('P'),
+		OBJECT('O'),
+		PARTY('P'),
 		MOUNT('R'),
 		SPELL('S'),
 		HELLO('H'),
-		SUBAREA('a'),
+		AREA('a'),
 		WAYPOINT('W'),
 		INFO('I'),
 		SPECIALIZATION('Z');
