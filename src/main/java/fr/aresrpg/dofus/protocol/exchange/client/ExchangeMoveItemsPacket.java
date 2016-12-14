@@ -9,7 +9,7 @@ import java.util.Arrays;
  * 
  * @since
  */
-public class ExchangeMovePacket implements ClientPacket { // EMO <+/->id|amount<|price> ...
+public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|amount<|price> ...
 
 	private MovedItem[] items;
 
@@ -19,7 +19,7 @@ public class ExchangeMovePacket implements ClientPacket { // EMO <+/->id|amount<
 	 * @param amount
 	 * @param price
 	 */
-	public ExchangeMovePacket(MovedItem... items) {
+	public ExchangeMoveItemsPacket(MovedItem... items) {
 		this.items = items;
 	}
 

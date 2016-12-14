@@ -51,7 +51,7 @@ public class Lang {
 		return response.toString();
 	}
 
-	public static Map<String, Object> getDatas(String lang, String data) {
+	public static Map<String, Object> getDatas(String lang, String data) throws IOException {
 		return SwfVariableExtractor.extractVariable(getLangData(lang, getLangVersion(lang).get(data), data));
 	}
 

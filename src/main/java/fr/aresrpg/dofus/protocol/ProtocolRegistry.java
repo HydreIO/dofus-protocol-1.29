@@ -29,9 +29,7 @@ import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapUseErrorPacket;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public enum ProtocolRegistry {
 
@@ -133,7 +131,17 @@ public enum ProtocolRegistry {
 	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeRequestPacket.class),
 	EXCHANGE_ACCEPT(Layer.EXCHANGE, 'A', Bound.CLIENT, ExchangeAcceptPacket.class),
 	EXCHANGE_READY(Layer.EXCHANGE, 'K', Bound.CLIENT, ExchangeReadyPacket.class),
-	EXCHANGE_MOVE(Layer.EXCHANGE, 'M', 'O', Bound.CLIENT, ExchangeMovePacket.class),
+	EXCHANGE_MOVE_ITEMS(Layer.EXCHANGE, 'M', 'O', Bound.CLIENT, ExchangeMoveItemsPacket.class),
+	EXCHANGE_MOVE_KAMAS(Layer.EXCHANGE, 'M', 'G', Bound.CLIENT, ExchangeMoveKamasPacket.class),
+	EXHANGE_BUY_TO_NPC(Layer.EXCHANGE, 'B', Bound.CLIENT, ExchangeBuyToNpcPacket.class),
+	EXCHANGE_SELL_TO_NPC(Layer.EXCHANGE, 'S', Bound.CLIENT, ExchangeSellToNpcPacket.class),
+	EXHANGE_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'Q', Bound.CLIENT, ExchangeDisconnectAsMerchantPacker.class),
+	EXCHANGE_ASK_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'q', Bound.CLIENT, ExchangeAskToDisconnectAsMerchantPacket.class),
+	EXCHANGE_ASK_HDV_TYPE(Layer.EXCHANGE, 'H', Bound.CLIENT, ExchangeAskHdvPacket.class),
+	EXCHANGE_GET_CRAFTER_FOR_JOB(Layer.EXCHANGE, 'J', 'F', Bound.CLIENT, ExchangeGetCrafterForJobPacket.class),
+	EXCHANGE_MOUNT(Layer.EXCHANGE, 'r', Bound.CLIENT, ExchangeMountPacket.class),
+	EXCHANGE_PARK_MOUNT(Layer.EXCHANGE, 'f', Bound.CLIENT, ExchangeParkMountPacket.class),
+	EXCHANGE_REPLAY_CRAFT(Layer.EXCHANGE, 'L', Bound.CLIENT, ExchangeReplayCraftPacket.class),
 
 	// exchange both
 	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.BOTH, ExchangeLeavePacket.class),

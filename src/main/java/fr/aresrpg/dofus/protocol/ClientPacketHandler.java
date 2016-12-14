@@ -67,9 +67,31 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(ExchangeRequestPacket exchangeRequestPacket);
 
-	void handle(ExchangeMovePacket exchangeMovePacket);
+	void handle(ExchangeMoveItemsPacket exchangeMovePacket);
 
 	void handle(ExchangeReadyPacket exchangeReadyPacket);
 
 	void handle(ExchangeShopPacket exchangeShopPacket);
+
+	void handle(ExchangeMoveKamasPacket exchangeMoveKamasPacket);
+
+	void handle(ExchangeSellToNpcPacket exchangeSellToNpcPacket);
+
+	void handle(ExchangeBuyToNpcPacket exchangeBuyToNpcPacket);
+
+	void handle(ExchangeDisconnectAsMerchantPacker exchangeDisconnectAsMerchandPacker);
+
+	void handle(ExchangeAskToDisconnectAsMerchantPacket exchangeAskToDisconnectAsMerchantPacket);
+
+	void handle(ExchangeAskHdvPacket exchangeAskHdvTypePacket);
+
+	void handle(ExchangeGetCrafterForJobPacket exchangeGetCrafterForJobPacket);
+
+	void handle(ExchangeMountPacket exchangeMountPacket);
+
+	void handle(ExchangeParkMountPacket exchangeParkMountPacket);
+
+	void handle(ExchangeReplayCraftPacket exchangeReplayCraftPacket);
+
+	void handle(ExchangeRepeatCraftPacket exchangeRepeatCraftPacket);
 }
