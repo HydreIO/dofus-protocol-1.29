@@ -103,8 +103,6 @@ public enum ProtocolRegistry {
 	GAME_TURN_READY(Layer.GAME, 'T', 'R', Bound.SERVER, GameTurnReadyPacket.class),
 	GAME_EFFECT(Layer.GAME, 'I', 'E', Bound.SERVER, GameEffectPacket.class),
 	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
-	GAME_ACTION_START(Layer.GAME, 'A', 'S', Bound.SERVER, GameActionStartPacket.class),
-	GAME_ACTION_FINISH(Layer.GAME, 'A', 'F', Bound.SERVER, GameActionStartPacket.class),
 
 	// client
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
@@ -117,6 +115,12 @@ public enum ProtocolRegistry {
 	GAME_PLAYER_READY(Layer.GAME, 'R', Bound.CLIENT, GameClientReadyPacket.class),
 	GAME_TURN_END(Layer.GAME, 't', Bound.CLIENT, GameTurnEndPacket.class),
 	GAME_CLIENT_ACTION(Layer.GAME, 'A', Bound.CLIENT, GameClientActionPacket.class),
+
+	// action server
+	GAME_ACTION_START(Layer.GAME, 'A', 'S', Bound.SERVER, GameActionStartPacket.class),
+	GAME_ACTION_FINISH(Layer.GAME, 'A', 'F', Bound.SERVER, GameActionFinishPacket.class),
+
+	// action client
 	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
 
 	// GUILD ==========================================================
@@ -165,7 +169,7 @@ public enum ProtocolRegistry {
 	EXCHANGE_SELL_TO_NPC(Layer.EXCHANGE, 'S', Bound.CLIENT, ExchangeSellToNpcPacket.class),
 	EXHANGE_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'Q', Bound.CLIENT, ExchangeDisconnectAsMerchantPacker.class),
 	EXCHANGE_ASK_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'q', Bound.CLIENT, ExchangeAskToDisconnectAsMerchantPacket.class),
-	EXCHANGE_ASK_HDV_TYPE(Layer.EXCHANGE, 'H', Bound.CLIENT, ExchangeAskHdvPacket.class),
+	EXCHANGE_ASK_HDV_TYPE(Layer.EXCHANGE, 'H', Bound.CLIENT, ExchangeHdvPacket.class),
 	EXCHANGE_GET_CRAFTER_FOR_JOB(Layer.EXCHANGE, 'J', 'F', Bound.CLIENT, ExchangeGetCrafterForJobPacket.class),
 	EXCHANGE_MOUNT(Layer.EXCHANGE, 'r', Bound.CLIENT, ExchangeMountPacket.class),
 	EXCHANGE_PARK_MOUNT(Layer.EXCHANGE, 'f', Bound.CLIENT, ExchangeParkMountPacket.class),
