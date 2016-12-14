@@ -1,22 +1,17 @@
 package fr.aresrpg.dofus.util;
 
-import flash.swf.Action;
-import flash.swf.ActionHandler;
-import flash.swf.TagDecoder;
-import flash.swf.TagHandler;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+
+import flash.swf.*;
 import flash.swf.actions.ConstantPool;
 import flash.swf.actions.Push;
 import flash.swf.tags.DoAction;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
 public class SwfVariableExtractor extends TagHandler {
 
-	private Map<String, Object> variables = new HashMap<>();
+	private Map<String, Object> variables = new LinkedHashMap();
 
 	public Map<String, Object> getVariables() {
 		return variables;
@@ -62,20 +57,18 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void setVariable(Action action) {
-			if(path.isEmpty()) {
-				System.out.println("EMPTY PATH "  + stack);
+			if (path.isEmpty())
 				return;
-			}
 			variables.put(path.substring(1), stack.removeLast());
 			path = "";
 		}
 
 		@Override
 		public void initObject(Action action) {
-			Map<String , Object> members = new HashMap<>();
+			Map<String, Object> members = new HashMap<>();
 			path += "." + stack.removeFirst().toString();
 			int size = stack.size();
-			for(int i = 0 ; i < size/2 ; i++) {
+			for (int i = 0; i < size / 2; i++) {
 				String name = stack.removeFirst().toString();
 				Object data = stack.removeFirst();
 				members.put(name, data);

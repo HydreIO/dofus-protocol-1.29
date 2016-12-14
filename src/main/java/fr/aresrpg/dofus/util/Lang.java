@@ -16,7 +16,6 @@ public class Lang {
 		Map<String, Integer> m = new HashMap<>();
 		for (String d : data) {
 			String[] ld = d.split(",");
-			System.out.println(d);
 			m.put(ld[0], Integer.parseInt(ld[2]));
 		}
 		return m;
