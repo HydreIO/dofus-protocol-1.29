@@ -7,18 +7,18 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class Item {
-	private int id;
-	private int uniqueId;
+	private int uid;
+	private int itemTypeId;
 	private int quantity;
 	private int position;
 	private Effect[] effects;
 	private int price;
 	private int skin;
-	//private int mood;
+	// private int mood;
 
-	public Item(int id, int uniqueId, int quantity, int position, Effect[] effects, int price, int skin) {
-		this.id = id;
-		this.uniqueId = uniqueId;
+	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects, int price, int skin) {
+		this.uid = uid;
+		this.itemTypeId = itemTypeId;
 		this.quantity = quantity;
 		this.position = position;
 		this.effects = effects;
@@ -26,16 +26,22 @@ public class Item {
 		this.skin = skin;
 	}
 
-	public Item(int id, int uniqueId, int quantity, int position, Effect[] effects) {
-		this(id , uniqueId , quantity , position , effects , -1 , -1);
+	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects) {
+		this(uid, itemTypeId, quantity, position, effects, -1, -1);
 	}
 
-	public int getId() {
-		return id;
+	/**
+	 * @return the uid
+	 */
+	public int getUid() {
+		return uid;
 	}
 
-	public int getUniqueId() {
-		return uniqueId;
+	/**
+	 * @return the itemTypeId
+	 */
+	public int getItemTypeId() {
+		return itemTypeId;
 	}
 
 	public int getQuantity() {
@@ -60,29 +66,23 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return "Item{" +
-				"id=" + id +
-				", uniqueId=" + uniqueId +
-				", quantity=" + quantity +
-				", position=" + position +
-				", effects=" + Arrays.toString(effects) +
-				'}';
+		return "Item [uid=" + uid + ", itemTypeId=" + itemTypeId + ", quantity=" + quantity + ", position=" + position + ", effects=" + Arrays.toString(effects) + ", price=" + price + ", skin=" + skin
+				+ "]";
 	}
 
-	public static Item parseItem(String d){
-		String[] data = StringUtils.split(d , "~");
+	public static Item parseItem(String d) {
+		String[] data = StringUtils.split(d, "~");
 		return new Item(
-				Integer.parseInt(data[0] , 16),
-				Integer.parseInt(data[1] , 16),
-				Integer.parseInt(data[2] , 16),
-				data[3].isEmpty() ? -1 : Integer.parseInt(data[3] , 16),
-				parseEffects(data[4])
-		);
+				Integer.parseInt(data[0], 16),
+				Integer.parseInt(data[1], 16),
+				Integer.parseInt(data[2], 16),
+				data[3].isEmpty() ? -1 : Integer.parseInt(data[3], 16),
+				parseEffects(data[4]));
 	}
 
-	public static String serializeItem(Item i){
-		return Integer.toHexString(i.getId()) + "~" +
-				Integer.toHexString(i.getUniqueId()) + "~" +
+	public static String serializeItem(Item i) {
+		return Integer.toHexString(i.getUid()) + "~" +
+				Integer.toHexString(i.getItemTypeId()) + "~" +
 				Integer.toHexString(i.getQuantity()) + "~" +
 				(i.getPosition() == -1 ? "" : Integer.toHexString(i.getPosition())) + "~" +
 				serializeEffects(i.getEffects());
@@ -91,13 +91,13 @@ public class Item {
 	public static Effect[] parseEffects(String d) {
 		String[] rawEffects = d.split(",");
 		Effect[] effects = new Effect[rawEffects.length];
-		for(int i = 0 ; i < rawEffects.length ; i++)
+		for (int i = 0; i < rawEffects.length; i++)
 			effects[i] = parseEffect(rawEffects[i]);
 		return effects;
 	}
 
-	public static Effect parseEffect(String d){
-		if(d.isEmpty())
+	public static Effect parseEffect(String d) {
+		if (d.isEmpty())
 			return null;
 		String[] data = d.split("#");
 		return new Effect(
@@ -105,20 +105,19 @@ public class Item {
 				Integer.parseInt(data[1], 16),
 				Integer.parseInt(data[2], 16),
 				Integer.parseInt(data[3], 16),
-				/*Integer.parseInt(data[4])*/ -1, //TODO
+				/* Integer.parseInt(data[4]) */ -1, // TODO
 				-1,
-				-1
-		);
+				-1);
 	}
 
-	public static String serializeEffects(Effect[] effects){
+	public static String serializeEffects(Effect[] effects) {
 		StringJoiner rawEffects = new StringJoiner(",");
-		for(Effect e : effects)
+		for (Effect e : effects)
 			rawEffects.add(serializeEffect(e));
 		return rawEffects.toString();
 	}
 
-	public static String serializeEffect(Effect e){
+	public static String serializeEffect(Effect e) {
 		return e.getType() + "#" +
 				e.getParam1() + "#" +
 				e.getParam2() + "#" +

@@ -22,6 +22,8 @@ import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
+import fr.aresrpg.dofus.protocol.item.client.*;
+import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
@@ -86,6 +88,23 @@ public enum ProtocolRegistry {
 	DIALOG_RESPONSE(Layer.DIALOG, 'R', Bound.CLIENT, DialogResponsePacket.class),
 	// both
 	DIALOG_LEAVE(Layer.DIALOG, 'V', Bound.BOTH, DialogLeavePacket.class),
+
+	// ITEM ==========================================================
+	// server
+	ITEM_DROP_ERROR(Layer.OBJECT, 'D', State.ERROR, Bound.SERVER, ItemDropErrorPacket.class),
+	ITEM_ADD_ERROR(Layer.OBJECT, 'A', State.ERROR, Bound.SERVER, ItemAddErrorPacket.class),
+	ITEM_ADD_OK(Layer.OBJECT,'A',State.OK,Bound.SERVER,ItemAddOkPacket.class),
+	ITEM_REMOVE(Layer.OBJECT, 'R', Bound.SERVER, null),
+	ITEM_QUANTITY(Layer.OBJECT, 'Q', Bound.SERVER, null),
+	ITEM_MOVEMENT_CONFIRM(Layer.OBJECT, 'M', Bound.SERVER, null),
+	ITEM_TOOL(Layer.OBJECT, 'T', Bound.SERVER, null),
+	ITEM_WEIGHT(Layer.OBJECT, 'w', Bound.SERVER, null),
+
+	// client
+	ITEM_MOVEMENT(Layer.OBJECT, 'M', Bound.CLIENT, ItemMovementPacket.class),
+	ITEM_DROP(Layer.OBJECT, 'D', Bound.CLIENT, ItemDropPacket.class),
+	ITEM_DESTROY(Layer.OBJECT, 'd', Bound.CLIENT, ItemDestroyPacket.class),
+	ITEM_USE(Layer.OBJECT, 'U', Bound.CLIENT, ItemUsePacket.class), // TODO: verif bConfirm ? ("u") : ("U")
 
 	// BASIC ==========================================================
 	// server

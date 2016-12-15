@@ -74,6 +74,14 @@ public interface DofusStream {
 		return this;
 	}
 
+	default char readChar() {
+		return read().charAt(0);
+	}
+
+	default DofusStream writeChar(char c) {
+		return write(String.valueOf(c));
+	}
+
 	DofusStream allocate(int size);
 
 	DofusStream allocatePacket(int size);

@@ -10,6 +10,7 @@ import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
+import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 
@@ -115,4 +116,12 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(FightNeedHelpPacket fightNeedHelpPacket);
 
 	void handle(GameActionCancel gameActionCancel);
+
+	void handle(ItemMovementPacket itemMovementFastInvPacket);
+
+	void handle(ItemDropPacket itemDropPacket);
+
+	void handle(ItemDestroyPacket itemDestroyPacket);
+
+	void handle(ItemUsePacket itemUsePacket);
 }

@@ -9,6 +9,7 @@ import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
+import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
@@ -127,4 +128,10 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(DialogPausePacket dialogPausePacket);
 
 	void handle(ExchangeReadyPacket exchangeReadyPacket);
+
+	void handle(ItemAddOkPacket itemAddOkPacket);
+
+	void handle(ItemAddErrorPacket itemAddErrorPacket);
+
+	void handle(ItemDropErrorPacket itemDropErrorPacket);
 }

@@ -11,6 +11,12 @@ public class Lang {
 	private Lang() {
 	}
 
+	public static void main(String[] args) throws IOException {
+		System.out.println(getLangVersion("fr"));
+		Map<String, Object> datas = getDatas("fr", "skills");
+		datas.forEach((a, b) -> System.out.println(a + "=" + b));
+	}
+
 	public static Map<String, Integer> getLangVersion(String assetsServer, String lang) throws IOException {
 		String[] data = getText(new URL(assetsServer + Constants.LANG_VERSION_PATH.replace("{lang}", lang))).substring(3)/* Remove &f= */.split("\\|");
 		Map<String, Integer> m = new HashMap<>();
