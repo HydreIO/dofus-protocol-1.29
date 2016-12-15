@@ -4,9 +4,10 @@ import fr.aresrpg.dofus.protocol.DofusStream;
 
 public interface GameAction {
 	void read(DofusStream stream);
+
 	void write(DofusStream stream);
 
-	default int getId() {
+	default int[] getId() {
 		return GameActions.getAction(getClass()).getId();
 	}
 }

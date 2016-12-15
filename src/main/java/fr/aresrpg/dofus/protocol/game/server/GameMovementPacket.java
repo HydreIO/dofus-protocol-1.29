@@ -8,23 +8,17 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerInFight;
 import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerOutsideFight;
 import fr.aresrpg.dofus.structures.PathDirection;
-import fr.aresrpg.dofus.structures.game.Alignement;
-import fr.aresrpg.dofus.structures.game.GameMovementAction;
-import fr.aresrpg.dofus.structures.game.GameMovementType;
+import fr.aresrpg.dofus.structures.game.*;
 import fr.aresrpg.dofus.structures.item.Accessory;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.Pair;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 // GM| +240;1;0;2451939;Joe-larecolte;4 ;40^100 ;0;0,0,0,2451941;f10000;fb0000;f7cc9b;215c,,,,;0;;; ; ;0;; // pas combat
 // GM| +404;1;0;2397625;Jowed ;3 ;30^100 ;0;0,0,0,2397726;0 ;ff0000;-1 ;,,,, ;1;;;Negro Inshape;8,4i643,2p,9zldr;0;; // pas combat
@@ -41,7 +35,7 @@ public class GameMovementPacket implements ServerPacket {
 		stream.forEach(this::parseActor);
 	}
 
-	private void parseActor(String datas) {
+	public void parseActor(String datas) {
 		GameMovementType type = GameMovementType.fromChar(datas.charAt(0));
 		String[] data = datas.substring(1).split(";"); // loc10
 		switch (type) {
@@ -187,7 +181,6 @@ public class GameMovementPacket implements ServerPacket {
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
-
 
 	@Override
 	public String toString() {
