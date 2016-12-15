@@ -71,7 +71,7 @@ public class AccountStatsPacket implements ServerPacket {
 					Integer.parseInt(data[0]),
 					Integer.parseInt(data[1]),
 					Integer.parseInt(data[2]),
-					data.length > 3 ? Integer.parseInt(data[3]) : -1
+					Integer.parseInt(data[3])
 			));
 		}
 	}
@@ -95,8 +95,8 @@ public class AccountStatsPacket implements ServerPacket {
 				.writeInt(discernment);
 		for(Stat stat : Stat.values()) { //assure order
 			StatValue value = stats.get(stat);
-			stream.write(value.getEquipment() + "," + value.getGift() + "," +
-						value.getContext() + (value.getTotal() == -1 ? "" : "," + value.getTotal()));
+			stream.write(value.getBase() + "," + value.getEquipment() + "," + value.getGift() + "," +
+						value.getContext());
 		}
 
 	}

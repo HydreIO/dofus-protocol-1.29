@@ -1,16 +1,20 @@
 package fr.aresrpg.dofus.structures.stat;
 
 public class StatValue {
+	private int base;
 	private int equipment;
 	private int gift;
 	private int context;
-	private int total;
 
-	public StatValue(int equipment, int gift, int context, int total) {
+	public StatValue(int base, int equipment, int gift, int context) {
+		this.base = base;
 		this.equipment = equipment;
 		this.gift = gift;
 		this.context = context;
-		this.total = total;
+	}
+
+	public int getBase() {
+		return base;
 	}
 
 	public int getEquipment() {
@@ -23,9 +27,5 @@ public class StatValue {
 
 	public int getContext() {
 		return context;
-	}
-
-	public int getTotal() {
-		return total;
 	}
 }
