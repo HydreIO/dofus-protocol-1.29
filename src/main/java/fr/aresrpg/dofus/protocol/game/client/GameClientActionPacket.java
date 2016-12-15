@@ -18,6 +18,9 @@ public class GameClientActionPacket implements GameActionPacket, ClientPacket {
 		this.action = action;
 	}
 
+	public GameClientActionPacket() {
+	}
+
 	@Override
 	public void read(DofusStream stream) {
 		String data = stream.read();

@@ -8,7 +8,6 @@ import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
-import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
@@ -56,8 +55,6 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(GameTurnEndPacket gameTurnEndPacket);
 
 	void handle(GameTurnOkPacket gameTurnOkPacket);
-
-	void handle(HelloGamePacket helloGamePacket);
 
 	void handle(InfoMapPacket infoMapPacket);
 

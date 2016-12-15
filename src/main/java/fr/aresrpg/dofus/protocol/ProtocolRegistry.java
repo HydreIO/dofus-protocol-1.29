@@ -18,8 +18,8 @@ import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
-import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
+import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
@@ -61,11 +61,9 @@ public enum ProtocolRegistry {
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT, 'S', State.OK, Bound.SERVER, AccountSelectCharacterOkPacket.class),
 	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT, 'R', Bound.SERVER, AccountRestrictionsPacket.class),
-	ACCOUNT_STATS(Layer.ACCOUNT,'s',Bound.SERVER,null),
-	ACCOUNT_NEW_LVL(Layer.ACCOUNT,'N',Bound.SERVER,null),
-	ACCOUNT_SERVER_QUEUE(Layer.ACCOUNT,'q',Bound.SERVER,null),
-	
-	
+	ACCOUNT_STATS(Layer.ACCOUNT, 's', Bound.SERVER, null),
+	ACCOUNT_NEW_LVL(Layer.ACCOUNT, 'N', Bound.SERVER, AccountNewLevelPacket.class),
+	ACCOUNT_SERVER_QUEUE(Layer.ACCOUNT, 'q', Bound.SERVER, AccountServerQueuePacket.class),
 
 	// client
 	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT, 'f', true, Bound.CLIENT, AccountAuthPacket.class),

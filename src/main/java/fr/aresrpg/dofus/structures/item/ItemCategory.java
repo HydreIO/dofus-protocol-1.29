@@ -1,6 +1,6 @@
 package fr.aresrpg.dofus.structures.item;
 
-public enum ItemType {
+public enum ItemCategory {
 	AMULET(1),
 	BOW(2),
 	WAND(3),
@@ -117,7 +117,7 @@ public enum ItemType {
 	PETPOTION(116);
 	private int value;
 
-	ItemType(int value) {
+	ItemCategory(int value) {
 		this.value = value;
 	}
 
@@ -128,8 +128,8 @@ public enum ItemType {
 		return value;
 	}
 
-	public static ItemType valueOf(int code) {
-		for (ItemType e : values())
+	public static ItemCategory valueOf(int code) {
+		for (ItemCategory e : values())
 			if (e.getValue() == code) return e;
 		return null;
 	}

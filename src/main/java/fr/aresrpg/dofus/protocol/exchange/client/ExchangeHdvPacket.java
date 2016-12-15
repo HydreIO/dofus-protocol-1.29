@@ -1,7 +1,7 @@
 package fr.aresrpg.dofus.protocol.exchange.client;
 
 import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.structures.item.ItemType;
+import fr.aresrpg.dofus.structures.item.ItemCategory;
 
 /**
  * 
@@ -10,14 +10,14 @@ import fr.aresrpg.dofus.structures.item.ItemType;
 public class ExchangeHdvPacket implements ClientPacket {
 
 	private AskHdvType askType;
-	private ItemType type;
+	private ItemCategory type;
 	private int itemId;
 	private BuyedItem item;
 
 	/**
 	 * @param type
 	 */
-	public ExchangeHdvPacket(ItemType type) {
+	public ExchangeHdvPacket(ItemCategory type) {
 		this.type = type;
 		this.askType = AskHdvType.TYPE;
 	}
@@ -28,7 +28,7 @@ public class ExchangeHdvPacket implements ClientPacket {
 		this.askType = type;
 	}
 
-	public ExchangeHdvPacket(ItemType type, int itemId) {
+	public ExchangeHdvPacket(ItemCategory type, int itemId) {
 		this.itemId = itemId;
 		this.type = type;
 		this.askType = AskHdvType.SEARCH;
@@ -91,7 +91,7 @@ public class ExchangeHdvPacket implements ClientPacket {
 				this.itemId = stream.readInt();
 				// no break
 			case TYPE:
-				this.type = ItemType.valueOf(val);
+				this.type = ItemCategory.valueOf(val);
 				break;
 			case BUY:
 				this.item = new BuyedItem(val, stream.readInt(), stream.readInt());
@@ -133,7 +133,7 @@ public class ExchangeHdvPacket implements ClientPacket {
 	/**
 	 * @return the type
 	 */
-	public ItemType getType() {
+	public ItemCategory getType() {
 		return type;
 	}
 
@@ -141,7 +141,7 @@ public class ExchangeHdvPacket implements ClientPacket {
 	 * @param type
 	 *            the type to set
 	 */
-	public void setType(ItemType type) {
+	public void setType(ItemCategory type) {
 		this.type = type;
 	}
 
