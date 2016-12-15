@@ -61,6 +61,11 @@ public enum ProtocolRegistry {
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT, 'S', State.OK, Bound.SERVER, AccountSelectCharacterOkPacket.class),
 	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT, 'R', Bound.SERVER, AccountRestrictionsPacket.class),
+	ACCOUNT_STATS(Layer.ACCOUNT,'s',Bound.SERVER,null),
+	ACCOUNT_NEW_LVL(Layer.ACCOUNT,'N',Bound.SERVER,null),
+	ACCOUNT_SERVER_QUEUE(Layer.ACCOUNT,'q',Bound.SERVER,null),
+	
+	
 
 	// client
 	ACCOUNT_AUTHENTICATION(Layer.ACCOUNT, 'f', true, Bound.CLIENT, AccountAuthPacket.class),

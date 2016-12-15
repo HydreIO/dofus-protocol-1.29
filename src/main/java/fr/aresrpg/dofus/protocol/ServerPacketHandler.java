@@ -144,4 +144,6 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(ItemToolPacket itemToolPacket);
 
 	void handle(ItemWeightPacket itemWeightPacket);
+
+	void handle(AccountStatsPacket accountStatsPacket);
 }
