@@ -6,6 +6,7 @@ import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.client.*;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
+import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.hello.client.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -71,7 +72,7 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(ExchangeMoveItemsPacket exchangeMovePacket);
 
-	void handle(ExchangeReadyPacket exchangeReadyPacket);
+	void handle(ExchangeSendReadyPacket exchangeReadyPacket);
 
 	void handle(ExchangeShopPacket exchangeShopPacket);
 
@@ -104,4 +105,14 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(DialogLeavePacket dialogLeavePacket);
 
 	void handle(DialogResponsePacket dialogResponsePacket);
+
+	void handle(FightBlockSpectatePacket fightBlockSpectatePacket);
+
+	void handle(FightRestrictGroupPacket fightRestrictGroupPacket);
+
+	void handle(FightBlockAllPacket fightBlockAllPacket);
+
+	void handle(FightNeedHelpPacket fightNeedHelpPacket);
+
+	void handle(GameActionCancel gameActionCancel);
 }

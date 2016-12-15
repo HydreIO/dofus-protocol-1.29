@@ -125,4 +125,6 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(DialogQuestionPacket dialogQuestionPacket);
 
 	void handle(DialogPausePacket dialogPausePacket);
+
+	void handle(ExchangeReadyPacket exchangeReadyPacket);
 }

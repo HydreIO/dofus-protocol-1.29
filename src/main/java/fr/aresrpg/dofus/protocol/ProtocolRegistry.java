@@ -14,6 +14,7 @@ import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
+import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -137,10 +138,20 @@ public enum ProtocolRegistry {
 
 	// action client
 	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
+	GAME_ACTION_CANCEL(Layer.GAME, 'K', 'E', Bound.CLIENT, GameActionCancel.class),
 
 	// GUILD ==========================================================
 	// server
 	GUILD_STATS(Layer.GAME, 'S', Bound.SERVER, GuildStatPacket.class),
+
+	// FIGHT ==========================================================
+	// server
+	// client
+	FIGHT_BLOCK_SPECTATE(Layer.FIGHT, 'S', Bound.CLIENT, FightBlockSpectatePacket.class),
+	FIGHT_RESTRICT_GROUP(Layer.FIGHT, 'P', Bound.CLIENT, FightRestrictGroupPacket.class),
+	FIGHT_BLOCK_ALL(Layer.FIGHT, 'N', Bound.CLIENT, FightBlockAllPacket.class),
+	FIGHT_NEED_HELP(Layer.FIGHT, 'H', Bound.CLIENT, FightNeedHelpPacket.class),
+	// both
 
 	// INFO ==========================================================
 	// server
@@ -173,11 +184,12 @@ public enum ProtocolRegistry {
 	EXCHANGE_LIST(Layer.EXCHANGE, 'L', Bound.SERVER, ExchangeListPacket.class),
 	EXCHANGE_CREATE(Layer.EXCHANGE, 'C', Bound.SERVER, ExchangeCreatePacket.class),
 	EXCHANGE_REQUEST_OK(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestOkPacket.class),
+	EXCHANGE_READY(Layer.EXCHANGE, 'K', Bound.SERVER, ExchangeReadyPacket.class),
 	// client
 	EXCHANGE_SHOP(Layer.EXCHANGE, 's', Bound.CLIENT, ExchangeShopPacket.class),
 	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeRequestPacket.class),
 	EXCHANGE_ACCEPT(Layer.EXCHANGE, 'A', Bound.CLIENT, ExchangeAcceptPacket.class),
-	EXCHANGE_READY(Layer.EXCHANGE, 'K', Bound.CLIENT, ExchangeReadyPacket.class),
+	EXCHANGE_SEND_READY(Layer.EXCHANGE, 'K', Bound.CLIENT, ExchangeSendReadyPacket.class),
 	EXCHANGE_MOVE_ITEMS(Layer.EXCHANGE, 'M', 'O', Bound.CLIENT, ExchangeMoveItemsPacket.class),
 	EXCHANGE_MOVE_KAMAS(Layer.EXCHANGE, 'M', 'G', Bound.CLIENT, ExchangeMoveKamasPacket.class),
 	EXHANGE_BUY_TO_NPC(Layer.EXCHANGE, 'B', Bound.CLIENT, ExchangeBuyToNpcPacket.class),
