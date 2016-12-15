@@ -7,6 +7,9 @@ import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
+import fr.aresrpg.dofus.protocol.dialog.client.*;
+import fr.aresrpg.dofus.protocol.dialog.server.*;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
@@ -70,6 +73,18 @@ public enum ProtocolRegistry {
 	// both
 	ACCOUNT_KEY(Layer.ACCOUNT, 'k', Bound.BOTH, AccountKeyPacket.class),
 	ACCOUNT_REGION_VERSION(Layer.ACCOUNT, 'V', Bound.BOTH, AccountRegionalVersionPacket.class),
+
+	// DIALOG ==========================================================
+	// server
+	DIALOG_CREATE_OK(Layer.DIALOG, 'C', State.OK, Bound.SERVER, DialogCreateOkPacket.class),
+	DIALOG_QUESTION(Layer.DIALOG, 'Q', Bound.SERVER, DialogQuestionPacket.class),
+	DIALOG_PAUSE(Layer.DIALOG, 'P', Bound.SERVER, DialogPausePacket.class),
+	// client
+	DIALOG_BEGIN(Layer.DIALOG, 'B', Bound.CLIENT, DialogBeginPacket.class),
+	DIALOG_CREATE(Layer.DIALOG, 'C', Bound.CLIENT, DialogCreatePacket.class),
+	DIALOG_RESPONSE(Layer.DIALOG, 'R', Bound.CLIENT, DialogResponsePacket.class),
+	// both
+	DIALOG_LEAVE(Layer.DIALOG, 'V', Bound.BOTH, DialogLeavePacket.class),
 
 	// BASIC ==========================================================
 	// server

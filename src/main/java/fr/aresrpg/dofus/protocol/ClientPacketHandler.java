@@ -2,6 +2,8 @@ package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
+import fr.aresrpg.dofus.protocol.dialog.client.*;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
@@ -94,4 +96,12 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(ExchangeReplayCraftPacket exchangeReplayCraftPacket);
 
 	void handle(ExchangeRepeatCraftPacket exchangeRepeatCraftPacket);
+
+	void handle(DialogBeginPacket dialogBeginPacket);
+
+	void handle(DialogCreatePacket dialogCreatePacket);
+
+	void handle(DialogLeavePacket dialogLeavePacket);
+
+	void handle(DialogResponsePacket dialogResponsePacket);
 }

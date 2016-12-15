@@ -2,6 +2,7 @@ package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
+import fr.aresrpg.dofus.protocol.dialog.server.*;
 import fr.aresrpg.dofus.protocol.exchange.client.ExchangeRequestPacket;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
@@ -118,4 +119,10 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(GameTurnStartPacket gameTurnStartPacket);
 
 	void handle(ExchangeRequestOkPacket exchangeRequestOkPacket);
+
+	void handle(DialogCreateOkPacket dialogCreateOkPacket);
+
+	void handle(DialogQuestionPacket dialogQuestionPacket);
+
+	void handle(DialogPausePacket dialogPausePacket);
 }
