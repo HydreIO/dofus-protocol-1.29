@@ -1,8 +1,6 @@
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.game.Effect;
 import fr.aresrpg.dofus.structures.game.FightType;
 import fr.aresrpg.dofus.structures.item.Item;
@@ -113,7 +111,7 @@ public class GameEndPacket implements ServerPacket {
 		Item[] items = new Item[d.length];
 		for (int i = 0; i < items.length; i++) {
 			String[] amount = d[i].split("~");
-			items[i] = new Item(-1 , Convert.toInt(amount[0], 0), Convert.toInt(amount[1], 0) , -1 , new Effect[0]);
+			items[i] = new Item(-1, Convert.toInt(amount[0], 0), Convert.toInt(amount[1], 0), -1, new Effect[0]);
 		}
 		return items;
 	}
@@ -177,7 +175,7 @@ public class GameEndPacket implements ServerPacket {
 	private static String writeItem(Item[] items) {
 		StringJoiner sb = new StringJoiner(",");
 		for (Item item : items)
-			sb.add(item.getUniqueId() + "~" + item.getQuantity());
+			sb.add(item.getItemTypeId() + "~" + item.getQuantity());
 		return sb.toString();
 	}
 
@@ -185,7 +183,6 @@ public class GameEndPacket implements ServerPacket {
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
-
 
 	public int getDuration() {
 		return duration;

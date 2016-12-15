@@ -1,8 +1,6 @@
 package fr.aresrpg.dofus.protocol.exchange.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.item.Item;
 
 import java.util.Arrays;
@@ -15,12 +13,12 @@ public class ExchangeListPacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		items = new Item[stream.available()];
-		for(int i = 0 ; i < items.length; i++){
+		for (int i = 0; i < items.length; i++) {
 			String[] data = stream.read().split(";");
-			if(data[0].contains("~")) { // 1
+			if (data[0].contains("~")) { // 1
 				items = new Item[data.length];
 				int y = 0;
-				for(int e = 0 ; e < data.length ; e++){
+				for (int e = 0; e < data.length; e++) {
 					String d = data[e];
 					switch (d.charAt(0)) {
 						case 'O':
@@ -31,18 +29,18 @@ public class ExchangeListPacket implements ServerPacket {
 							break;
 					}
 				}
-				items = Arrays.copyOf(items , y);
-				if(stream.available() != 0)
+				items = Arrays.copyOf(items, y);
+				if (stream.available() != 0)
 					throw new IllegalStateException();
 			} else if (data.length == 2) { // 2
-				items[i] = new Item(0 , Integer.parseInt(data[0]) , -1 ,
-						-1 , Item.parseEffects(data[1]));
+				items[i] = new Item(0, Integer.parseInt(data[0]), -1,
+						-1, Item.parseEffects(data[1]));
 			} else if (data.length == 5 || data.length == 6) { // 3
 				items[i] = new Item(
 						Integer.parseInt(data[0]),
 						Integer.parseInt(data[2]),
 						Integer.parseInt(data[1]),
-						-1 ,
+						-1,
 						Item.parseEffects(data[3]),
 						Integer.parseInt(data[4]),
 						data.length == 6 ? Integer.parseInt(data[5]) : -1);
@@ -53,26 +51,25 @@ public class ExchangeListPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		if(items.length == 0)
+		if (items.length == 0)
 			return;
-		if(items[0].getPrice() != -1){ // 3
+		if (items[0].getPrice() != -1) { // 3
 			stream.allocate(items.length);
-			for(Item item : items)
-				stream.write(item.getId() + ';' +
+			for (Item item : items)
+				stream.write(item.getUid() + ';' +
 						item.getQuantity() + ';' +
-						item.getUniqueId() + ';' +
+						item.getItemTypeId() + ';' +
 						Item.serializeEffects(item.getEffects()) +
 						item.getPrice() + ';' +
-						(item.getSkin() == -1 ? "" : item.getSkin())
-				);
+						(item.getSkin() == -1 ? "" : item.getSkin()));
 
-		} else if(items[0].getId() == 0) { // 2
+		} else if (items[0].getUid() == 0) { // 2
 			stream.allocate(items.length);
-			for(Item item : items)
-				stream.write(item.getUniqueId() + ';' + Item.serializeEffects(item.getEffects()));
+			for (Item item : items)
+				stream.write(item.getItemTypeId() + ';' + Item.serializeEffects(item.getEffects()));
 		} else { // 3
 			StringJoiner joiner = new StringJoiner(";");
-			for(Item item : items)
+			for (Item item : items)
 				joiner.add('O' + Item.serializeItem(item));
 			joiner.add("G" + kamas);
 			stream.allocate(1).write(joiner.toString());

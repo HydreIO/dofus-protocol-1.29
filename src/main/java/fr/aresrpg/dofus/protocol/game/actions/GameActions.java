@@ -14,6 +14,7 @@ public enum GameActions {
 	SUMMON(180, GameSummonAction.class, Bound.SERVER, 181/* 780 (player invoc osa) */),
 
 	// CLIENT
+	INTERRACT(500, GameInteractionAction.class, Bound.CLIENT),
 	LAUNCH_SPELL(300, GameLaunchSpellAction.class, Bound.CLIENT),
 	DUEL(900, GameDuelAction.class, Bound.CLIENT),
 	ACCEPT_DUEL(901, GameAcceptDuelAction.class, Bound.CLIENT),
