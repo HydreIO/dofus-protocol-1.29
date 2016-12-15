@@ -8,6 +8,7 @@ import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
+import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
@@ -150,4 +151,6 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(AccountNewLevelPacket accountNewLevelPacket);
 
 	void handle(AccountServerQueuePacket accountServerQueuePacket);
+
+	void handle(HelloGamePacket helloGamePacket);
 }

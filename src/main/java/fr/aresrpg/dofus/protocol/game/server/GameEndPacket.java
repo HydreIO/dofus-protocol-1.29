@@ -100,7 +100,6 @@ public class GameEndPacket implements ServerPacket {
 				case DUEL:
 					break;
 				case PERCO:
-
 					break;
 			}
 		}
