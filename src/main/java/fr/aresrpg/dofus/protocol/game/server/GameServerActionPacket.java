@@ -25,6 +25,9 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		this.entityId = entityId;
 	}
 
+	public GameServerActionPacket() {
+	}
+
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";", 4);
