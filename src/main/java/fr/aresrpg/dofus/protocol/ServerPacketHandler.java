@@ -134,4 +134,14 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(ItemAddErrorPacket itemAddErrorPacket);
 
 	void handle(ItemDropErrorPacket itemDropErrorPacket);
+
+	void handle(ItemRemovePacket itemRemovePacket);
+
+	void handle(ItemQuantityUpdatePacket itemQuantityUpdatePacket);
+
+	void handle(ItemMovementConfirmPacket itemMovementConfirmPacket);
+
+	void handle(ItemToolPacket itemToolPacket);
+
+	void handle(ItemWeightPacket itemWeightPacket);
 }

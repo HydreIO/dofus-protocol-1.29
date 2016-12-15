@@ -3,8 +3,7 @@ package fr.aresrpg.dofus.protocol.item.server;
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.item.Item;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 
@@ -13,6 +12,32 @@ import java.util.Set;
 public class ItemAddOkPacket implements ServerPacket {
 
 	private Set<Item> items = new HashSet<>();
+
+	public ItemAddOkPacket() {
+	}
+
+	/**
+	 * @param items
+	 */
+	public ItemAddOkPacket(Set<Item> items) {
+		super();
+		this.items = items;
+	}
+
+	/**
+	 * @return the items
+	 */
+	public Set<Item> getItems() {
+		return items;
+	}
+
+	/**
+	 * @param items
+	 *            the items to set
+	 */
+	public void setItems(Set<Item> items) {
+		this.items = items;
+	}
 
 	@Override
 	public void read(DofusStream stream) {
@@ -33,14 +58,20 @@ public class ItemAddOkPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		for(Item item:items) {
-			
-		}
+		StringJoiner jn = new StringJoiner(";");
+		for (Item item : items)
+			jn.add(item.serializeItem(item));
+		stream.allocate(1).write(jn.toString());
 	}
 
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "ItemAddOkPacket [items=" + items + "]";
 	}
 
 }

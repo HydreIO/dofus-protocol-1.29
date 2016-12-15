@@ -93,12 +93,12 @@ public enum ProtocolRegistry {
 	// server
 	ITEM_DROP_ERROR(Layer.OBJECT, 'D', State.ERROR, Bound.SERVER, ItemDropErrorPacket.class),
 	ITEM_ADD_ERROR(Layer.OBJECT, 'A', State.ERROR, Bound.SERVER, ItemAddErrorPacket.class),
-	ITEM_ADD_OK(Layer.OBJECT,'A',State.OK,Bound.SERVER,ItemAddOkPacket.class),
-	ITEM_REMOVE(Layer.OBJECT, 'R', Bound.SERVER, null),
-	ITEM_QUANTITY(Layer.OBJECT, 'Q', Bound.SERVER, null),
-	ITEM_MOVEMENT_CONFIRM(Layer.OBJECT, 'M', Bound.SERVER, null),
-	ITEM_TOOL(Layer.OBJECT, 'T', Bound.SERVER, null),
-	ITEM_WEIGHT(Layer.OBJECT, 'w', Bound.SERVER, null),
+	ITEM_ADD_OK(Layer.OBJECT, 'A', State.OK, Bound.SERVER, ItemAddOkPacket.class),
+	ITEM_REMOVE(Layer.OBJECT, 'R', Bound.SERVER, ItemRemovePacket.class),
+	ITEM_QUANTITY(Layer.OBJECT, 'Q', Bound.SERVER, ItemQuantityUpdatePacket.class),
+	ITEM_MOVEMENT_CONFIRM(Layer.OBJECT, 'M', Bound.SERVER, ItemMovementConfirmPacket.class),
+	ITEM_TOOL(Layer.OBJECT, 'T', Bound.SERVER, ItemToolPacket.class),
+	ITEM_WEIGHT(Layer.OBJECT, 'w', Bound.SERVER, ItemWeightPacket.class),
 
 	// client
 	ITEM_MOVEMENT(Layer.OBJECT, 'M', Bound.CLIENT, ItemMovementPacket.class),
