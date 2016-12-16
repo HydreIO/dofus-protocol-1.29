@@ -101,7 +101,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		return true;
 	}
 
-	private void decode(String packet) throws IOException {
+	public void decode(String packet) throws IOException {
 		if (packet.length() == 0)
 			return;
 		String print = "[RECEIVE from " + label + "] <- " + packet;
