@@ -12,7 +12,7 @@ public class GameFightChallengePacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
-		challenge = new FightChallenge(
+		setChallenge(new FightChallenge(
 				Integer.parseInt(data[0]),
 				data[1].equals("1"),
 				Integer.parseInt(data[2]),
@@ -20,7 +20,7 @@ public class GameFightChallengePacket implements ServerPacket {
 				Integer.parseInt(data[4]),
 				Integer.parseInt(data[5]),
 				Integer.parseInt(data[6])
-		);
+		));
 	}
 
 	@Override
@@ -31,6 +31,20 @@ public class GameFightChallengePacket implements ServerPacket {
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	/**
+	 * @return the challenge
+	 */
+	public FightChallenge getChallenge() {
+		return challenge;
+	}
+
+	/**
+	 * @param challenge the challenge to set
+	 */
+	public void setChallenge(FightChallenge challenge) {
+		this.challenge = challenge;
 	}
 
 }
