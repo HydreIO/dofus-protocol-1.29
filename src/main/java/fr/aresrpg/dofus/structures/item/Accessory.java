@@ -2,6 +2,10 @@ package fr.aresrpg.dofus.structures.item;
 
 import fr.aresrpg.dofus.util.Convert;
 
+import java.util.Arrays;
+import java.util.StringJoiner;
+import java.util.stream.IntStream;
+
 /**
  * 
  * @since
@@ -33,6 +37,23 @@ public class Accessory {
 			frame = Convert.toHexInt(datas[2]);
 		}
 		return new Accessory(id, type, frame);
+	}
+
+	public static Accessory[] parseFew(String data) {
+		String[] datas = data.split(",");
+		Accessory[] ac = new Accessory[datas.length];
+		IntStream.range(0, datas.length).forEach(i -> ac[i] = parse(datas[i]));
+		return ac;
+	}
+
+	public static String serializeFew(Accessory... ac) {
+		StringJoiner ajoiner = new StringJoiner(",");
+		Arrays.stream(ac).forEach(a -> ajoiner.add(a.serialize()));
+		return ajoiner.toString();
+	}
+
+	public String serialize() {
+		return Integer.toHexString(id) + (type == 0 ? "" : "~" + Integer.toHexString(type) + "~" + Integer.toHexString(frame));
 	}
 
 	/**

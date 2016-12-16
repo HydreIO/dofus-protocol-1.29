@@ -1,5 +1,6 @@
 package fr.aresrpg.dofus.structures.item;
 
+import fr.aresrpg.dofus.structures.EquipmentPosition;
 import fr.aresrpg.dofus.structures.game.Effect;
 import fr.aresrpg.dofus.util.StringUtils;
 
@@ -10,13 +11,13 @@ public class Item {
 	private int uid;
 	private int itemTypeId;
 	private int quantity;
-	private int position;
+	private EquipmentPosition position;
 	private Effect[] effects;
 	private int price;
 	private int skin;
 	// private int mood;
 
-	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects, int price, int skin) {
+	public Item(int uid, int itemTypeId, int quantity, EquipmentPosition position, Effect[] effects, int price, int skin) {
 		this.uid = uid;
 		this.itemTypeId = itemTypeId;
 		this.quantity = quantity;
@@ -26,7 +27,7 @@ public class Item {
 		this.skin = skin;
 	}
 
-	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects) {
+	public Item(int uid, int itemTypeId, int quantity, EquipmentPosition position, Effect[] effects) {
 		this(uid, itemTypeId, quantity, position, effects, -1, -1);
 	}
 
@@ -48,7 +49,7 @@ public class Item {
 		return quantity;
 	}
 
-	public int getPosition() {
+	public EquipmentPosition getPosition() {
 		return position;
 	}
 
@@ -76,7 +77,7 @@ public class Item {
 				Integer.parseInt(data[0], 16),
 				Integer.parseInt(data[1], 16),
 				Integer.parseInt(data[2], 16),
-				data[3].isEmpty() ? -1 : Integer.parseInt(data[3], 16),
+				data[3].isEmpty() ? EquipmentPosition.NO_EQUIPED : EquipmentPosition.valueOf(Integer.parseInt(data[3], 16)),
 				parseEffects(data[4]));
 	}
 
@@ -84,7 +85,7 @@ public class Item {
 		return Integer.toHexString(i.getUid()) + "~" +
 				Integer.toHexString(i.getItemTypeId()) + "~" +
 				Integer.toHexString(i.getQuantity()) + "~" +
-				(i.getPosition() == -1 ? "" : Integer.toHexString(i.getPosition())) + "~" +
+				(i.getPosition() == EquipmentPosition.NO_EQUIPED ? "" : Integer.toHexString(i.getPosition().getPosition())) + "~" +
 				serializeEffects(i.getEffects());
 	}
 

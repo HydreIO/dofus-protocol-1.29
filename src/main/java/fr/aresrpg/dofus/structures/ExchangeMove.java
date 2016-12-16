@@ -7,6 +7,7 @@ package fr.aresrpg.dofus.structures;
 public enum ExchangeMove {
 
 	ADD('+'),
+	UPDATE('~'),
 	REMOVE('-');
 
 	private char c;
@@ -25,6 +26,7 @@ public enum ExchangeMove {
 	public static ExchangeMove fromSymbol(char c) {
 		if (c == '+') return ADD;
 		else if (c == '-') return REMOVE;
+		else if (c == '~') return UPDATE;
 		return null;
 	}
 
