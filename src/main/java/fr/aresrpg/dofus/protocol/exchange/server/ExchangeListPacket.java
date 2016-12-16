@@ -1,6 +1,7 @@
 package fr.aresrpg.dofus.protocol.exchange.server;
 
 import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.structures.EquipmentPosition;
 import fr.aresrpg.dofus.structures.item.Item;
 
 import java.util.Arrays;
@@ -34,13 +35,13 @@ public class ExchangeListPacket implements ServerPacket {
 					throw new IllegalStateException();
 			} else if (data.length == 2) { // 2
 				items[i] = new Item(0, Integer.parseInt(data[0]), -1,
-						-1, Item.parseEffects(data[1]));
+						EquipmentPosition.NO_EQUIPED, Item.parseEffects(data[1]));
 			} else if (data.length == 5 || data.length == 6) { // 3
 				items[i] = new Item(
 						Integer.parseInt(data[0]),
 						Integer.parseInt(data[2]),
 						Integer.parseInt(data[1]),
-						-1,
+						EquipmentPosition.NO_EQUIPED,
 						Item.parseEffects(data[3]),
 						Integer.parseInt(data[4]),
 						data.length == 6 ? Integer.parseInt(data[5]) : -1);
