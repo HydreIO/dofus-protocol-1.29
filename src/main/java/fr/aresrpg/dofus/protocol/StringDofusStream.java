@@ -28,6 +28,11 @@ public class StringDofusStream implements DofusStream {
 	}
 
 	@Override
+	public void replaceRead(String value) {
+		buffer[packetIndex][read] = value;
+	}
+
+	@Override
 	public int available() {
 		return buffer[packetIndex].length - read;
 	}

@@ -12,6 +12,7 @@ import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
+import fr.aresrpg.dofus.protocol.party.server.*;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
@@ -153,4 +154,49 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(AccountServerQueuePacket accountServerQueuePacket);
 
 	void handle(HelloGamePacket helloGamePacket);
+
+	void handle(ExchangeCraftPacket exchangeCraftOkPacket);
+
+	void handle(ExchangeLocalMovePacket exchangeLocalMovePacket);
+
+	void handle(ExchangeDistantMovePacket exchangeDistantMovementPacket);
+
+	void handle(ExchangeCoopMovePacket exchangeCoopMovePacket);
+
+	void handle(ExchangeStorageMovePacket exchangeStorageMovePacket);
+
+	void handle(ExchangeShopMovePacket exchangeShopMovePacket);
+
+	void handle(ExchangeCraftPublicPacket exchangeCraftPublicPacket);
+
+	void handle(ExchangeSellToNpcResultPacket exchangeSellToNpcResultPacket);
+
+	void handle(ExchangeBuyToNpcResultPacket exchangeBuyToNpcResultPacket);
+
+	void handle(ExchangeCraftLoopPacket exchangeCraftLoopPacket);
+
+	void handle(ExchangeCraftLoopEndPacket exchangeCraftLoopEndPacket);
+
+	void handle(ExchangeLeaveResultPacket exchangeLeaveResultPacket);
+
+	void handle(PartyInviteRequestOkPacket partyInviteRequestPacket);
+
+	void handle(PartyInviteRequestErrorPacket partyInviteRequestErrorPacket);
+
+	void handle(PartyLeaderPacket partyLeaderPacket);
+
+	void handle(PartyRefusedPacket partyRefusedPacket);
+
+	void handle(PartyAcceptedPacket partyAcceptedPacket);
+
+	void handle(PartyCreateOkPacket partyCreateOkPacket);
+
+	void handle(PartyCreateErrorPacket partyCreateErrorPacket);
+
+	void handle(PartyPlayerLeavePacket partyPlayerLeavePacket);
+
+	void handle(PartyFollowReceivePacket partyFollowReceivePacket);
+
+	void handle(PartyMovementPacket partyMovementPacket);
+
 }

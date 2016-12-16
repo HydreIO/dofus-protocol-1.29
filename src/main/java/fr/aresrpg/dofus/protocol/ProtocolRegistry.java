@@ -26,6 +26,8 @@ import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
+import fr.aresrpg.dofus.protocol.party.client.*;
+import fr.aresrpg.dofus.protocol.party.server.*;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
@@ -188,6 +190,28 @@ public enum ProtocolRegistry {
 	// SPECIALIZATION ==========================================================
 	SPECIALIZATION_SET(Layer.SPECIALIZATION, 'S', Bound.SERVER, SpecializationSetPacket.class),
 
+	// PARTY ==========================================================
+	// server
+	PARTY_INVITE_OK(Layer.PARTY, 'I', State.OK, Bound.SERVER, PartyInviteRequestOkPacket.class),
+	PARTY_INVITE_ERROR(Layer.PARTY, 'I', State.ERROR, Bound.SERVER, PartyInviteRequestErrorPacket.class),
+	PARTY_LEADER(Layer.PARTY, 'L', Bound.SERVER, PartyLeaderPacket.class),
+	PARTY_REFUSED(Layer.PARTY, 'R', Bound.SERVER, PartyRefusedPacket.class),
+	PARTY_ACCEPTED(Layer.PARTY, 'A', Bound.SERVER, PartyAcceptedPacket.class),
+	PARTY_CREATE_OK(Layer.PARTY, 'C', State.OK, Bound.SERVER, PartyCreateOkPacket.class),
+	PARTY_CREATE_ERROR(Layer.PARTY, 'C', State.ERROR, Bound.SERVER, PartyCreateErrorPacket.class),
+	PARTY_PLAYER_LEAVE(Layer.PARTY, 'V', Bound.SERVER, PartyPlayerLeavePacket.class),
+	PARTY_FOLLOW_RECEIVE(Layer.PARTY, 'F', Bound.SERVER, PartyFollowReceivePacket.class),
+	PARTY_MOVEMENT(Layer.PARTY, 'M', Bound.SERVER, PartyMovementPacket.class),
+
+	// client
+	PARTY_INVITE(Layer.PARTY, 'I', Bound.CLIENT, PartyInvitePacket.class),
+	PARTY_REFUSE_INVITATION(Layer.PARTY, 'R', Bound.CLIENT, PartyRefuseInvitationPacket.class),
+	PARTY_ACCEPT_INVITATION(Layer.PARTY, 'A', Bound.CLIENT, PartyAcceptInvitationPacket.class),
+	PARTY_LEAVE(Layer.PARTY, 'V', Bound.CLIENT, PartyLeavePacket.class),
+	PARTY_FOLLOW(Layer.PARTY, 'F', Bound.CLIENT, PartyFollowPacket.class),
+	PARTY_WHERE(Layer.PARTY, 'W', Bound.CLIENT, PartyWherePacket.class),
+	PARTY_FOLLOW_ALL(Layer.PARTY, 'G', Bound.CLIENT, PartyFollowAllPacket.class),
+
 	// SPELL ==========================================================
 	// server
 	SPELL_LIST(Layer.SPELL, 'L', Bound.SERVER, SpellListPacket.class),
@@ -207,6 +231,21 @@ public enum ProtocolRegistry {
 	EXCHANGE_CREATE(Layer.EXCHANGE, 'C', Bound.SERVER, ExchangeCreatePacket.class),
 	EXCHANGE_REQUEST_OK(Layer.EXCHANGE, 'R', State.OK, Bound.SERVER, ExchangeRequestOkPacket.class),
 	EXCHANGE_READY(Layer.EXCHANGE, 'K', Bound.SERVER, ExchangeReadyPacket.class),
+	EXCHANGE_CRAFT(Layer.EXCHANGE, 'c', Bound.SERVER, ExchangeCraftPacket.class),
+	EXCHANGE_LOCAL_MOVE(Layer.EXCHANGE, 'M', Bound.SERVER, ExchangeLocalMovePacket.class),
+	EXCHANGE_DISTANT_MOVE(Layer.EXCHANGE, 'm', Bound.SERVER, ExchangeDistantMovePacket.class),
+	EXCHANGE_COOP_MOVE(Layer.EXCHANGE, 'r', Bound.SERVER, ExchangeCoopMovePacket.class),
+	EXCHANGE_STORAGE_MOVE(Layer.EXCHANGE, 's', Bound.SERVER, ExchangeStorageMovePacket.class),
+	EXCHANGE_SHOP_MOVE(Layer.EXCHANGE, 'i', Bound.SERVER, ExchangeShopMovePacket.class),
+	EXCHANGE_CRAFT_PUBLIC(Layer.EXCHANGE, 'W', Bound.SERVER, ExchangeCraftPublicPacket.class),
+	// EXCHANGE_MOUNT_STORAGE(Layer.EXCHANGE, 'e', Bound.SERVER, null), useless pour le moment et plutot complex
+	// EXCHANGE_MOUNT_POD(Layer.EXCHANGE, 'w', Bound.SERVER, null),
+	EXCHANGE_SELL_TO_NPC_RESULT(Layer.EXCHANGE, 'S', Bound.SERVER, ExchangeSellToNpcResultPacket.class),
+	EXCHANGE_BUY_TO_NPC_RESULT(Layer.EXCHANGE, 'B', Bound.SERVER, ExchangeBuyToNpcResultPacket.class),
+	EXCHANGE_CRAFT_LOOP(Layer.EXCHANGE, 'A', Bound.SERVER, ExchangeCraftLoopPacket.class),
+	EXCHANGE_CRAFT_LOOP_END(Layer.EXCHANGE, 'a', Bound.SERVER, ExchangeCraftLoopEndPacket.class),
+	EXCHANGE_LEAVE_RESULT(Layer.EXCHANGE, 'V', Bound.SERVER, ExchangeLeaveResultPacket.class),
+
 	// client
 	EXCHANGE_SHOP(Layer.EXCHANGE, 's', Bound.CLIENT, ExchangeShopPacket.class),
 	EXCHANGE_REQUEST(Layer.EXCHANGE, 'R', Bound.CLIENT, ExchangeRequestPacket.class),
@@ -223,8 +262,7 @@ public enum ProtocolRegistry {
 	EXCHANGE_MOUNT(Layer.EXCHANGE, 'r', Bound.CLIENT, ExchangeMountPacket.class),
 	EXCHANGE_PARK_MOUNT(Layer.EXCHANGE, 'f', Bound.CLIENT, ExchangeParkMountPacket.class),
 	EXCHANGE_REPLAY_CRAFT(Layer.EXCHANGE, 'L', Bound.CLIENT, ExchangeReplayCraftPacket.class),
-	// both
-	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.BOTH, ExchangeLeavePacket.class),
+	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.CLIENT, ExchangeLeavePacket.class),
 
 	// ZAAP ==========================================================
 	// server

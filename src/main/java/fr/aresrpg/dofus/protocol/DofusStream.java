@@ -9,6 +9,8 @@ public interface DofusStream {
 
 	String read(int index);
 
+	void replaceRead(String value);
+
 	default int peekInt() {
 		return Integer.parseInt(peek());
 	}

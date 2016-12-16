@@ -5,12 +5,14 @@ import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.client.*;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
+import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
+import fr.aresrpg.dofus.protocol.party.client.*;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 
 public interface ClientPacketHandler extends PacketHandler {
@@ -121,4 +123,20 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(ItemDestroyPacket itemDestroyPacket);
 
 	void handle(ItemUsePacket itemUsePacket);
+
+	void handle(ExchangeLeavePacket exchangeLeavePacket);
+
+	void handle(PartyAcceptInvitationPacket partyAcceptInvitationPacket);
+
+	void handle(PartyInvitePacket partyInvitePacket);
+
+	void handle(PartyRefuseInvitationPacket partyRefuseInvitationPacket);
+
+	void handle(PartyLeavePacket partyLeavePacket);
+
+	void handle(PartyFollowPacket partyFollowPacket);
+
+	void handle(PartyWherePacket partyWherePacket);
+
+	void handle(PartyFollowAllPacket partyFollowAllPacket);
 }
