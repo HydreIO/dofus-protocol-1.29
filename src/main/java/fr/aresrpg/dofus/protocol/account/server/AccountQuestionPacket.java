@@ -1,8 +1,6 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -27,6 +25,21 @@ public class AccountQuestionPacket implements ServerPacket {
 		} catch (UnsupportedEncodingException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	/**
+	 * @return the question
+	 */
+	public String getQuestion() {
+		return question;
+	}
+
+	/**
+	 * @param question
+	 *            the question to set
+	 */
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 
 	@Override

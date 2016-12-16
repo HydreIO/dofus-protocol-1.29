@@ -1,8 +1,6 @@
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -12,6 +10,20 @@ public class AccountLoginErrPacket implements ServerPacket {
 	// In minute
 	private int time;
 	private String version;
+
+	public AccountLoginErrPacket() {
+	}
+
+	/**
+	 * @param err
+	 * @param time
+	 * @param version
+	 */
+	public AccountLoginErrPacket(Error err, int time, String version) {
+		this.err = err;
+		this.time = time;
+		this.version = version;
+	}
 
 	@Override
 	public void read(DofusStream stream) {
@@ -40,6 +52,13 @@ public class AccountLoginErrPacket implements ServerPacket {
 				stream.allocate(1).write(String.valueOf(err.getKey()));
 				return;
 		}
+	}
+
+	/**
+	 * @return the version
+	 */
+	public String getVersion() {
+		return version;
 	}
 
 	@Override
