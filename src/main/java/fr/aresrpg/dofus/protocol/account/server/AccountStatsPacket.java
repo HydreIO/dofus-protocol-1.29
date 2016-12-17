@@ -37,6 +37,7 @@ public class AccountStatsPacket implements ServerPacket {
 	private int initiative;
 	private int prospection;
 	private Map<Stat, StatValue> stats;
+	private String extradatas = "";
 
 	@Override
 	public void read(DofusStream stream) {
@@ -71,9 +72,14 @@ public class AccountStatsPacket implements ServerPacket {
 		this.prospection = stream.readInt();
 		stats = new EnumMap<>(Stat.class);
 		int available = stream.available();
+		StringBuilder extraDatas = new StringBuilder();
 		for (int i = 0; i < available; i++) {
 			String[] data = stream.read().split(",");
-			if (data.length < 4) continue;
+			if (data.length < 4) {
+				for (String s : data)
+					extraDatas.append(s);
+				continue;
+			}
 			int base = Integer.parseInt(data[0]);
 			int equip = Integer.parseInt(data[1]);
 			int dons = Integer.parseInt(data[2]);
@@ -81,12 +87,14 @@ public class AccountStatsPacket implements ServerPacket {
 			int total = data.length == 5 ? Integer.parseInt(data[4]) : base + equip + dons + boost;
 			stats.put(Stat.valueOf(i), new StatValue(base, equip, dons, boost, total));
 		}
+		this.extradatas = extraDatas.toString();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(8 + Stat.values().length)
+		stream.allocate(9 + Stat.values().length + (extradatas.isEmpty() ? 0 : 1))
 				.write(xp + "," + xpLow + "," + xpHigh)
+				.writeInt(kama)
 				.writeInt(bonusPoints)
 				.writeInt(bonusPointsSpell);
 		String alignment = Integer.toString(this.alignment.getIndex().ordinal());
@@ -105,6 +113,7 @@ public class AccountStatsPacket implements ServerPacket {
 			stream.write(value.getBase() + "," + value.getEquipment() + "," + value.getDons() + "," +
 					value.getBoost() + (stat == Stat.ActionPoints || stat == Stat.MovementPoints ? "," + value.getTotal() : ""));
 		}
+		if (!extradatas.isEmpty()) stream.write(extradatas);
 
 	}
 

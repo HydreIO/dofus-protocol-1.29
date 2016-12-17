@@ -34,7 +34,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.handler = handler;
 		this.bound = bound;
 		this.label = label;
-		this.handler.register(this);
+		if (handler != null) this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
 	}
