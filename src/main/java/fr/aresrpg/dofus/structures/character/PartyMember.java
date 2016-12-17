@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.character;
 
@@ -21,6 +21,7 @@ import java.util.StringJoiner;
  */
 public class PartyMember {
 
+	private ExchangeMove move;
 	private int id;
 	private String name;
 	private String gfxFile;
@@ -28,27 +29,20 @@ public class PartyMember {
 	private int color2;
 	private int color3;
 	private int life;
+	private int maxLife;
 	private int lvl;
 	private int initiative;
 	private int prospection;
 	private int side;
 	private Accessory[] accessories;
 
-	/**
-	 * @param id
-	 * @param name
-	 * @param gfxFile
-	 * @param color1
-	 * @param color2
-	 * @param color3
-	 * @param life
-	 * @param lvl
-	 * @param initiative
-	 * @param prospection
-	 * @param side
-	 * @param accessories
-	 */
-	public PartyMember(int id, String name, String gfxFile, int color1, int color2, int color3, int life, int lvl, int initiative, int prospection, int side, Accessory[] accessories) {
+	public PartyMember(int id, String name, String gfxFile, int color1, int color2, int color3, int life, int maxLife, int lvl, int initiative, int prospection, int side, Accessory[] accessories) {
+		this(ExchangeMove.ADD, id, name, gfxFile, color1, color2, color3, life, maxLife, lvl, initiative, prospection, side, accessories);
+	}
+
+	public PartyMember(ExchangeMove move, int id, String name, String gfxFile, int color1, int color2, int color3, int life, int maxLife, int lvl, int initiative, int prospection, int side,
+		Accessory[] accessories) {
+		this.move = move;
 		this.id = id;
 		this.name = name;
 		this.gfxFile = gfxFile;
@@ -56,6 +50,7 @@ public class PartyMember {
 		this.color2 = color2;
 		this.color3 = color3;
 		this.life = life;
+		this.maxLife = maxLife;
 		this.lvl = lvl;
 		this.initiative = initiative;
 		this.prospection = prospection;
@@ -73,22 +68,25 @@ public class PartyMember {
 		int color2 = Convert.toHexInt(loc7[4]);
 		int color3 = Convert.toHexInt(loc7[5]);
 		String loc14 = loc7[6];
-		int life = Integer.parseInt(loc7[7]);
+		String[] lifeinfo = loc7[7].split(",");
+		int life = Integer.parseInt(lifeinfo[0]);
+		int maxLife = Integer.parseInt(lifeinfo[1]);
 		int lvl = Integer.parseInt(loc7[8]);
 		int init = Integer.parseInt(loc7[9]);
 		int pp = Integer.parseInt(loc7[10]);
 		int side = Integer.parseInt(loc7[11]);
-		return new PartyMember(id, name, "clips/sprites/" + loc10 + ".swf", color1, color2, color3, life, lvl, init, pp, side, Accessory.parseFew(data));
+		return new PartyMember(type, id, name, "clips/sprites/" + loc10 + ".swf", color1, color2, color3, life, maxLife, lvl, init, pp, side, Accessory.parseFew(loc14));
 	}
 
 	public String serialize() {
 		StringJoiner joiner = new StringJoiner(";");
-		joiner.add(String.valueOf(getId()))
+		joiner.add(move.getSymbol() + String.valueOf(getId()))
 				.add(getName())
 				.add(getGfxFile().substring(14, getGfxFile().lastIndexOf(".swf")))
-				.add(Integer.toHexString(getColor1())).add(Integer.toHexString(getColor2())).add(Integer.toHexString(getColor3()))
+				.add(getColor1() == -1 ? "-1" : Integer.toHexString(getColor1())).add(getColor2() == -1 ? "-1" : Integer.toHexString(getColor2()))
+				.add(getColor3() == -1 ? "-1" : Integer.toHexString(getColor3()))
 				.add(Accessory.serializeFew(getAccessories()))
-				.add(Integer.toString(life)).add(Integer.toString(lvl)).add(Integer.toString(initiative)).add(Integer.toString(prospection)).add(Integer.toString(side));
+				.add(life + "," + maxLife).add(Integer.toString(lvl)).add(Integer.toString(initiative)).add(Integer.toString(prospection)).add(Integer.toString(side));
 		return joiner.toString();
 	}
 

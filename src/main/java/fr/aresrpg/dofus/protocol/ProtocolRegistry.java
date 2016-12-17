@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol;
 
@@ -72,7 +72,7 @@ public enum ProtocolRegistry {
 	ACCOUNT_LIST_CHARACTERS(Layer.ACCOUNT, 'L', State.OK, Bound.SERVER, AccountCharactersListPacket.class),
 	ACCOUNT_SELECT_CHARACTER_OK(Layer.ACCOUNT, 'S', State.OK, Bound.SERVER, AccountSelectCharacterOkPacket.class),
 	ACCOUNT_RESTRICTIONS(Layer.ACCOUNT, 'R', Bound.SERVER, AccountRestrictionsPacket.class),
-	ACCOUNT_STATS(Layer.ACCOUNT, 's', Bound.SERVER, null),
+	ACCOUNT_STATS(Layer.ACCOUNT, 's', Bound.SERVER, AccountStatsPacket.class),
 	ACCOUNT_NEW_LVL(Layer.ACCOUNT, 'N', Bound.SERVER, AccountNewLevelPacket.class),
 	ACCOUNT_SERVER_QUEUE(Layer.ACCOUNT, 'q', Bound.SERVER, AccountServerQueuePacket.class),
 
@@ -106,7 +106,7 @@ public enum ProtocolRegistry {
 	// ITEM ==========================================================
 	// server
 	ITEM_DROP_ERROR(Layer.OBJECT, 'D', State.ERROR, Bound.SERVER, ItemDropErrorPacket.class),
-	ITEM_ADD_ERROR(Layer.OBJECT, 'A', State.ERROR, Bound.SERVER, ItemAddErrorPacket.class),
+	ITEM_ADD_ERROR(Layer.OBJECT, 'A', State.ERROR, Bound.SERVER, ItemAddErrorPacket.class), // a test
 	ITEM_ADD_OK(Layer.OBJECT, 'A', State.OK, Bound.SERVER, ItemAddOkPacket.class),
 	ITEM_REMOVE(Layer.OBJECT, 'R', Bound.SERVER, ItemRemovePacket.class),
 	ITEM_QUANTITY(Layer.OBJECT, 'Q', Bound.SERVER, ItemQuantityUpdatePacket.class),

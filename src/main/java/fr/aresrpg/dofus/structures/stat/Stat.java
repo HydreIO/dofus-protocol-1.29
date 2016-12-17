@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.stat;
 
-public enum  Stat {
-	Prospection,
-	Initiative,
+public enum Stat {
 	ActionPoints,
 	MovementPoints,
 	Strength,

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.item;
 
@@ -49,7 +49,7 @@ public class Accessory {
 	}
 
 	public static Accessory[] parseFew(String data) {
-		String[] datas = data.split(",");
+		String[] datas = data.split(",", -1);
 		Accessory[] ac = new Accessory[datas.length];
 		IntStream.range(0, datas.length).forEach(i -> ac[i] = parse(datas[i]));
 		return ac;
@@ -62,7 +62,7 @@ public class Accessory {
 	}
 
 	public String serialize() {
-		return Integer.toHexString(id) + (type == 0 ? "" : "~" + Integer.toHexString(type) + "~" + Integer.toHexString(frame));
+		return Convert.fromHexInt(id) + (type == 0 ? "" : "~" + Integer.toHexString(type) + "~" + Integer.toHexString(frame));
 	}
 
 	/**

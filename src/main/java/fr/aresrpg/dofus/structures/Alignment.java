@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
@@ -29,6 +29,7 @@ public enum Alignment {
 	}
 
 	public static Alignment valueOf(int code) {
+		if (code == 0) return NEUTRE;
 		for (Alignment a : values())
 			if (a.getCode() == code) return a;
 		return null;

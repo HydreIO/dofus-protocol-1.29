@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
@@ -31,7 +31,8 @@ public enum EquipmentPosition {
 	DOFUS_4,
 	DOFUS_5,
 	DOFUS_6,
-	BOUCLIER;
+	BOUCLIER,
+	FAST_INV; // > 15
 
 	/**
 	 * @return the position
@@ -41,6 +42,7 @@ public enum EquipmentPosition {
 	}
 
 	public static EquipmentPosition valueOf(int code) {
+		if (code > 15) return FAST_INV;
 		return values()[code + 1];
 	}
 }

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol;
 
@@ -181,4 +181,5 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	public T getChannel() {
 		return channel;
 	}
+
 }
