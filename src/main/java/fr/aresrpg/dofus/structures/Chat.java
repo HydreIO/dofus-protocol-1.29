@@ -4,12 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
-public enum  Chat {
+public enum Chat {
 	INFO('i'),
 	UNKNOWN('#'),
 	COMMON('*'),
@@ -24,7 +24,7 @@ public enum  Chat {
 
 	private final char code;
 
-	Chat(char code){
+	private Chat(char code) {
 		this.code = code;
 	}
 
@@ -33,8 +33,8 @@ public enum  Chat {
 	}
 
 	public static Chat valueOf(char code) {
-		for(Chat c : values())
-			if(c.code == code)
+		for (Chat c : values())
+			if (c.code == code)
 				return c;
 		return null;
 	}

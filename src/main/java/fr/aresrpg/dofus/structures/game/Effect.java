@@ -4,21 +4,23 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.game;
+
+import fr.aresrpg.dofus.structures.item.EffectType;
 
 public class Effect {
 	private int type;
 	private int param1;
-	private int param2;
+	private long param2;
 	private int param3;
-	private int param4;
+	private String param4;
 	private int remainingTurn;
 	private int spellId;
 
-	public Effect(int type, int param1, int param2, int param3, int param4, int remainingTurn, int spellId) {
+	public Effect(int type, int param1, long param2, int param3, String param4, int remainingTurn, int spellId) {
 		this.type = type;
 		this.param1 = param1;
 		this.param2 = param2;
@@ -28,15 +30,33 @@ public class Effect {
 		this.spellId = spellId;
 	}
 
-	public int getType() {
-		return type;
+	public static Effect parse(String data) {
+		if (data.isEmpty()) return null;
+		String[] datas = data.split("#");
+		int id = Integer.parseInt(datas[0], 16);
+		int param1 = Integer.parseInt(datas[1], 16);
+		long param2 = Long.parseLong(datas[2], 16);
+		int param3 = Integer.parseInt(datas[3], 16);
+		String param4 = datas.length > 4 ? datas[4] : null;
+		return new Effect(id, param1, param2, param3, param4, -1, -1);
+	}
+
+	/**
+	 * @return the type
+	 */
+	public EffectType getType() {
+		return EffectType.valueOf(getTypeId());
+	}
+
+	public int getTypeId() {
+		return this.type;
 	}
 
 	public int getParam1() {
 		return param1;
 	}
 
-	public int getParam2() {
+	public long getParam2() {
 		return param2;
 	}
 
@@ -44,10 +64,16 @@ public class Effect {
 		return param3;
 	}
 
-	public int getParam4() {
+	/**
+	 * @return the param4
+	 */
+	public String getParam4() {
 		return param4;
 	}
 
+	/**
+	 * @return the remainingTurn
+	 */
 	public int getRemainingTurn() {
 		return remainingTurn;
 	}
@@ -58,14 +84,8 @@ public class Effect {
 
 	@Override
 	public String toString() {
-		return "Effect{" +
-				"type=" + type +
-				", param1=" + param1 +
-				", param2=" + param2 +
-				", param3=" + param3 +
-				", param4=" + param4 +
-				", remainingTurn=" + remainingTurn +
-				", spellId=" + spellId +
-				'}';
+		return "Effect [type=" + getType() + "(" + getTypeId() + "), param1=" + param1 + ", param2=" + param2 + ", param3=" + param3 + ", param4=" + param4 + ", remainingTurn=" + remainingTurn
+				+ ", spellId=" + spellId + "]";
 	}
+
 }

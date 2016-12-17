@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol;
 
@@ -135,11 +135,7 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(ExchangeLeavePacket exchangeLeavePacket);
 
-	void handle(PartyAcceptInvitationPacket partyAcceptInvitationPacket);
-
 	void handle(PartyInvitePacket partyInvitePacket);
-
-	void handle(PartyRefuseInvitationPacket partyRefuseInvitationPacket);
 
 	void handle(PartyLeavePacket partyLeavePacket);
 

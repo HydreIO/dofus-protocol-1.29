@@ -4,14 +4,16 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.AccountKeyPacket;
 import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
+import fr.aresrpg.dofus.protocol.party.PartyAcceptPacket;
+import fr.aresrpg.dofus.protocol.party.PartyRefusePacket;
 import fr.aresrpg.dofus.protocol.waypoint.ZaapLeavePacket;
 
 public interface PacketHandler {
@@ -29,4 +31,8 @@ public interface PacketHandler {
 	void handle(ChatSubscribeChannelPacket chatSubscribeChannelPacket);
 
 	void handle(ZaapLeavePacket zaapLeavePacket);
+
+	void handle(PartyAcceptPacket partyAcceptPacket);
+
+	void handle(PartyRefusePacket partyRefusePacket);
 }

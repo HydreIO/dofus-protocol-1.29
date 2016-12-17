@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.actions;
 
@@ -26,6 +26,10 @@ public class UnknownAction implements GameAction {
 
 	@Override
 	public void write(DofusStream stream) {
+		if (data == null) {
+			stream.allocate(1).write("c mabite"); // GameServerAction ne recup pas si id = 0
+			return;
+		}
 		stream.allocate(data.length);
 		for (String s : data)
 			stream.write(s);

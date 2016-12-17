@@ -4,15 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.info.server.message;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.InfosMessage;
+import fr.aresrpg.dofus.util.StringUtils;
 
 public class InfoMessagePacket implements ServerPacket {
 
@@ -29,7 +28,7 @@ public class InfoMessagePacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(messageId);
+		stream.allocate(1).write(StringUtils.padLeft(String.valueOf(messageId), 3, '0'));
 	}
 
 	public int getMessageId() {
@@ -59,7 +58,7 @@ public class InfoMessagePacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "InfoMessagePacket [messageId=" + messageId + ", extraDatas=" + extraDatas + "]";
+		return "InfoMessagePacket [message=" + getMessage() + "(" + messageId + "), extraDatas=" + extraDatas + "]";
 	}
 
 }

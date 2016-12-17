@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 /*******************************************************************************
  * BotFather (C) - Dofus 1.29
@@ -37,15 +37,20 @@ import java.util.*;
 public class GameMovementPacket implements ServerPacket {
 	private GameMovementType type;
 	private Set<Pair<GameMovementAction, MovementAction>> actors = new HashSet<>();
+	private String fullpacketflemme;
 
 	@Override
 	public void read(DofusStream stream) {
+		StringJoiner laflemme = new StringJoiner("|");
 		stream.read();
-		stream.forEach(this::parseActor);
+		stream.forEach(laflemme::add);
+		this.fullpacketflemme = laflemme.toString(); // comme ça jpeut envoyer dans le write
+		String[] read = this.fullpacketflemme.split("\\|");
+		Arrays.stream(read).forEach(this::parseActor);
 	}
 
 	public void parseActor(String datas) {
-		GameMovementType type = GameMovementType.fromChar(datas.charAt(0));
+		this.type = GameMovementType.fromChar(datas.charAt(0));
 		String[] data = datas.substring(1).split(";"); // loc10
 		switch (type) {
 			case UPDATE:
@@ -183,7 +188,7 @@ public class GameMovementPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-
+		stream.allocate(1).write("|" + fullpacketflemme); // ayyy lmao
 	}
 
 	@Override

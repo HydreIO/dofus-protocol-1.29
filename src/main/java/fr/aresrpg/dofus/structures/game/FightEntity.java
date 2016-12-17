@@ -4,10 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.game;
+
+import fr.aresrpg.dofus.util.Convert;
+
+import java.util.StringJoiner;
 
 public class FightEntity {
 	private int id;
@@ -15,13 +19,39 @@ public class FightEntity {
 	private int lpMax;
 	private int ap;
 	private int mp;
+	private int unknowNumber;
 
-	public FightEntity(int id, int lp, int lpMax, int ap, int mp) {
+	/**
+	 * @param id
+	 * @param lp
+	 * @param lpMax
+	 * @param ap
+	 * @param mp
+	 * @param unknowNumber
+	 */
+	public FightEntity(int id, int lp, int lpMax, int ap, int mp, int unknowNumber) {
 		this.id = id;
 		this.lp = lp;
 		this.lpMax = lpMax;
 		this.ap = ap;
 		this.mp = mp;
+		this.unknowNumber = unknowNumber;
+	}
+
+	public static FightEntity parse(String data) {
+		String[] datas = data.split(";", -1);
+		return new FightEntity(
+				Convert.toInt(datas[0]),
+				Convert.toInt(datas[2]),
+				Convert.toInt(datas[7]),
+				Convert.toInt(datas[3]),
+				Convert.toInt(datas[4]),
+				Convert.toInt(datas[5]));
+	}
+
+	public String serialize() {
+		return new StringJoiner(";").add("" + id).add("0").add("" + lp).add("" + ap)
+				.add("" + mp).add("" + unknowNumber).add("").add("" + lpMax).toString();
 	}
 
 	public int getId() {
@@ -44,14 +74,16 @@ public class FightEntity {
 		return mp;
 	}
 
+	/**
+	 * @return the unknowNumber
+	 */
+	public int getUnknowNumber() {
+		return unknowNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "FightEntity{" +
-				"id=" + id +
-				", lp=" + lp +
-				", lpMax=" + lpMax +
-				", ap=" + ap +
-				", mp=" + mp +
-				'}';
+		return "FightEntity [id=" + id + ", lp=" + lp + ", lpMax=" + lpMax + ", ap=" + ap + ", mp=" + mp + ", unknowNumber=" + unknowNumber + "]";
 	}
+
 }

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
@@ -18,7 +18,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 
 	private GameActions type;
 	private GameAction action;
-	private int lastAction;
+	private int lastAction = -1;
 	private int entityId;
 
 	/**
@@ -40,7 +40,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";", 4);
-		this.lastAction = Convert.toInt(data[0], 0);
+		this.lastAction = Convert.toInt(data[0], -1);
 		int id = Integer.parseInt(data[1]);
 		this.type = GameActions.getAction(id, ProtocolRegistry.Bound.CLIENT);
 		action = createAction(this.type, id);
@@ -71,7 +71,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		if (action.getId()[0] == 0)
 			stream.write(";0");
 		else
-			stream.write(lastAction + ";" + action.getId() + ";" + entityId + ";" + data);
+			stream.write((lastAction == -1 ? "" : String.valueOf(lastAction)) + ";" + action.getId()[0] + ";" + entityId + ";" + data);
 	}
 
 	@Override

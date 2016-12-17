@@ -35,6 +35,8 @@ import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
+import fr.aresrpg.dofus.protocol.party.PartyAcceptPacket;
+import fr.aresrpg.dofus.protocol.party.PartyRefusePacket;
 import fr.aresrpg.dofus.protocol.party.client.*;
 import fr.aresrpg.dofus.protocol.party.server.*;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
@@ -118,7 +120,7 @@ public enum ProtocolRegistry {
 	ITEM_MOVEMENT(Layer.OBJECT, 'M', Bound.CLIENT, ItemMovementPacket.class),
 	ITEM_DROP(Layer.OBJECT, 'D', Bound.CLIENT, ItemDropPacket.class),
 	ITEM_DESTROY(Layer.OBJECT, 'd', Bound.CLIENT, ItemDestroyPacket.class),
-	ITEM_USE(Layer.OBJECT, 'U', Bound.CLIENT, ItemUsePacket.class), // TODO: verif bConfirm ? ("u") : ("U")
+	ITEM_USE(Layer.OBJECT, 'U', Bound.CLIENT, ItemUsePacket.class),
 
 	// BASIC ==========================================================
 	// server
@@ -152,6 +154,7 @@ public enum ProtocolRegistry {
 	GAME_TURN_READY(Layer.GAME, 'T', 'R', Bound.SERVER, GameTurnReadyPacket.class),
 	GAME_EFFECT(Layer.GAME, 'I', 'E', Bound.SERVER, GameEffectPacket.class),
 	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
+	GAME_TEAM(Layer.GAME, 't', Bound.SERVER, GameTeamPacket.class),
 
 	// client
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
@@ -204,8 +207,6 @@ public enum ProtocolRegistry {
 	PARTY_INVITE_OK(Layer.PARTY, 'I', State.OK, Bound.SERVER, PartyInviteRequestOkPacket.class),
 	PARTY_INVITE_ERROR(Layer.PARTY, 'I', State.ERROR, Bound.SERVER, PartyInviteRequestErrorPacket.class),
 	PARTY_LEADER(Layer.PARTY, 'L', Bound.SERVER, PartyLeaderPacket.class),
-	PARTY_REFUSED(Layer.PARTY, 'R', Bound.SERVER, PartyRefusedPacket.class),
-	PARTY_ACCEPTED(Layer.PARTY, 'A', Bound.SERVER, PartyAcceptedPacket.class),
 	PARTY_CREATE_OK(Layer.PARTY, 'C', State.OK, Bound.SERVER, PartyCreateOkPacket.class),
 	PARTY_CREATE_ERROR(Layer.PARTY, 'C', State.ERROR, Bound.SERVER, PartyCreateErrorPacket.class),
 	PARTY_PLAYER_LEAVE(Layer.PARTY, 'V', Bound.SERVER, PartyPlayerLeavePacket.class),
@@ -214,12 +215,14 @@ public enum ProtocolRegistry {
 
 	// client
 	PARTY_INVITE(Layer.PARTY, 'I', Bound.CLIENT, PartyInvitePacket.class),
-	PARTY_REFUSE_INVITATION(Layer.PARTY, 'R', Bound.CLIENT, PartyRefuseInvitationPacket.class),
-	PARTY_ACCEPT_INVITATION(Layer.PARTY, 'A', Bound.CLIENT, PartyAcceptInvitationPacket.class),
 	PARTY_LEAVE(Layer.PARTY, 'V', Bound.CLIENT, PartyLeavePacket.class),
 	PARTY_FOLLOW(Layer.PARTY, 'F', Bound.CLIENT, PartyFollowPacket.class),
 	PARTY_WHERE(Layer.PARTY, 'W', Bound.CLIENT, PartyWherePacket.class),
 	PARTY_FOLLOW_ALL(Layer.PARTY, 'G', Bound.CLIENT, PartyFollowAllPacket.class),
+
+	// both
+	PARTY_ACCEPT(Layer.PARTY, 'A', Bound.BOTH, PartyAcceptPacket.class),
+	PARTY_REFUS(Layer.PARTY, 'R', Bound.BOTH, PartyRefusePacket.class),
 
 	// SPELL ==========================================================
 	// server

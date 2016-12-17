@@ -4,20 +4,16 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.spell.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.Spell;
 import fr.aresrpg.dofus.util.Crypt;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class SpellListPacket implements ServerPacket {
 	private List<Spell> spells;
@@ -26,7 +22,7 @@ public class SpellListPacket implements ServerPacket {
 	public void read(DofusStream stream) {
 		spells = new ArrayList<>();
 		String[] data = stream.read().split(";");
-		for(String d : data) {
+		for (String d : data) {
 			String[] subData = d.split("~");
 			spells.add(new Spell(
 					Integer.parseInt(subData[0]),
@@ -38,9 +34,10 @@ public class SpellListPacket implements ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		StringJoiner sb = new StringJoiner(";");
-		for(Spell s : spells)
-			sb.add(s.getId() + s.getLevel() + Character.toString(Crypt.hashToIndex(s.getPosition())));
-		stream.allocate(1);
+		for (Spell s : spells) {
+			sb.add(s.getId() + "~" + s.getLevel() + "~" + Character.toString(Crypt.hashToIndex(s.getPosition())));
+		}
+		stream.allocate(1).write(sb.toString() + ";");
 	}
 
 	@Override

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.party.server;
 
@@ -17,31 +17,31 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class PartyLeaderPacket implements ServerPacket {
 
-	private String newLeader;
+	private int leaderId;
 
 	@Override
 	public void read(DofusStream stream) {
-		this.newLeader = stream.read();
+		this.leaderId = stream.readInt();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(newLeader);
+		stream.allocate(1).writeInt(leaderId);
 	}
 
 	/**
-	 * @return the newLeader
+	 * @return the leaderId
 	 */
-	public String getNewLeader() {
-		return newLeader;
+	public int getLeaderId() {
+		return leaderId;
 	}
 
 	/**
-	 * @param newLeader
-	 *            the newLeader to set
+	 * @param leaderId
+	 *            the leaderId to set
 	 */
-	public void setNewLeader(String newLeader) {
-		this.newLeader = newLeader;
+	public void setLeaderId(int leaderId) {
+		this.leaderId = leaderId;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class PartyLeaderPacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "PartyLeaderPacket [newLeader=" + newLeader + "]";
+		return "PartyLeaderPacket [leaderId=" + leaderId + "]";
 	}
 
 }

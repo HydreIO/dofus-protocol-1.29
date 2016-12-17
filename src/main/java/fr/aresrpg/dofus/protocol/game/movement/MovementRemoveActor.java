@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
@@ -26,6 +26,11 @@ public class MovementRemoveActor implements MovementAction {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "MovementRemoveActor [id=" + id + "]";
 	}
 
 }

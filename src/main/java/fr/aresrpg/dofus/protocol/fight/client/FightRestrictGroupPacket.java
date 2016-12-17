@@ -30,4 +30,9 @@ public class FightRestrictGroupPacket implements ClientPacket {
 		handler.handle(this);
 	}
 
+	@Override
+	public String toString() {
+		return "FightRestrictGroupPacket []";
+	}
+
 }

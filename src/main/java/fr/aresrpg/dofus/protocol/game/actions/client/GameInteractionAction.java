@@ -30,7 +30,6 @@ public class GameInteractionAction implements GameAction {
 	 * @param skill
 	 */
 	public GameInteractionAction(int cell, Skills skill) {
-		super();
 		this.cell = cell;
 		this.skill = skill;
 	}

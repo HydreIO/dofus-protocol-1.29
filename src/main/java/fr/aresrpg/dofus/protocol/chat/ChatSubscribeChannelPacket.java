@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.chat;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.Packet;
-import fr.aresrpg.dofus.protocol.PacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.Chat;
 
 import java.util.Arrays;
@@ -24,8 +22,8 @@ public class ChatSubscribeChannelPacket implements Packet {
 	public void read(DofusStream stream) {
 		String data = stream.read();
 		add = data.charAt(0) == '+';
-		channels = new Chat[data.length() -1];
-		for(int i = 0 ; i < channels.length ; i++){
+		channels = new Chat[data.length() - 1];
+		for (int i = 0; i < channels.length; i++) {
 			channels[i] = Chat.valueOf(data.charAt(i + 1));
 		}
 	}
@@ -33,7 +31,7 @@ public class ChatSubscribeChannelPacket implements Packet {
 	@Override
 	public void write(DofusStream stream) {
 		StringBuilder builder = new StringBuilder().append(add ? '+' : '-');
-		for(Chat channel : channels)
+		for (Chat channel : channels)
 			builder.append(channel.getCode());
 		stream.allocate(1).write(builder.toString());
 	}

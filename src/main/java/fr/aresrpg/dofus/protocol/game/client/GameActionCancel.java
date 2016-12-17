@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.client;
 
@@ -28,6 +28,9 @@ public class GameActionCancel implements ClientPacket {
 		super();
 		this.actionId = actionId;
 		this.params = params;
+	}
+
+	public GameActionCancel() {
 	}
 
 	/**

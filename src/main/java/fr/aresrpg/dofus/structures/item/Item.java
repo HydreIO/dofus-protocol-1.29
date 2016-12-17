@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.item;
 
@@ -25,6 +25,7 @@ public class Item {
 	private int price;
 	private int skin;
 	// private int mood;
+	private int remainingHours;
 
 	public Item(int uid, int itemTypeId, int quantity, EquipmentPosition position, Effect[] effects, int price, int skin) {
 		this.uid = uid;
@@ -45,6 +46,77 @@ public class Item {
 	 */
 	public int getUid() {
 		return uid;
+	}
+
+	/**
+	 * @return the remainingHours
+	 */
+	public int getRemainingHours() {
+		return remainingHours;
+	}
+
+	/**
+	 * @param remainingHours
+	 *            the remainingHours to set
+	 */
+	public void setRemainingHours(int remainingHours) {
+		this.remainingHours = remainingHours;
+	}
+
+	/**
+	 * @param uid
+	 *            the uid to set
+	 */
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	/**
+	 * @param itemTypeId
+	 *            the itemTypeId to set
+	 */
+	public void setItemTypeId(int itemTypeId) {
+		this.itemTypeId = itemTypeId;
+	}
+
+	/**
+	 * @param quantity
+	 *            the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @param position
+	 *            the position to set
+	 */
+	public void setPosition(EquipmentPosition position) {
+		this.position = position;
+	}
+
+	/**
+	 * @param effects
+	 *            the effects to set
+	 */
+	public void setEffects(Effect[] effects) {
+		this.effects = effects;
+	}
+
+	/**
+	 * @param price
+	 *            the price to set
+	 */
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	/**
+	 * @param skin
+	 *            the skin to set
+	 */
+	public void setSkin(int skin) {
+		this.skin = skin;
 	}
 
 	/**
@@ -90,16 +162,21 @@ public class Item {
 				parseEffects(data[4]));
 	}
 
+	public String serialize() {
+		return Integer.toHexString(getUid()) + "~" +
+				Integer.toHexString(getItemTypeId()) + "~" +
+				Integer.toHexString(getQuantity()) + "~" +
+				(getPosition() == EquipmentPosition.NO_EQUIPED ? "" : Integer.toHexString(getPosition().getPosition())) + "~" +
+				serializeEffects(getEffects());
+	}
+
 	public static String serializeItem(Item i) {
-		return Integer.toHexString(i.getUid()) + "~" +
-				Integer.toHexString(i.getItemTypeId()) + "~" +
-				Integer.toHexString(i.getQuantity()) + "~" +
-				(i.getPosition() == EquipmentPosition.NO_EQUIPED ? "" : Integer.toHexString(i.getPosition().getPosition())) + "~" +
-				serializeEffects(i.getEffects());
+		return i.serialize();
 	}
 
 	public static Effect[] parseEffects(String d) {
 		String[] rawEffects = d.split(",");
+		if (rawEffects[0].isEmpty()) return null;
 		Effect[] effects = new Effect[rawEffects.length];
 		for (int i = 0; i < rawEffects.length; i++)
 			effects[i] = parseEffect(rawEffects[i]);
@@ -107,31 +184,26 @@ public class Item {
 	}
 
 	public static Effect parseEffect(String d) {
-		if (d.isEmpty())
-			return null;
-		String[] data = d.split("#");
-		return new Effect(
-				Integer.parseInt(data[0], 16),
-				Integer.parseInt(data[1], 16),
-				Integer.parseInt(data[2], 16),
-				Integer.parseInt(data[3], 16),
-				/* Integer.parseInt(data[4]) */ -1, // TODO
-				-1,
-				-1);
+		return Effect.parse(d);
+	}
+
+	public String serializeEffects() {
+		return serializeEffects(getEffects());
 	}
 
 	public static String serializeEffects(Effect[] effects) {
 		StringJoiner rawEffects = new StringJoiner(",");
+		if (effects == null) return "";
 		for (Effect e : effects)
 			rawEffects.add(serializeEffect(e));
 		return rawEffects.toString();
 	}
 
 	public static String serializeEffect(Effect e) {
-		return e.getType() + "#" +
-				e.getParam1() + "#" +
-				e.getParam2() + "#" +
-				e.getParam3() + "#" +
-				e.getParam4();
+		return (e.getTypeId() == -1 ? "-1" : Integer.toHexString(e.getTypeId())) + "#" +
+				Integer.toHexString(e.getParam1()) + "#" +
+				Long.toHexString(e.getParam2()) + "#" +
+				Integer.toHexString(e.getParam3()) + (e.getParam4() == null ? "" : "#" + e.getParam4());
 	}
+
 }

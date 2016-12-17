@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
@@ -16,6 +16,7 @@ package fr.aresrpg.dofus.structures;
 public enum Skills {
 	// si tu veut t'amuser a traduire tout en anglais vas y
 	ACHETER_MAISON(97),
+	UTILISER_ENCLO(175),
 	ACHETER_ENCLOS(176),
 	ACTIONNER(179),
 	PUISER(102),

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -41,7 +41,4 @@ public class StringUtils {
 		return sb.toString();
 	}
 
-	public static void main(String[] args) {
-		System.out.println(padLeft("9", 3, '0'));
-	}
 }

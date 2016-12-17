@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol;
 
@@ -194,10 +194,6 @@ public interface ServerPacketHandler extends PacketHandler {
 
 	void handle(PartyLeaderPacket partyLeaderPacket);
 
-	void handle(PartyRefusedPacket partyRefusedPacket);
-
-	void handle(PartyAcceptedPacket partyAcceptedPacket);
-
 	void handle(PartyCreateOkPacket partyCreateOkPacket);
 
 	void handle(PartyCreateErrorPacket partyCreateErrorPacket);
@@ -207,5 +203,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(PartyFollowReceivePacket partyFollowReceivePacket);
 
 	void handle(PartyMovementPacket partyMovementPacket);
+
+	void handle(GameTeamPacket gameTeamPacket);
 
 }

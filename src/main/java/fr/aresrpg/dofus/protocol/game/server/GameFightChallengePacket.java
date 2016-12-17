@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.game.FightChallenge;
 
 public class GameFightChallengePacket implements ServerPacket {
@@ -20,21 +18,12 @@ public class GameFightChallengePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		String[] data = stream.read().split(";");
-		setChallenge(new FightChallenge(
-				Integer.parseInt(data[0]),
-				data[1].equals("1"),
-				Integer.parseInt(data[2]),
-				Integer.parseInt(data[3]),
-				Integer.parseInt(data[4]),
-				Integer.parseInt(data[5]),
-				Integer.parseInt(data[6])
-		));
+		this.challenge = FightChallenge.parse(stream.read());
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-
+		stream.allocate(1).write(challenge.serialize());
 	}
 
 	@Override
@@ -50,10 +39,16 @@ public class GameFightChallengePacket implements ServerPacket {
 	}
 
 	/**
-	 * @param challenge the challenge to set
+	 * @param challenge
+	 *            the challenge to set
 	 */
 	public void setChallenge(FightChallenge challenge) {
 		this.challenge = challenge;
+	}
+
+	@Override
+	public String toString() {
+		return "GameFightChallengePacket [challenge=" + challenge + "]";
 	}
 
 }

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
@@ -16,7 +16,7 @@ public enum Exchange {
 	CRAFT(3),
 	PLAYER_SHOP(4),
 	BANK(5),
-	PLAYER_SHOP_MODIFIER(6),
+	SELF_MERCHANT_MODE(6),
 	TAX_COLLECTOR_STORAGE(8),
 	EXCHANGE_3(9),
 	BIG_STORE_SELL(10),
@@ -40,8 +40,8 @@ public enum Exchange {
 	}
 
 	public static Exchange valueOf(int code) {
-		for(Exchange c : values())
-			if(c.code == code)
+		for (Exchange c : values())
+			if (c.code == code)
 				return c;
 		return null;
 	}

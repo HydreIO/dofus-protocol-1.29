@@ -4,31 +4,34 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.Exchange;
+import fr.aresrpg.dofus.structures.Skills;
 
+import java.util.Arrays;
 import java.util.StringJoiner;
 
-public class ExchangeCreatePacket implements ServerPacket{
+public class ExchangeCreatePacket implements ServerPacket {
 	private Exchange type;
 	private ExchangeData data;
+	private boolean success;
 
 	@Override
 	public void read(DofusStream stream) {
-		type = Exchange.valueOf(stream.readInt());
-		switch (type){
+		this.success = stream.peek().charAt(0) == 'K';
+		String datas = stream.read().substring(1);
+		type = Exchange.valueOf(Integer.parseInt(datas));
+		switch (type) {
 			case CRAFT:
 			case SECURE_CRAFT:
 			case SECURE_CRAFT_2:
 				String data[] = stream.read().split(";");
-				this.data = new CraftExchangeData(Integer.parseInt(data[0]) , Integer.parseInt(data[1]));
+				this.data = new CraftExchangeData(Integer.parseInt(data[0]), Integer.parseInt(data[1]));
 				break;
 			case EXCHANGE_2:
 			case EXCHANGE_3:
@@ -42,32 +45,49 @@ public class ExchangeCreatePacket implements ServerPacket{
 			case CRAFTER_LIST:
 				String d[] = stream.read().split(";");
 				int[] jobs = new int[d.length];
-				for(int i = 0 ; i < jobs.length ; i++)
+				for (int i = 0; i < jobs.length; i++)
 					jobs[i] = Integer.parseInt(d[i]);
 				this.data = new JobsExchangeData(jobs);
 				break;
 			case BIG_STORE_BUY:
 			case BIG_STORE_SELL:
+				// TODO
+				StringJoiner joiner = new StringJoiner("|");
+				while (stream.available() > 0)
+					joiner.add(stream.read());
+				this.data = new DefaultData(joiner.toString());
 				break;
-			case MOUNT_PARK: //TODO
-				throw new UnsupportedOperationException("Not yet");
+			case MOUNT_PARK:
+				// TODO
+				StringJoiner joiner2 = new StringJoiner("|");
+				while (stream.available() > 0)
+					joiner2.add(stream.read());
+				this.data = new DefaultData(joiner2.toString());
+				break;
 		}
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).writeInt(type.ordinal());
-		if(data instanceof CraftExchangeData) {
+		if (data == null) {
+			stream.allocate(1).write((success ? "K" : "E") + type.getCode());
+			return;
+		}
+		stream.allocate(2).write((success ? "K" : "E") + type.getCode());
+		if (data instanceof CraftExchangeData) {
 			CraftExchangeData cdata = (CraftExchangeData) data;
 			stream.write(cdata.getMaxItem() + ";" + cdata.getSkillId());
-		} else if(data instanceof BasicExchangeData)
+		} else if (data instanceof BasicExchangeData)
 			stream.writeInt(((BasicExchangeData) data).getEntityId());
-		else if(data instanceof JobsExchangeData) {
+		else if (data instanceof JobsExchangeData) {
 			JobsExchangeData jdata = (JobsExchangeData) data;
 			StringJoiner joiner = new StringJoiner(";");
-			for(int j : jdata.getJobs())
+			for (int j : jdata.getJobs())
 				joiner.add(Integer.toString(j));
 			stream.write(joiner.toString());
+		} else if (data instanceof DefaultData) {
+			DefaultData ddata = (DefaultData) data;
+			stream.write(((DefaultData) data).getDatas());
 		}
 	}
 
@@ -75,7 +95,6 @@ public class ExchangeCreatePacket implements ServerPacket{
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
-
 
 	public Exchange getType() {
 		return type;
@@ -103,7 +122,31 @@ public class ExchangeCreatePacket implements ServerPacket{
 				")[" + getId() + ']';
 	}
 
-	public interface ExchangeData{}
+	public interface ExchangeData {}
+
+	public static class DefaultData implements ExchangeData {
+		private String datas;
+
+		/**
+		 * @param datas
+		 */
+		public DefaultData(String datas) {
+			this.datas = datas;
+		}
+
+		/**
+		 * @return the datas
+		 */
+		public String getDatas() {
+			return datas;
+		}
+
+		@Override
+		public String toString() {
+			return "DefaultData [datas=" + datas + "]";
+		}
+
+	}
 
 	public static class CraftExchangeData implements ExchangeData {
 		private int maxItem;
@@ -121,6 +164,12 @@ public class ExchangeCreatePacket implements ServerPacket{
 		public int getSkillId() {
 			return skillId;
 		}
+
+		@Override
+		public String toString() {
+			return "CraftExchangeData [maxItem=" + maxItem + ", skill=" + Skills.valueOf(skillId) + "]";
+		}
+
 	}
 
 	public static class BasicExchangeData implements ExchangeData {
@@ -136,6 +185,11 @@ public class ExchangeCreatePacket implements ServerPacket{
 
 		public void setEntityId(int entityId) {
 			this.entityId = entityId;
+		}
+
+		@Override
+		public String toString() {
+			return "BasicExchangeData [entityId=" + entityId + "]";
 		}
 	}
 
@@ -153,7 +207,19 @@ public class ExchangeCreatePacket implements ServerPacket{
 		public void setJobs(int[] jobs) {
 			this.jobs = jobs;
 		}
+
+		@Override
+		public String toString() {
+			return "JobsExchangeData [jobs=" + Arrays.toString(jobs) + "]";
+		}
+
 	}
 
-	public static class ShopExchangeData implements ExchangeData {}
+	public static class ShopExchangeData implements ExchangeData {
+
+		@Override
+		public String toString() {
+			return "ShopExchangeData []";
+		}
+	}
 }
