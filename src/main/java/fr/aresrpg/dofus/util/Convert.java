@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -23,6 +23,13 @@ public class Convert {
 
 	public static int toInt(String value) {
 		return toInt(value, 0, 10);
+	}
+
+	public static long toLong(String value) {
+		if (value.isEmpty())
+			return 0;
+		else
+			return Integer.parseInt(value, 10);
 	}
 
 	public static int toHexInt(String value) {
