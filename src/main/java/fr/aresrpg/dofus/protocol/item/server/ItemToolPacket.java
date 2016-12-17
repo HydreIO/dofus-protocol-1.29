@@ -4,13 +4,13 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.server;
 
 import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.structures.Skills;
+import fr.aresrpg.dofus.structures.Jobs;
 
 /**
  * 
@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.structures.Skills;
  */
 public class ItemToolPacket implements ServerPacket {
 
-	private Skills jobId;
+	private Jobs jobId;
 
 	public ItemToolPacket() {
 	}
@@ -26,15 +26,14 @@ public class ItemToolPacket implements ServerPacket {
 	/**
 	 * @param jobId
 	 */
-	public ItemToolPacket(Skills jobId) {
-		super();
+	public ItemToolPacket(Jobs jobId) {
 		this.jobId = jobId;
 	}
 
 	/**
 	 * @return the jobId
 	 */
-	public Skills getJobId() {
+	public Jobs getJobId() {
 		return jobId;
 	}
 
@@ -42,18 +41,18 @@ public class ItemToolPacket implements ServerPacket {
 	 * @param jobId
 	 *            the jobId to set
 	 */
-	public void setJobId(Skills jobId) {
+	public void setJobId(Jobs jobId) {
 		this.jobId = jobId;
 	}
 
 	@Override
 	public void read(DofusStream stream) {
-		this.jobId = Skills.valueOf(stream.readInt());
+		this.jobId = Jobs.valueOf(stream.readInt());
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(jobId.getId());
+		stream.allocate(1).writeInt(jobId.getJobId());
 	}
 
 	@Override

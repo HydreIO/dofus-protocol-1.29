@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.client;
 
@@ -85,7 +85,7 @@ public class ItemUsePacket implements ClientPacket {
 	@Override
 	public void read(DofusStream stream) {
 		this.itemId = stream.readInt();
-		this.sprite = Convert.toInt(stream.read(), -1); // optional
+		this.sprite = stream.available() > 0 ? Convert.toInt(stream.read(), -1) : -1; // optional
 		this.cellnum = stream.available() > 0 ? stream.readInt() : -1;
 	}
 

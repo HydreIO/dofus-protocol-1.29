@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.server;
 
@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.protocol.*;
 public class ItemMovementConfirmPacket implements ServerPacket {
 
 	private int itemUid;
-	private int position;
+	private int position = -1;
 
 	public ItemMovementConfirmPacket() {
 	}
@@ -35,7 +35,7 @@ public class ItemMovementConfirmPacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		this.itemUid = stream.readInt();
-		this.position = stream.readInt();
+		if (stream.available() > 0) this.position = stream.readInt();
 	}
 
 	@Override
