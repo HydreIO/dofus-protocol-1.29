@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.client;
 
@@ -27,6 +27,9 @@ public class ExchangeMountPacket implements ClientPacket {
 	public ExchangeMountPacket(MountExchange exchange, int mountOrCertifid) {
 		this.exchange = exchange;
 		this.mountOrCertifid = mountOrCertifid;
+	}
+
+	public ExchangeMountPacket() {
 	}
 
 	/**

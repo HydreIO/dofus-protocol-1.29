@@ -4,15 +4,16 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.client;
 
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.ExchangeMove;
 
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -20,15 +21,15 @@ import java.util.Arrays;
  */
 public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|amount<|price> ...
 
-	private MovedItem[] items;
+	private Set<MovedItem> items = new HashSet<>();
+
+	public ExchangeMoveItemsPacket() {
+	}
 
 	/**
-	 * @param type
-	 * @param itemUUID
-	 * @param amount
-	 * @param price
+	 * @param items
 	 */
-	public ExchangeMoveItemsPacket(MovedItem... items) {
+	public ExchangeMoveItemsPacket(Set<MovedItem> items) {
 		this.items = items;
 	}
 
@@ -37,14 +38,14 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 		while (stream.available() > 0) {
 			String d = stream.read();
 			if (!isBool(d.charAt(0))) return;
-			recordItem(String.valueOf(d.charAt(0)), d.substring(1), stream.read(), isBool(stream.peek().charAt(0)) ? "" : stream.read());
+			items.add(recordItem(String.valueOf(d.charAt(0)), d.substring(1), stream.read(), isBool(stream.peek().charAt(0)) ? "" : stream.read()));
 		}
 	}
 
 	@Override
 	public void write(DofusStream stream) {
 		stream.allocate((int) allocateCount());
-		Arrays.stream(getItems()).forEach(i -> i.write(stream));
+		items.forEach(i -> i.write(stream));
 	}
 
 	@Override
@@ -57,17 +58,22 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 	}
 
 	private long allocateCount() {
-		return Arrays.stream(items).mapToInt(MovedItem::getAllocate).sum();
+		return items.stream().mapToInt(MovedItem::getAllocate).sum();
 	}
 
 	private boolean isBool(char c) {
 		return c == '+' || c == '-';
 	}
 
+	@Override
+	public String toString() {
+		return "ExchangeMoveItemsPacket [items=" + items + "]";
+	}
+
 	/**
 	 * @return the items
 	 */
-	public MovedItem[] getItems() {
+	public Set<MovedItem> getItems() {
 		return items;
 	}
 
@@ -75,13 +81,8 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 	 * @param items
 	 *            the items to set
 	 */
-	public void setItems(MovedItem... items) {
+	public void setItems(Set<MovedItem> items) {
 		this.items = items;
-	}
-
-	@Override
-	public String toString() {
-		return "ExchangeMovePacket [items=" + Arrays.toString(items) + "]";
 	}
 
 	public static class MovedItem {

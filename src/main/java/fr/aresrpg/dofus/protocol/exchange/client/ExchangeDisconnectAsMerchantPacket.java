@@ -15,7 +15,7 @@ import fr.aresrpg.dofus.protocol.*;
  * 
  * @since 
  */
-public class ExchangeDisconnectAsMerchantPacker implements ClientPacket {
+public class ExchangeDisconnectAsMerchantPacket implements ClientPacket {
 
 	@Override
 	public void read(DofusStream stream) {

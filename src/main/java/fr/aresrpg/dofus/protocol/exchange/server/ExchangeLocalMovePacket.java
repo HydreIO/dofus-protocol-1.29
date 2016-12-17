@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -20,6 +20,7 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 	private int itemType;
 	private int itemAmount;
 	private int localKama;
+	private boolean isAdd;
 
 	public ExchangeLocalMovePacket() {
 	}
@@ -46,6 +47,7 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 		String data = stream.read().substring(1); // remove bSuccess
 		char loc5 = data.charAt(0);
 		if (loc5 == 'O') {
+			this.isAdd = data.charAt(1) == '+';
 			data = data.substring(2);
 			this.itemType = Integer.parseInt(data);
 			this.itemAmount = stream.readInt();
@@ -57,7 +59,7 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		if (getLocalKama() == -1) stream.allocate(2).write("KO" + itemType).writeInt(itemAmount);
+		if (getLocalKama() == -1) stream.allocate(2).write("KO" + (isAdd ? "+" : "-") + itemType).writeInt(itemAmount);
 		else stream.allocate(1).write("KG" + getLocalKama());
 	}
 
@@ -111,9 +113,24 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 		handler.handle(this);
 	}
 
+	/**
+	 * @return the isAdd
+	 */
+	public boolean isAdd() {
+		return isAdd;
+	}
+
+	/**
+	 * @param isAdd
+	 *            the isAdd to set
+	 */
+	public void setAdd(boolean isAdd) {
+		this.isAdd = isAdd;
+	}
+
 	@Override
 	public String toString() {
-		return "ExchangeLocalMovePacket [itemType=" + itemType + ", itemAmount=" + itemAmount + ", localKama=" + localKama + "]";
+		return "ExchangeLocalMovePacket [itemType=" + itemType + ", itemAmount=" + itemAmount + ", localKama=" + localKama + ", isAdd=" + isAdd + "]";
 	}
 
 }

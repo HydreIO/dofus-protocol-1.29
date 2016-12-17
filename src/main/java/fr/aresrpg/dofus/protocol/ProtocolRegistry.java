@@ -267,7 +267,7 @@ public enum ProtocolRegistry {
 	EXCHANGE_MOVE_KAMAS(Layer.EXCHANGE, 'M', 'G', Bound.CLIENT, ExchangeMoveKamasPacket.class),
 	EXHANGE_BUY_TO_NPC(Layer.EXCHANGE, 'B', Bound.CLIENT, ExchangeBuyToNpcPacket.class),
 	EXCHANGE_SELL_TO_NPC(Layer.EXCHANGE, 'S', Bound.CLIENT, ExchangeSellToNpcPacket.class),
-	EXHANGE_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'Q', Bound.CLIENT, ExchangeDisconnectAsMerchantPacker.class),
+	EXHANGE_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'Q', Bound.CLIENT, ExchangeDisconnectAsMerchantPacket.class),
 	EXCHANGE_ASK_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'q', Bound.CLIENT, ExchangeAskToDisconnectAsMerchantPacket.class),
 	EXCHANGE_ASK_HDV_TYPE(Layer.EXCHANGE, 'H', Bound.CLIENT, ExchangeHdvPacket.class),
 	EXCHANGE_GET_CRAFTER_FOR_JOB(Layer.EXCHANGE, 'J', 'F', Bound.CLIENT, ExchangeGetCrafterForJobPacket.class),

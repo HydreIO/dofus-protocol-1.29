@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -31,6 +31,9 @@ public class ExchangeRequestOkPacket implements ServerPacket {
 		this.playerId = playerId;
 		this.targetId = targetId;
 		this.exchange = exchange;
+	}
+
+	public ExchangeRequestOkPacket() {
 	}
 
 	@Override
@@ -69,6 +72,11 @@ public class ExchangeRequestOkPacket implements ServerPacket {
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "ExchangeRequestOkPacket [playerId=" + playerId + ", targetId=" + targetId + ", exchange=" + exchange + "]";
 	}
 
 }

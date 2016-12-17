@@ -91,7 +91,7 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(ExchangeBuyToNpcPacket exchangeBuyToNpcPacket);
 
-	void handle(ExchangeDisconnectAsMerchantPacker exchangeDisconnectAsMerchandPacker);
+	void handle(ExchangeDisconnectAsMerchantPacket exchangeDisconnectAsMerchandPacker);
 
 	void handle(ExchangeAskToDisconnectAsMerchantPacket exchangeAskToDisconnectAsMerchantPacket);
 

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -31,7 +31,7 @@ public class ExchangeCraftPublicPacket implements ServerPacket {
 			this.craftPublicMode = data.charAt(0) == '+';
 			data = data.substring(1);
 			this.itemid = Integer.parseInt(data);
-			if (craftPublicMode && stream.peek().length() > 0) this.multiCraftSkill = Integer.parseInt(stream.read().split(";")[0]);
+			if (stream.available() > 0 && craftPublicMode && stream.peek().length() > 0) this.multiCraftSkill = Integer.parseInt(stream.read().split(";")[0]);
 		}
 	}
 

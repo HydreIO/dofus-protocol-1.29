@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -24,6 +24,9 @@ public class ExchangeReadyPacket implements ServerPacket {
 	 */
 	public ExchangeReadyPacket(int extraData) {
 		this.extraData = extraData;
+	}
+
+	public ExchangeReadyPacket() {
 	}
 
 	@Override

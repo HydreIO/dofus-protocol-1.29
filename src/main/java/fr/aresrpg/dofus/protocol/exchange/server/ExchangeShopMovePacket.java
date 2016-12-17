@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -24,7 +24,7 @@ public class ExchangeShopMovePacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		String data = stream.read().substring(1); // remove bSuccess
-		this.add = data.charAt(1) == '+';
+		this.add = data.charAt(0) == '+';
 		data = data.substring(1);
 		int uuid = Integer.parseInt(data);
 		int amount = stream.readInt();
@@ -71,7 +71,7 @@ public class ExchangeShopMovePacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(4).write("K" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()))
+		stream.allocate(5).write("K" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()))
 				.writeInt(moved.getPrice());
 
 	}

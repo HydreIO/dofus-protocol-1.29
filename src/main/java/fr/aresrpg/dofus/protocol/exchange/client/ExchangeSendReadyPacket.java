@@ -32,4 +32,9 @@ public class ExchangeSendReadyPacket implements ClientPacket {
 		handler.handle(this);
 	}
 
+	@Override
+	public String toString() {
+		return "ExchangeSendReadyPacket []";
+	}
+
 }

@@ -4,13 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.EquipmentPosition;
+import fr.aresrpg.dofus.structures.game.Effect;
 import fr.aresrpg.dofus.structures.item.Item;
 
 /**
@@ -33,8 +34,8 @@ public class ExchangeCoopMovePacket implements ServerPacket {
 				int uuid = Integer.parseInt(data);
 				int amount = stream.readInt();
 				int typeid = stream.readInt();
-				String effs = stream.read();
-				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED, Item.parseEffects(effs));
+				Effect[] effs = stream.available() > 0 ? Item.parseEffects(stream.read()) : null;
+				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED, effs);
 				break;
 			case 'G':
 				this.kamas = Integer.parseInt(data.substring(1));

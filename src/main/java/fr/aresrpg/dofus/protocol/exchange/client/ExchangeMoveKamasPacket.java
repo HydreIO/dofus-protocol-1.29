@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.client;
 
@@ -23,8 +23,10 @@ public class ExchangeMoveKamasPacket implements ClientPacket {
 	 * @param amount
 	 */
 	public ExchangeMoveKamasPacket(int amount) {
-		super();
 		this.amount = amount;
+	}
+
+	public ExchangeMoveKamasPacket() {
 	}
 
 	/**

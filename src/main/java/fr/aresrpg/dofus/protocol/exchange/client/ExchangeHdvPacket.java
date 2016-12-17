@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.client;
 
@@ -29,6 +29,9 @@ public class ExchangeHdvPacket implements ClientPacket {
 	public ExchangeHdvPacket(ItemCategory type) {
 		this.type = type;
 		this.askType = AskHdvType.TYPE;
+	}
+
+	public ExchangeHdvPacket() {
 	}
 
 	public ExchangeHdvPacket(AskHdvType type, int itemId) {
@@ -188,10 +191,9 @@ public class ExchangeHdvPacket implements ClientPacket {
 		}
 
 		public static AskHdvType valueOf(char c) {
-			if (c == 'T') return TYPE;
-			else if (c == 'l') return LIST;
-			else if (c == 'P') return MIDDLE_PRICE;
-			else throw new IllegalArgumentException("The char '" + c + "' is invalid !");
+			for (AskHdvType t : values())
+				if (t.getCode() == c) return t;
+			throw new IllegalArgumentException("The char '" + c + "' is invalid !");
 		}
 
 	}
