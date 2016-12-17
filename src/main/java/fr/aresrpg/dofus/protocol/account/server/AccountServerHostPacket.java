@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 public class AccountServerHostPacket implements ServerPacket {
 	private String ip;
@@ -21,9 +19,10 @@ public class AccountServerHostPacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
-		ip = data[0];
-		port = Integer.parseInt(data[1]);
-		ticketKey = data[2];
+		String[] first = data[0].split(":");
+		ip = first[0];
+		port = Integer.parseInt(first[1]);
+		ticketKey = data[1];
 	}
 
 	@Override

@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.Alignment;
 import fr.aresrpg.dofus.structures.Rank;
 import fr.aresrpg.dofus.structures.game.Alignement;
@@ -37,7 +35,7 @@ public class AccountStatsPacket implements ServerPacket {
 	private int energy;
 	private int energyMax;
 	private int initiative;
-	private int discernment;
+	private int prospection;
 	private Map<Stat, StatValue> stats;
 
 	@Override
@@ -54,15 +52,14 @@ public class AccountStatsPacket implements ServerPacket {
 		if (alignement[0].contains("~")) {
 			String[] fakeAlignement = alignement[0].split("~");
 			alignement[0] = fakeAlignement[0];
-			this.fakeAlignment = new Alignement(Alignment.valueOf(fakeAlignement[1]), alignementValue);
+			this.fakeAlignment = new Alignement(Alignment.valueOf(Integer.valueOf(fakeAlignement[1])), alignementValue);
 		}
-		this.alignment = new Alignement(Alignment.valueOf(alignement[0]), alignementValue);
+		this.alignment = new Alignement(Alignment.valueOf(Integer.valueOf(alignement[0])), alignementValue);
 		this.rank = new Rank(
 				Integer.parseInt(alignement[2]),
 				Integer.parseInt(alignement[3]),
 				Integer.parseInt(alignement[4]),
-				alignement[5].equals("1")
-		);
+				alignement[5].equals("1"));
 
 		String[] life = stream.read().split(",");
 		this.life = Integer.parseInt(life[0]);
@@ -71,17 +68,18 @@ public class AccountStatsPacket implements ServerPacket {
 		this.energy = Integer.parseInt(energy[0]);
 		this.energyMax = Integer.parseInt(energy[1]);
 		this.initiative = stream.readInt();
-		this.discernment = stream.readInt();
+		this.prospection = stream.readInt();
 		stats = new EnumMap<>(Stat.class);
 		int available = stream.available();
-		for(int i = 0 ; i < available ; i++){
+		for (int i = 0; i < available; i++) {
 			String[] data = stream.read().split(",");
-			stats.put(Stat.valueOf(i) , new StatValue(
-					Integer.parseInt(data[0]),
-					Integer.parseInt(data[1]),
-					Integer.parseInt(data[2]),
-					Integer.parseInt(data[3])
-			));
+			if (data.length < 4) continue;
+			int base = Integer.parseInt(data[0]);
+			int equip = Integer.parseInt(data[1]);
+			int dons = Integer.parseInt(data[2]);
+			int boost = Integer.parseInt(data[3]);
+			int total = data.length == 5 ? Integer.parseInt(data[4]) : base + equip + dons + boost;
+			stats.put(Stat.valueOf(i), new StatValue(base, equip, dons, boost, total));
 		}
 	}
 
@@ -92,20 +90,20 @@ public class AccountStatsPacket implements ServerPacket {
 				.writeInt(bonusPoints)
 				.writeInt(bonusPointsSpell);
 		String alignment = Integer.toString(this.alignment.getIndex().ordinal());
-		if(fakeAlignment != null)
+		if (fakeAlignment != null)
 			alignment += "~" + this.fakeAlignment.getIndex().ordinal();
 		alignment += "," + this.alignment.getValue();
 		stream.write(alignment + "," + rank.getValue() + "," +
-					rank.getHonour() + "," + rank.getDisgrace() +
-					"," + (rank.isEnabled() ? 1 : 0))
+				rank.getHonour() + "," + rank.getDisgrace() +
+				"," + (rank.isEnabled() ? 1 : 0))
 				.write(life + "," + lifeMax)
 				.write(energy + "," + energyMax)
 				.writeInt(initiative)
-				.writeInt(discernment);
-		for(Stat stat : Stat.values()) { //assure order
+				.writeInt(prospection);
+		for (Stat stat : Stat.values()) { // assure order
 			StatValue value = stats.get(stat);
-			stream.write(value.getBase() + "," + value.getEquipment() + "," + value.getGift() + "," +
-						value.getContext());
+			stream.write(value.getBase() + "," + value.getEquipment() + "," + value.getDons() + "," +
+					value.getBoost() + (stat == Stat.ActionPoints || stat == Stat.MovementPoints ? "," + value.getTotal() : ""));
 		}
 
 	}
@@ -171,8 +169,11 @@ public class AccountStatsPacket implements ServerPacket {
 		return initiative;
 	}
 
-	public int getDiscernment() {
-		return discernment;
+	/**
+	 * @return the prospection
+	 */
+	public int getProspection() {
+		return prospection;
 	}
 
 	public Map<Stat, StatValue> getStats() {
@@ -249,8 +250,8 @@ public class AccountStatsPacket implements ServerPacket {
 		return this;
 	}
 
-	public AccountStatsPacket setDiscernment(int discernment) {
-		this.discernment = discernment;
+	public AccountStatsPacket setProspection(int prospection) {
+		this.prospection = prospection;
 		return this;
 	}
 
@@ -258,4 +259,12 @@ public class AccountStatsPacket implements ServerPacket {
 		this.stats = stats;
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return "AccountStatsPacket [xp=" + xp + ", xpLow=" + xpLow + ", xpHigh=" + xpHigh + ", kama=" + kama + ", bonusPoints=" + bonusPoints + ", bonusPointsSpell=" + bonusPointsSpell
+				+ ", alignment=" + alignment + ", fakeAlignment=" + fakeAlignment + ", rank=" + rank + ", life=" + life + ", lifeMax=" + lifeMax + ", energy=" + energy + ", energyMax=" + energyMax
+				+ ", initiative=" + initiative + ", prospection=" + prospection + ", stats=" + stats + "]";
+	}
+
 }
