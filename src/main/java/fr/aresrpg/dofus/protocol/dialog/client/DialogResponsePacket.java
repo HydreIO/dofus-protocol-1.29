@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.dialog.client;
 
@@ -25,9 +25,11 @@ public class DialogResponsePacket implements ClientPacket {
 	 * @param responseId
 	 */
 	public DialogResponsePacket(int questionId, int responseId) {
-		super();
 		this.questionId = questionId;
 		this.responseId = responseId;
+	}
+
+	public DialogResponsePacket() {
 	}
 
 	/**

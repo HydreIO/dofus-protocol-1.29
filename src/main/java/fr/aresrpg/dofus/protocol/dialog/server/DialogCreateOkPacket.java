@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.dialog.server;
 
@@ -23,13 +23,6 @@ public class DialogCreateOkPacket implements ServerPacket {
 	// var _loc5 = this.api.datacenter.Sprites.getItemAt(_loc4);
 	// loc6 = loc5.color1 2 3
 	// {name: _loc5.name, gfx: _loc5.gfxID, id: _loc4, customArtwork: _loc5.customArtwork, colors: _loc6});
-	/**
-	 * @param id
-	 */
-	public DialogCreateOkPacket(int id) {
-		super();
-		this.id = id;
-	}
 
 	@Override
 	public void read(DofusStream stream) {

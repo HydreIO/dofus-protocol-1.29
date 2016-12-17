@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.dialog.server;
 
@@ -36,16 +36,25 @@ public class DialogQuestionPacket implements ServerPacket { // DQ1150|1239;819;8
 		this.questionParam = questionParam;
 	}
 
+	public DialogQuestionPacket() {
+	}
+
 	@Override
 	public void read(DofusStream stream) {
 		String[] loc4 = stream.read().split(";");
 		this.question = Integer.parseInt(loc4[0]);
-		this.response = Arrays.stream(stream.read().split(";")).mapToInt(Convert::toInt).toArray();
-		if (loc4.length > 1) this.questionParam = Arrays.stream(loc4[1].split(",")).mapToInt(Convert::toInt).toArray();
+		if (loc4.length > 1) {
+			this.response = Arrays.stream(stream.read().split(";")).mapToInt(Convert::toInt).toArray();
+			if (loc4.length > 1) this.questionParam = Arrays.stream(loc4[1].split(",")).mapToInt(Convert::toInt).toArray();
+		}
 	}
 
 	@Override
 	public void write(DofusStream stream) {
+		if (response == null) {
+			stream.allocate(1).writeInt(question);
+			return;
+		}
 		String q = question + (this.questionParam != null && this.questionParam.length != 0 ? Arrays.stream(questionParam).mapToObj(String::valueOf).collect(Collectors.joining(",")) : "");
 		stream.allocate(2).write(q).write(Arrays.stream(response).mapToObj(String::valueOf).collect(Collectors.joining(";")));
 	}

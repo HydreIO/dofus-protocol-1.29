@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.dialog.client;
 
@@ -18,13 +18,6 @@ import fr.aresrpg.dofus.protocol.*;
 public class DialogCreatePacket implements ClientPacket {
 
 	private int npcId;
-
-	/**
-	 * @param npcId
-	 */
-	public DialogCreatePacket(int npcId) {
-		this.npcId = npcId;
-	}
 
 	@Override
 	public void read(DofusStream stream) {

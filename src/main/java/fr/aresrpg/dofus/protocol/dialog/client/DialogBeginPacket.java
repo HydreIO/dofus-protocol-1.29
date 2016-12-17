@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.dialog.client;
 
@@ -24,6 +24,9 @@ public class DialogBeginPacket implements ClientPacket {
 	 */
 	public DialogBeginPacket(int npcId) {
 		this.npcId = npcId;
+	}
+
+	public DialogBeginPacket() {
 	}
 
 	@Override
