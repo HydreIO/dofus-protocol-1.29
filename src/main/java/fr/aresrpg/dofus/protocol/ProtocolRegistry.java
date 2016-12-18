@@ -157,6 +157,7 @@ public enum ProtocolRegistry {
 	GAME_EFFECT(Layer.GAME, 'I', 'E', Bound.SERVER, GameEffectPacket.class),
 	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
 	GAME_TEAM(Layer.GAME, 't', Bound.SERVER, GameTeamPacket.class),
+	GAME_SPAWN(Layer.GAME, 'c', Bound.SERVER, null), // ============================================================================ A FAIRE
 
 	// client
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
@@ -184,6 +185,9 @@ public enum ProtocolRegistry {
 
 	// FIGHT ==========================================================
 	// server
+	FIGHT_COUNT(Layer.FIGHT, 'C', Bound.SERVER, null), // =================================================================================== A FAIRE
+	FIGHT_LIST(Layer.FIGHT, 'L', Bound.SERVER, null), // =================================================================================== A FAIRE
+	FIGHT_DETAIL(Layer.FIGHT, 'D', Bound.SERVER, null), // =================================================================================== A FAIRE
 	// client
 	FIGHT_BLOCK_SPECTATE(Layer.FIGHT, 'S', Bound.CLIENT, FightBlockSpectatePacket.class),
 	FIGHT_RESTRICT_GROUP(Layer.FIGHT, 'P', Bound.CLIENT, FightRestrictGroupPacket.class),

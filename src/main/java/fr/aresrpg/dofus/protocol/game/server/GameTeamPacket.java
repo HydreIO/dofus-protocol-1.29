@@ -11,19 +11,35 @@ import java.util.stream.IntStream;
  */
 public class GameTeamPacket implements ServerPacket {
 
+	private int firstId;
 	private TeamEntity[] entities;
 
 	@Override
 	public void read(DofusStream stream) {
-		stream.readInt(); // duplicated id
+		this.firstId = stream.readInt();
 		this.entities = new TeamEntity[stream.available()];
 		IntStream.range(0, stream.available()).forEach(i -> entities[i] = TeamEntity.parse(stream.read()));
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1 + entities.length).writeInt(entities[0].getEntityId());
+		stream.allocate(1 + entities.length).writeInt(firstId);
 		Arrays.stream(entities).forEach(e -> stream.write(e.serialize()));
+	}
+
+	/**
+	 * @return the firstId
+	 */
+	public int getFirstId() {
+		return firstId;
+	}
+
+	/**
+	 * @param firstId
+	 *            the firstId to set
+	 */
+	public void setFirstId(int firstId) {
+		this.firstId = firstId;
 	}
 
 	/**
@@ -48,7 +64,7 @@ public class GameTeamPacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "GameTeamPacket [entities=" + Arrays.toString(entities) + "]";
+		return "GameTeamPacket [firstId=" + firstId + ", entities=" + Arrays.toString(entities) + "]";
 	}
 
 	public static class TeamEntity {

@@ -123,6 +123,29 @@ public class ExchangeListPacket implements ServerPacket {
 		}
 	}
 
+	/**
+	 * @return the invType
+	 */
+	public Exchange getInvType() {
+		return invType;
+	}
+
+	/**
+	 * @param invType
+	 *            the invType to set
+	 */
+	public void setInvType(Exchange invType) {
+		this.invType = invType;
+	}
+
+	/**
+	 * @param items
+	 *            the items to set
+	 */
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
