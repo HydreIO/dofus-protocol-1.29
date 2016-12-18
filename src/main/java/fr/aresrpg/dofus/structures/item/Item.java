@@ -37,6 +37,10 @@ public class Item {
 		this.skin = skin;
 	}
 
+	public Item(int typeId, int quantity) {
+		this(0, typeId, quantity, EquipmentPosition.NO_EQUIPED, null);
+	}
+
 	public Item(int uid, int itemTypeId, int quantity, EquipmentPosition position, Effect[] effects) {
 		this(uid, itemTypeId, quantity, position, effects, -1, -1);
 	}

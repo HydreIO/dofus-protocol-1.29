@@ -21,14 +21,6 @@ public class FightEntity {
 	private int mp;
 	private int unknowNumber;
 
-	/**
-	 * @param id
-	 * @param lp
-	 * @param lpMax
-	 * @param ap
-	 * @param mp
-	 * @param unknowNumber
-	 */
 	public FightEntity(int id, int lp, int lpMax, int ap, int mp, int unknowNumber) {
 		this.id = id;
 		this.lp = lp;

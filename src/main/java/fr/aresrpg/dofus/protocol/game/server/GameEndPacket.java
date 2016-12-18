@@ -4,188 +4,57 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
 import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.structures.EquipmentPosition;
-import fr.aresrpg.dofus.structures.game.Effect;
-import fr.aresrpg.dofus.structures.game.FightType;
-import fr.aresrpg.dofus.structures.item.Item;
-import fr.aresrpg.dofus.util.Convert;
-import fr.aresrpg.dofus.util.StringUtils;
-
-import java.util.Arrays;
-import java.util.StringJoiner;
+import fr.aresrpg.dofus.structures.game.FightResult;
 
 /**
  * 
  * @since
  */
+// 			GE	time	|player	|type 	|win	;id 	;name 	;lvl;dead	;minxp		;xp			;maxxp		;winxp	;guild	;mount	;drops 				;kamas
+// Jowed =  GE	46968	|2397625|0 		|2 		;2397625;Jowed	;101;0 		;99823000	;100282955	;103885000	;11 	;0 		; 		;379~2,311~2 		;43
+// Coffre = 							|2 		;-3 	;285 	;5 	;0 		; 			; 			; 			; 		; 		; 		;379~2,2583~1,311~2	;101
+// Crabe = 								|0 		;-1 	;63 	;5 	;1 		; 			; 			;		 	; 		;	 	; 		; 					;
+// Crabe = 								|0 		;-2 	;63 	;4 	;1 		; 			; 			; 			; 		; 		; 		; 					;
 public class GameEndPacket implements ServerPacket {
 
 	private int duration;
-	private int bonus;
-	private FightType fightType;
-	private int senderId;
-	private Item[] drop;
-	private int code;
-	private int characterId;
-	private String name;
-	private int level;
-	private boolean dead;
-	private int minXp;
-	private int xp;
-	private int maxXp;
-	private int winXp;
-	private int guildXp;
-	private int mountXp;
-	private int kama;
-	private int minHonour;
-	private int honour;
-	private int maxHonour;
-	private int winHonour;
-	private int rank;
-	private int disgrace;
-	private int winDisgrace;
+	private int firstPlayerId;
+	private int bonus = -1;
+	private FightResult result;
 
 	@Override
 	public void read(DofusStream stream) {
-		String duration = stream.read();
-		if (duration.contains(";")) {
-			String[] data = duration.split(";");
-			this.duration = Integer.parseInt(data[0]);
-			this.bonus = Integer.parseInt(data[1]);
-		} else {
-			this.duration = Integer.parseInt(duration);
-			this.bonus = -1;
-		}
-		this.senderId = stream.readInt();
-		this.fightType = FightType.fromId(stream.readInt());
-		String[] data = StringUtils.split(stream.read(), ";");
-		code = Integer.parseInt(data[0]);
-		if (code == 6) {
-			drop = readItem(data[1]);
-			kama = Integer.parseInt(data[2]);
-		} else {
-			characterId = Integer.parseInt(data[1]);
-			name = data[2];
-			level = Integer.parseInt(data[3]);
-			dead = data[4].equals("1");
-			minHonour = 0;
-			honour = 0;
-			maxHonour = 0;
-			winHonour = 0;
-			rank = 0;
-			disgrace = 0;
-			winDisgrace = 0;
-			switch (fightType) {
-				case AGRESSION:
-					minHonour = Convert.toInt(data[5]);
-					honour = Convert.toInt(data[6]);
-					maxHonour = Convert.toInt(data[7]);
-					winHonour = Convert.toInt(data[8]);
-					rank = Convert.toInt(data[9]);
-					disgrace = Convert.toInt(data[10]);
-					winDisgrace = Convert.toInt(data[11]);
-					drop = readItem(data[12]);
-					kama = Convert.toInt(data[13]);
-					minXp = Convert.toInt(data[14]);
-					xp = Convert.toInt(data[15]);
-					maxXp = Convert.toInt(data[16]);
-					winXp = Convert.toInt(data[17]);
-					break;
-				case MONSTER:
-					minXp = Convert.toInt(data[5]);
-					xp = Convert.toInt(data[6]);
-					maxXp = Convert.toInt(data[7]);
-					winXp = Convert.toInt(data[8]);
-					guildXp = Convert.toInt(data[9], 0);
-					mountXp = Convert.toInt(data[10], 0);
-					drop = readItem(data[11]);
-					kama = Convert.toInt(data[12]);
-					break;
-				case DUEL:
-					break;
-				case PERCO:
-					break;
-			}
-		}
+		String data = stream.read();
+		if (data.contains(";")) {
+			String[] loc7 = data.split(";");
+			this.duration = Integer.parseInt(loc7[0]);
+			this.bonus = Integer.parseInt(loc7[1]);
+		} else this.duration = Integer.parseInt(data);
+		this.firstPlayerId = stream.readInt();
+		boolean pvp = stream.readInt() == 1;
+		this.result = new FightResult(pvp);
+		while (stream.available() > 0)
+			this.result.parseEntity(stream.read());
 	}
 
-	private static Item[] readItem(String data) {
-		String[] d = data.split(",");
-		Item[] items = new Item[d.length];
-		for (int i = 0; i < items.length; i++) {
-			String[] amount = d[i].split("~");
-			items[i] = new Item(-1, Convert.toInt(amount[0], 0), Convert.toInt(amount[1], 0), EquipmentPosition.NO_EQUIPED, new Effect[0]);
-		}
-		return items;
+	private String serializeBonus() {
+		if (hasBonus()) return duration + ";" + bonus;
+		return String.valueOf(duration);
+	}
+
+	public boolean hasBonus() {
+		return bonus != -1;
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(4)
-				.write(bonus == -1 ? Integer.toString(duration) : duration + ";" + bonus)
-				.writeInt(senderId)
-				.writeInt(fightType.getId());
-		StringJoiner joiner = new StringJoiner(";");
-		joiner.add(Integer.toString(code));
-		if (code == 6)
-			joiner.add(writeItem(drop)).add(Integer.toString(kama));
-		else {
-			joiner.add(Integer.toString(characterId))
-					.add(name)
-					.add(Integer.toString(level))
-					.add(dead ? "1" : "0");
-			switch (fightType) {
-				case DUEL:
-					break;
-				case MONSTER:
-					joiner.add(Convert.toDofusString(minXp))
-							.add(Convert.toDofusString(xp))
-							.add(Convert.toDofusString(maxXp))
-							.add(Convert.toDofusString(winXp))
-							.add(Convert.toDofusString(guildXp))
-							.add(Convert.toDofusString(mountXp))
-							.add(writeItem(drop))
-							.add(Convert.toDofusString(kama));
-					break;
-				case AGRESSION:
-					joiner.add(Convert.toDofusString(minHonour))
-							.add(Convert.toDofusString(honour))
-							.add(Convert.toDofusString(maxHonour))
-							.add(Convert.toDofusString(winHonour))
-							.add(Convert.toDofusString(rank))
-							.add(Convert.toDofusString(disgrace))
-							.add(Convert.toDofusString(winDisgrace))
-							.add(writeItem(drop))
-							.add(Convert.toDofusString(kama))
-							.add(Convert.toDofusString(minXp))
-							.add(Convert.toDofusString(xp))
-							.add(Convert.toDofusString(maxXp))
-							.add(Convert.toDofusString(winXp));
-					break;
-			}
-		}
-		stream.write(joiner.toString());
-	}
-
-	@Override
-	public String toString() {
-		return "GameEndPacket [duration=" + duration + ", bonus=" + bonus + ", fightType=" + fightType + ", senderId=" + senderId + ", drop=" + Arrays.toString(drop) + ", code=" + code
-				+ ", characterId=" + characterId + ", name=" + name + ", level=" + level + ", dead=" + dead + ", minXp=" + minXp + ", xp=" + xp + ", maxXp=" + maxXp + ", winXp=" + winXp + ", guildXp="
-				+ guildXp + ", mountXp=" + mountXp + ", kama=" + kama + ", minHonour=" + minHonour + ", honour=" + honour + ", maxHonour=" + maxHonour + ", winHonour=" + winHonour + ", rank=" + rank
-				+ ", disgrace=" + disgrace + ", winDisgrace=" + winDisgrace + "]";
-	}
-
-	private static String writeItem(Item[] items) {
-		StringJoiner sb = new StringJoiner(",");
-		for (Item item : items)
-			sb.add(item.getItemTypeId() + "~" + item.getQuantity());
-		return sb.toString();
+		stream.allocate(3).write(serializeBonus()).writeInt(firstPlayerId).write(result.serialize());
 	}
 
 	@Override
@@ -193,103 +62,69 @@ public class GameEndPacket implements ServerPacket {
 		handler.handle(this);
 	}
 
+	/**
+	 * @return the duration
+	 */
 	public int getDuration() {
 		return duration;
 	}
 
+	/**
+	 * @param duration
+	 *            the duration to set
+	 */
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	/**
+	 * @return the firstPlayerId
+	 */
+	public int getFirstPlayerId() {
+		return firstPlayerId;
+	}
+
+	/**
+	 * @param firstPlayerId
+	 *            the firstPlayerId to set
+	 */
+	public void setFirstPlayerId(int firstPlayerId) {
+		this.firstPlayerId = firstPlayerId;
+	}
+
+	/**
+	 * @return the bonus
+	 */
 	public int getBonus() {
 		return bonus;
 	}
 
 	/**
-	 * @return the fightType
+	 * @param bonus
+	 *            the bonus to set
 	 */
-	public FightType getFightType() {
-		return fightType;
+	public void setBonus(int bonus) {
+		this.bonus = bonus;
 	}
 
-	public int getSenderId() {
-		return senderId;
+	/**
+	 * @return the result
+	 */
+	public FightResult getResult() {
+		return result;
 	}
 
-	public Item[] getDrop() {
-		return drop;
+	/**
+	 * @param result
+	 *            the result to set
+	 */
+	public void setResult(FightResult result) {
+		this.result = result;
 	}
 
-	public int getCode() {
-		return code;
-	}
-
-	public int getCharacterId() {
-		return characterId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public boolean isDead() {
-		return dead;
-	}
-
-	public int getMinXp() {
-		return minXp;
-	}
-
-	public int getXp() {
-		return xp;
-	}
-
-	public int getMaxXp() {
-		return maxXp;
-	}
-
-	public int getWinXp() {
-		return winXp;
-	}
-
-	public int getGuildXp() {
-		return guildXp;
-	}
-
-	public int getMountXp() {
-		return mountXp;
-	}
-
-	public int getKama() {
-		return kama;
-	}
-
-	public int getMinHonour() {
-		return minHonour;
-	}
-
-	public int getHonour() {
-		return honour;
-	}
-
-	public int getMaxHonour() {
-		return maxHonour;
-	}
-
-	public int getWinHonour() {
-		return winHonour;
-	}
-
-	public int getRank() {
-		return rank;
-	}
-
-	public int getDisgrace() {
-		return disgrace;
-	}
-
-	public int getWinDisgrace() {
-		return winDisgrace;
+	@Override
+	public String toString() {
+		return "GameEndPacket [duration=" + duration + ", firstPlayerId=" + firstPlayerId + ", bonus=" + bonus + ", result=" + result + "]";
 	}
 
 }
