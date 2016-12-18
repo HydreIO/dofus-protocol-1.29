@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.map;
 
@@ -30,28 +30,8 @@ public class Cell {
 	private int layerObject2Num;
 	private int frame;
 
-	/**
-	 * @param id
-	 * @param mapWidth
-	 * @param lineOfSight
-	 * @param layerGroundRot
-	 * @param groundLevel
-	 * @param movement
-	 * @param layerGroundNum
-	 * @param groundSlope
-	 * @param x
-	 * @param y
-	 * @param layerGroundFlip
-	 * @param layerObject1Num
-	 * @param layerObject1Rot
-	 * @param layerObject1Flip
-	 * @param layerObject2Flip
-	 * @param layerObject2Interactive
-	 * @param layerObject2Num
-	 */
 	public Cell(int id, int mapWidth, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, int x, int y, boolean layerGroundFlip,
 		int layerObject1Num, int layerObject1Rot, boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
-		super();
 		this.id = id;
 		this.mapWidth = mapWidth;
 		this.lineOfSight = lineOfSight;

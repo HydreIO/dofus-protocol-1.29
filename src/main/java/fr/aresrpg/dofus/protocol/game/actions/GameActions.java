@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.actions;
 
@@ -21,6 +21,7 @@ public enum GameActions {
 	PM_CHANGE(129, GamePmChangeAction.class, Bound.SERVER, 127, 128, 78, 169),
 	KILL(103, GameKillAction.class, Bound.SERVER),
 	SUMMON(180, GameSummonAction.class, Bound.SERVER, 181/* 780 (player invoc osa) */),
+	FIGHT_JOIN_ERROR(903, GameJoinErrorAction.class, Bound.SERVER),
 
 	// CLIENT
 	INTERRACT(500, GameInteractionAction.class, Bound.CLIENT),
