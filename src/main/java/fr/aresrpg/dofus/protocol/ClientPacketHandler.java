@@ -20,6 +20,7 @@ import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
+import fr.aresrpg.dofus.protocol.job.client.JobChangeStatsPacket;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.party.client.*;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
@@ -144,4 +145,6 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(PartyWherePacket partyWherePacket);
 
 	void handle(PartyFollowAllPacket partyFollowAllPacket);
+
+	void handle(JobChangeStatsPacket jobChangeStatsPacket);
 }

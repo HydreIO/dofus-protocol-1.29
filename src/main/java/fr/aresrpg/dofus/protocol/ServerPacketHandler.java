@@ -20,6 +20,7 @@ import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.item.server.*;
+import fr.aresrpg.dofus.protocol.job.server.*;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.party.server.*;
 import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
@@ -205,5 +206,11 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(PartyMovementPacket partyMovementPacket);
 
 	void handle(GameTeamPacket gameTeamPacket);
+
+	void handle(JobSkillsPacket jobSkillsPacket);
+
+	void handle(JobXpPacket jobXpPacket);
+
+	void handle(JobLevelPacket jobLevelPacket);
 
 }

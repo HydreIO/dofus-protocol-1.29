@@ -47,11 +47,11 @@ public enum Skills {
 	CONSULTER(170),
 	COUDRE_CHAPEAU(63),
 	COUDRE_SAC(123),
-	COUDRE_CAP(64),
+	COUDRE_CAPE(64),
 	COUPER_FRENE(6),
 	COUPER_CHENE(10),
 	COUPER_IF(33),
-	COUPER_EBENE(449),
+	COUPER_EBENE(34),
 	COUPER_ORME(35),
 	COUPER_ERABLE(37),
 	COUPER_CHARME(38),
@@ -73,7 +73,7 @@ public enum Skills {
 	CEUILLIR_ORCHIDEE(73),
 	CEUILLIR_EDELWEISS(74),
 	CEUILLIR_GRAINE_PANDOUILLE(160),
-	CUIR_PAIN(188),
+	CUIR_PAIN(27),
 	DEVEROUILLER(100),
 	DEVEROUILLER_2(106),
 	EGRENER(122),
@@ -176,6 +176,167 @@ public enum Skills {
 		for (Skills i : values())
 			if (i.getId() == code) return i;
 		return null;
+	}
+
+	public static boolean isHarvestSkill(Skills s) {
+		switch (s) {
+			case COLLECTER_FER:
+			case COLLECTER_CUIVRE:
+			case COLLECTER_BRONZE:
+			case COLLECTER_ARGENT:
+			case COLLECTER_KOBALTE:
+			case COLLECTER_OR:
+			case COLLECTER_BAUXITE:
+			case COLLECTER_ETEIN:
+			case COLLECTER_MANGANESE:
+			case COLLECTER_DOLOMITE:
+			case COLLECTER_SILICATE:
+			case COUPER_FRENE:
+			case COUPER_CHENE:
+			case COUPER_IF:
+			case COUPER_EBENE:
+			case COUPER_ORME:
+			case COUPER_ERABLE:
+			case COUPER_CHARME:
+			case COUPER_CHATAIGNIER:
+			case COUPER_NOYER:
+			case COUPER_MERISIER:
+			case COUPER_BOMBU:
+			case COUPER_OLIVIOLET:
+			case COUPER_BAMBOU:
+			case COUPER_BAMBOU_SOMBRE:
+			case COUPER_BAMBOU_SACRE:
+			case COUPER_KALIPTUS:
+			case CEUILLIR_LIN:
+			case CEUILLIR_CHANVRE:
+			case CEUILLIR_TREFLE:
+			case CEUILLIR_MENTHE:
+			case CEUILLIR_ORCHIDEE:
+			case CEUILLIR_EDELWEISS:
+			case CEUILLIR_GRAINE_PANDOUILLE:
+			case FAUCHER_BLE:
+			case FAUCHER_HOUBLON:
+			case FAUCHER_LIN:
+			case FAUCHER_SEIGLE:
+			case FAUCHER_ORGE:
+			case FAUCHER_CHANVRE:
+			case FAUCHER_AVOINE:
+			case FAUCHER_MALT:
+			case FAUCHER_RIZ:
+			case PECHER_GOUJON:
+			case PECHER_TRUITE:
+			case PECHER_POISSON_CHATON:
+			case PECHER_BROCHET:
+			case PECHER_GREUVETTE:
+			case PECHER_POISSON_PANE:
+			case PECHER_CRABE_SOURIMI:
+			case PECHER_SARDINE_BRILLANTE:
+			case PECHER_PICHON_EUD_COMPET:
+			case PECHER_KRALAMOURE:
+			case PECHER_SARDINE_BRILLANTE_2:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	public static boolean isJobSkill(Skills s) {
+		switch (s) {
+			case AMELIORER_BOTTES:
+			case AMELIORER_ANNEAU:
+			case AMELIORER_CHAPEAU:
+			case AMELIORER_SAC:
+			case AMELIORER_AMULETTE:
+			case AMELIORER_CAPE:
+			case AMELIORER_CEINTURE:
+			case BRICOLER:
+			case COLLECTER_FER:
+			case COLLECTER_CUIVRE:
+			case COLLECTER_BRONZE:
+			case COLLECTER_ARGENT:
+			case COLLECTER_KOBALTE:
+			case COLLECTER_OR:
+			case COLLECTER_BAUXITE:
+			case COLLECTER_ETEIN:
+			case COLLECTER_MANGANESE:
+			case COLLECTER_DOLOMITE:
+			case COLLECTER_SILICATE:
+			case CONFECTIONNER_BOTTES:
+			case CONFECTIONNER_CEINTURE:
+			case CONFECTIONNER_CLEF:
+			case COUDRE_CHAPEAU:
+			case COUDRE_SAC:
+			case COUDRE_CAPE:
+			case COUPER_FRENE:
+			case COUPER_CHENE:
+			case COUPER_IF:
+			case COUPER_EBENE:
+			case COUPER_ORME:
+			case COUPER_ERABLE:
+			case COUPER_CHARME:
+			case COUPER_CHATAIGNIER:
+			case COUPER_NOYER:
+			case COUPER_MERISIER:
+			case COUPER_BOMBU:
+			case COUPER_OLIVIOLET:
+			case COUPER_BAMBOU:
+			case COUPER_BAMBOU_SOMBRE:
+			case COUPER_BAMBOU_SACRE:
+			case COUPER_KALIPTUS:
+			case CREER_ANNEAU:
+			case CREER_AMULETTE:
+			case CEUILLIR_LIN:
+			case CEUILLIR_CHANVRE:
+			case CEUILLIR_TREFLE:
+			case CEUILLIR_MENTHE:
+			case CEUILLIR_ORCHIDEE:
+			case CEUILLIR_EDELWEISS:
+			case CEUILLIR_GRAINE_PANDOUILLE:
+			case CUIR_PAIN:
+			case EGRENER:
+			case FAIRE_BONBONS:
+			case FAUCHER_BLE:
+			case FAUCHER_HOUBLON:
+			case FAUCHER_LIN:
+			case FAUCHER_SEIGLE:
+			case FAUCHER_ORGE:
+			case FAUCHER_CHANVRE:
+			case FAUCHER_AVOINE:
+			case FAUCHER_MALT:
+			case FAUCHER_RIZ:
+			case FORGER_BOUCLIER:
+			case FORGER_MARTEAU:
+			case FORGER_DAGUE:
+			case FORGER_EPEE:
+			case FORGER_FAUX:
+			case FORGER_HACHE:
+			case FORGER_PELLE:
+			case FORGER_PIOCHE:
+			case MOUDRE:
+			case POLIR_PIERRE:
+			case PREPARER:
+			case PREPARER_POISSON:
+			case PREPARER_VIANDE:
+			case PREPARER_POTION:
+			case PECHER_GOUJON:
+			case PECHER_TRUITE:
+			case PECHER_POISSON_CHATON:
+			case PECHER_BROCHET:
+			case PECHER_GREUVETTE:
+			case PECHER_POISSON_PANE:
+			case PECHER_CRABE_SOURIMI:
+			case PECHER_SARDINE_BRILLANTE:
+			case PECHER_PICHON_EUD_COMPET:
+			case PECHER_KRALAMOURE:
+			case PECHER_SARDINE_BRILLANTE_2:
+			case SCIER:
+			case SCULPTER_ARC:
+			case SCULPTER_BATON:
+			case SCULPTER_BAGUETTE:
+				return true;
+			default:
+				return false;
+		}
 	}
 
 }

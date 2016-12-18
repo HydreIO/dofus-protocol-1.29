@@ -10,7 +10,7 @@
 package fr.aresrpg.dofus.protocol.item.server;
 
 import fr.aresrpg.dofus.protocol.*;
-import fr.aresrpg.dofus.structures.Jobs;
+import fr.aresrpg.dofus.structures.job.Jobs;
 
 /**
  * 

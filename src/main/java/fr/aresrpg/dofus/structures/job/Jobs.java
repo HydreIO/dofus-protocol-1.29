@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.structures;
+package fr.aresrpg.dofus.structures.job;
 
 /**
  * 
@@ -6,6 +6,7 @@ package fr.aresrpg.dofus.structures;
  */
 public enum Jobs {
 
+	JOB_NULL(0),
 	JOB_BASE(1),
 	JOB_BUCHERON(2),
 	JOB_F_EPEE(11),

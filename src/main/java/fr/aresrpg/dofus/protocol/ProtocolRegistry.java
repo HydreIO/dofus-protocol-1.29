@@ -33,6 +33,8 @@ import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.item.server.*;
+import fr.aresrpg.dofus.protocol.job.client.JobChangeStatsPacket;
+import fr.aresrpg.dofus.protocol.job.server.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
 import fr.aresrpg.dofus.protocol.party.PartyAcceptPacket;
@@ -188,6 +190,15 @@ public enum ProtocolRegistry {
 	FIGHT_BLOCK_ALL(Layer.FIGHT, 'N', Bound.CLIENT, FightBlockAllPacket.class),
 	FIGHT_NEED_HELP(Layer.FIGHT, 'H', Bound.CLIENT, FightNeedHelpPacket.class),
 	// both
+
+	// JOB ==========================================================
+	// server
+	JOB_SKILLS(Layer.JOB, 'S', Bound.SERVER, JobSkillsPacket.class),
+	JOB_XP(Layer.JOB, 'X', Bound.SERVER, JobXpPacket.class),
+	JOB_LEVEL(Layer.JOB, 'N', Bound.SERVER, JobLevelPacket.class),
+
+	// client
+	JOB_CHANGE_STATS(Layer.JOB, 'O', Bound.CLIENT, JobChangeStatsPacket.class),
 
 	// INFO ==========================================================
 	// server
@@ -427,6 +438,7 @@ public enum ProtocolRegistry {
 		GAME('G'),
 		GUILD('g'),
 		HOUSE('h'),
+		JOB('J'),
 		ENEMY('i'),
 		HOUSE_CODE('k'),
 		OBJECT('O'),
