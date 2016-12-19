@@ -16,6 +16,8 @@ import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosJoinPacket;
+import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.client.*;
 import fr.aresrpg.dofus.protocol.dialog.server.*;
@@ -31,7 +33,7 @@ import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
-import fr.aresrpg.dofus.protocol.info.server.message.InfoMessagePacket;
+import fr.aresrpg.dofus.protocol.info.server.*;
 import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.item.server.*;
 import fr.aresrpg.dofus.protocol.job.client.JobChangeStatsPacket;
@@ -124,6 +126,7 @@ public enum ProtocolRegistry {
 	ITEM_DROP(Layer.OBJECT, 'D', Bound.CLIENT, ItemDropPacket.class),
 	ITEM_DESTROY(Layer.OBJECT, 'd', Bound.CLIENT, ItemDestroyPacket.class),
 	ITEM_USE(Layer.OBJECT, 'U', Bound.CLIENT, ItemUsePacket.class),
+	ITEM_SKIN(Layer.OBJECT, 's', Bound.CLIENT, ItemSkinPacket.class),
 
 	// BASIC ==========================================================
 	// server
@@ -141,9 +144,7 @@ public enum ProtocolRegistry {
 	GAME_MAP_DATA(Layer.GAME, 'D', 'M', Bound.SERVER, GameMapDataPacket.class),
 	GAME_MAP_FRAME(Layer.GAME, 'D', 'F', Bound.SERVER, GameMapFramePacket.class),
 	GAME_JOIN(Layer.GAME, 'J', State.OK, Bound.SERVER, GameJoinPacket.class),
-	GAME_ON_READY(Layer.GAME, 'R', Bound.SERVER, GameOnReadyPacket.class),
 	GAME_START_POSITION_PACKET(Layer.GAME, 'P', Bound.SERVER, GamePositionStartPacket.class),
-	GAME_START(Layer.GAME, 'S', Bound.SERVER, GameStartPacket.class),
 	GAME_END(Layer.GAME, 'E', Bound.SERVER, GameEndPacket.class),
 	GAME_MOVEMENT(Layer.GAME, 'M', Bound.SERVER, GameMovementPacket.class),
 	GAME_SERVER_READY(Layer.GAME, 'R', Bound.SERVER, GameServerReadyPacket.class),
@@ -205,9 +206,16 @@ public enum ProtocolRegistry {
 	// client
 	JOB_CHANGE_STATS(Layer.JOB, 'O', Bound.CLIENT, JobChangeStatsPacket.class),
 
+	// CONQUEST ==========================================================
+	// client
+	CONQUEST_WORLD_INFOS_JOIN(Layer.CONQUEST, 'W', 'J', Bound.CLIENT, WorldInfosJoinPacket.class),
+	CONQUEST_WORLD_INFOS_LEAVE(Layer.CONQUEST, 'W', 'V', Bound.CLIENT, WorldInfosLeavePacket.class),
+
 	// INFO ==========================================================
 	// server
 	INFO_MESSAGE(Layer.INFO, 'm', Bound.SERVER, InfoMessagePacket.class),
+	INFO_COMPASS(Layer.INFO, 'C', Bound.SERVER, InfoCompassPacket.class),
+	INFO_COORDINATE(Layer.INFO, 'H', Bound.SERVER, InfoCoordinatePacket.class),
 	// client
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
@@ -450,6 +458,7 @@ public enum ProtocolRegistry {
 		PARTY('P'),
 		MOUNT('R'),
 		SPELL('S'),
+		CONQUEST('C'),
 		HELLO('H'),
 		AREA('a'),
 		WAYPOINT('W'),

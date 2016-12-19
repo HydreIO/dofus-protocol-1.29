@@ -35,6 +35,21 @@ public class JobSkillsPacket implements ServerPacket {
 		Arrays.stream(jobs).forEach(j -> stream.write(j.getType().getJobId() + ";" + j.serializeSkills()));
 	}
 
+	/**
+	 * @return the jobs
+	 */
+	public Job[] getJobs() {
+		return jobs;
+	}
+
+	/**
+	 * @param jobs
+	 *            the jobs to set
+	 */
+	public void setJobs(Job[] jobs) {
+		this.jobs = jobs;
+	}
+
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);

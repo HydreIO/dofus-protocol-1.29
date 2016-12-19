@@ -9,9 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 public class GameStartToPlayPacket implements ServerPacket {
 	@Override
@@ -23,6 +21,11 @@ public class GameStartToPlayPacket implements ServerPacket {
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "GameStartToPlayPacket []";
 	}
 
 }

@@ -22,7 +22,6 @@ public class FightDetail {
 	 * @param type
 	 */
 	public FightDetail(String name, int lvl, int type) {
-		super();
 		this.name = name;
 		this.lvl = lvl;
 		this.type = type;

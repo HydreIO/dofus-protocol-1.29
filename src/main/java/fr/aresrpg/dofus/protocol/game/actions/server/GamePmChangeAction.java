@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.actions.server;
 
@@ -20,7 +20,7 @@ import fr.aresrpg.dofus.util.Convert;
 public class GamePmChangeAction implements GameAction {
 
 	private int entity;
-	private int pa;
+	private int pm;
 
 	public GamePmChangeAction() {
 	}
@@ -29,9 +29,9 @@ public class GamePmChangeAction implements GameAction {
 	 * @param entity
 	 * @param pa
 	 */
-	public GamePmChangeAction(int entity, int pa) {
+	public GamePmChangeAction(int entity, int pm) {
 		this.entity = entity;
-		this.pa = pa;
+		this.pm = pm;
 	}
 
 	/**
@@ -52,8 +52,8 @@ public class GamePmChangeAction implements GameAction {
 	/**
 	 * @return the pa
 	 */
-	public int getPa() {
-		return pa;
+	public int getPm() {
+		return pm;
 	}
 
 	/**
@@ -61,24 +61,24 @@ public class GamePmChangeAction implements GameAction {
 	 *            the pa to set
 	 */
 	public void setPa(int pa) {
-		this.pa = pa;
+		this.pm = pa;
 	}
 
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(",");
 		this.entity = Convert.toInt(data[0]);
-		this.pa = Convert.toInt(data[1]);
+		this.pm = Convert.toInt(data[1]);
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(entity + "," + pa);
+		stream.allocate(1).write(entity + "," + pm);
 	}
 
 	@Override
 	public String toString() {
-		return "PmChangeAction [entity=" + entity + ", pa=" + pa + "]";
+		return "PmChangeAction [entity=" + entity + ", pa=" + pm + "]";
 	}
 
 }

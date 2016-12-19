@@ -90,6 +90,21 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		return this;
 	}
 
+	/**
+	 * @return the type
+	 */
+	public GameActions getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(GameActions type) {
+		this.type = type;
+	}
+
 	@Override
 	public GameAction getAction() {
 		return action;

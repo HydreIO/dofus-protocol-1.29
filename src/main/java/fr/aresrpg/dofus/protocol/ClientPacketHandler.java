@@ -11,6 +11,8 @@ package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosJoinPacket;
+import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.client.*;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
@@ -147,4 +149,10 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(PartyFollowAllPacket partyFollowAllPacket);
 
 	void handle(JobChangeStatsPacket jobChangeStatsPacket);
+
+	void handle(WorldInfosJoinPacket worldInfosJoinPacket);
+
+	void handle(WorldInfosLeavePacket worldInfosLeavePacket);
+
+	void handle(ItemSkinPacket itemSkinPacket);
 }

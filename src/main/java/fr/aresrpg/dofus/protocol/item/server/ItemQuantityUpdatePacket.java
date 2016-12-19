@@ -17,7 +17,7 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class ItemQuantityUpdatePacket implements ServerPacket {
 
-	private int intemUid;
+	private int itemUid;
 	private int amount;
 
 	public ItemQuantityUpdatePacket() {
@@ -28,15 +28,15 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 	 * @param amount
 	 */
 	public ItemQuantityUpdatePacket(int intemUid, int amount) {
-		this.intemUid = intemUid;
+		this.itemUid = intemUid;
 		this.amount = amount;
 	}
 
 	/**
 	 * @return the intemUid
 	 */
-	public int getIntemUid() {
-		return intemUid;
+	public int getItemUid() {
+		return itemUid;
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 	 *            the intemUid to set
 	 */
 	public void setIntemUid(int intemUid) {
-		this.intemUid = intemUid;
+		this.itemUid = intemUid;
 	}
 
 	/**
@@ -64,13 +64,13 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.intemUid = stream.readInt();
+		this.itemUid = stream.readInt();
 		this.amount = stream.readInt();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).writeInt(intemUid).writeInt(amount);
+		stream.allocate(2).writeInt(itemUid).writeInt(amount);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "ItemQuantityUpdatePacket [intemUid=" + intemUid + ", amount=" + amount + "]";
+		return "ItemQuantityUpdatePacket [intemUid=" + itemUid + ", amount=" + amount + "]";
 	}
 
 }

@@ -7,7 +7,7 @@
  * 
  *         Created 2016
  *******************************************************************************/
-package fr.aresrpg.dofus.protocol.info.server.message;
+package fr.aresrpg.dofus.protocol.info.server;
 
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.InfosMessage;

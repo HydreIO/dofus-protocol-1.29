@@ -111,7 +111,7 @@ public class AccountStatsPacket implements ServerPacket {
 		for (Stat stat : Stat.values()) { // assure order
 			StatValue value = stats.get(stat);
 			stream.write(value.getBase() + "," + value.getEquipment() + "," + value.getDons() + "," +
-					value.getBoost() + (stat == Stat.ActionPoints || stat == Stat.MovementPoints ? "," + value.getTotal() : ""));
+					value.getBoost() + (stat == Stat.PA || stat == Stat.PM ? "," + value.getTotal() : ""));
 		}
 		if (!extradatas.isEmpty()) stream.write(extradatas);
 

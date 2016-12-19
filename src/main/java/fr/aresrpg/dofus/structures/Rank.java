@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
@@ -27,7 +27,6 @@ public class Rank {
 	 * @param enabled
 	 */
 	public Rank(int value, int honour, int disgrace, boolean enabled) {
-		super();
 		this.value = value;
 		this.honour = honour;
 		this.disgrace = disgrace;
