@@ -14,6 +14,7 @@ import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.dialog.server.*;
 import fr.aresrpg.dofus.protocol.exchange.client.ExchangeRequestPacket;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
+import fr.aresrpg.dofus.protocol.fight.server.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
@@ -212,5 +213,13 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(JobXpPacket jobXpPacket);
 
 	void handle(JobLevelPacket jobLevelPacket);
+
+	void handle(GameSpawnPacket gameSpawnPacket);
+
+	void handle(FightCountPacket fightCountPacket);
+
+	void handle(FightListPacket fightListPacket);
+
+	void handle(FightDetailsPacket fightDetailsPacket);
 
 }

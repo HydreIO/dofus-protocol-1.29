@@ -24,6 +24,7 @@ import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.fight.client.*;
+import fr.aresrpg.dofus.protocol.fight.server.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -157,7 +158,7 @@ public enum ProtocolRegistry {
 	GAME_EFFECT(Layer.GAME, 'I', 'E', Bound.SERVER, GameEffectPacket.class),
 	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
 	GAME_TEAM(Layer.GAME, 't', Bound.SERVER, GameTeamPacket.class),
-	GAME_SPAWN(Layer.GAME, 'c', Bound.SERVER, null), // ============================================================================ A FAIRE
+	GAME_SPAWN(Layer.GAME, 'c', Bound.SERVER, GameSpawnPacket.class),
 
 	// client
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
@@ -185,9 +186,9 @@ public enum ProtocolRegistry {
 
 	// FIGHT ==========================================================
 	// server
-	FIGHT_COUNT(Layer.FIGHT, 'C', Bound.SERVER, null), // =================================================================================== A FAIRE
-	FIGHT_LIST(Layer.FIGHT, 'L', Bound.SERVER, null), // =================================================================================== A FAIRE
-	FIGHT_DETAIL(Layer.FIGHT, 'D', Bound.SERVER, null), // =================================================================================== A FAIRE
+	FIGHT_COUNT(Layer.FIGHT, 'C', Bound.SERVER, FightCountPacket.class),
+	FIGHT_LIST(Layer.FIGHT, 'L', Bound.SERVER, FightListPacket.class),
+	FIGHT_DETAIL(Layer.FIGHT, 'D', Bound.SERVER, FightDetailsPacket.class),
 	// client
 	FIGHT_BLOCK_SPECTATE(Layer.FIGHT, 'S', Bound.CLIENT, FightBlockSpectatePacket.class),
 	FIGHT_RESTRICT_GROUP(Layer.FIGHT, 'P', Bound.CLIENT, FightRestrictGroupPacket.class),
