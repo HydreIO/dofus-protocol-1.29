@@ -9,18 +9,24 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
-import flash.swf.*;
+import flash.swf.Action;
+import flash.swf.ActionHandler;
+import flash.swf.TagDecoder;
+import flash.swf.TagHandler;
 import flash.swf.actions.ConstantPool;
 import flash.swf.actions.Push;
 import flash.swf.tags.DoAction;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 public class SwfVariableExtractor extends TagHandler {
 
-	private Map<String, Object> variables = new LinkedHashMap();
+	private Map<String, Object> variables = new LinkedHashMap<>();
 
 	public Map<String, Object> getVariables() {
 		return variables;
@@ -51,25 +57,36 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void getMember(Action action) {
-			path += "." + stack.removeLast();
+			putPath();
 		}
 
 		@Override
 		public void getVariable(Action action) {
+			putPath();
+		}
+
+		private void putPath() {
 			path += "." + stack.removeLast();
 		}
 
 		@Override
 		public void setMember(Action action) {
-			setVariable(null);
+			putVariable();
 		}
 
 		@Override
 		public void setVariable(Action action) {
-			if (path.isEmpty())
-				return;
-			variables.put(path.substring(1), stack.removeLast());
-			path = "";
+			putVariable();
+		}
+
+		private void putVariable() {
+			if (path.isEmpty()) {
+				Object value = stack.removeLast();
+				variables.put((String) stack.removeLast(), value);
+			} else {
+				variables.put(path.substring(1), stack.removeLast());
+				path = "";
+			}
 		}
 
 		@Override
