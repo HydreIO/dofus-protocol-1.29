@@ -73,6 +73,11 @@ public class SwfVariableExtractor extends TagHandler {
 			putVariable();
 		}
 
+		@Override
+		public void callMethod(Action action) {
+			path = "";
+		}
+
 		private void putVariable() {
 			if (path.isEmpty()) {
 				Object value = stack.removeLast();
