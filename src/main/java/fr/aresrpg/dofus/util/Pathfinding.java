@@ -4,11 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
+import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction.PathFragment;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
 
@@ -129,13 +130,13 @@ public class Pathfinding {
 			return null;
 	}
 
-	public static Map<Integer, PathDirection> makeShortPath(List<Point> points, int width) {
+	public static List<PathFragment> makeShortPath(List<Point> points, int width) {
 		if (points == null)
 			return null;
 		if (points.size() < 2)
 			return null;
 
-		Map<Integer, PathDirection> map = new LinkedHashMap<>();
+		List<PathFragment> path = new ArrayList<>();
 		PathDirection direction = getDirection(points.get(0).x, points.get(0).y,
 				points.get(1).x, points.get(1).y);
 		Point last = points.get(1);
@@ -143,14 +144,13 @@ public class Pathfinding {
 			PathDirection current = getDirection(last.x, last.y,
 					points.get(i).x, points.get(i).y);
 			if (current != direction) {
-				map.put(Maps.getId(last.x, last.y, width), direction);
+				path.add(new PathFragment(Maps.getId(last.x, last.y, width), direction));
 				direction = current;
 			}
 			last = points.get(i);
 		}
-
-		map.put(Maps.getId(last.x, last.y, width), direction);
-		return map;
+		path.add(new PathFragment(Maps.getId(last.x, last.y, width), direction));
+		return path;
 	}
 
 	private static boolean isValid(Node n, Cell[] cells, int width, boolean last) {

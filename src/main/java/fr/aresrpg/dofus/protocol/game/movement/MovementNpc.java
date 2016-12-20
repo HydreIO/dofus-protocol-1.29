@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
@@ -35,22 +35,6 @@ public class MovementNpc implements MovementAction {
 	private int extraclip;
 	private int customArtwork;
 
-	/**
-	 * @param id
-	 * @param spriteType
-	 * @param gfx
-	 * @param scaleX
-	 * @param scaleY
-	 * @param cellid
-	 * @param orientation
-	 * @param sex
-	 * @param color1
-	 * @param color2
-	 * @param color3
-	 * @param accessories
-	 * @param extraclip
-	 * @param customArtwork
-	 */
 	public MovementNpc(int id, int spriteType, int gfx, int scaleX, int scaleY, int cellid, PathDirection orientation, int sex, int color1, int color2, int color3, Accessory[] accessories,
 		int extraclip, int customArtwork) {
 		super();
@@ -68,6 +52,13 @@ public class MovementNpc implements MovementAction {
 		this.accessories = accessories;
 		this.extraclip = extraclip;
 		this.customArtwork = customArtwork;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		return obj instanceof MovementNpc && ((MovementNpc) obj).getId() == getId();
 	}
 
 	/**

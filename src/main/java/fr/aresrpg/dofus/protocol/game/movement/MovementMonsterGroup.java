@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
@@ -35,20 +35,6 @@ public class MovementMonsterGroup implements MovementAction {
 	private Accessory[] accessories;
 	private int bonusValue;
 
-	/**
-	 * @param sprite
-	 * @param lvl
-	 * @param scaleX
-	 * @param scaleY
-	 * @param noFlip
-	 * @param cellid
-	 * @param orientation
-	 * @param color1
-	 * @param color2
-	 * @param color3
-	 * @param accessories
-	 * @param bonusValue
-	 */
 	public MovementMonsterGroup(int id, int[] entitytype, int sprite, int[] lvl, int scaleX, int scaleY, boolean noFlip, int cellid, PathDirection orientation, int color1, int color2,
 		int color3,
 		Accessory[] accessories,
@@ -67,6 +53,13 @@ public class MovementMonsterGroup implements MovementAction {
 		this.color3 = color3;
 		this.accessories = accessories;
 		this.bonusValue = bonusValue;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		return obj instanceof MovementMonsterGroup && ((MovementMonsterGroup) obj).getId() == getId();
 	}
 
 	/**
