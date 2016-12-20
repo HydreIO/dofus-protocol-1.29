@@ -14,6 +14,9 @@ import fr.aresrpg.dofus.protocol.game.actions.client.*;
 import fr.aresrpg.dofus.protocol.game.actions.server.*;
 
 public enum GameActions {
+
+	UNKNOW(-1, UnknownAction.class, Bound.BOTH),
+
 	// SERVER
 	ERROR(0, GameErrorAction.class, Bound.SERVER),
 	LIFE_CHANGE(100, GameLifeChangeAction.class, Bound.SERVER, 108, 110),
@@ -78,7 +81,7 @@ public enum GameActions {
 		for (GameActions a : values())
 			if (a.hasId(id) && (a.bound == Bound.BOTH || a.bound == bound))
 				return a;
-		return null;
+		return UNKNOW;
 	}
 
 	public static GameActions getAction(Class<? extends GameAction> action) {

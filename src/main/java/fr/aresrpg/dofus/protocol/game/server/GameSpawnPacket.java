@@ -20,7 +20,7 @@ public class GameSpawnPacket implements ServerPacket { // Gc+2221954;4|2221954;1
 		this.created = data.charAt(0) == '+';
 		String[] first = data.substring(1).split(";");
 		int loc6 = Integer.parseInt(first[0]);
-		int loc7 = Integer.parseInt(first[1]);
+		int loc7 = first.length == 1 ? 0 : Integer.parseInt(first[1]); // si length == 1 c'est un remove donc on s'en branle de l'id--
 		double color1 = (Math.cos(loc6) + 1) * 8388607;
 		this.fight = new FightSpawn(loc6, FightType.fromId(loc7));
 		if (!isCreated()) return;

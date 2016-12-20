@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -187,6 +187,7 @@ public class DofusMapView extends Region {
 				default:
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
+			if (c.getLayerObject1Num() == 1030) gc.setFill(Color.ORANGE);
 			double xp = Maps.getX(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
 			double yp = Maps.getY(i, mWidth) * dMultiplier

@@ -68,7 +68,7 @@ public class Maps {
 	}
 
 	public static int getId(int x, int y, int width) {
-		return (int) (x * (width - 0.5) + y / 2.0);
+		return (int) (y * (width - 0.5) + x / 2.0);
 	}
 
 }
