@@ -4,25 +4,19 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
-import flash.swf.Action;
-import flash.swf.ActionHandler;
-import flash.swf.TagDecoder;
-import flash.swf.TagHandler;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+
+import flash.swf.*;
 import flash.swf.actions.ConstantPool;
 import flash.swf.actions.Push;
 import flash.swf.tags.DoAction;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
 public class SwfVariableExtractor extends TagHandler {
 
@@ -82,7 +76,7 @@ public class SwfVariableExtractor extends TagHandler {
 		private void putVariable() {
 			if (path.isEmpty()) {
 				Object value = stack.removeLast();
-				variables.put((String) stack.removeLast(), value);
+				variables.put(String.valueOf(stack.removeLast()), value);
 			} else {
 				variables.put(path.substring(1), stack.removeLast());
 				path = "";

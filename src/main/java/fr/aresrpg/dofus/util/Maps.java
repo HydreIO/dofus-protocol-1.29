@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -31,6 +31,7 @@ public class Maps {
 	}
 
 	public static DofusMap loadMap(Map<String, Object> data, String decryptKey) {
+		System.out.println("data = " + data);
 		String cellData = (String) data.get("mapData");
 		String key = Crypt.prepareKey(decryptKey);
 		cellData = Crypt.decipherData(cellData, key, Integer.parseInt(Character.toString(Crypt.checksum(key)), 16) * 2);

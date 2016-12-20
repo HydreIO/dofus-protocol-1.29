@@ -22,7 +22,7 @@ public class InfoMessagePacket implements ServerPacket {
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
 		this.messageId = Integer.parseInt(data[0]);
-		for (int i = 1; i < data.length - 1; i++)
+		for (int i = 1; i < data.length; i++)
 			this.extraDatas += data[i];
 	}
 

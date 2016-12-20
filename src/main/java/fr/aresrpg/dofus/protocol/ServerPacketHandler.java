@@ -10,6 +10,7 @@
 package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.server.*;
+import fr.aresrpg.dofus.protocol.aks.Aks0MessagePacket;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.dialog.server.*;
 import fr.aresrpg.dofus.protocol.exchange.client.ExchangeRequestPacket;
@@ -221,5 +222,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(InfoCompassPacket infosCompassPacket);
 
 	void handle(InfoCoordinatePacket infoCoordinatePacket);
+
+	void handle(Aks0MessagePacket aksMessagePacket);
 
 }

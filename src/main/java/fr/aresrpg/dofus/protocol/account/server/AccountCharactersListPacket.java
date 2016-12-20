@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.character.AvailableCharacter;
 import fr.aresrpg.dofus.util.Convert;
 import fr.aresrpg.dofus.util.StringUtils;
@@ -21,13 +19,14 @@ import java.util.StringJoiner;
 
 public class AccountCharactersListPacket implements ServerPacket {
 	private long subscriptionTime;
+	private int persoTot;
 	private AvailableCharacter[] characters;
 
 	@Override
 	public void read(DofusStream stream) {
 		subscriptionTime = stream.readLong();
-		int nb = stream.readInt();
-		characters = new AvailableCharacter[nb];
+		this.persoTot = stream.readInt();
+		characters = new AvailableCharacter[stream.available()];
 		int i = 0;
 		while (stream.available() > 0) {
 			String[] data = StringUtils.split(stream.read(), ";");
@@ -52,11 +51,34 @@ public class AccountCharactersListPacket implements ServerPacket {
 		}
 	}
 
+	/**
+	 * @return the persoTot
+	 */
+	public int getPersoTot() {
+		return persoTot;
+	}
+
+	/**
+	 * @param persoTot
+	 *            the persoTot to set
+	 */
+	public void setPersoTot(int persoTot) {
+		this.persoTot = persoTot;
+	}
+
+	/**
+	 * @param subscriptionTime
+	 *            the subscriptionTime to set
+	 */
+	public void setSubscriptionTime(long subscriptionTime) {
+		this.subscriptionTime = subscriptionTime;
+	}
+
 	@Override
 	public void write(DofusStream stream) {
 		stream.allocate(characters.length + 2);
 		stream.writeLong(subscriptionTime);
-		stream.writeInt(getCharacters().length);
+		stream.writeInt(this.persoTot);
 		int i = 0;
 		for (AvailableCharacter c : getCharacters()) {
 			if (c == null)
@@ -113,6 +135,7 @@ public class AccountCharactersListPacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "AccountCharactersListPacket(" + "subscriptionTime:" + subscriptionTime + "|characters:" + Arrays.toString(characters) + ")[" + getId() + "]";
+		return "AccountCharactersListPacket [subscriptionTime=" + subscriptionTime + ", persoTot=" + persoTot + ", characters=" + Arrays.toString(characters) + "]";
 	}
+
 }

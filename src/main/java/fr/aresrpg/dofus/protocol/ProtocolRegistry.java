@@ -219,6 +219,10 @@ public enum ProtocolRegistry {
 	// client
 	INFO_MAP(Layer.INFO, 'M', Bound.CLIENT, InfoMapPacket.class),
 
+	// AKS ==========================================================
+	// server
+	// AKS_MESSAGE(Layer.AKS, '0', Bound.SERVER, Aks0MessagePacket.class), // TODO
+
 	// CHAT ==========================================================
 	// both
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
@@ -455,6 +459,7 @@ public enum ProtocolRegistry {
 		ENEMY('i'),
 		HOUSE_CODE('k'),
 		OBJECT('O'),
+		AKS('M'),
 		PARTY('P'),
 		MOUNT('R'),
 		SPELL('S'),
