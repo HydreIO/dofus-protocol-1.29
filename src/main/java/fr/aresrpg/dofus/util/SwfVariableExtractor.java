@@ -81,6 +81,7 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void callMethod(Action action) {
+			stack.removeLast();
 			path = "";
 		}
 
@@ -92,6 +93,14 @@ public class SwfVariableExtractor extends TagHandler {
 				variables.put(path.substring(1), stack.removeLast());
 				path = "";
 			}
+		}
+
+		@Override
+		public void newObject(Action action) {
+			Object type = stack.removeLast();
+			stack.removeLast(); //Id
+			path += "." + stack.removeLast().toString();
+			stack.add(type);
 		}
 
 		@Override
