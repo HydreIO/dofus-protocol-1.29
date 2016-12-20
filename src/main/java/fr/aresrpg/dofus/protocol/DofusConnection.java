@@ -27,6 +27,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
+	private boolean running;
 
 	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
@@ -40,19 +41,34 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	}
 
 	/**
+	 * @return the running
+	 */
+	public boolean isRunning() {
+		return running;
+	}
+
+	/**
 	 * @return the label
 	 */
 	public String getLabel() {
 		return label;
 	}
 
-	public void close() throws IOException {
+	public void closeConnection() {
+		this.running = false;
+	}
+
+	// this method is used to avoid asynchronous channel closing, a connection need to be managed in her thread so its better to interract on isRunning instead of channel directly
+	public void start() throws IOException {
+		this.running = true;
+		while (isRunning())
+			read();
 		buffer.clear();
 		channel.close();
 		selector.close();
 	}
 
-	public void read() throws IOException {
+	private void read() throws IOException {
 		this.selector.select();
 		Iterator<SelectionKey> iter = this.selector.selectedKeys().iterator();
 		while (iter.hasNext()) {
