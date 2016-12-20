@@ -42,8 +42,9 @@ public class GameCreatePacket implements ClientPacket {
 	 * @param gameType
 	 *            the gameType to set
 	 */
-	public void setGameType(GameType gameType) {
+	public GameCreatePacket setGameType(GameType gameType) {
 		this.gameType = gameType;
+		return this;
 	}
 
 	@Override

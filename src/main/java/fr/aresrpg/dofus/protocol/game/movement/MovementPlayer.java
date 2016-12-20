@@ -148,7 +148,7 @@ public class MovementPlayer implements MovementAction {
 	 * @param cell
 	 *            the cell to set
 	 */
-	public void setCell(int cell) {
+	public void setCellid(int cell) {
 		this.cell = cell;
 	}
 
