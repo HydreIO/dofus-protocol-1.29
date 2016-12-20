@@ -123,6 +123,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		String print = "[RECEIVE from " + label + "] <- " + packet;
 		System.out.println(print);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
+		
 		ProtocolRegistry registry = getId(fullPacket);
 		if (registry == null) // Try with only current packet
 			registry = getId(packet);

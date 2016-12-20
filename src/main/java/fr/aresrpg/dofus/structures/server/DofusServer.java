@@ -4,22 +4,45 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.server;
 
 public class DofusServer {
 	private final int id;
 	private ServerState state;
-	private final int serverPopulation;
-	private final boolean needSubscription;
+	private int serverPopulation;
+	private boolean needSubscription;
 
 	public DofusServer(int id, ServerState state, int serverPopulation, boolean needSubscription) {
 		this.id = id;
 		this.state = state;
 		this.serverPopulation = serverPopulation;
 		this.needSubscription = needSubscription;
+	}
+
+	/**
+	 * @param serverPopulation
+	 *            the serverPopulation to set
+	 */
+	public void setServerPopulation(int serverPopulation) {
+		this.serverPopulation = serverPopulation;
+	}
+
+	/**
+	 * @param needSubscription
+	 *            the needSubscription to set
+	 */
+	public void setNeedSubscription(boolean needSubscription) {
+		this.needSubscription = needSubscription;
+	}
+
+	/**
+	 * @return the needSubscription
+	 */
+	public boolean isNeedSubscription() {
+		return needSubscription;
 	}
 
 	public int getId() {

@@ -4,16 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.ClientPacket;
-import fr.aresrpg.dofus.protocol.ClientPacketHandler;
-import fr.aresrpg.dofus.protocol.DofusStream;
-
-import java.util.Arrays;
+import fr.aresrpg.dofus.protocol.*;
 
 public class AccountAuthPacket implements ClientPacket {
 
@@ -26,20 +22,20 @@ public class AccountAuthPacket implements ClientPacket {
 
 	@Override
 	public String toString() {
-		return "Auth(version:" + version + "|pseudo:" + pseudo + "***|hashedPassword (hidden):"+ hidePassword() + ")[" + getId() + "]";
+		return "Auth(version:" + version + "|pseudo:" + pseudo + "***|hashedPassword (hidden):" + hidePassword() + ")[" + getId() + "]";
 	}
 
 	public String hidePassword() {
-		if(hashedPassword.length() > 5)
-			return hashedPassword.substring(0 , 4) + "****";
+		if (hashedPassword.length() > 5)
+			return hashedPassword.substring(0, 4) + "****";
 		else
 			return "****";
 	}
- 	@Override
+
+	@Override
 	public void read(DofusStream stream) {
 		version = stream.read();
 		String data[] = stream.nextPacket().read().split("\n");
-		System.out.println(Arrays.toString(data));
 		pseudo = data[0];
 		hashedPassword = data[1];
 	}

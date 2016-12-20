@@ -4,16 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.emote.client;
 
-import fr.aresrpg.dofus.protocol.ClientPacket;
-import fr.aresrpg.dofus.protocol.ClientPacketHandler;
-import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.*;
 
-public class EmoteUsePacket implements ClientPacket{
+public class EmoteUsePacket implements ClientPacket {
 	private int emoteId;
 
 	@Override
