@@ -26,7 +26,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
-	private boolean running;
+	private volatile boolean running;
 
 	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
@@ -57,17 +57,24 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.running = false;
 	}
 
-	// this method is used to avoid asynchronous channel closing, a connection need to be managed in her thread so its better to interract on isRunning instead of channel directly
 	public void start() throws IOException {
 		this.running = true;
-		while (isRunning())
-			read();
+		try {
+			while (running)
+				read();
+		}finally {
+			close();
+		}
+	}
+
+	public void close() throws IOException {
 		buffer.clear();
 		channel.close();
 		selector.close();
 	}
 
-	private void read() throws IOException {
+
+	public void read() throws IOException {
 		this.selector.select();
 		Iterator<SelectionKey> iter = this.selector.selectedKeys().iterator();
 		while (iter.hasNext()) {
@@ -78,22 +85,12 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		}
 	}
 
-	private int readChannel(ReadableByteChannel channel) {
-		int i = 0;
-		try {
-			i = channel.read(buffer);
-		} catch (IOException e) {
-			System.out.println("[" + label + "]Last bytes before crash = " + new String(buffer.array()));
-			e.printStackTrace();
-			System.exit(0);
-		}
-		return i;
-	}
+
 
 	private void readFrom(ReadableByteChannel channel) throws IOException {
 		StringBuilder packet = new StringBuilder();
 		loop: while (channel.isOpen()) {
-			read: while (buffer.position() > 0 || readChannel(channel) > 0) {
+			read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
 				int read = buffer.position();
 				buffer.flip();
 				byte[] bytes = new byte[read];
@@ -131,8 +128,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	public void decode(String packet) throws IOException {
 		if (packet.length() == 0)
 			return;
-		String print = "[RECEIVE from " + label + "] <- " + packet;
-		System.out.println(print);
+		System.out.println("[RECEIVE from " + label + "] <- " + packet);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
 		
 		ProtocolRegistry registry = getId(fullPacket);
@@ -201,8 +197,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				sb.append(packet.getId());
 			sb.append(bound.getOther().getDelimiter());
 		}
-		String print = "[SEND to " + label + "] -> " + sb.toString();
-		System.out.println(print);
+		System.out.println("[SEND to " + label + "] -> " + sb.toString());
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 
