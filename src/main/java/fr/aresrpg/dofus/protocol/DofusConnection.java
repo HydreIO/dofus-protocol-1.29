@@ -14,7 +14,6 @@ import fr.aresrpg.dofus.util.StringUtils;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class DofusConnection<T extends SelectableChannel & ByteChannel> {
@@ -23,7 +22,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final T channel;
 	private final Selector selector;
 	private final PacketHandler handler;
-	private final ByteBuffer buffer = ByteBuffer.allocate(512);
+	private final ByteBuffer buffer = ByteBuffer.allocate(1024);
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
@@ -35,7 +34,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		this.handler = handler;
 		this.bound = bound;
 		this.label = label;
-		if (handler != null) this.handler.register(this);
+		this.handler.register(this);
 		this.channel.configureBlocking(false);
 		this.channel.register(selector, SelectionKey.OP_READ);
 	}
@@ -79,10 +78,22 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		}
 	}
 
+	private int readChannel(ReadableByteChannel channel) {
+		int i = 0;
+		try {
+			i = channel.read(buffer);
+		} catch (IOException e) {
+			System.out.println("[" + label + "]Last bytes before crash = " + new String(buffer.array()));
+			e.printStackTrace();
+			System.exit(0);
+		}
+		return i;
+	}
+
 	private void readFrom(ReadableByteChannel channel) throws IOException {
 		StringBuilder packet = new StringBuilder();
 		loop: while (channel.isOpen()) {
-			read: while (buffer.position() > 0 || channel.read(buffer) > 0) {
+			read: while (buffer.position() > 0 || readChannel(channel) > 0) {
 				int read = buffer.position();
 				buffer.flip();
 				byte[] bytes = new byte[read];
@@ -191,7 +202,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 			sb.append(bound.getOther().getDelimiter());
 		}
 		String print = "[SEND to " + label + "] -> " + sb.toString();
-		System.out.println(print + " " + Arrays.toString(sb.toString().getBytes()));
+		System.out.println(print);
 		channel.write(ByteBuffer.wrap(sb.toString().getBytes()));
 	}
 
