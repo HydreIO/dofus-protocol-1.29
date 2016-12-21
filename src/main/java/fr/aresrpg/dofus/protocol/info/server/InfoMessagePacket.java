@@ -11,17 +11,16 @@ package fr.aresrpg.dofus.protocol.info.server;
 
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.InfosMessage;
-import fr.aresrpg.dofus.util.StringUtils;
 
 public class InfoMessagePacket implements ServerPacket {
 
-	private int messageId;
+	private String messageId;
 	private String extraDatas;
 
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
-		this.messageId = Integer.parseInt(data[0]);
+		this.messageId = data[0];
 		StringBuilder b = new StringBuilder();
 		for (int i = 1; i < data.length; i++)
 			b.append(data[i]);
@@ -30,15 +29,18 @@ public class InfoMessagePacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(StringUtils.padLeft(String.valueOf(messageId), 3, '0'));
+		stream.allocate(1).write(messageId + (extraDatas != null && !extraDatas.isEmpty() ? ";" + extraDatas : ""));
 	}
 
-	public int getMessageId() {
+	/**
+	 * @return the messageId
+	 */
+	public String getMessageId() {
 		return messageId;
 	}
 
 	public InfosMessage getMessage() {
-		return InfosMessage.fromId(getMessageId());
+		return InfosMessage.fromId(Integer.parseInt(getMessageId()));
 	}
 
 	/**
@@ -48,7 +50,7 @@ public class InfoMessagePacket implements ServerPacket {
 		return extraDatas;
 	}
 
-	public InfoMessagePacket setMessageId(int messageId) {
+	public InfoMessagePacket setMessageId(String messageId) {
 		this.messageId = messageId;
 		return this;
 	}
