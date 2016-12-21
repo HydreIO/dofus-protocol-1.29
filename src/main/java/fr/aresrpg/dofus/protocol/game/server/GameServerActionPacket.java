@@ -53,7 +53,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 	}
 
 	private static GameAction createAction(GameActions a, int id) {
-		if (a == null)
+		if (a == GameActions.UNKNOW)
 			return new UnknownAction().setId(id);
 		try {
 			return a.getAction().newInstance();

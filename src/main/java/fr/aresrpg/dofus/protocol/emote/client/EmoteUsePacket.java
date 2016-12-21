@@ -10,6 +10,7 @@
 package fr.aresrpg.dofus.protocol.emote.client;
 
 import fr.aresrpg.dofus.protocol.*;
+import fr.aresrpg.dofus.structures.Emotes;
 
 public class EmoteUsePacket implements ClientPacket {
 	private int emoteId;
@@ -27,6 +28,14 @@ public class EmoteUsePacket implements ClientPacket {
 	@Override
 	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	public Emotes getEmot() {
+		return Emotes.valueOf(getEmoteId());
+	}
+
+	public EmoteUsePacket setEmot(Emotes emot) {
+		return setEmoteId(emot.getCode());
 	}
 
 	public int getEmoteId() {

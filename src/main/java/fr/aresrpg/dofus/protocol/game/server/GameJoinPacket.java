@@ -4,15 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.game.FightType;
+import fr.aresrpg.dofus.structures.game.GameType;
 
 /**
  * 
@@ -20,7 +19,7 @@ import fr.aresrpg.dofus.structures.game.FightType;
  */
 public class GameJoinPacket implements ServerPacket {
 
-	private int state;
+	private GameType state;
 	private FightType fightType;
 	private boolean isSpectator;
 	private int startTimer;
@@ -29,7 +28,7 @@ public class GameJoinPacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.state = stream.readInt();
+		this.state = GameType.valueOf(stream.readInt());
 		this.cancelButton = stream.readInt() != 0;
 		this.isDuel = stream.readInt() != 0;
 		this.isSpectator = stream.readInt() != 0;
@@ -45,7 +44,7 @@ public class GameJoinPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(6).writeInt(getState()).writeInt(isCancelButton() ? 1 : 0).writeInt(isDuel() ? 1 : 0).writeInt(isSpectator() ? 1 : 0).writeInt(getStartTimer())
+		stream.allocate(6).writeInt(getState().getType()).writeInt(isCancelButton() ? 1 : 0).writeInt(isDuel() ? 1 : 0).writeInt(isSpectator() ? 1 : 0).writeInt(getStartTimer())
 				.writeInt(getFightType().getId());
 	}
 
@@ -66,7 +65,7 @@ public class GameJoinPacket implements ServerPacket {
 	/**
 	 * @return the state
 	 */
-	public int getState() {
+	public GameType getState() {
 		return state;
 	}
 
@@ -95,6 +94,5 @@ public class GameJoinPacket implements ServerPacket {
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
-
 
 }

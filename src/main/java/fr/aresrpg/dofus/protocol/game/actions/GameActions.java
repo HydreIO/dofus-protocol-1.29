@@ -43,7 +43,7 @@ public enum GameActions {
 	private final Bound bound;
 
 	GameActions(int id, Class<? extends GameAction> action, Bound bound, int... otherIds) {
-		this.id = concat(id, otherIds);
+		this.id = otherIds.length == 0 ? new int[] { id } : concat(id, otherIds);
 		this.action = action;
 		this.bound = bound;
 	}
@@ -88,7 +88,7 @@ public enum GameActions {
 		for (GameActions a : values())
 			if (a.action == action)
 				return a;
-		return null;
+		return UNKNOW;
 	}
 
 }
