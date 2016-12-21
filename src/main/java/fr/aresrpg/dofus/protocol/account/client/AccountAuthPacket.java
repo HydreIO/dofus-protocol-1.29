@@ -22,7 +22,7 @@ public class AccountAuthPacket implements ClientPacket {
 
 	@Override
 	public String toString() {
-		return "Auth(version:" + version + "|pseudo:" + pseudo + "***|hashedPassword (hidden):" + hidePassword() + ")[" + getId() + "]";
+		return "Auth(version:" + version + "|pseudo:" + pseudo.substring(0, 4) + "***|hashedPassword (hidden):" + hidePassword() + ")[" + getId() + "]";
 	}
 
 	public String hidePassword() {

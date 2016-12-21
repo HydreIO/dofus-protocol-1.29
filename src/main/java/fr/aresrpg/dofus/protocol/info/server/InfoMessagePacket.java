@@ -13,6 +13,8 @@ import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.InfosMessage;
 import fr.aresrpg.dofus.util.StringUtils;
 
+import java.util.Arrays;
+
 public class InfoMessagePacket implements ServerPacket {
 
 	private int messageId;
@@ -22,8 +24,11 @@ public class InfoMessagePacket implements ServerPacket {
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
 		this.messageId = Integer.parseInt(data[0]);
+		System.out.println(Arrays.toString(data));
+		StringBuilder b = new StringBuilder();
 		for (int i = 1; i < data.length; i++)
-			this.extraDatas += data[i];
+			b.append(data[i]);
+		this.extraDatas = b.toString();
 	}
 
 	@Override
