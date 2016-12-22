@@ -16,6 +16,7 @@ import fr.aresrpg.dofus.protocol.dialog.server.*;
 import fr.aresrpg.dofus.protocol.exchange.client.ExchangeRequestPacket;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.fight.server.*;
+import fr.aresrpg.dofus.protocol.friend.server.FriendListPacket;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
@@ -224,5 +225,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(InfoCoordinatePacket infoCoordinatePacket);
 
 	void handle(Aks0MessagePacket aksMessagePacket);
+
+	void handle(FriendListPacket friendListPacket);
 
 }

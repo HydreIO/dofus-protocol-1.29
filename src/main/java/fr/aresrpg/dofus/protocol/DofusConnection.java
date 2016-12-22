@@ -62,17 +62,16 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		try {
 			while (running)
 				read();
-		}finally {
+		} finally {
 			close();
 		}
 	}
 
-	public void close() throws IOException {
+	private void close() throws IOException {
 		buffer.clear();
 		channel.close();
 		selector.close();
 	}
-
 
 	public void read() throws IOException {
 		this.selector.select();
@@ -84,8 +83,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 				readFrom((ReadableByteChannel) key.channel());
 		}
 	}
-
-
 
 	private void readFrom(ReadableByteChannel channel) throws IOException {
 		StringBuilder packet = new StringBuilder();
@@ -130,7 +127,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 			return;
 		System.out.println("[RECEIVE from " + label + "] <- " + packet);
 		String fullPacket = currentPacket.length() == 0 ? packet : currentPacket.toString() + bound.getDelimiter() + packet;
-		
+
 		ProtocolRegistry registry = getId(fullPacket);
 		if (registry == null) // Try with only current packet
 			registry = getId(packet);

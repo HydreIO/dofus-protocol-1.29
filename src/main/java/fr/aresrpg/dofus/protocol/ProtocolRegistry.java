@@ -27,6 +27,8 @@ import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.fight.server.*;
+import fr.aresrpg.dofus.protocol.friend.client.*;
+import fr.aresrpg.dofus.protocol.friend.server.FriendListPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
 import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
@@ -127,6 +129,14 @@ public enum ProtocolRegistry {
 	ITEM_DESTROY(Layer.OBJECT, 'd', Bound.CLIENT, ItemDestroyPacket.class),
 	ITEM_USE(Layer.OBJECT, 'U', Bound.CLIENT, ItemUsePacket.class),
 	ITEM_SKIN(Layer.OBJECT, 's', Bound.CLIENT, ItemSkinPacket.class),
+
+	// FRIEND ==========================================================
+	// server
+	FRIEND_LIST(Layer.FRIEND, 'L', Bound.SERVER, FriendListPacket.class),
+	// client
+	FRIEND_GET_LIST(Layer.FRIEND, 'L', Bound.CLIENT, FriendGetListPacket.class),
+	FRIEND_ADD(Layer.FRIEND, 'A', Bound.CLIENT, FriendAddPacket.class),
+	FRIEND_REMOVE(Layer.FRIEND, 'D', Bound.CLIENT, FriendRemovePacket.class),
 
 	// BASIC ==========================================================
 	// server

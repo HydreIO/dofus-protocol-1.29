@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -21,7 +21,7 @@ public class ExchangeLeaveResultPacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.success = stream.read().equals("a");
+		this.success = stream.available() > 0;
 	}
 
 	@Override

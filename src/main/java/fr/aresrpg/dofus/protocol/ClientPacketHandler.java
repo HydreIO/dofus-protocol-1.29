@@ -19,6 +19,7 @@ import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
 import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.fight.client.*;
+import fr.aresrpg.dofus.protocol.friend.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
@@ -155,4 +156,10 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(WorldInfosLeavePacket worldInfosLeavePacket);
 
 	void handle(ItemSkinPacket itemSkinPacket);
+
+	void handle(FriendGetListPacket friendGetListPacket);
+
+	void handle(FriendAddPacket friendAddPacket);
+
+	void handle(FriendRemovePacket friendRemovePacket);
 }

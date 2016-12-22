@@ -42,7 +42,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		String[] data = stream.read().split(";", 4);
 		this.lastAction = Convert.toInt(data[0], -1);
 		int id = Integer.parseInt(data[1]);
-		this.type = GameActions.getAction(id, ProtocolRegistry.Bound.CLIENT);
+		this.type = GameActions.getAction(id, ProtocolRegistry.Bound.SERVER);
 		action = createAction(this.type, id);
 		if (id == 0) // Action Error
 			return;

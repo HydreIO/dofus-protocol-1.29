@@ -25,16 +25,17 @@ public enum GameActions {
 	KILL(103, GameKillAction.class, Bound.SERVER),
 	SUMMON(180, GameSummonAction.class, Bound.SERVER, 181/* 780 (player invoc osa) */),
 	FIGHT_JOIN_ERROR(903, GameJoinErrorAction.class, Bound.SERVER),
+	DUEL_SERVER_ASK(900, GameDuelServerAction.class, Bound.SERVER),
 
 	// CLIENT
 	INTERRACT(500, GameInteractionAction.class, Bound.CLIENT),
 	LAUNCH_SPELL(300, GameLaunchSpellAction.class, Bound.CLIENT),
 	DUEL(900, GameDuelAction.class, Bound.CLIENT),
 	ACCEPT_DUEL(901, GameAcceptDuelAction.class, Bound.CLIENT),
-	REFUSE_DUEL(902, GameRefuseDuelAction.class, Bound.CLIENT),
 
 	// BOTH
 	MOVE(1, GameMoveAction.class, Bound.BOTH),
+	REFUSE_DUEL(902, GameRefuseDuelAction.class, Bound.BOTH),
 
 	;
 
