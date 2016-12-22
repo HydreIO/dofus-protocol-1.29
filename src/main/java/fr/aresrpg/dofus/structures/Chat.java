@@ -10,6 +10,8 @@
 package fr.aresrpg.dofus.structures;
 
 public enum Chat {
+	PM_RECEIVE('F'),
+	PM_SENDED('T'),
 	INFO('i'),
 	UNKNOWN('#'),
 	COMMON('*'),

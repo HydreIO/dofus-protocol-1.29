@@ -7,7 +7,7 @@
  *  
  * Created 2016
  *******************************************************************************/
-package fr.aresrpg.dofus.protocol.chat.client;
+package fr.aresrpg.dofus.protocol.basic.client;
 
 import fr.aresrpg.dofus.protocol.ClientPacket;
 import fr.aresrpg.dofus.protocol.ClientPacketHandler;

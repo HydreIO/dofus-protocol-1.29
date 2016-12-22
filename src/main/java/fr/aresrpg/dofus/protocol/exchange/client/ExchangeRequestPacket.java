@@ -67,6 +67,30 @@ public class ExchangeRequestPacket implements ClientPacket {
 	}
 
 	/**
+	 * @param targetId
+	 *            the targetId to set
+	 */
+	public void setTargetId(int targetId) {
+		this.targetId = targetId;
+	}
+
+	/**
+	 * @param exchange
+	 *            the exchange to set
+	 */
+	public void setExchange(Exchange exchange) {
+		this.exchange = exchange;
+	}
+
+	/**
+	 * @param cellid
+	 *            the cellid to set
+	 */
+	public void setCellid(int cellid) {
+		this.cellid = cellid;
+	}
+
+	/**
 	 * @return the exchange
 	 */
 	public Exchange getExchange() {

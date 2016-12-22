@@ -13,9 +13,11 @@ import fr.aresrpg.dofus.protocol.account.AccountKeyPacket;
 import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.account.server.*;
+import fr.aresrpg.dofus.protocol.basic.client.BasicChatMessageSendPacket;
+import fr.aresrpg.dofus.protocol.basic.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
-import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.chat.server.ChatMessageOkPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosJoinPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
@@ -143,6 +145,7 @@ public enum ProtocolRegistry {
 	BASIC_CONFIRM(Layer.BASIC, 'N', Bound.SERVER, BasicConfirmPacket.class),
 	// client
 	BASIC_SMILEY(Layer.BASIC, 'S', Bound.CLIENT, BasicUseSmileyPacket.class),
+	BASIC_CHAT_MSG(Layer.BASIC, 'M', Bound.CLIENT, BasicChatMessageSendPacket.class),
 
 	// MOUNT ==========================================================
 	// server
@@ -234,6 +237,8 @@ public enum ProtocolRegistry {
 	// AKS_MESSAGE(Layer.AKS, '0', Bound.SERVER, Aks0MessagePacket.class), // TODO
 
 	// CHAT ==========================================================
+	// server
+	CHAT_MSG(Layer.CHAT, 'M', State.OK, Bound.SERVER, ChatMessageOkPacket.class),
 	// both
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
 

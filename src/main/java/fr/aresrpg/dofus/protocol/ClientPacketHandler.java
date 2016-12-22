@@ -10,7 +10,8 @@
 package fr.aresrpg.dofus.protocol;
 
 import fr.aresrpg.dofus.protocol.account.client.*;
-import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
+import fr.aresrpg.dofus.protocol.basic.client.BasicChatMessageSendPacket;
+import fr.aresrpg.dofus.protocol.basic.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosJoinPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.client.*;
@@ -159,4 +160,6 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(FriendAddPacket friendAddPacket);
 
 	void handle(FriendRemovePacket friendRemovePacket);
+
+	void handle(BasicChatMessageSendPacket basicChatMessageSendPacket);
 }

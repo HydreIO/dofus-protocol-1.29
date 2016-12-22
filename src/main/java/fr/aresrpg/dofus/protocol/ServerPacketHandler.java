@@ -12,8 +12,8 @@ package fr.aresrpg.dofus.protocol;
 import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.aks.Aks0MessagePacket;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
+import fr.aresrpg.dofus.protocol.chat.server.ChatMessageOkPacket;
 import fr.aresrpg.dofus.protocol.dialog.server.*;
-import fr.aresrpg.dofus.protocol.exchange.client.ExchangeRequestPacket;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.fight.server.*;
 import fr.aresrpg.dofus.protocol.friend.server.FriendListPacket;
@@ -67,8 +67,6 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(ExchangeCreatePacket exchangeCreatePacket);
 
 	void handle(ExchangeListPacket exchangeListPacket);
-
-	void handle(ExchangeRequestPacket exchangeRequestPacket);
 
 	void handle(BasicConfirmPacket basicConfirmPacket);
 
@@ -227,5 +225,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(Aks0MessagePacket aksMessagePacket);
 
 	void handle(FriendListPacket friendListPacket);
+
+	void handle(ChatMessageOkPacket chatMessageOkPacket);
 
 }

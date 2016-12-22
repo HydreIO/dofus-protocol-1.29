@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.structures.job.Jobs;
  */
 public class ItemToolPacket implements ServerPacket {
 
-	private Jobs jobId;
+	private Jobs jobId; // if job null alors c'est qu'il déséquip
 
 	public ItemToolPacket() {
 	}
@@ -47,12 +47,14 @@ public class ItemToolPacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.jobId = Jobs.valueOf(stream.readInt());
+		if (stream.available() > 0)
+			this.jobId = Jobs.valueOf(stream.readInt());
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(jobId.getJobId());
+		if (jobId != null)
+			stream.allocate(1).writeInt(jobId.getJobId());
 	}
 
 	@Override

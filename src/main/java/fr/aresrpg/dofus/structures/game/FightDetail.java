@@ -29,11 +29,13 @@ public class FightDetail {
 
 	public static FightDetail parse(String data) {
 		String[] datas = data.split("~");
-		return new FightDetail(datas[0], Integer.parseInt(datas[1]), Integer.parseInt(datas[2]));
+		return new FightDetail(datas[0], Integer.parseInt(datas[1]), datas.length > 2 ? Integer.parseInt(datas[2]) : -1);
 	}
 
 	public String serialize() {
-		return new StringJoiner("~").add(name).add(lvl).add(type).toString();
+		StringJoiner add = new StringJoiner("~").add(name).add(lvl);
+		if (type != -1) add.add(type);
+		return add.toString();
 	}
 
 	public static String serializeFew(List<FightDetail> details) {
