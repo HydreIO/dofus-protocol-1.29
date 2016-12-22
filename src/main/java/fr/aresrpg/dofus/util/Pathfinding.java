@@ -13,8 +13,9 @@ import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction.PathFragment;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Pathfinding {
 
@@ -86,6 +87,35 @@ public class Pathfinding {
 			}
 		}
 		return null;
+	}
+
+	public static float getPathTime(List<Point> path, Cell[] cells, int width, boolean mount) {
+		boolean walk = path.size() < 6;
+		Point last = path.get(0);
+		Cell c = cells[Maps.getId(last.x , last.y , width)];
+		int lastGroundLevel = c.getGroundLevel();
+		int lastGroundSlope = c.getGroundSlope();
+		float time = 0f;
+		for(int i = 1 ; i < path.size() ; i++){
+			Point point = path.get(i);
+			Cell cell = cells[Maps.getId(point.x , point.y , width)];
+			PathDirection direction = getDirection(last.x , last.y , point.x , point.y);
+			time += 1/(mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
+			if(lastGroundLevel < cell.getGroundLevel())
+				time += 100;
+			else if(cell.getGroundLevel() > lastGroundLevel)
+				time -= 100;
+			else if(lastGroundSlope != cell.getGroundSlope()) {
+				if(lastGroundSlope == 1)
+					time += 100;
+				else if(cell.getGroundSlope() == 1)
+					time -= 100;
+			}
+			lastGroundLevel = cell.getGroundLevel();
+			lastGroundSlope = cell.getGroundSlope();
+			last = point;
+		}
+		return time;
 	}
 
 	private static Node[] getNeighbors(Node node) {
