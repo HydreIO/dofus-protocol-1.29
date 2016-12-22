@@ -50,7 +50,7 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 			this.isAdd = data.charAt(1) == '+';
 			data = data.substring(2);
 			this.itemType = Integer.parseInt(data);
-			this.itemAmount = stream.readInt();
+			this.itemAmount = stream.available() > 0 ? stream.readInt() : 1;
 			this.localKama = -1;
 		} else if (loc5 == 'G')
 			this.localKama = Integer.parseInt(data.substring(1));
@@ -59,8 +59,10 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		if (getLocalKama() == -1) stream.allocate(2).write("KO" + (isAdd ? "+" : "-") + itemType).writeInt(itemAmount);
-		else stream.allocate(1).write("KG" + getLocalKama());
+		if (getLocalKama() == -1) {
+			stream.allocate(itemAmount == 1 ? 1 : 2).write("KO" + (isAdd ? "+" : "-") + itemType);
+			if (itemAmount > 1) stream.writeInt(itemAmount);
+		} else stream.allocate(1).write("KG" + getLocalKama());
 	}
 
 	/**

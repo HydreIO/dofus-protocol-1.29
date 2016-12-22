@@ -187,7 +187,7 @@ public class DofusMapView extends Region {
 				default:
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
-			if (c.getLayerObject1Num() == 1030) gc.setFill(Color.ORANGE);
+			if (c.getLayerObject1Num() == 1030 || c.getLayerObject2Num() == 1030) gc.setFill(Color.ORANGE);
 			double xp = Maps.getX(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
 			double yp = Maps.getY(i, mWidth) * dMultiplier

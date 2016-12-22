@@ -318,6 +318,7 @@ public enum ProtocolRegistry {
 	EXCHANGE_PARK_MOUNT(Layer.EXCHANGE, 'f', Bound.CLIENT, ExchangeParkMountPacket.class),
 	EXCHANGE_REPLAY_CRAFT(Layer.EXCHANGE, 'L', Bound.CLIENT, ExchangeReplayCraftPacket.class),
 	EXCHANGE_LEAVE(Layer.EXCHANGE, 'V', Bound.CLIENT, ExchangeLeavePacket.class),
+	EXCHANGE_REPEAT_CRAFT(Layer.EXCHANGE, 'M', Bound.CLIENT, ExchangeRepeatCraftPacket.class),
 
 	// ZAAP ==========================================================
 	// server

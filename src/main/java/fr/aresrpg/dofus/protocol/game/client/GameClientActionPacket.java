@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.client;
 
@@ -42,7 +42,7 @@ public class GameClientActionPacket implements GameActionPacket, ClientPacket {
 	}
 
 	private static GameAction createAction(GameActions a, int id) {
-		if (a == null)
+		if (a == GameActions.UNKNOW)
 			return new UnknownAction().setId(id);
 		try {
 			return a.getAction().newInstance();
