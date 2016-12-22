@@ -160,7 +160,7 @@ public enum ProtocolRegistry {
 	GAME_SERVER_READY(Layer.GAME, 'R', Bound.SERVER, GameServerReadyPacket.class),
 	GAME_START_TO_PLAY(Layer.GAME, 'S', Bound.SERVER, GameStartToPlayPacket.class),
 	GAME_POSITIONS(Layer.GAME, 'I', 'C', Bound.SERVER, GamePositionsPacket.class),
-	GAME_FIGHT_CHALLENGE(Layer.GAME, 'd', Bound.SERVER, GameFightChallengePacket.class),
+	GAME_FIGHT_CHALLENGE(Layer.GAME, 'd', State.OK, Bound.SERVER, GameFightChallengePacket.class),
 	GAME_TURN_LIST(Layer.GAME, 'T', 'L', Bound.SERVER, GameTurnListPacket.class),
 	GAME_TURN_MIDDLE(Layer.GAME, 'T', 'M', Bound.SERVER, GameTurnMiddlePacket.class),
 	GAME_TURN_START(Layer.GAME, 'T', 'S', Bound.SERVER, GameTurnStartPacket.class),

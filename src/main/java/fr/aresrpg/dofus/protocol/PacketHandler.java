@@ -12,6 +12,7 @@ package fr.aresrpg.dofus.protocol;
 import fr.aresrpg.dofus.protocol.account.AccountKeyPacket;
 import fr.aresrpg.dofus.protocol.account.AccountRegionalVersionPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
+import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
 import fr.aresrpg.dofus.protocol.party.PartyAcceptPacket;
 import fr.aresrpg.dofus.protocol.party.PartyRefusePacket;
 import fr.aresrpg.dofus.protocol.waypoint.ZaapLeavePacket;
@@ -35,4 +36,6 @@ public interface PacketHandler {
 	void handle(PartyAcceptPacket partyAcceptPacket);
 
 	void handle(PartyRefusePacket partyRefusePacket);
+
+	void handle(DialogLeavePacket dialogLeavePacket);
 }

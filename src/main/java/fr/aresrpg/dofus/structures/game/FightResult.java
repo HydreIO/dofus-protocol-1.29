@@ -110,7 +110,7 @@ public class FightResult {
 			int winxp = Convert.toInt(datas[8]);
 			int guild = Convert.toInt(datas[9]);
 			int mount = Convert.toInt(datas[10]);
-			int kamas = Convert.toInt(datas[12]);
+			int kamas = datas.length > 12 ? Convert.toInt(datas[12]) : 0;
 			ent = new FightEntityPvm(sprite, id, lvl, minxp, xp, maxxp, winxp, guild, mount, kamas, dead, parseEndItems(datas[11]));
 		} else {
 			int minhonour = Convert.toInt(datas[5]);

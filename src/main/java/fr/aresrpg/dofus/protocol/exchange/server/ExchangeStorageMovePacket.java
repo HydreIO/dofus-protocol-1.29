@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.server;
 
@@ -31,6 +31,10 @@ public class ExchangeStorageMovePacket implements ServerPacket {
 				this.add = data.charAt(1) == '+';
 				data = data.substring(2);
 				int uuid = Integer.parseInt(data);
+				if (stream.available() < 1) {
+					this.moved = new Item(uuid, -1, 1, EquipmentPosition.NO_EQUIPED, null);
+					break;
+				}
 				int amount = stream.readInt();
 				int typeid = stream.readInt();
 				String effs = stream.read();
@@ -95,8 +99,10 @@ public class ExchangeStorageMovePacket implements ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		if (getMoved() == null) stream.allocate(1).write("KG" + getKamas());
-		else stream.allocate(4).write("KO" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()));
-
+		else {
+			stream.allocate(4).write("KO" + getAddValue() + moved.getUid());
+			if (moved.getQuantity() != 1) stream.writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()));
+		}
 	}
 
 	@Override

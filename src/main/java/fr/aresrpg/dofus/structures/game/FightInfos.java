@@ -9,14 +9,14 @@ import fr.aresrpg.dofus.util.StringJoiner;
 public class FightInfos {
 
 	private int id;
-	private int duration;
+	private long duration;
 	private int team0Type, team0Alignment, team0Count;
 	private int team1Type, team1Alignment, team1Count;
 
 	public static FightInfos parse(String data) {
 		String[] loc6 = data.split(";");
 		int fid = Integer.parseInt(loc6[0]);
-		int time = Integer.parseInt(loc6[1]);
+		long time = Long.parseLong(loc6[1]);
 		FightInfos inf = new FightInfos(fid, /* loc9 */time); //  var _loc9 = _loc8 == -1 ? (-1) : (this.api.kernel.NightManager.getDiffDate(_loc8));
 		String[] loc11 = loc6[2].split(",");
 		int type0 = Integer.parseInt(loc11[0]);
@@ -45,7 +45,7 @@ public class FightInfos {
 	 * @param id
 	 * @param duration
 	 */
-	public FightInfos(int id, int duration) {
+	public FightInfos(int id, long duration) {
 		this.id = id;
 		this.duration = duration;
 	}
@@ -80,7 +80,7 @@ public class FightInfos {
 	/**
 	 * @return the duration
 	 */
-	public int getDuration() {
+	public long getDuration() {
 		return duration;
 	}
 
@@ -88,7 +88,7 @@ public class FightInfos {
 	 * @param duration
 	 *            the duration to set
 	 */
-	public void setDuration(int duration) {
+	public void setDuration(long duration) {
 		this.duration = duration;
 	}
 

@@ -20,6 +20,7 @@ public class FightEntity {
 	private int ap;
 	private int mp;
 	private int unknowNumber;
+	private boolean dead;
 
 	public FightEntity(int id, int lp, int lpMax, int ap, int mp, int unknowNumber) {
 		this.id = id;
@@ -30,8 +31,14 @@ public class FightEntity {
 		this.unknowNumber = unknowNumber;
 	}
 
+	public FightEntity(int id) {
+		this(id, 0, 0, 0, 0, 0);
+	}
+
 	public static FightEntity parse(String data) {
 		String[] datas = data.split(";", -1);
+		// GTM|2397625;0;555;7;3;226;;555|2221954;0;2650;11;7;124;;2681|-4;0;42;8;4;94;;221|-3;0;210;8;4;177;;210|-2;1|-1;0;50;4;4;148;;50
+		if (datas.length == 2) return new FightEntity(Convert.toInt(datas[0]));
 		return new FightEntity(
 				Convert.toInt(datas[0]),
 				Convert.toInt(datas[2]),
@@ -52,6 +59,21 @@ public class FightEntity {
 
 	public int getLp() {
 		return lp;
+	}
+
+	/**
+	 * @return the dead
+	 */
+	public boolean isDead() {
+		return dead;
+	}
+
+	/**
+	 * @param dead
+	 *            the dead to set
+	 */
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 
 	public int getLpMax() {
@@ -75,7 +97,7 @@ public class FightEntity {
 
 	@Override
 	public String toString() {
-		return "FightEntity [id=" + id + ", lp=" + lp + ", lpMax=" + lpMax + ", ap=" + ap + ", mp=" + mp + ", unknowNumber=" + unknowNumber + "]";
+		return "FightEntity [id=" + id + ", lp=" + lp + ", lpMax=" + lpMax + ", ap=" + ap + ", mp=" + mp + ", unknowNumber=" + unknowNumber + ", dead=" + dead + "]";
 	}
 
 }

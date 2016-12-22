@@ -13,7 +13,6 @@ import fr.aresrpg.dofus.protocol.account.client.*;
 import fr.aresrpg.dofus.protocol.chat.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosJoinPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosLeavePacket;
-import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.client.*;
 import fr.aresrpg.dofus.protocol.emote.client.EmoteUsePacket;
 import fr.aresrpg.dofus.protocol.exchange.ExchangeLeavePacket;
@@ -114,8 +113,6 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(DialogBeginPacket dialogBeginPacket);
 
 	void handle(DialogCreatePacket dialogCreatePacket);
-
-	void handle(DialogLeavePacket dialogLeavePacket);
 
 	void handle(DialogResponsePacket dialogResponsePacket);
 

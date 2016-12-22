@@ -159,7 +159,7 @@ public class Item {
 	public static Item parseItem(String d) {
 		String[] data = StringUtils.split(d, "~");
 		return new Item(
-				Integer.parseInt(data[0], 16),
+				Integer.parseInt(data[0], 16), 
 				Integer.parseInt(data[1], 16),
 				Integer.parseInt(data[2], 16),
 				data[3].isEmpty() ? EquipmentPosition.NO_EQUIPED : EquipmentPosition.valueOf(Integer.parseInt(data[3], 16)),

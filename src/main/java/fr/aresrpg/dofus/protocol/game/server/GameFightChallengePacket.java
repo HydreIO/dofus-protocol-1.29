@@ -18,11 +18,13 @@ public class GameFightChallengePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
+		if (stream.peek().charAt(0) == 'O') return;
 		this.challenge = FightChallenge.parse(stream.read());
 	}
 
 	@Override
 	public void write(DofusStream stream) {
+		if (challenge == null) return;
 		stream.allocate(1).write(challenge.serialize());
 	}
 

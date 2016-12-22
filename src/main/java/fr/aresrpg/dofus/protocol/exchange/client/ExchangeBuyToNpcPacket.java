@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.exchange.client;
 
@@ -13,10 +13,10 @@ import fr.aresrpg.dofus.protocol.*;
 
 /**
  * 
- * @since 
+ * @since
  */
 public class ExchangeBuyToNpcPacket implements ClientPacket {
-	
+
 	private int itemUid;
 	private int amount;
 
@@ -27,6 +27,9 @@ public class ExchangeBuyToNpcPacket implements ClientPacket {
 	public ExchangeBuyToNpcPacket(int itemUid, int amount) {
 		this.itemUid = itemUid;
 		this.amount = amount;
+	}
+
+	public ExchangeBuyToNpcPacket() {
 	}
 
 	@Override
@@ -79,6 +82,5 @@ public class ExchangeBuyToNpcPacket implements ClientPacket {
 	public String toString() {
 		return "ExchangeBuyToNpcPacket [itemUid=" + itemUid + ", amount=" + amount + "]";
 	}
-
 
 }

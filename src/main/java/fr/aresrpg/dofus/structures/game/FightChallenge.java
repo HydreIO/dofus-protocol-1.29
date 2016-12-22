@@ -34,7 +34,7 @@ public class FightChallenge {
 
 	public static FightChallenge parse(String datas) {
 		String[] data = datas.split(";");
-		return new FightChallenge(
+		return new FightChallenge( // GdKO38
 				Challenge.fromId(Integer.parseInt(data[0])),
 				data[1].equals("1"),
 				Convert.toInt(data[2]),

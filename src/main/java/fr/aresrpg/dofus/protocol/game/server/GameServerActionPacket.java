@@ -34,6 +34,12 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		this.entityId = entityId;
 	}
 
+	public GameServerActionPacket(GameActions type, GameAction action, int entityId) {
+		this.type = type;
+		this.action = action;
+		this.entityId = entityId;
+	}
+
 	public GameServerActionPacket() {
 	}
 

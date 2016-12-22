@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.dialog;
 
@@ -15,7 +15,7 @@ import fr.aresrpg.dofus.protocol.*;
  * 
  * @since
  */
-public class DialogLeavePacket implements ClientPacket {
+public class DialogLeavePacket implements Packet {
 
 	@Override
 	public void read(DofusStream stream) {
@@ -26,8 +26,13 @@ public class DialogLeavePacket implements ClientPacket {
 	}
 
 	@Override
-	public void handleClient(ClientPacketHandler handler) {
+	public void handle(PacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "DialogLeavePacket []";
 	}
 
 }

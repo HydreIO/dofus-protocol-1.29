@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.server;
 
@@ -29,7 +29,6 @@ public class ItemAddOkPacket implements ServerPacket {
 	 * @param items
 	 */
 	public ItemAddOkPacket(Set<Item> items) {
-		super();
 		this.items = items;
 	}
 
@@ -54,6 +53,7 @@ public class ItemAddOkPacket implements ServerPacket {
 		for (int loc5 = 0; loc5 < loc4.length; loc5++) {
 			String loc6 = loc4[loc5];
 			char loc7 = loc6.charAt(0);
+			loc6 = loc6.substring(1);
 			if (loc7 == 'O') {
 				String[] loc8 = loc6.split(";");
 				for (int loc9 = 0; loc9 < loc8.length; loc9++)
@@ -70,7 +70,7 @@ public class ItemAddOkPacket implements ServerPacket {
 		StringJoiner jn = new StringJoiner(";");
 		for (Item item : items)
 			jn.add(item.serializeItem(item));
-		stream.allocate(1).write(jn.toString());
+		stream.allocate(1).write('O' +jn.toString());
 	}
 
 	@Override

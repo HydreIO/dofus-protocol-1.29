@@ -18,9 +18,9 @@ import fr.aresrpg.dofus.structures.Exchange;
  */
 public class ExchangeRequestPacket implements ClientPacket {
 
-	private int targetId = -2;
+	private int targetId = -1000;
 	private Exchange exchange;
-	private int cellid = -2;
+	private int cellid = -1000;
 
 	public ExchangeRequestPacket(Exchange exchange, int targetId, int cellnum) {
 		this.targetId = targetId;
@@ -45,11 +45,11 @@ public class ExchangeRequestPacket implements ClientPacket {
 	}
 
 	public ExchangeRequestPacket(Exchange type, int targetId) {
-		this(type, targetId, -1);
+		this(type, targetId, -1000);
 	}
 
 	public ExchangeRequestPacket(int cellid, Exchange type) {
-		this(type, -1, cellid);
+		this(type, -1000, cellid);
 	}
 
 	/**
@@ -74,11 +74,11 @@ public class ExchangeRequestPacket implements ClientPacket {
 	}
 
 	public boolean hasTarget() {
-		return getTargetId() != -2;
+		return getTargetId() != -1000;
 	}
 
 	public boolean hasCellId() {
-		return getCellid() != -2;
+		return getCellid() != -1000;
 	}
 
 	@Override

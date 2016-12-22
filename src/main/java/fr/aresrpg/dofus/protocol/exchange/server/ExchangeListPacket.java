@@ -32,6 +32,7 @@ public class ExchangeListPacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
+		if (stream.available() < 1) return;
 		char type = stream.peek().charAt(0);
 		if (type == 'O' || type == 'G') {
 			this.invType = Exchange.BANK;
@@ -89,6 +90,7 @@ public class ExchangeListPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
+		if (invType == null) return;
 		switch (this.invType) {
 			case BANK:
 				StringJoiner joinerr = new StringJoiner(";");
