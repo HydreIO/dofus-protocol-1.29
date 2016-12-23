@@ -27,7 +27,7 @@ public class GameEffectPacket implements ServerPacket {
 		String[] rawEntities = data[1].split(",");
 		entities = new int[rawEntities.length];
 		for (int i = 0; i < entities.length; i++)
-			entities[i] = Integer.parseInt(rawEntities[i]);
+			entities[i] = Convert.toInt(rawEntities[i]);
 		effect = new Effect(
 				Integer.parseInt(data[0]),
 				Convert.toInt(data[2]),
