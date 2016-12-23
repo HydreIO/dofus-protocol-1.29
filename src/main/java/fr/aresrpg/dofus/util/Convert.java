@@ -40,6 +40,10 @@ public class Convert {
 		return val == 0 ? "" : Integer.toHexString(val);
 	}
 
+	public static String toDofusString(long val) {
+		return val == 0 ? "" : Long.toString(val);
+	}
+
 	public static String toDofusString(int val) {
 		return val == 0 ? "" : Integer.toString(val);
 	}

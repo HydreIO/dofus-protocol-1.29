@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 /*******************************************************************************
  * BotFather (C) - Dofus 1.29
@@ -449,7 +449,7 @@ public class MovementPlayer implements MovementAction {
 		private int emotTimer;
 		private String guildname;
 		private String[] emblem;
-		private int restrictions;
+		private String restrictions;
 
 		/**
 		 * @param color1
@@ -463,7 +463,7 @@ public class MovementPlayer implements MovementAction {
 		 * @param emblem
 		 * @param restrictions
 		 */
-		public PlayerOutsideFight(int color1, int color2, int color3, Accessory[] accessories, int aura, int emot, int emotTimer, String guildname, String[] emblem, int restrictions) {
+		public PlayerOutsideFight(int color1, int color2, int color3, Accessory[] accessories, int aura, int emot, int emotTimer, String guildname, String[] emblem, String restrictions) {
 			this.color1 = color1;
 			this.color2 = color2;
 			this.color3 = color3;
@@ -606,7 +606,7 @@ public class MovementPlayer implements MovementAction {
 		/**
 		 * @return the restrictions
 		 */
-		public int getRestrictions() {
+		public String getRestrictions() {
 			return restrictions;
 		}
 
@@ -614,8 +614,16 @@ public class MovementPlayer implements MovementAction {
 		 * @param restrictions
 		 *            the restrictions to set
 		 */
-		public void setRestrictions(int restrictions) {
+		public void setRestrictions(String restrictions) {
 			this.restrictions = restrictions;
+		}
+
+		/**
+		 * @param accessories
+		 *            the accessories to set
+		 */
+		public void setAccessories(Accessory[] accessories) {
+			this.accessories = accessories;
 		}
 
 		@Override

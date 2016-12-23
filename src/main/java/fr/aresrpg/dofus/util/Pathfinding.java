@@ -13,9 +13,9 @@ import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction.PathFragment;
 import fr.aresrpg.dofus.structures.PathDirection;
 import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.*;
-import java.util.List;
+import java.util.function.BiPredicate;
 
 public class Pathfinding {
 
@@ -56,6 +56,10 @@ public class Pathfinding {
 	}
 
 	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, boolean useDiagonale) {
+		return getPath(xFrom, yFrom, xTo, yTo, useDiagonale, (a, b) -> true);
+	}
+
+	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, boolean useDiagonale, BiPredicate<Point, Point> canMoveOnFrom) {
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 		Set<Node> closedList = new HashSet<>();
 		Map<Node, Node> cameFrom = new HashMap<>();
@@ -69,7 +73,41 @@ public class Pathfinding {
 				return recreatePath(cameFrom, node);
 			else
 				for (Node n : (useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node))) {
-				if (closedList.contains(n))
+				if (closedList.contains(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y)))
+					continue;
+				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+				if (openList.contains(n)) {
+					openList.remove(n);
+				}
+				if (present != null) {
+					if (present.cost < n.cost)
+						continue;
+					else
+						openList.remove(present);
+				}
+				openList.add(n);
+				cameFrom.put(n, node);
+			}
+		}
+		return null;
+	}
+
+	public static List<Point> getPathForCarte(int xFrom, int yFrom, int xTo, int yTo, BiPredicate<Point, Point> canMoveOnFrom) {
+		PriorityQueue<Node> openList = new PriorityQueue<>();
+		Set<Node> closedList = new HashSet<>();
+		Map<Node, Node> cameFrom = new HashMap<>();
+		Node from = new Node(xFrom, yFrom);
+		cameFrom.put(from, null);
+		openList.add(from);
+		while (!openList.isEmpty()) {
+			Node node = openList.poll();
+			closedList.add(node);
+			if (node.x == xTo && node.y == yTo)
+				return recreatePath(cameFrom, node);
+			else
+				for (Node n : getNeighborsForMap(node)) {
+				if (closedList.contains(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y)))
 					continue;
 				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
 				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
@@ -92,23 +130,23 @@ public class Pathfinding {
 	public static float getPathTime(List<Point> path, Cell[] cells, int width, boolean mount) {
 		boolean walk = path.size() < 6;
 		Point last = path.get(0);
-		Cell c = cells[Maps.getId(last.x , last.y , width)];
+		Cell c = cells[Maps.getId(last.x, last.y, width)];
 		int lastGroundLevel = c.getGroundLevel();
 		int lastGroundSlope = c.getGroundSlope();
 		float time = 0f;
-		for(int i = 1 ; i < path.size() ; i++){
+		for (int i = 1; i < path.size(); i++) {
 			Point point = path.get(i);
-			Cell cell = cells[Maps.getId(point.x , point.y , width)];
-			PathDirection direction = getDirection(last.x , last.y , point.x , point.y);
-			time += 1/(mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
-			if(lastGroundLevel < cell.getGroundLevel())
+			Cell cell = cells[Maps.getId(point.x, point.y, width)];
+			PathDirection direction = getDirection(last.x, last.y, point.x, point.y);
+			time += 1 / (mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
+			if (lastGroundLevel < cell.getGroundLevel())
 				time += 100;
-			else if(cell.getGroundLevel() > lastGroundLevel)
+			else if (cell.getGroundLevel() > lastGroundLevel)
 				time -= 100;
-			else if(lastGroundSlope != cell.getGroundSlope()) {
-				if(lastGroundSlope == 1)
+			else if (lastGroundSlope != cell.getGroundSlope()) {
+				if (lastGroundSlope == 1)
 					time += 100;
-				else if(cell.getGroundSlope() == 1)
+				else if (cell.getGroundSlope() == 1)
 					time -= 100;
 			}
 			lastGroundLevel = cell.getGroundLevel();
@@ -144,6 +182,16 @@ public class Pathfinding {
 		return nodes;
 	}
 
+	private static Node[] getNeighborsForMap(Node node) {
+		Node[] nodes = new Node[4];
+		int i = 0;
+		nodes[0] = new Node(node.x + 1, node.y);
+		nodes[1] = new Node(node.x, node.y - 1);
+		nodes[2] = new Node(node.x - 1, node.y);
+		nodes[3] = new Node(node.x, node.y + 1);
+		return nodes;
+	}
+
 	public static PathDirection getDirection(int xFrom, int yFrom, int xTo, int yTo) {
 		int deltaX = xTo - xFrom;
 		int deltaY = yTo - yFrom;
@@ -158,6 +206,14 @@ public class Pathfinding {
 			return deltaX > 0 ? PathDirection.DOWN : PathDirection.LEFT;
 		else
 			return null;
+	}
+
+	public static PathDirection getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {
+		if (xFrom < xTo) return PathDirection.RIGHT;
+		else if (xFrom > xTo) return PathDirection.LEFT;
+		if (yFrom < yTo) return PathDirection.DOWN;
+		else if (yFrom > yTo) return PathDirection.UP;
+		return null;
 	}
 
 	public static List<PathFragment> makeShortPath(List<Point> points, int width) {

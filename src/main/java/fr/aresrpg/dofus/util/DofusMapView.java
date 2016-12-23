@@ -29,6 +29,9 @@ public class DofusMapView extends Region {
 
 	private static final Image wheat = new Image("https://i.imgur.com/LzUi53W.png");
 	private static final Image chanvre = new Image("https://i.imgur.com/UWJKJwc.png");
+	private static final Image npc = new Image("https://i.imgur.com/aqwfqXZ.png");
+	private static final Image player = new Image("https://i.imgur.com/CMBwr3R.png");
+	private static final Image mob = new Image("https://i.imgur.com/KG6PUJ0.png");
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
@@ -82,6 +85,14 @@ public class DofusMapView extends Region {
 					onCellClick.accept(id);
 			}
 		});
+	}
+
+	public void addEntity(int id, int cellid) {
+		if (id > 1000) addPlayer(id, cellid);
+		else {
+			if (mobs.containsKey(id)) mobs.put(id, cellid);
+			if (npcs.containsKey(id)) npcs.put(id, cellid);
+		}
 	}
 
 	public void addPlayer(int id, int cellid) {
@@ -211,9 +222,9 @@ public class DofusMapView extends Region {
 			}
 			final int cl = i;
 			if (i == currentPos) drawOval(gc, Color.BROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
-			else this.players.values().stream().filter(po -> po == cl).forEach(v -> drawOval(gc, Color.DARKBLUE, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
-			this.mobs.values().stream().filter(po -> po == cl).forEach(v -> drawOval(gc, Color.FORESTGREEN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
-			this.npcs.values().stream().filter(po -> po == cl).forEach(v -> drawOval(gc, Color.SADDLEBROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			else this.players.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(player, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
+			this.mobs.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(mob, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			this.npcs.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(npc, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
 			// gid.fillText((Maps.getColumn(i, mWidth) + "," + Maps.getLine(i, mWidth)), xp, yp + gc.getFont().getSize() / 4);
 			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}

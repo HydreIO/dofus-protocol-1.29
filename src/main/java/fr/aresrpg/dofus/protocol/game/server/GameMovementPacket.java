@@ -50,6 +50,7 @@ public class GameMovementPacket implements ServerPacket {
 	}
 
 	public void parseActor(String datas) {
+		if (datas.isEmpty()) return;
 		this.type = GameMovementType.fromChar(datas.charAt(0));
 		String[] data = datas.substring(1).split(";"); // loc10
 		switch (type) {
@@ -150,7 +151,7 @@ public class GameMovementPacket implements ServerPacket {
 								: new PlayerOutsideFight(Integer.parseInt(data[9], 16), Integer.parseInt(data[10], 16), Integer.parseInt(data[11], 16),
 										Arrays.stream(data[12].split(",")).map(Accessory::parse).toArray(Accessory[]::new), Convert.toInt(data[13]), Convert.toInt(data[14]), Convert.toInt(data[15]),
 										data[16],
-										data[17].split(","), Convert.toInt(data[18]));
+										data[17].split(","), data[18]);
 						actors.add(new Pair<>(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
 								new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false), Convert.toInt(loc67[2]),
 								pif, pof)));

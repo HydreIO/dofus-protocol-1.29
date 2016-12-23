@@ -148,9 +148,10 @@ public enum ProtocolRegistry {
 	BASIC_CHAT_MSG(Layer.BASIC, 'M', Bound.CLIENT, BasicChatMessageSendPacket.class),
 
 	// MOUNT ==========================================================
+	// client 
+	MOUNT_PLAYER(Layer.MOUNT, 'r', Bound.CLIENT, MountPlayerPacket.class),
 	// server
 	MOUNT_XP(Layer.MOUNT, 'x', Bound.SERVER, MountXpPacket.class),
-	MOUNT_PLAYER(Layer.MOUNT, 'r', Bound.SERVER, MountPlayerPacket.class),
 
 	// GAME ==========================================================
 	// server

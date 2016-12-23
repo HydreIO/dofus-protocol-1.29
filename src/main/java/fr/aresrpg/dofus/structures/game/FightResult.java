@@ -104,9 +104,9 @@ public class FightResult {
 		boolean dead = Integer.parseInt(datas[4]) == 1;
 		FightEndEntity ent = null;
 		if (!isPvp) {
-			int minxp = Convert.toInt(datas[5]);
-			int xp = Convert.toInt(datas[6]);
-			int maxxp = Convert.toInt(datas[7]);
+			long minxp = Convert.toLong(datas[5]);
+			long xp = Convert.toLong(datas[6]);
+			long maxxp = Convert.toLong(datas[7]);
 			int winxp = Convert.toInt(datas[8]);
 			int guild = Convert.toInt(datas[9]);
 			int mount = Convert.toInt(datas[10]);
@@ -182,17 +182,20 @@ public class FightResult {
 	public static class FightEntityPvm implements FightEndEntity {
 
 		private String pseudo;
-		private int id, lvl, minXp, xp, maxXp, winXp, guildXp, mountXp, kamas;
+		private int id, lvl, winXp, guildXp, mountXp, kamas;
+		long xp;
+		long maxXp;
+		long minXp;
 		private boolean isDead;
 		private Item[] drops;
 
-		public FightEntityPvm(String pseudo, int id, int lvl, int minXp, int xp, int maxXp, int winXp, int guildXp, int mountXp, int kamas, boolean isDead, Item[] drops) {
+		public FightEntityPvm(String pseudo, int id, int lvl, long minxp2, long xp2, long maxxp2, int winXp, int guildXp, int mountXp, int kamas, boolean isDead, Item[] drops) {
 			this.pseudo = pseudo;
 			this.id = id;
 			this.lvl = lvl;
-			this.minXp = minXp;
-			this.xp = xp;
-			this.maxXp = maxXp;
+			this.minXp = minxp2;
+			this.xp = xp2;
+			this.maxXp = maxxp2;
 			this.winXp = winXp;
 			this.guildXp = guildXp;
 			this.mountXp = mountXp;
@@ -283,24 +286,9 @@ public class FightResult {
 		}
 
 		/**
-		 * @return the minXp
-		 */
-		public int getMinXp() {
-			return minXp;
-		}
-
-		/**
-		 * @param minXp
-		 *            the minXp to set
-		 */
-		public void setMinXp(int minXp) {
-			this.minXp = minXp;
-		}
-
-		/**
 		 * @return the xp
 		 */
-		public int getXp() {
+		public long getXp() {
 			return xp;
 		}
 
@@ -308,14 +296,14 @@ public class FightResult {
 		 * @param xp
 		 *            the xp to set
 		 */
-		public void setXp(int xp) {
+		public void setXp(long xp) {
 			this.xp = xp;
 		}
 
 		/**
 		 * @return the maxXp
 		 */
-		public int getMaxXp() {
+		public long getMaxXp() {
 			return maxXp;
 		}
 
@@ -323,8 +311,37 @@ public class FightResult {
 		 * @param maxXp
 		 *            the maxXp to set
 		 */
-		public void setMaxXp(int maxXp) {
+		public void setMaxXp(long maxXp) {
 			this.maxXp = maxXp;
+		}
+
+		/**
+		 * @return the minXp
+		 */
+		public long getMinXp() {
+			return minXp;
+		}
+
+		/**
+		 * @param minXp
+		 *            the minXp to set
+		 */
+		public void setMinXp(long minXp) {
+			this.minXp = minXp;
+		}
+
+		/**
+		 * @return the pseudo
+		 */
+		public String getPseudo() {
+			return pseudo;
+		}
+
+		/**
+		 * @return the lvl
+		 */
+		public int getLvl() {
+			return lvl;
 		}
 
 		/**
