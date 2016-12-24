@@ -162,4 +162,6 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(FriendRemovePacket friendRemovePacket);
 
 	void handle(BasicChatMessageSendPacket basicChatMessageSendPacket);
+
+	void handle(PartyAcceptPacket partyAcceptPacket);
 }

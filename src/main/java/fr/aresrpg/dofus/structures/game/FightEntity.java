@@ -48,6 +48,54 @@ public class FightEntity {
 				Convert.toInt(datas[5]));
 	}
 
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param lp
+	 *            the lp to set
+	 */
+	public void setLp(int lp) {
+		this.lp = lp;
+	}
+
+	/**
+	 * @param lpMax
+	 *            the lpMax to set
+	 */
+	public void setLpMax(int lpMax) {
+		this.lpMax = lpMax;
+	}
+
+	/**
+	 * @param ap
+	 *            the ap to set
+	 */
+	public void setAp(int ap) {
+		this.ap = ap;
+	}
+
+	/**
+	 * @param mp
+	 *            the mp to set
+	 */
+	public void setMp(int mp) {
+		this.mp = mp;
+	}
+
+	/**
+	 * @param unknowNumber
+	 *            the unknowNumber to set
+	 */
+	public void setUnknowNumber(int unknowNumber) {
+		this.unknowNumber = unknowNumber;
+	}
+
 	public String serialize() {
 		return new StringJoiner(";").add("" + id).add("0").add("" + lp).add("" + ap)
 				.add("" + mp).add("" + unknowNumber).add("").add("" + lpMax).toString();

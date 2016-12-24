@@ -33,4 +33,13 @@ public class MovementRemoveActor implements MovementAction {
 		return "MovementRemoveActor [id=" + id + "]";
 	}
 
+	@Override
+	public void setCellId(int id) {
+	}
+
+	@Override
+	public int getCellId() {
+		return -1;
+	}
+
 }

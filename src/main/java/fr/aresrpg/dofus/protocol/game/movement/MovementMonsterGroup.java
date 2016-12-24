@@ -146,7 +146,7 @@ public class MovementMonsterGroup implements MovementAction {
 	/**
 	 * @return the cellid
 	 */
-	public int getCellid() {
+	public int getCellId() {
 		return cellid;
 	}
 
@@ -154,7 +154,7 @@ public class MovementMonsterGroup implements MovementAction {
 	 * @param cellid
 	 *            the cellid to set
 	 */
-	public void setCellid(int cellid) {
+	public void setCellId(int cellid) {
 		this.cellid = cellid;
 	}
 

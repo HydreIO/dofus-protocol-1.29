@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.party.client;
 
@@ -38,7 +38,7 @@ public class PartyLeavePacket implements ClientPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.pseudo = Optional.of(stream.peek().isEmpty() ? null : stream.read());
+		this.pseudo = Optional.of(stream.available() < 1 || stream.peek().isEmpty() ? null : stream.read());
 	}
 
 	@Override

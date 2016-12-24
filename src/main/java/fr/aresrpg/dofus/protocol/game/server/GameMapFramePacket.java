@@ -4,17 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.map.Frame;
 import fr.aresrpg.dofus.util.Convert;
-import fr.aresrpg.dofus.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,10 +31,10 @@ public class GameMapFramePacket implements ServerPacket {
 		stream.read(); // Skip separator
 		frames = new HashMap<>(stream.available());
 		while (stream.available() > 0) {
-			String[] data = StringUtils.split(stream.read(), ";");
+			String[] data = stream.read().split(";", -1);
 			int cellId = Integer.parseInt(data[0]);
 			int id = Convert.toInt(data[1], 0);
-			Boolean interactive = data[2].isEmpty() ? null : Integer.parseInt(data[2]) == 1;
+			Boolean interactive = data.length < 3 || data[2].isEmpty() ? null : Integer.parseInt(data[2]) == 1;
 			frames.put(cellId, new Frame(id, interactive));
 		}
 	}
@@ -52,7 +49,6 @@ public class GameMapFramePacket implements ServerPacket {
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
 	}
-
 
 	@Override
 	public String toString() {

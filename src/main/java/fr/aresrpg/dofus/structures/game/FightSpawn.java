@@ -13,6 +13,13 @@ public class FightSpawn {
 		this.type = type;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		return obj instanceof FightSpawn && ((FightSpawn) obj).getId() == id;
+	}
+
 	/**
 	 * @return the id
 	 */

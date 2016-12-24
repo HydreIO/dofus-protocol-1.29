@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.party.client;
 
@@ -17,34 +17,34 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class PartyFollowPacket implements ClientPacket {
 
-	private String pname;
+	private int playerId;
 	private boolean follow;
 
 	@Override
 	public void read(DofusStream stream) {
 		String data = stream.read();
 		this.follow = data.charAt(0) == '+';
-		this.pname = data.substring(1);
+		this.playerId = Integer.parseInt(data.substring(1));
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write((follow ? "+" : "-") + pname);
+		stream.allocate(1).write((follow ? "+" : "-") + playerId);
 	}
 
 	/**
-	 * @return the pname
+	 * @return the playerId
 	 */
-	public String getPname() {
-		return pname;
+	public int getPlayerId() {
+		return playerId;
 	}
 
 	/**
-	 * @param pname
-	 *            the pname to set
+	 * @param playerId
+	 *            the playerId to set
 	 */
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class PartyFollowPacket implements ClientPacket {
 
 	@Override
 	public String toString() {
-		return "PartyFollowPacket [pname=" + pname + ", follow=" + follow + "]";
+		return "PartyFollowPacket [playerId=" + playerId + ", follow=" + follow + "]";
 	}
 
 }

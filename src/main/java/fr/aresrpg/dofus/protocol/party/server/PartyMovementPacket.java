@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.party.server;
 
@@ -22,25 +22,42 @@ import java.util.stream.IntStream;
  */
 public class PartyMovementPacket implements ServerPacket {
 
+	private ExchangeMove move;
 	private PartyMember[] members;
 
 	@Override
 	public void read(DofusStream stream) {
-		ExchangeMove m = ExchangeMove.fromSymbol(stream.peek().charAt(0));
+		move = ExchangeMove.fromSymbol(stream.peek().charAt(0));
 		stream.replaceRead(stream.peek().substring(1)); // remove symbol
 		this.members = new PartyMember[stream.available()];
-		IntStream.range(0, stream.available()).forEach(i -> members[i] = PartyMember.parseMember(m, stream.read()));
+		IntStream.range(0, stream.available()).forEach(i -> members[i] = PartyMember.parseMember(stream.read()));
 	}
 
 	@Override
 	public void write(DofusStream stream) {
 		stream.allocate(members.length);
-		Arrays.stream(members).forEach(pm -> stream.write(pm.serialize()));
+		boolean first = true;
+		Arrays.stream(members).forEach(pm -> stream.write(first ? move.getSymbol() + pm.serialize() : pm.serialize()));
 	}
 
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	/**
+	 * @return the move
+	 */
+	public ExchangeMove getMove() {
+		return move;
+	}
+
+	/**
+	 * @param move
+	 *            the move to set
+	 */
+	public void setMove(ExchangeMove move) {
+		this.move = move;
 	}
 
 	/**
@@ -60,7 +77,7 @@ public class PartyMovementPacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "PartyMovementPacket [members=" + Arrays.toString(members) + "]";
+		return "PartyMovementPacket [move=" + move + ", members=" + Arrays.toString(members) + "]";
 	}
 
 }

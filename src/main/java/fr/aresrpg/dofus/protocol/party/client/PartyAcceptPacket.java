@@ -7,7 +7,7 @@
  * 
  *         Created 2016
  *******************************************************************************/
-package fr.aresrpg.dofus.protocol.party;
+package fr.aresrpg.dofus.protocol.party.client;
 
 import fr.aresrpg.dofus.protocol.*;
 
@@ -15,7 +15,7 @@ import fr.aresrpg.dofus.protocol.*;
  * 
  * @since
  */
-public class PartyAcceptPacket implements Packet {
+public class PartyAcceptPacket implements ClientPacket {
 
 	@Override
 	public void read(DofusStream stream) {
@@ -26,7 +26,7 @@ public class PartyAcceptPacket implements Packet {
 	}
 
 	@Override
-	public void handle(PacketHandler handler) {
+	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
 	}
 

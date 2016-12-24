@@ -16,10 +16,28 @@ import fr.aresrpg.dofus.structures.map.Cell;
 import java.awt.Point;
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 public class Pathfinding {
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean useDiagonale) {
+	public static List<Point> getCellPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean useDiagonale) {
+		return getPath(xFrom, yFrom, xTo, yTo, cell, width, false, useDiagonale, n -> true, (a, b) -> true);
+	}
+
+	public static List<Point> getCellPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean useDiagonale, Predicate<Point> canTake) {
+		return getPath(xFrom, yFrom, xTo, yTo, cell, width, false, useDiagonale, canTake, (a, b) -> true);
+	}
+
+	public static List<Point> getMapPath(int xFrom, int yFrom, int xTo, int yTo, BiPredicate<Point, Point> canMoveOnFrom) {
+		return getPath(xFrom, yFrom, xTo, yTo, null, 0, true, false, n -> true, canMoveOnFrom);
+	}
+
+	public static List<Point> getMapPath(int xFrom, int yFrom, int xTo, int yTo) {
+		return getMapPath(xFrom, yFrom, xTo, yTo, (a, b) -> true);
+	}
+
+	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean isBigMap, boolean useDiagonale, Predicate<Point> canTake,
+		BiPredicate<Point, Point> canMoveOnFrom) {
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 		Set<Node> closedList = new HashSet<>();
 		Map<Node, Node> cameFrom = new HashMap<>();
@@ -31,100 +49,33 @@ public class Pathfinding {
 			closedList.add(node);
 			if (node.x == xTo && node.y == yTo)
 				return recreatePath(cameFrom, node);
-			else
-				for (Node n : (useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node))) {
-				if (!isValid(n, cell, width, n.x == xTo && n.y == yTo))
-					continue;
-				if (closedList.contains(n))
-					continue;
-				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-				if (openList.contains(n)) {
-					openList.remove(n);
-				}
-				if (present != null) {
-					if (present.cost < n.cost)
-						continue;
-					else
-						openList.remove(present);
-				}
-				openList.add(n);
-				cameFrom.put(n, node);
+			else {
+				Node[] nodes = isBigMap ? getNeighborsForMap(node) : useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node);
+				Predicate<Node> closed = n -> closedList.contains(n);
+				Predicate<Node> tester = isBigMap ? n -> closed.test(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y))
+						: n -> closed.test(n) || !isValid(n, cell, width, n.x == xTo && n.y == yTo) || !canTake.test(new Point(n.x, n.y));
+				Arrays.stream(nodes).filter(tester.negate()).forEachOrdered(n -> {
+					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
+					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+					if (openList.contains(n)) {
+						openList.remove(n);
+					}
+					boolean continu = false;
+					if (present != null) {
+						if (present.cost < n.cost)
+							continu = true;
+						else
+							openList.remove(present);
+					}
+					if (!continu) {
+						openList.add(n);
+						cameFrom.put(n, node);
+					}
+				});
 			}
 		}
 		return null;
-	}
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, boolean useDiagonale) {
-		return getPath(xFrom, yFrom, xTo, yTo, useDiagonale, (a, b) -> true);
-	}
-
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, boolean useDiagonale, BiPredicate<Point, Point> canMoveOnFrom) {
-		PriorityQueue<Node> openList = new PriorityQueue<>();
-		Set<Node> closedList = new HashSet<>();
-		Map<Node, Node> cameFrom = new HashMap<>();
-		Node from = new Node(xFrom, yFrom);
-		cameFrom.put(from, null);
-		openList.add(from);
-		while (!openList.isEmpty()) {
-			Node node = openList.poll();
-			closedList.add(node);
-			if (node.x == xTo && node.y == yTo)
-				return recreatePath(cameFrom, node);
-			else
-				for (Node n : (useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node))) {
-				if (closedList.contains(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y)))
-					continue;
-				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-				if (openList.contains(n)) {
-					openList.remove(n);
-				}
-				if (present != null) {
-					if (present.cost < n.cost)
-						continue;
-					else
-						openList.remove(present);
-				}
-				openList.add(n);
-				cameFrom.put(n, node);
-			}
-		}
-		return null;
-	}
-
-	public static List<Point> getPathForCarte(int xFrom, int yFrom, int xTo, int yTo, BiPredicate<Point, Point> canMoveOnFrom) {
-		PriorityQueue<Node> openList = new PriorityQueue<>();
-		Set<Node> closedList = new HashSet<>();
-		Map<Node, Node> cameFrom = new HashMap<>();
-		Node from = new Node(xFrom, yFrom);
-		cameFrom.put(from, null);
-		openList.add(from);
-		while (!openList.isEmpty()) {
-			Node node = openList.poll();
-			closedList.add(node);
-			if (node.x == xTo && node.y == yTo)
-				return recreatePath(cameFrom, node);
-			else
-				for (Node n : getNeighborsForMap(node)) {
-				if (closedList.contains(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y)))
-					continue;
-				n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-				Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
-				if (openList.contains(n)) {
-					openList.remove(n);
-				}
-				if (present != null) {
-					if (present.cost < n.cost)
-						continue;
-					else
-						openList.remove(present);
-				}
-				openList.add(n);
-				cameFrom.put(n, node);
-			}
-		}
-		return null;
 	}
 
 	public static float getPathTime(List<Point> path, Cell[] cells, int width, boolean mount) {

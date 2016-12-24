@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
@@ -41,6 +41,7 @@ public enum InfosMessage {
 	EMPTY_STORE(123),
 	WAYPOINT_SAVED(6), // 06
 	NOT_ENOUGH_KAMA(63), // 063
+	FIGHTER_READY(128), // par déduction, 128;name
 	FULL_BAG(62), // 062
 	EARN_KAMAS(45); // 045;kamas
 	private int id;

@@ -74,6 +74,10 @@ public class Cell {
 		return mapWidth;
 	}
 
+	public boolean isTeleporter() {
+		return getMovement() == 2 || getLayerObject1Num() == 1030 || getLayerObject2Num() == 1030;
+	}
+
 	/**
 	 * @return the x
 	 */

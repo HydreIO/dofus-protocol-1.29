@@ -44,7 +44,6 @@ import fr.aresrpg.dofus.protocol.job.client.JobChangeStatsPacket;
 import fr.aresrpg.dofus.protocol.job.server.*;
 import fr.aresrpg.dofus.protocol.mount.client.MountPlayerPacket;
 import fr.aresrpg.dofus.protocol.mount.server.MountXpPacket;
-import fr.aresrpg.dofus.protocol.party.PartyAcceptPacket;
 import fr.aresrpg.dofus.protocol.party.PartyRefusePacket;
 import fr.aresrpg.dofus.protocol.party.client.*;
 import fr.aresrpg.dofus.protocol.party.server.*;
@@ -263,9 +262,9 @@ public enum ProtocolRegistry {
 	PARTY_FOLLOW(Layer.PARTY, 'F', Bound.CLIENT, PartyFollowPacket.class),
 	PARTY_WHERE(Layer.PARTY, 'W', Bound.CLIENT, PartyWherePacket.class),
 	PARTY_FOLLOW_ALL(Layer.PARTY, 'G', Bound.CLIENT, PartyFollowAllPacket.class),
+	PARTY_ACCEPT(Layer.PARTY, 'A', Bound.CLIENT, PartyAcceptPacket.class),
 
 	// both
-	PARTY_ACCEPT(Layer.PARTY, 'A', Bound.BOTH, PartyAcceptPacket.class),
 	PARTY_REFUS(Layer.PARTY, 'R', Bound.BOTH, PartyRefusePacket.class),
 
 	// SPELL ==========================================================

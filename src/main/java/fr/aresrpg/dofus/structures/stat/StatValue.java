@@ -59,7 +59,7 @@ public class StatValue {
 
 	@Override
 	public String toString() {
-		return "StatValue [base=" + base + ", equipment=" + equipment + ", dons=" + dons + ", boost=" + boost + ", total=" + total + "]\n";
+		return "StatValue [base=" + base + ", equipment=" + equipment + ", dons=" + dons + ", boost=" + boost + ", total=" + total + "]";
 	}
 
 }

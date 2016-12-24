@@ -3,6 +3,7 @@ package fr.aresrpg.dofus.protocol.info.server;
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.util.StringJoiner;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +75,10 @@ public class InfoCoordinatePacket implements ServerPacket {
 
 		public String serialize() {
 			return new StringJoiner(";").add(x).add(y).add(mapId).add(type).add(playerId).add(playerName).toString();
+		}
+
+		public Point getCoords() {
+			return new Point(x, y);
 		}
 
 		/**

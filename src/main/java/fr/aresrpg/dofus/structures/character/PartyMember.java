@@ -9,11 +9,9 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.character;
 
-import fr.aresrpg.dofus.structures.ExchangeMove;
 import fr.aresrpg.dofus.structures.item.Accessory;
 import fr.aresrpg.dofus.util.Convert;
-
-import java.util.StringJoiner;
+import fr.aresrpg.dofus.util.StringJoiner;
 
 /**
  * 
@@ -21,7 +19,6 @@ import java.util.StringJoiner;
  */
 public class PartyMember {
 
-	private ExchangeMove move;
 	private int id;
 	private String name;
 	private String gfxFile;
@@ -37,12 +34,6 @@ public class PartyMember {
 	private Accessory[] accessories;
 
 	public PartyMember(int id, String name, String gfxFile, int color1, int color2, int color3, int life, int maxLife, int lvl, int initiative, int prospection, int side, Accessory[] accessories) {
-		this(ExchangeMove.ADD, id, name, gfxFile, color1, color2, color3, life, maxLife, lvl, initiative, prospection, side, accessories);
-	}
-
-	public PartyMember(ExchangeMove move, int id, String name, String gfxFile, int color1, int color2, int color3, int life, int maxLife, int lvl, int initiative, int prospection, int side,
-		Accessory[] accessories) {
-		this.move = move;
 		this.id = id;
 		this.name = name;
 		this.gfxFile = gfxFile;
@@ -58,10 +49,10 @@ public class PartyMember {
 		this.accessories = accessories;
 	}
 
-	public static PartyMember parseMember(ExchangeMove type, String data) {
-		if (type == ExchangeMove.REMOVE) return null;
+	public static PartyMember parseMember(String data) {
 		String[] loc7 = data.split(";");
 		int id = Integer.parseInt(loc7[0]);
+		if (loc7.length == 1) return new PartyMember(id, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
 		String name = loc7[1];
 		String loc10 = loc7[2];
 		int color1 = Convert.toHexInt(loc7[3]);
@@ -75,12 +66,13 @@ public class PartyMember {
 		int init = Integer.parseInt(loc7[9]);
 		int pp = Integer.parseInt(loc7[10]);
 		int side = Integer.parseInt(loc7[11]);
-		return new PartyMember(type, id, name, "clips/sprites/" + loc10 + ".swf", color1, color2, color3, life, maxLife, lvl, init, pp, side, Accessory.parseFew(loc14));
+		return new PartyMember(id, name, "clips/sprites/" + loc10 + ".swf", color1, color2, color3, life, maxLife, lvl, init, pp, side, Accessory.parseFew(loc14));
 	}
 
 	public String serialize() {
 		StringJoiner joiner = new StringJoiner(";");
-		joiner.add(move.getSymbol() + String.valueOf(getId()))
+		if (name == null) return "" + getId();
+		joiner.add(getId())
 				.add(getName())
 				.add(getGfxFile().substring(14, getGfxFile().lastIndexOf(".swf")))
 				.add(getColor1() == -1 ? "-1" : Integer.toHexString(getColor1())).add(getColor2() == -1 ? "-1" : Integer.toHexString(getColor2()))

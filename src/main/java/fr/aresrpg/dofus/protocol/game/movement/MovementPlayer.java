@@ -140,7 +140,7 @@ public class MovementPlayer implements MovementAction {
 	/**
 	 * @return the cell
 	 */
-	public int getCell() {
+	public int getCellId() {
 		return cell;
 	}
 
@@ -148,7 +148,7 @@ public class MovementPlayer implements MovementAction {
 	 * @param cell
 	 *            the cell to set
 	 */
-	public void setCellid(int cell) {
+	public void setCellId(int cell) {
 		this.cell = cell;
 	}
 

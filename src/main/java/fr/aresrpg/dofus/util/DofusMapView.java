@@ -66,7 +66,7 @@ public class DofusMapView extends Region {
 		this.path.addListener((obs, oldValue, newValue) -> drawPath());
 		this.cellId.addListener((obs, oldValue, newValue) -> idCanvas.setVisible(newValue));
 
-		setOnMouseClicked((mouseEvent) -> {
+		setOnMouseClicked(mouseEvent -> {
 			if (this.onCellClick == null)
 				return;
 			if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {

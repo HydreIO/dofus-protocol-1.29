@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -23,7 +23,6 @@ public class Pair<F, S> {
 	 * @param second
 	 */
 	public Pair(F first, S second) {
-		super();
 		this.first = first;
 		this.second = second;
 	}
@@ -56,6 +55,15 @@ public class Pair<F, S> {
 	 */
 	public void setSecond(S second) {
 		this.second = second;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		if (!(obj instanceof Pair)) return false;
+		Pair p = (Pair) obj;
+		return p.getFirst().equals(getFirst()) && p.getSecond().equals(getSecond());
 	}
 
 	@Override
