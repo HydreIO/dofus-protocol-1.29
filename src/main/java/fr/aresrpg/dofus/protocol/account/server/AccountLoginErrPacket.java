@@ -4,15 +4,14 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.server;
 
 import fr.aresrpg.dofus.protocol.*;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 
 public class AccountLoginErrPacket implements ServerPacket {
 	private Error err;
@@ -49,9 +48,9 @@ public class AccountLoginErrPacket implements ServerPacket {
 		switch (err) {
 			case KICKED:
 				Duration d = Duration.ofMinutes(time);
-				long days = d.get(ChronoUnit.DAYS);
-				long hours = d.minusDays(days).get(ChronoUnit.HOURS);
-				long minutes = d.minus(Duration.ofDays(days).plusHours(hours)).get(ChronoUnit.MINUTES);
+				long days = d.toDays();
+				long hours = d.minusDays(days).toHours();
+				long minutes = d.minus(Duration.ofDays(days).plusHours(hours)).toMinutes();
 				stream.allocate(3).write(String.valueOf(err.getKey() + days)).writeInt((int) hours).writeInt((int) minutes);
 				return;
 			case BAD_VERSION:
