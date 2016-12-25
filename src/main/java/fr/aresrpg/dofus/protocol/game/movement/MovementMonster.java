@@ -35,6 +35,12 @@ public class MovementMonster implements MovementAction {
 	private int color3;
 	private Accessory[] accessories;
 
+	private int life;
+	private int pa;
+	private int pm;
+	private int[] resi;
+	private int team;
+
 	public MovementMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2,
 		int color3,
 		Accessory[] accessories) {
@@ -66,6 +72,105 @@ public class MovementMonster implements MovementAction {
 	 */
 	public int getSpriteType() {
 		return spriteType;
+	}
+
+	/**
+	 * @return the life
+	 */
+	public int getLife() {
+		return life;
+	}
+
+	/**
+	 * @param life
+	 *            the life to set
+	 */
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	/**
+	 * @return the pa
+	 */
+	public int getPa() {
+		return pa;
+	}
+
+	/**
+	 * @param pa
+	 *            the pa to set
+	 */
+	public void setPa(int pa) {
+		this.pa = pa;
+	}
+
+	/**
+	 * @return the pm
+	 */
+	public int getPm() {
+		return pm;
+	}
+
+	/**
+	 * @param pm
+	 *            the pm to set
+	 */
+	public void setPm(int pm) {
+		this.pm = pm;
+	}
+
+	/**
+	 * @return the resi
+	 */
+	public int[] getResi() {
+		return resi;
+	}
+
+	/**
+	 * @param resi
+	 *            the resi to set
+	 */
+	public void setResi(int[] resi) {
+		this.resi = resi;
+	}
+
+	/**
+	 * @return the team
+	 */
+	public int getTeam() {
+		return team;
+	}
+
+	/**
+	 * @param team
+	 *            the team to set
+	 */
+	public void setTeam(int team) {
+		this.team = team;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param entitytype
+	 *            the entitytype to set
+	 */
+	public void setEntitytype(int entitytype) {
+		this.entitytype = entitytype;
+	}
+
+	/**
+	 * @param accessories
+	 *            the accessories to set
+	 */
+	public void setAccessories(Accessory[] accessories) {
+		this.accessories = accessories;
 	}
 
 	/**
@@ -233,13 +338,6 @@ public class MovementMonster implements MovementAction {
 		return accessories;
 	}
 
-	@Override
-	public String toString() {
-		return "MovementCreateMonster [id=" + id + ", entitytype=" + entitytype + ", spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip
-				+ ", cellId=" + cellId + ", orientation=" + orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
-				+ Arrays.toString(accessories) + "]";
-	}
-
 	/**
 	 * @return the id
 	 */
@@ -253,4 +351,12 @@ public class MovementMonster implements MovementAction {
 	public int getEntitytype() {
 		return entitytype;
 	}
+
+	@Override
+	public String toString() {
+		return "MovementMonster [id=" + id + ", entitytype=" + entitytype + ", spriteType=" + spriteType + ", gfxId=" + gfxId + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", noFlip=" + noFlip
+				+ ", cellId=" + cellId + ", orientation=" + orientation + ", powerLvl=" + powerLvl + ", color1=" + color1 + ", color2=" + color2 + ", color3=" + color3 + ", accessories="
+				+ Arrays.toString(accessories) + ", life=" + life + ", pa=" + pa + ", pm=" + pm + ", resi=" + Arrays.toString(resi) + ", team=" + team + "]";
+	}
+
 }

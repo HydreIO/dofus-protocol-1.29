@@ -11,7 +11,7 @@ package fr.aresrpg.dofus.protocol.game.actions.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.game.actions.GameAction;
-import fr.aresrpg.dofus.protocol.game.movement.MovementInvocation;
+import fr.aresrpg.dofus.protocol.game.movement.MovementMonster;
 import fr.aresrpg.dofus.protocol.game.server.GameMovementPacket;
 import fr.aresrpg.dofus.util.StringJoiner;
 
@@ -25,13 +25,13 @@ import java.util.Set;
  */
 public class GameSummonAction implements GameAction {
 
-	Set<MovementInvocation> summoned = new HashSet<>();
+	Set<MovementMonster> summoned = new HashSet<>();
 	private String fullpkt;
 
 	/**
 	 * @param summoned
 	 */
-	public GameSummonAction(Set<MovementInvocation> summoned) {
+	public GameSummonAction(Set<MovementMonster> summoned) {
 		this.summoned = summoned;
 	}
 
@@ -41,7 +41,7 @@ public class GameSummonAction implements GameAction {
 	/**
 	 * @return the summoned
 	 */
-	public Set<MovementInvocation> getSummoned() {
+	public Set<MovementMonster> getSummoned() {
 		return summoned;
 	}
 
@@ -49,7 +49,7 @@ public class GameSummonAction implements GameAction {
 	 * @param summoned
 	 *            the summoned to set
 	 */
-	public void setSummoned(Set<MovementInvocation> summoned) {
+	public void setSummoned(Set<MovementMonster> summoned) {
 		this.summoned = summoned;
 	}
 
@@ -62,7 +62,7 @@ public class GameSummonAction implements GameAction {
 		stream.setReadIndex(0);
 		GameMovementPacket dofusjtebaise = new GameMovementPacket(); // genius
 		dofusjtebaise.read(stream);
-		dofusjtebaise.getActors().stream().forEach(p -> summoned.add((MovementInvocation) p.getSecond()));
+		dofusjtebaise.getActors().stream().forEach(p -> summoned.add((MovementMonster) p.getSecond()));
 	}
 
 	@Override

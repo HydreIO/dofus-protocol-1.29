@@ -94,16 +94,34 @@ public class GameMovementPacket implements ServerPacket {
 				}
 				switch (action) {
 					case CREATE_INVOCATION:
-						actors.add(new Pair<>(action, new MovementInvocation(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]),
-								Integer.parseInt(data[8]),
-								Integer.parseInt(data[9]),
-								Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
-						break;
 					case CREATE_MONSTER:
-						actors.add(new Pair<>(action,
-								new MovementMonster(id, Convert.toInt(pseudo), action.getId(), gfx2, loc27, loc28, loc18, cellid, direction, Integer.parseInt(data[7]), Integer.parseInt(data[8]),
-										Integer.parseInt(data[9]),
-										Integer.parseInt(data[10]), Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new))));
+						MovementMonster movementMonster = new MovementMonster(id,
+								Convert.toInt(pseudo),
+								action.getId(),
+								gfx2,
+								loc27,
+								loc28,
+								loc18,
+								cellid,
+								direction,
+								Integer.parseInt(data[7]), // powerlvl
+								Integer.parseInt(data[8]), // color 1
+								Integer.parseInt(data[9]), // color 2
+								Integer.parseInt(data[10]), // color 3
+								Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new)); // accessories
+						if (data.length > 12) {
+							movementMonster.setLife(Convert.toInt(data[12]));
+							movementMonster.setPa(Convert.toInt(data[13]));
+							movementMonster.setPm(Convert.toInt(data[14]));
+							if (data.length > 18) {
+								movementMonster.setResi(new int[] { Convert.toInt(data[15]), Convert.toInt(data[16]), Convert.toInt(data[17]), Convert.toInt(data[18]), Convert.toInt(data[19]),
+										Convert.toInt(data[20]), Convert.toInt(data[21]), });
+								movementMonster.setTeam(Integer.parseInt(data[22]));
+							} else {
+								movementMonster.setTeam(Integer.parseInt(data[15]));
+							}
+						}
+						actors.add(new Pair<>(action, movementMonster));
 						break;
 					case CREATE_MONSTER_GROUP:
 						String[] loc35 = data[8].split(",");
@@ -145,7 +163,7 @@ public class GameMovementPacket implements ServerPacket {
 										Arrays.stream(data[13].split(",")).map(Accessory::parse).toArray(Accessory[]::new),
 										Convert.toInt(data[14]), Convert.toInt(data[15]), Convert.toInt(data[16]), new int[] { Convert.toInt(data[17]), Convert.toInt(data[18]),
 												Convert.toInt(data[19]), Convert.toInt(data[20]), Convert.toInt(data[21]), Convert.toInt(data[22]), Convert.toInt(data[23]) },
-										Convert.toInt(data[16]))
+										Convert.toInt(data[24]))
 								: null;
 						PlayerOutsideFight pof = isFight ? null
 								: new PlayerOutsideFight(Integer.parseInt(data[9], 16), Integer.parseInt(data[10], 16), Integer.parseInt(data[11], 16),
