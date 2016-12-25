@@ -31,7 +31,7 @@ public class ExchangeShopMovePacket implements ServerPacket {
 		int typeid = stream.readInt();
 		String effs = stream.read();
 		int price = stream.readInt();
-		this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED, Item.parseEffects(effs), price, -1);
+		this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED.getPosition(), Item.parseEffects(effs), price, -1);
 	}
 
 	private String getAddValue() {

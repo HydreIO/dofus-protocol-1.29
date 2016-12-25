@@ -35,7 +35,7 @@ public class ExchangeCoopMovePacket implements ServerPacket {
 				int amount = stream.readInt();
 				int typeid = stream.readInt();
 				Effect[] effs = stream.available() > 0 ? Item.parseEffects(stream.read()) : null;
-				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED, effs);
+				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED.getPosition(), effs);
 				break;
 			case 'G':
 				this.kamas = Integer.parseInt(data.substring(1));

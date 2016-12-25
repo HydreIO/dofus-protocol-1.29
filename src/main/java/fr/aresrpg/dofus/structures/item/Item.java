@@ -20,14 +20,14 @@ public class Item {
 	private int uid;
 	private int itemTypeId;
 	private int quantity;
-	private EquipmentPosition position;
+	private int position;
 	private Effect[] effects;
 	private int price;
 	private int skin;
 	// private int mood;
 	private int remainingHours;
 
-	public Item(int uid, int itemTypeId, int quantity, EquipmentPosition position, Effect[] effects, int price, int skin) {
+	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects, int price, int skin) {
 		this.uid = uid;
 		this.itemTypeId = itemTypeId;
 		this.quantity = quantity;
@@ -38,10 +38,10 @@ public class Item {
 	}
 
 	public Item(int typeId, int quantity) {
-		this(0, typeId, quantity, EquipmentPosition.NO_EQUIPED, null);
+		this(0, typeId, quantity, EquipmentPosition.NO_EQUIPED.getPosition(), null);
 	}
 
-	public Item(int uid, int itemTypeId, int quantity, EquipmentPosition position, Effect[] effects) {
+	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects) {
 		this(uid, itemTypeId, quantity, position, effects, -1, -1);
 	}
 
@@ -95,7 +95,7 @@ public class Item {
 	 * @param position
 	 *            the position to set
 	 */
-	public void setPosition(EquipmentPosition position) {
+	public void setPosition(int position) {
 		this.position = position;
 	}
 
@@ -134,7 +134,7 @@ public class Item {
 		return quantity;
 	}
 
-	public EquipmentPosition getPosition() {
+	public int getPosition() {
 		return position;
 	}
 
@@ -158,11 +158,12 @@ public class Item {
 
 	public static Item parseItem(String d) {
 		String[] data = StringUtils.split(d, "~");
+		int pos = data[3].isEmpty() ? -1 : Integer.parseInt(data[3], 16);
 		return new Item(
-				Integer.parseInt(data[0], 16), 
+				Integer.parseInt(data[0], 16),
 				Integer.parseInt(data[1], 16),
 				Integer.parseInt(data[2], 16),
-				data[3].isEmpty() ? EquipmentPosition.NO_EQUIPED : EquipmentPosition.valueOf(Integer.parseInt(data[3], 16)),
+				pos,
 				parseEffects(data[4]));
 	}
 
@@ -170,7 +171,7 @@ public class Item {
 		return Integer.toHexString(getUid()) + "~" +
 				Integer.toHexString(getItemTypeId()) + "~" +
 				Integer.toHexString(getQuantity()) + "~" +
-				(getPosition() == EquipmentPosition.NO_EQUIPED ? "" : Integer.toHexString(getPosition().getPosition())) + "~" +
+				(getPosition() == -1 ? "" : Integer.toHexString(position)) + "~" +
 				serializeEffects(getEffects());
 	}
 

@@ -32,13 +32,13 @@ public class ExchangeStorageMovePacket implements ServerPacket {
 				data = data.substring(2);
 				int uuid = Integer.parseInt(data);
 				if (stream.available() < 1) {
-					this.moved = new Item(uuid, -1, 1, EquipmentPosition.NO_EQUIPED, null);
+					this.moved = new Item(uuid, -1, 1, EquipmentPosition.NO_EQUIPED.getPosition(), null);
 					break;
 				}
 				int amount = stream.readInt();
 				int typeid = stream.readInt();
 				String effs = stream.read();
-				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED, Item.parseEffects(effs));
+				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED.getPosition(), Item.parseEffects(effs));
 				break;
 			case 'G':
 				this.kamas = Integer.parseInt(data.substring(1));

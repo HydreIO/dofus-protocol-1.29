@@ -38,7 +38,7 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 				int amount = stream.readInt();
 				int typeid = stream.readInt();
 				Effect[] effs = stream.available() > 0 ? Item.parseEffects(stream.read()) : null;
-				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED, effs);
+				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED.getPosition(), effs);
 				break;
 			case 'G':
 				this.kamas = Integer.parseInt(data.substring(1));
@@ -52,7 +52,7 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 				Effect[] eff = stream.available() > 0 ? Item.parseEffects(stream.read()) : null;
 				int price = stream.readInt();
 				this.remainingHours = Convert.toInt(stream.read());
-				this.moved = new Item(uid, itemtype, quantity, EquipmentPosition.NO_EQUIPED, eff, price, -1);
+				this.moved = new Item(uid, itemtype, quantity, EquipmentPosition.NO_EQUIPED.getPosition(), eff, price, -1);
 				break;
 		}
 	}

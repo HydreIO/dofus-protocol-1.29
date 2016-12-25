@@ -54,7 +54,7 @@ public class ExchangeListPacket implements ServerPacket {
 						String[] splited = stream.read().split(";", -1);
 						int loc6 = Integer.parseInt(splited[0]);
 						Effect[] eff = splited.length > 1 ? Item.parseEffects(splited[1]) : null;
-						items.add(new Item(0, loc6, 0, EquipmentPosition.NO_EQUIPED, eff));
+						items.add(new Item(0, loc6, 0, EquipmentPosition.NO_EQUIPED.getPosition(), eff));
 					}
 					return;
 				case SELF_MERCHANT_MODE:
@@ -65,7 +65,7 @@ public class ExchangeListPacket implements ServerPacket {
 						int loc20 = Integer.parseInt(splited[2]);
 						String loc21 = splited[3];
 						int loc22 = Integer.parseInt(splited[4]);
-						items.add(new Item(loc18, loc20, loc19, EquipmentPosition.NO_EQUIPED, Item.parseEffects(loc21), loc22, -1));
+						items.add(new Item(loc18, loc20, loc19, EquipmentPosition.NO_EQUIPED.getPosition(), Item.parseEffects(loc21), loc22, -1));
 					}
 					return;
 				case BIG_STORE_SELL:
@@ -77,7 +77,7 @@ public class ExchangeListPacket implements ServerPacket {
 						String loc30 = splited[3];
 						int loc31 = Integer.parseInt(splited[4]);
 						int loc32 = Integer.parseInt(splited[5]);
-						Item item = new Item(loc27, loc29, loc28, EquipmentPosition.NO_EQUIPED, Item.parseEffects(loc30), loc31, -1);
+						Item item = new Item(loc27, loc29, loc28, EquipmentPosition.NO_EQUIPED.getPosition(), Item.parseEffects(loc30), loc31, -1);
 						item.setRemainingHours(loc32);
 						items.add(item);
 					}
