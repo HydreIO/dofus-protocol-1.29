@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.IntStream;
 
 public class Maps {
 	private Maps() {
@@ -30,12 +32,24 @@ public class Maps {
 		return downloadMap(Constants.DEFAULT_DATA_URL, id, subId);
 	}
 
-	public static DofusMap loadMap(Map<String, Object> data, String decryptKey) {
+	/**
+	 * Load a map with mapData
+	 * 
+	 * @param data
+	 *            the datas
+	 * @param decryptKey
+	 *            the decrypt key
+	 * @param replaceCell
+	 *            a function to replace a cell if needed (for exemple you can replace a cell by a class which extend cell if this cell is a ressource)
+	 * @return the map
+	 */
+	public static DofusMap loadMap(Map<String, Object> data, String decryptKey, Function<Cell, Cell> replaceCell) {
 		String cellData = (String) data.get("mapData");
 		String key = Crypt.prepareKey(decryptKey);
 		cellData = Crypt.decipherData(cellData, key, Integer.parseInt(Character.toString(Crypt.checksum(key)), 16) * 2);
 		int width = (int) data.get("width");
 		Cell[] cells = Compressor.uncompressMap(cellData, width);
+		IntStream.range(0, cells.length).forEach(i -> cells[i] = replaceCell.apply(cells[i]));
 		return new DofusMap((int) data.get("id"), width,
 				(int) data.get("height"), (int) data.get("musicId"),
 				(int) data.get("capabilities"), (boolean) data.get("bOutdoor"),

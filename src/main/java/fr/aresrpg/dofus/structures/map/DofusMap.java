@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.map;
 
@@ -57,12 +57,87 @@ public class DofusMap {
 		return width;
 	}
 
+	/**
+	 * @return the outdoor
+	 */
+	public boolean isOutdoor() {
+		return outdoor;
+	}
+
+	/**
+	 * @param outdoor
+	 *            the outdoor to set
+	 */
+	public void setOutdoor(boolean outdoor) {
+		this.outdoor = outdoor;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param width
+	 *            the width to set
+	 */
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	/**
+	 * @param height
+	 *            the height to set
+	 */
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	/**
+	 * @param musicId
+	 *            the musicId to set
+	 */
+	public void setMusicId(int musicId) {
+		this.musicId = musicId;
+	}
+
+	/**
+	 * @param capabilities
+	 *            the capabilities to set
+	 */
+	public void setCapabilities(int capabilities) {
+		this.capabilities = capabilities;
+	}
+
+	/**
+	 * @param backgroundId
+	 *            the backgroundId to set
+	 */
+	public void setBackgroundId(int backgroundId) {
+		this.backgroundId = backgroundId;
+	}
+
+	/**
+	 * @param cells
+	 *            the cells to set
+	 */
+	public void setCells(Cell[] cells) {
+		this.cells = cells;
+	}
+
 	public int getHeight() {
 		return height;
 	}
 
 	public Cell[] getCells() {
 		return cells;
+	}
+
+	public void replaceCell(int index, Cell c) {
+		cells[index] = c;
 	}
 
 	/**

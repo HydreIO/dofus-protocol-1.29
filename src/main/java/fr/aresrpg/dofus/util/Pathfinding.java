@@ -121,7 +121,7 @@ public class Pathfinding {
 		return nodes;
 	}
 
-	private static Node[] getNeighborsWithoutDiagonals(Node node) {
+	public static Node[] getNeighborsWithoutDiagonals(Node node) {
 		Node[] nodes = new Node[4];
 		int i = 0;
 		for (int x = -1; x <= 1; x++)

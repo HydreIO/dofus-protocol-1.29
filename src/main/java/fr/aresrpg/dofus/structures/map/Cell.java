@@ -14,23 +14,23 @@ import fr.aresrpg.dofus.util.Maps;
 import java.util.function.Predicate;
 
 public class Cell {
-	private int id;
-	private int mapWidth;
-	private boolean lineOfSight;
-	private int layerGroundRot;
-	private int groundLevel;
-	private int movement;
-	private int layerGroundNum;
-	private int groundSlope;
-	private int x, y;
-	private boolean layerGroundFlip;
-	private int layerObject1Num;
-	private int layerObject1Rot;
-	private boolean layerObject1Flip;
-	private boolean layerObject2Flip;
-	private boolean layerObject2Interactive;
-	private int layerObject2Num;
-	private int frame;
+	protected int id;
+	protected int mapWidth;
+	protected boolean lineOfSight;
+	protected int layerGroundRot;
+	protected int groundLevel;
+	protected int movement;
+	protected int layerGroundNum;
+	protected int groundSlope;
+	protected int x, y;
+	protected boolean layerGroundFlip;
+	protected int layerObject1Num;
+	protected int layerObject1Rot;
+	protected boolean layerObject1Flip;
+	protected boolean layerObject2Flip;
+	protected boolean layerObject2Interactive;
+	protected int layerObject2Num;
+	protected int frame;
 
 	public Cell(int id, int mapWidth, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, int x, int y, boolean layerGroundFlip,
 		int layerObject1Num, int layerObject1Rot, boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
@@ -216,7 +216,7 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		return "Cell [id=" + id + ", mapWidth=" + mapWidth + "frame=" + frame + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement="
+		return "Cell [id=" + id + ", mapWidth=" + mapWidth + " ,frame=" + frame + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement="
 				+ movement
 				+ ", layerGroundNum=" + layerGroundNum + ", groundSlope=" + groundSlope + ", x=" + x + ", y=" + y + ", layerGroundFlip=" + layerGroundFlip + ", layerObject1Num=" + layerObject1Num
 				+ ", layerObject1Rot=" + layerObject1Rot + ", layerObject1Flip=" + layerObject1Flip + ", layerObject2Flip=" + layerObject2Flip + ", layerObject2Interactive=" + layerObject2Interactive
