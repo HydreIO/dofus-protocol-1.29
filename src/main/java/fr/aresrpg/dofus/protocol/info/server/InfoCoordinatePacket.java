@@ -70,7 +70,8 @@ public class InfoCoordinatePacket implements ServerPacket {
 			int mapid = Integer.parseInt(datas[2]);
 			int type = Integer.parseInt(datas[3]);
 			int playerid = Integer.parseInt(datas[4]);
-			return new MovingPlayer(x, y, mapid, type, playerid, datas[5]);
+			String pname = datas.length > 5 ? datas[5] : "";
+			return new MovingPlayer(x, y, mapid, type, playerid, pname);
 		}
 
 		public String serialize() {

@@ -11,6 +11,8 @@ package fr.aresrpg.dofus.structures.map;
 
 import fr.aresrpg.dofus.util.Maps;
 
+import java.util.function.Predicate;
+
 public class Cell {
 	private int id;
 	private int mapWidth;
@@ -65,6 +67,15 @@ public class Cell {
 
 	public int distanceManathan(Cell cell) {
 		return distanceManathan(cell.getId());
+	}
+
+	public boolean isWalkeable() {
+		return isWalkeable(i -> true);
+	}
+
+	public boolean isWalkeable(Predicate<Integer> condition) {
+		if (!condition.test(id)) return false;
+		return movement != 0 && layerObject1Num == 0 && layerObject2Num == 0;
 	}
 
 	/**
@@ -205,10 +216,11 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		return "Cell [id=" + id + ", mapWidth=" + mapWidth + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement=" + movement
+		return "Cell [id=" + id + ", mapWidth=" + mapWidth + "frame=" + frame + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement="
+				+ movement
 				+ ", layerGroundNum=" + layerGroundNum + ", groundSlope=" + groundSlope + ", x=" + x + ", y=" + y + ", layerGroundFlip=" + layerGroundFlip + ", layerObject1Num=" + layerObject1Num
 				+ ", layerObject1Rot=" + layerObject1Rot + ", layerObject1Flip=" + layerObject1Flip + ", layerObject2Flip=" + layerObject2Flip + ", layerObject2Interactive=" + layerObject2Interactive
-				+ ", layerObject2Num=" + layerObject2Num + ", frame=" + frame + "]";
+				+ ", layerObject2Num=" + layerObject2Num + "]";
 	}
 
 }

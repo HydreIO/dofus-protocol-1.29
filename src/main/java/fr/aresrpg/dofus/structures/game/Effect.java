@@ -30,6 +30,15 @@ public class Effect {
 		this.spellId = spellId;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		if (!(obj instanceof Effect)) return false;
+		Effect f = (Effect) obj;
+		return f.type == type && f.param1 == param1 && f.param2 == param2 && f.param3 == param3 && f.param4.equals(param4) && f.remainingTurn == remainingTurn && f.spellId == spellId;
+	}
+
 	public static Effect parse(String data) {
 		if (data.isEmpty()) return null;
 		String[] datas = data.split("#");

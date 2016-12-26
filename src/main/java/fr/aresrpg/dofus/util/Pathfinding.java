@@ -107,7 +107,7 @@ public class Pathfinding {
 		return time;
 	}
 
-	private static Node[] getNeighbors(Node node) {
+	public static Node[] getNeighbors(Node node) {
 		Node[] nodes = new Node[8];
 		int i = 0;
 		for (int x = -1; x <= 1; x++)

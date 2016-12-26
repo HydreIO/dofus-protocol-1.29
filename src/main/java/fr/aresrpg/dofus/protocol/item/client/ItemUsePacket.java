@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.util.Convert;
  */
 public class ItemUsePacket implements ClientPacket {
 
-	private int itemId;
+	private long itemId;
 	private int sprite;
 	private int cellnum;
 
@@ -31,7 +31,6 @@ public class ItemUsePacket implements ClientPacket {
 	 * @param cellnum
 	 */
 	public ItemUsePacket(int itemId, int sprite, int cellnum) {
-		super();
 		this.itemId = itemId;
 		this.sprite = sprite;
 		this.cellnum = cellnum;
@@ -40,16 +39,16 @@ public class ItemUsePacket implements ClientPacket {
 	/**
 	 * @return the itemId
 	 */
-	public int getItemId() {
+	public long getItemId() {
 		return itemId;
 	}
 
 	/**
-	 * @param itemId
+	 * @param itemuid
 	 *            the itemId to set
 	 */
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setItemId(long itemuid) {
+		this.itemId = itemuid;
 	}
 
 	/**
@@ -95,7 +94,7 @@ public class ItemUsePacket implements ClientPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(allocate()).writeInt(itemId).write(sprite == -1 ? "" : String.valueOf(sprite));
+		stream.allocate(allocate()).writeLong(itemId).write(sprite == -1 ? "" : String.valueOf(sprite));
 		if (allocate() == 3) stream.writeInt(cellnum);
 	}
 

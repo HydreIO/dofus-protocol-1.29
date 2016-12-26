@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -22,7 +22,7 @@ public class Lang {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println(getLangVersion("fr"));
-		Map<String, Object> datas = getDatas("fr", "skills");
+		Map<String, Object> datas = getDatas("fr", "lang");
 		datas.forEach((a, b) -> System.out.println(a + "=" + b));
 	}
 

@@ -46,9 +46,11 @@ public class DialogQuestionPacket implements ServerPacket { // DQ1150|1239;819;8
 		this.question = Integer.parseInt(loc4[0]);
 		if (loc4.length > 1) {
 			this.perso = loc4[1];
+			//	if (loc4.length > 1) this.questionParam = Arrays.stream(loc4[1].split(",")).mapToInt(Convert::toInt).toArray();
+		}
+		if (stream.available() > 0) {
 			loc4 = stream.read().split(";");
 			this.response = Arrays.stream(loc4).mapToInt(Convert::toInt).toArray();
-			//	if (loc4.length > 1) this.questionParam = Arrays.stream(loc4[1].split(",")).mapToInt(Convert::toInt).toArray();
 		}
 	}
 

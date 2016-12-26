@@ -17,36 +17,38 @@ import java.util.Arrays;
  */
 public enum InfosMessage {
 
-	WELCOME(189),
-	CURRENT_ADRESS(153),
-	LAST_CONNECTION(152), // 0152
-	MUTED(1124),
-	FRIEND_CONNECT(143),
-	FLOOD(115), // 0115
-	YOU_ARE_AWAY(72), // 072
-	START_SAVE(1164),
-	END_SAVE(1165),
-	CANT_WEAR_ITEM(119), // 119|43
-	GUILD(155),
-	FIGHT_ATTRIBUTE_DENY_ACTIVE(95), // 095
-	FIGHT_ATTRIBUTE_DENY_NOT_ACTIVE(96), // 096
-	FIGHT_ATTRIBUTE_NEED_HELP_ACTIVE(103),
-	FIGHT_ATTRIBUTE_NEED_HELP_NOT_ACTIVE(104),
-	FIGHT_ATTRIBUTE_ALLOW_GROUP_ACTIVE(93), // 093
-	FIGHT_ATTRIBUTE_ALLOW_GROUP_NOT_ACTIVE(94), // 094
-	FIGHT_ATTRIBUTE_DENY_SPECTATE_ACTIVE(40), // 040
-	FIGHT_ATTRIBUTE_DENY_SPECTATE_NOT_ACTIVE(39), // 039
-	ZAAP_DISCOVERED(24), // 024
-	TOO_MANY_MERCHANT(125), // 125;max merchands
-	EMPTY_STORE(123),
-	WAYPOINT_SAVED(6), // 06
-	NOT_ENOUGH_KAMA(63), // 063
-	FIGHTER_READY(128), // par déduction, 128;name
-	FULL_BAG(62), // 062
-	EARN_KAMAS(45); // 045;kamas
+	WELCOME(InfosMsgType.ERROR, 89),
+	CURRENT_ADRESS(InfosMsgType.INFOS, 153),
+	LAST_CONNECTION(InfosMsgType.INFOS, 152), // 0152
+	RECOLTE_LOST_FULL_POD(InfosMsgType.INFOS, 144),
+	FLOOD(InfosMsgType.INFOS, 115), // 0115
+	START_SAVE(InfosMsgType.ERROR, 164),
+	END_SAVE(InfosMsgType.ERROR, 165),
+	CANT_WEAR_ITEM(InfosMsgType.ERROR, 19), // 119|43
+	FIGHT_ATTRIBUTE_DENY_ACTIVE(InfosMsgType.INFOS, 95), // 095
+	FIGHT_ATTRIBUTE_DENY_NOT_ACTIVE(InfosMsgType.INFOS, 96), // 096
+	FIGHT_ATTRIBUTE_NEED_HELP_ACTIVE(InfosMsgType.INFOS, 103),
+	FIGHT_ATTRIBUTE_NEED_HELP_NOT_ACTIVE(InfosMsgType.INFOS, 104),
+	FIGHT_ATTRIBUTE_ALLOW_GROUP_ACTIVE(InfosMsgType.INFOS, 93), // 093
+	FIGHT_ATTRIBUTE_ALLOW_GROUP_NOT_ACTIVE(InfosMsgType.INFOS, 94), // 094
+	FIGHT_ATTRIBUTE_DENY_SPECTATE_ACTIVE(InfosMsgType.INFOS, 40), // 040
+	FIGHT_ATTRIBUTE_DENY_SPECTATE_NOT_ACTIVE(InfosMsgType.INFOS, 39), // 039
+	ZAAP_DISCOVERED(InfosMsgType.INFOS, 4), // 024
+	TOO_MANY_MERCHANT(InfosMsgType.ERROR, 25), // 125;max merchands
+	WAYPOINT_SAVED(InfosMsgType.INFOS, 6), // 06
+	NOT_ENOUGH_KAMA(InfosMsgType.INFOS, 63), // 063
+	TROP_CHARGE_(InfosMsgType.ERROR, 12),
+	EARN_KAMAS(InfosMsgType.INFOS, 45); // 045;kamas
+
+	private InfosMsgType type;
 	private int id;
 
-	private InfosMessage(int id) {
+	/**
+	 * @param type
+	 * @param id
+	 */
+	private InfosMessage(InfosMsgType type, int id) {
+		this.type = type;
 		this.id = id;
 	}
 
@@ -57,8 +59,31 @@ public enum InfosMessage {
 		return id;
 	}
 
-	public static InfosMessage fromId(int id) {
-		return Arrays.stream(values()).filter(c -> c.getId() == id).findAny().orElse(null);
+	/**
+	 * @return the type
+	 */
+	public InfosMsgType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(InfosMsgType type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public static InfosMessage fromId(InfosMsgType type, int id) {
+		return Arrays.stream(values()).filter(c -> c.getId() == id && c.getType() == type).findAny().orElse(null);
 	}
 
 }

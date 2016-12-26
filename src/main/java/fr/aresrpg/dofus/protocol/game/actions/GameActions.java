@@ -27,6 +27,7 @@ public enum GameActions {
 	FIGHT_JOIN_ERROR(903, GameJoinErrorAction.class, Bound.SERVER),
 	DUEL_SERVER_ASK(900, GameDuelServerAction.class, Bound.SERVER),
 	SPELL_LAUNCHED(300, GameSpellLaunchedAction.class, Bound.SERVER),
+	HARVEST_TIME(501, GameHarvestTimeAction.class, Bound.SERVER),
 
 	// CLIENT
 	INTERRACT(500, GameInteractionAction.class, Bound.CLIENT),

@@ -11,16 +11,20 @@ package fr.aresrpg.dofus.protocol.info.server;
 
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.InfosMessage;
+import fr.aresrpg.dofus.structures.InfosMsgType;
 
 public class InfoMessagePacket implements ServerPacket {
 
-	private String messageId;
+	private InfosMsgType type;
+	private int messageId;
 	private String extraDatas;
 
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(";");
-		this.messageId = data[0];
+		String s = data[0];
+		this.type = InfosMsgType.valueOf(Integer.parseInt(String.valueOf(s.charAt(0))));
+		this.messageId = Integer.parseInt(s.substring(1));
 		StringBuilder b = new StringBuilder();
 		for (int i = 1; i < data.length; i++)
 			b.append(data[i]);
@@ -29,18 +33,18 @@ public class InfoMessagePacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(messageId + (extraDatas != null && !extraDatas.isEmpty() ? ";" + extraDatas : ""));
+		stream.allocate(1).write(type.ordinal() + "" + messageId + (extraDatas != null && !extraDatas.isEmpty() ? ";" + extraDatas : ""));
 	}
 
 	/**
 	 * @return the messageId
 	 */
-	public String getMessageId() {
+	public int getMessageId() {
 		return messageId;
 	}
 
 	public InfosMessage getMessage() {
-		return InfosMessage.fromId(Integer.parseInt(getMessageId()));
+		return InfosMessage.fromId(type, messageId);
 	}
 
 	/**
@@ -50,9 +54,32 @@ public class InfoMessagePacket implements ServerPacket {
 		return extraDatas;
 	}
 
-	public InfoMessagePacket setMessageId(String messageId) {
+	public InfoMessagePacket setMessageId(int messageId) {
 		this.messageId = messageId;
 		return this;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public InfosMsgType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(InfosMsgType type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param extraDatas
+	 *            the extraDatas to set
+	 */
+	public void setExtraDatas(String extraDatas) {
+		this.extraDatas = extraDatas;
 	}
 
 	@Override
@@ -62,7 +89,6 @@ public class InfoMessagePacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "InfoMessagePacket [message=" + getMessage() + "(" + messageId + "), extraDatas=" + extraDatas + "]";
+		return "InfoMessagePacket [type=" + type + ", messageId=" + messageId + ", extraDatas=" + extraDatas + "]";
 	}
-
 }

@@ -17,7 +17,7 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class ItemMovementConfirmPacket implements ServerPacket {
 
-	private int itemUid;
+	private long itemUid;
 	private int position = -1;
 
 	public ItemMovementConfirmPacket() {
@@ -27,7 +27,7 @@ public class ItemMovementConfirmPacket implements ServerPacket {
 	 * @param itemUid
 	 * @param position
 	 */
-	public ItemMovementConfirmPacket(int itemUid, int position) {
+	public ItemMovementConfirmPacket(long itemUid, int position) {
 		this.itemUid = itemUid;
 		this.position = position;
 	}
@@ -40,13 +40,13 @@ public class ItemMovementConfirmPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).writeInt(itemUid).writeInt(position);
+		stream.allocate(2).writeLong(itemUid).writeInt(position);
 	}
 
 	/**
 	 * @return the itemUid
 	 */
-	public int getItemUid() {
+	public long getItemUid() {
 		return itemUid;
 	}
 

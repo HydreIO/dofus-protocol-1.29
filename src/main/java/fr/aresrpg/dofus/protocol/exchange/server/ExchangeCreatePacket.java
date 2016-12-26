@@ -116,10 +116,7 @@ public class ExchangeCreatePacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "ExchangeCreatePacket(" +
-				"type=" + type +
-				", data=" + data +
-				")[" + getId() + ']';
+		return "ExchangeCreatePacket [type=" + type + ", data=" + data + ", success=" + success + "]";
 	}
 
 	public interface ExchangeData {}

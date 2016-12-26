@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class Item {
-	private int uid;
+	private long uid;
 	private int itemTypeId;
 	private int quantity;
 	private int position;
@@ -27,7 +27,7 @@ public class Item {
 	// private int mood;
 	private int remainingHours;
 
-	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects, int price, int skin) {
+	public Item(long uid, int itemTypeId, int quantity, int position, Effect[] effects, int price, int skin) {
 		this.uid = uid;
 		this.itemTypeId = itemTypeId;
 		this.quantity = quantity;
@@ -35,6 +35,18 @@ public class Item {
 		this.effects = effects;
 		this.price = price;
 		this.skin = skin;
+	}
+
+	public boolean isStackableWith(Item i) {
+		return i.itemTypeId == itemTypeId && i.skin == skin && sameEffect(i);
+	}
+
+	public boolean sameEffect(Item it) {
+		if (effects == null && it.effects == null) return true;
+		if (effects.length != it.effects.length) return false;
+		for (int i = 0; i < effects.length; i++)
+			if (!effects[i].equals(it.effects[i])) return false;
+		return true;
 	}
 
 	public Item(int typeId, int quantity) {
@@ -48,7 +60,7 @@ public class Item {
 	/**
 	 * @return the uid
 	 */
-	public int getUid() {
+	public long getUid() {
 		return uid;
 	}
 
@@ -71,7 +83,7 @@ public class Item {
 	 * @param uid
 	 *            the uid to set
 	 */
-	public void setUid(int uid) {
+	public void setUid(long uid) {
 		this.uid = uid;
 	}
 
@@ -168,7 +180,7 @@ public class Item {
 	}
 
 	public String serialize() {
-		return Integer.toHexString(getUid()) + "~" +
+		return Long.toHexString(getUid()) + "~" +
 				Integer.toHexString(getItemTypeId()) + "~" +
 				Integer.toHexString(getQuantity()) + "~" +
 				(getPosition() == -1 ? "" : Integer.toHexString(position)) + "~" +

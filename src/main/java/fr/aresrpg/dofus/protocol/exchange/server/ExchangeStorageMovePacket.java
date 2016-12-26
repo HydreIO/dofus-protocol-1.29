@@ -37,12 +37,21 @@ public class ExchangeStorageMovePacket implements ServerPacket {
 				}
 				int amount = stream.readInt();
 				int typeid = stream.readInt();
-				String effs = stream.read();
+				String effs = stream.available() > 0 ? stream.read() : "";
 				this.moved = new Item(uuid, typeid, amount, EquipmentPosition.NO_EQUIPED.getPosition(), Item.parseEffects(effs));
 				break;
 			case 'G':
 				this.kamas = Integer.parseInt(data.substring(1));
 				break;
+		}
+	}
+
+	@Override
+	public void write(DofusStream stream) {
+		if (getMoved() == null) stream.allocate(1).write("KG" + getKamas());
+		else {
+			stream.allocate(moved.getEffects() == null ? 3 : 4).write("KO" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId());
+			if (moved.getEffects() != null) stream.write(Item.serializeEffects(moved.getEffects()));
 		}
 	}
 
@@ -94,15 +103,6 @@ public class ExchangeStorageMovePacket implements ServerPacket {
 	 */
 	public void setKamas(int kamas) {
 		this.kamas = kamas;
-	}
-
-	@Override
-	public void write(DofusStream stream) {
-		if (getMoved() == null) stream.allocate(1).write("KG" + getKamas());
-		else {
-			stream.allocate(4).write("KO" + getAddValue() + moved.getUid());
-			if (moved.getQuantity() != 1) stream.writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()));
-		}
 	}
 
 	@Override

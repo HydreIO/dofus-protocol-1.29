@@ -34,6 +34,10 @@ import java.util.*;
 
 // GM| +344;1;0;2397625;Jowed ;3 ;30^100 ;0;101 ;0,0,0,2397726;0;ff0000;-1;,,,,;555;7;3;0;0;0;0;0;0;0;0;; // combat not start
 // GM| +293;1;0;-2 ;493 ;-2;1212^100;3;f2c40c;bda64d;-1;0,0,0,0;14;2;3;1 // combat
+
+// +63 ;1 ;0 ;2221954 ;Jawad ;4 ;40^100 ;0 ;166 ;0,0,0,2222120 ;5457f9 ;676af9 ;-1 ;227b,21b5,21c1,, ;2415 ;11 ;7 ;10 ;10 ;10 ;10 ;10 ;68 ;68 ;0 ;57 ; |
+// +108 ;1 ;0 ;-2 ;Jawad ;4 ;40^100 ;0 ;166 ;0 ;5457f9 ;676af9 ;-1 ;227b,21b5,21c1,, ;2638 ;11 ;7 ;10 ;10 ;10 ;10 ;10 ;68 ;68 ;0 ;57 |
+// +123 ;1 ;0 ;-1 ;63 ;-2;1009^100 ;3 ;-1 ;-1 ;-1 ;0,0,0,0 ;50 ;5 ;4 ;1
 public class GameMovementPacket implements ServerPacket {
 	private GameMovementType type;
 	private Set<Pair<GameMovementAction, MovementAction>> actors = new HashSet<>();
@@ -105,9 +109,9 @@ public class GameMovementPacket implements ServerPacket {
 								cellid,
 								direction,
 								Integer.parseInt(data[7]), // powerlvl
-								Integer.parseInt(data[8]), // color 1
-								Integer.parseInt(data[9]), // color 2
-								Integer.parseInt(data[10]), // color 3
+								Integer.parseInt(data[8], 16), // color 1
+								Integer.parseInt(data[9], 16), // color 2
+								Integer.parseInt(data[10], 16), // color 3
 								Arrays.stream(data[11].split(",")).map(Accessory::parse).toArray(Accessory[]::new)); // accessories
 						if (data.length > 12) {
 							movementMonster.setLife(Convert.toInt(data[12]));
@@ -158,6 +162,7 @@ public class GameMovementPacket implements ServerPacket {
 					case DEFAULT: // switch default (player)
 						boolean isFight = data[8].length() < 4; // si combat c'est le field du lvl (max 200) donc on peut tricher pour savoir si combat ou non
 						String[] loc67 = data[isFight ? 9 : 8].split(",");
+						boolean isSramDouble = loc67.length == 1;
 						PlayerInFight pif = isFight
 								? new PlayerInFight(Convert.toInt(data[8]), Integer.parseInt(data[10], 16), Integer.parseInt(data[11], 16), Integer.parseInt(data[12], 16),
 										Arrays.stream(data[13].split(",")).map(Accessory::parse).toArray(Accessory[]::new),
@@ -170,8 +175,10 @@ public class GameMovementPacket implements ServerPacket {
 										Arrays.stream(data[12].split(",")).map(Accessory::parse).toArray(Accessory[]::new), Convert.toInt(data[13]), Convert.toInt(data[14]), Convert.toInt(data[15]),
 										data[16],
 										data[17].split(","), data[18]);
+						Alignement alignment = isSramDouble ? null
+								: new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false);
 						actors.add(new Pair<>(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
-								new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false), Convert.toInt(loc67[2]),
+								alignment, isSramDouble ? 0 : Convert.toInt(loc67[2]),
 								pif, pof)));
 						break;
 				}

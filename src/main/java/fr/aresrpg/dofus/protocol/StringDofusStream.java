@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol;
 
@@ -96,7 +96,7 @@ public class StringDofusStream implements DofusStream {
 
 	@Override
 	public String peek() {
-		return read(packetIndex);
+		return read(read);
 	}
 
 }

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.party.client;
 
@@ -29,6 +29,11 @@ public class PartyWherePacket implements ClientPacket {
 	@Override
 	public void handleClient(ClientPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "PartyWherePacket []";
 	}
 
 }

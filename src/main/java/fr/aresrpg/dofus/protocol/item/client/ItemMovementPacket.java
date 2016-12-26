@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.structures.EquipmentPosition;
  */
 public class ItemMovementPacket implements ClientPacket {
 
-	private int itemid;
+	private long itemid;
 	private int position;
 	private int quantity;
 
@@ -30,7 +30,7 @@ public class ItemMovementPacket implements ClientPacket {
 	 * @param position
 	 * @param quantity
 	 */
-	public ItemMovementPacket(int itemid, int position, int quantity) {
+	public ItemMovementPacket(long itemid, int position, int quantity) {
 		this.itemid = itemid;
 		this.position = position;
 		this.quantity = quantity;
@@ -45,7 +45,7 @@ public class ItemMovementPacket implements ClientPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(3).writeInt(itemid).writeInt(position).writeInt(quantity);
+		stream.allocate(3).writeLong(itemid).writeInt(position).writeInt(quantity);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class ItemMovementPacket implements ClientPacket {
 	/**
 	 * @return the itemid
 	 */
-	public int getItemid() {
+	public long getItemid() {
 		return itemid;
 	}
 
@@ -68,7 +68,7 @@ public class ItemMovementPacket implements ClientPacket {
 	 * @param itemid
 	 *            the itemid to set
 	 */
-	public void setItemid(int itemid) {
+	public void setItemid(long itemid) {
 		this.itemid = itemid;
 	}
 

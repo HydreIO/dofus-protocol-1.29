@@ -43,6 +43,9 @@ public class MovementPlayer implements MovementAction {
 	private PlayerOutsideFight playerOutsideFight;
 
 	/**
+	 * 
+	 * @param id
+	 * @param pseudo
 	 * @param sprite
 	 * @param cell
 	 * @param scaleX
@@ -51,7 +54,6 @@ public class MovementPlayer implements MovementAction {
 	 * @param sex
 	 * @param alignement
 	 * @param rank
-	 * @param fallenAngelDemon
 	 * @param playerInFight
 	 * @param playerOutsideFight
 	 */
@@ -248,8 +250,8 @@ public class MovementPlayer implements MovementAction {
 
 	@Override
 	public String toString() {
-		return "MovementCreatePlayer [id=" + id + ", pseudo=" + pseudo + ", sprite=" + sprite + ", cell=" + cell + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", orientation=" + orientation
-				+ ", sex=" + sex + ", alignement=" + alignement + ", rank=" + rank + ", playerInFight=" + playerInFight + ", playerOutsideFight=" + playerOutsideFight + "]";
+		return "MovementPlayer [id=" + id + ", pseudo=" + pseudo + ", sprite=" + sprite + ", cell=" + cell + ", scaleX=" + scaleX + ", scaleY=" + scaleY + ", orientation=" + orientation + ", sex="
+				+ sex + ", alignement=" + alignement + ", rank=" + rank + ", playerInFight=" + playerInFight + ", playerOutsideFight=" + playerOutsideFight + "]";
 	}
 
 	public static class PlayerInFight {
