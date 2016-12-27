@@ -19,8 +19,8 @@ import fr.aresrpg.dofus.util.Convert;
 public class ItemUsePacket implements ClientPacket {
 
 	private long itemId;
-	private int sprite;
-	private int cellnum;
+	private int sprite = -1;
+	private int cellnum = -1;
 
 	public ItemUsePacket() {
 	}

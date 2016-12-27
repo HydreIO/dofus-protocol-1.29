@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.client;
 
@@ -17,7 +17,7 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class ItemDestroyPacket implements ClientPacket {
 
-	private int itemId;
+	private long itemId;
 	private int amount;
 
 	public ItemDestroyPacket() {
@@ -27,20 +27,20 @@ public class ItemDestroyPacket implements ClientPacket {
 	 * @param itemId
 	 * @param amount
 	 */
-	public ItemDestroyPacket(int itemId, int amount) {
+	public ItemDestroyPacket(long itemId, int amount) {
 		this.itemId = itemId;
 		this.amount = amount;
 	}
 
 	@Override
 	public void read(DofusStream stream) {
-		this.itemId = stream.readInt();
+		this.itemId = stream.readLong();
 		this.amount = stream.readInt();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).writeInt(itemId).writeInt(amount);
+		stream.allocate(2).writeLong(itemId).writeInt(amount);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ItemDestroyPacket implements ClientPacket {
 	/**
 	 * @return the itemId
 	 */
-	public int getItemId() {
+	public long getItemId() {
 		return itemId;
 	}
 
@@ -59,7 +59,7 @@ public class ItemDestroyPacket implements ClientPacket {
 	 * @param itemId
 	 *            the itemId to set
 	 */
-	public void setItemId(int itemId) {
+	public void setItemId(long itemId) {
 		this.itemId = itemId;
 	}
 

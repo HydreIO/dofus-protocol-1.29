@@ -11,6 +11,7 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction.PathFragment;
 import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.structures.map.Cell;
 
 import java.awt.Point;
@@ -51,7 +52,7 @@ public class Pathfinding {
 				return recreatePath(cameFrom, node);
 			else {
 				Node[] nodes = isBigMap ? getNeighborsForMap(node) : useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node);
-				Predicate<Node> closed = n -> closedList.contains(n);
+				Predicate<Node> closed = closedList::contains;
 				Predicate<Node> tester = isBigMap ? n -> closed.test(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y))
 						: n -> closed.test(n) || !isValid(n, cell, width, n.x == xTo && n.y == yTo) || !canTake.test(new Point(n.x, n.y));
 				Arrays.stream(nodes).filter(tester.negate()).forEachOrdered(n -> {
@@ -135,11 +136,10 @@ public class Pathfinding {
 
 	private static Node[] getNeighborsForMap(Node node) {
 		Node[] nodes = new Node[4];
-		int i = 0;
 		nodes[0] = new Node(node.x + 1, node.y);
-		nodes[1] = new Node(node.x, node.y - 1);
-		nodes[2] = new Node(node.x - 1, node.y);
-		nodes[3] = new Node(node.x, node.y + 1);
+		nodes[1] = new Node(node.x - 1, node.y);
+		nodes[2] = new Node(node.x, node.y + 1);
+		nodes[3] = new Node(node.x, node.y - 1);
 		return nodes;
 	}
 
@@ -200,9 +200,8 @@ public class Pathfinding {
 	}
 
 	private static boolean isValidCell(Cell cell) {
-		boolean isValid = cell.getMovement() == 4 || cell.getMovement() == 6;
-		isValid &= cell.getLayerObject2Num() == 0;
-		return isValid;
+		if (Interractable.isInterractable(cell.getLayerObject2Num())) return false;
+		return cell.getMovement() == 4 || cell.getMovement() == 6;
 	}
 
 	private static List<Point> recreatePath(Map<Node, Node> cameFrom, Node node) {

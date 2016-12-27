@@ -15,6 +15,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Lang {
 	private Lang() {
@@ -22,8 +23,12 @@ public class Lang {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println(getLangVersion("fr"));
-		Map<String, Object> datas = getDatas("fr", "lang");
-		datas.forEach((a, b) -> System.out.println(a + "=" + b));
+		Map<String, Object> datas = getDatas("fr", "shortcuts");
+		int i = 0;
+		for (Entry<String, Object> e : datas.entrySet()) {
+			String val = String.valueOf(e.getValue());
+			System.out.println(e.getKey() + "=" + val);
+		}
 	}
 
 	public static Map<String, Integer> getLangVersion(String assetsServer, String lang) throws IOException {
