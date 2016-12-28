@@ -28,6 +28,7 @@ public enum GameActions {
 	DUEL_SERVER_ASK(900, GameDuelServerAction.class, Bound.SERVER),
 	SPELL_LAUNCHED(300, GameSpellLaunchedAction.class, Bound.SERVER),
 	HARVEST_TIME(501, GameHarvestTimeAction.class, Bound.SERVER),
+	TACLE(104, GameTacleAction.class, Bound.SERVER),
 
 	// CLIENT
 	INTERRACT(500, GameInteractionAction.class, Bound.CLIENT),

@@ -15,19 +15,27 @@ import java.util.StringJoiner;
 
 public class FightEntity {
 	private int id;
-	private int lp;
-	private int lpMax;
-	private int ap;
-	private int mp;
+	private int life;
+	private int lifeMax;
+	private int pa;
+	private int pm;
 	private int unknowNumber;
 	private boolean dead;
 
-	public FightEntity(int id, int lp, int lpMax, int ap, int mp, int unknowNumber) {
+	/**
+	 * @param id
+	 * @param life
+	 * @param lifeMax
+	 * @param pa
+	 * @param pm
+	 * @param unknowNumber
+	 */
+	public FightEntity(int id, int life, int lifeMax, int pa, int pm, int unknowNumber) {
 		this.id = id;
-		this.lp = lp;
-		this.lpMax = lpMax;
-		this.ap = ap;
-		this.mp = mp;
+		this.life = life;
+		this.lifeMax = lifeMax;
+		this.pa = pa;
+		this.pm = pm;
 		this.unknowNumber = unknowNumber;
 	}
 
@@ -57,38 +65,6 @@ public class FightEntity {
 	}
 
 	/**
-	 * @param lp
-	 *            the lp to set
-	 */
-	public void setLp(int lp) {
-		this.lp = lp;
-	}
-
-	/**
-	 * @param lpMax
-	 *            the lpMax to set
-	 */
-	public void setLpMax(int lpMax) {
-		this.lpMax = lpMax;
-	}
-
-	/**
-	 * @param ap
-	 *            the ap to set
-	 */
-	public void setAp(int ap) {
-		this.ap = ap;
-	}
-
-	/**
-	 * @param mp
-	 *            the mp to set
-	 */
-	public void setMp(int mp) {
-		this.mp = mp;
-	}
-
-	/**
 	 * @param unknowNumber
 	 *            the unknowNumber to set
 	 */
@@ -97,16 +73,12 @@ public class FightEntity {
 	}
 
 	public String serialize() {
-		return new StringJoiner(";").add("" + id).add("0").add("" + lp).add("" + ap)
-				.add("" + mp).add("" + unknowNumber).add("").add("" + lpMax).toString();
+		return new StringJoiner(";").add("" + id).add("0").add("" + life).add("" + pa)
+				.add("" + pm).add("" + unknowNumber).add("").add("" + lifeMax).toString();
 	}
 
 	public int getId() {
 		return id;
-	}
-
-	public int getLp() {
-		return lp;
 	}
 
 	/**
@@ -124,16 +96,64 @@ public class FightEntity {
 		this.dead = dead;
 	}
 
-	public int getLpMax() {
-		return lpMax;
+	/**
+	 * @return the life
+	 */
+	public int getLife() {
+		return life;
 	}
 
-	public int getAp() {
-		return ap;
+	/**
+	 * @param life
+	 *            the life to set
+	 */
+	public void setLife(int life) {
+		this.life = life;
 	}
 
-	public int getMp() {
-		return mp;
+	/**
+	 * @return the lifeMax
+	 */
+	public int getLifeMax() {
+		return lifeMax;
+	}
+
+	/**
+	 * @param lifeMax
+	 *            the lifeMax to set
+	 */
+	public void setLifeMax(int lifeMax) {
+		this.lifeMax = lifeMax;
+	}
+
+	/**
+	 * @return the pa
+	 */
+	public int getPa() {
+		return pa;
+	}
+
+	/**
+	 * @param pa
+	 *            the pa to set
+	 */
+	public void setPa(int pa) {
+		this.pa = pa;
+	}
+
+	/**
+	 * @return the pm
+	 */
+	public int getPm() {
+		return pm;
+	}
+
+	/**
+	 * @param pm
+	 *            the pm to set
+	 */
+	public void setPm(int pm) {
+		this.pm = pm;
 	}
 
 	/**
@@ -145,7 +165,7 @@ public class FightEntity {
 
 	@Override
 	public String toString() {
-		return "FightEntity [id=" + id + ", lp=" + lp + ", lpMax=" + lpMax + ", ap=" + ap + ", mp=" + mp + ", unknowNumber=" + unknowNumber + ", dead=" + dead + "]";
+		return "FightEntity [id=" + id + ", lp=" + life + ", lpMax=" + lifeMax + ", ap=" + pa + ", mp=" + pm + ", unknowNumber=" + unknowNumber + ", dead=" + dead + "]";
 	}
 
 }

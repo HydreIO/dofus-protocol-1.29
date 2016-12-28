@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.server;
 
@@ -17,7 +17,7 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class ItemRemovePacket implements ServerPacket {
 
-	private int itemuid;
+	private long itemuid;
 
 	public ItemRemovePacket() {
 	}
@@ -31,18 +31,18 @@ public class ItemRemovePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.itemuid = stream.readInt();
+		this.itemuid = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(itemuid);
+		stream.allocate(1).writeLong(itemuid);
 	}
 
 	/**
 	 * @return the itemuid
 	 */
-	public int getItemuid() {
+	public long getItemuid() {
 		return itemuid;
 	}
 

@@ -38,6 +38,7 @@ public enum InfosMessage {
 	WAYPOINT_SAVED(InfosMsgType.INFOS, 6), // 06
 	NOT_ENOUGH_KAMA(InfosMsgType.INFOS, 63), // 063
 	TROP_CHARGE_(InfosMsgType.ERROR, 12),
+	PLAYER_IN_SPEC(InfosMsgType.INFOS, 36),
 	EARN_KAMAS(InfosMsgType.INFOS, 45); // 045;kamas
 
 	private InfosMsgType type;

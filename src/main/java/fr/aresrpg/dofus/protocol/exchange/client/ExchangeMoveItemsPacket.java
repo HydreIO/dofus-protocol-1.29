@@ -41,7 +41,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 			String type = String.valueOf(d.charAt(0));
 			String uid = d.substring(1);
 			String amount = stream.read();
-			String price = stream.available() > 0 ? isBool(stream.peek().charAt(0)) ? stream.read() : "" : "";
+			String price = stream.available() > 0 ? isBool(stream.peek().charAt(0)) ? "" : stream.read() : "";
 			items.add(recordItem(type, uid, amount, price));
 		}
 	}
@@ -93,7 +93,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 		private ExchangeMove type;
 		private long itemUid;
 		private int amount;
-		private int price;
+		private int price = -1;
 
 		/**
 		 * 

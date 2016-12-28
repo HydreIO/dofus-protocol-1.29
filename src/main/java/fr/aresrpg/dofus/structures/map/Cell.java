@@ -9,6 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.map;
 
+import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.util.Maps;
 
 import java.util.function.Predicate;
@@ -75,7 +76,7 @@ public class Cell {
 
 	public boolean isWalkeable(Predicate<Integer> condition) {
 		if (!condition.test(id)) return false;
-		return movement != 0 && layerObject1Num == 0 && layerObject2Num == 0;
+		return movement != 0 && !Interractable.isInterractable(id);
 	}
 
 	/**
