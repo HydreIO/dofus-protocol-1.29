@@ -21,7 +21,7 @@ import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.protocol.game.movement.*;
 import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerInFight;
 import fr.aresrpg.dofus.protocol.game.movement.MovementPlayer.PlayerOutsideFight;
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.game.*;
 import fr.aresrpg.dofus.structures.item.Accessory;
 import fr.aresrpg.dofus.util.Convert;
@@ -61,7 +61,7 @@ public class GameMovementPacket implements ServerPacket {
 			case UPDATE:
 			case SHOW:
 				int cellid = Integer.parseInt(data[0]); // loc11
-				PathDirection direction = PathDirection.valueOf(Integer.parseInt(data[1])); // loc12
+				Orientation direction = Orientation.valueOf(Integer.parseInt(data[1])); // loc12
 				int bonusvalue = Integer.parseInt(data[2]); // loc13
 				int id = Integer.parseInt(data[3]); // loc14
 				String pseudo = data[4]; // loc15

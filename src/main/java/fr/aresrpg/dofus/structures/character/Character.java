@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.character;
 
@@ -13,7 +13,7 @@ import fr.aresrpg.dofus.structures.item.Item;
 
 import java.util.Arrays;
 
-public class Character{
+public class Character {
 	private int id;
 	private String pseudo;
 	private int level;

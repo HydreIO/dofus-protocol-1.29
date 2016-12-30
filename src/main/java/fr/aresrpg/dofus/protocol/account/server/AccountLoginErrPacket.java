@@ -69,6 +69,30 @@ public class AccountLoginErrPacket implements ServerPacket {
 		return version;
 	}
 
+	/**
+	 * @param err
+	 *            the err to set
+	 */
+	public void setErr(Error err) {
+		this.err = err;
+	}
+
+	/**
+	 * @param time
+	 *            the time to set
+	 */
+	public void setTime(int time) {
+		this.time = time;
+	}
+
+	/**
+	 * @param version
+	 *            the version to set
+	 */
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);

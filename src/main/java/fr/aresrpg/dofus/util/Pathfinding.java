@@ -10,7 +10,7 @@
 package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction.PathFragment;
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.structures.map.Cell;
 
@@ -89,7 +89,7 @@ public class Pathfinding {
 		for (int i = 1; i < path.size(); i++) {
 			Point point = path.get(i);
 			Cell cell = cells[Maps.getId(point.x, point.y, width)];
-			PathDirection direction = getDirection(last.x, last.y, point.x, point.y);
+			Orientation direction = getDirection(last.x, last.y, point.x, point.y);
 			time += 1 / (mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
 			if (lastGroundLevel < cell.getGroundLevel())
 				time += 100;
@@ -143,27 +143,27 @@ public class Pathfinding {
 		return nodes;
 	}
 
-	public static PathDirection getDirection(int xFrom, int yFrom, int xTo, int yTo) {
+	public static Orientation getDirection(int xFrom, int yFrom, int xTo, int yTo) {
 		int deltaX = xTo - xFrom;
 		int deltaY = yTo - yFrom;
 
 		if (Math.abs(deltaX) == 2 && deltaY == 0)
-			return deltaX > 0 ? PathDirection.DOWN_RIGHT : PathDirection.UP_LEFT;
+			return deltaX > 0 ? Orientation.DOWN_RIGHT : Orientation.UP_LEFT;
 		else if (Math.abs(deltaY) == 2 && deltaX == 0)
-			return deltaY > 0 ? PathDirection.DOWN_LEFT : PathDirection.UP_RIGHT;
+			return deltaY > 0 ? Orientation.DOWN_LEFT : Orientation.UP_RIGHT;
 		else if (Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? PathDirection.RIGHT : PathDirection.UP;
+			return deltaX > 0 ? Orientation.RIGHT : Orientation.UP;
 		else if (Math.abs(deltaX) == 1 && deltaY == 1)
-			return deltaX > 0 ? PathDirection.DOWN : PathDirection.LEFT;
+			return deltaX > 0 ? Orientation.DOWN : Orientation.LEFT;
 		else
 			return null;
 	}
 
-	public static PathDirection getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {
-		if (xFrom < xTo) return PathDirection.RIGHT;
-		else if (xFrom > xTo) return PathDirection.LEFT;
-		if (yFrom < yTo) return PathDirection.DOWN;
-		else if (yFrom > yTo) return PathDirection.UP;
+	public static Orientation getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {
+		if (xFrom < xTo) return Orientation.RIGHT;
+		else if (xFrom > xTo) return Orientation.LEFT;
+		if (yFrom < yTo) return Orientation.DOWN;
+		else if (yFrom > yTo) return Orientation.UP;
 		return null;
 	}
 
@@ -174,11 +174,11 @@ public class Pathfinding {
 			return null;
 
 		List<PathFragment> path = new ArrayList<>();
-		PathDirection direction = getDirection(points.get(0).x, points.get(0).y,
+		Orientation direction = getDirection(points.get(0).x, points.get(0).y,
 				points.get(1).x, points.get(1).y);
 		Point last = points.get(1);
 		for (int i = 2; i < points.size(); i++) {
-			PathDirection current = getDirection(last.x, last.y,
+			Orientation current = getDirection(last.x, last.y,
 					points.get(i).x, points.get(i).y);
 			if (current != direction) {
 				path.add(new PathFragment(Maps.getId(last.x, last.y, width), direction));

@@ -10,7 +10,7 @@
 package fr.aresrpg.dofus.protocol.game.actions;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.util.Compressor;
 import fr.aresrpg.dofus.util.Crypt;
 
@@ -24,10 +24,10 @@ public class GameMoveAction implements GameAction {
 	public void read(DofusStream stream) {
 		String data = stream.read();
 		for (int i = 0; i < data.length(); i += 3)
-			add(Compressor.uncompressCellId(data.substring(i + 1, i + 3)), PathDirection.valueOf(Crypt.indexOfHash(data.charAt(i))));
+			add(Compressor.uncompressCellId(data.substring(i + 1, i + 3)), Orientation.valueOf(Crypt.indexOfHash(data.charAt(i))));
 	}
 
-	protected void add(int cellId, PathDirection dir) {
+	protected void add(int cellId, Orientation dir) {
 		path.add(new PathFragment(cellId, dir));
 	}
 
@@ -58,13 +58,13 @@ public class GameMoveAction implements GameAction {
 
 	public static class PathFragment {
 		private int cellId;
-		private PathDirection direction;
+		private Orientation direction;
 
 		/**
 		 * @param cellId
 		 * @param direction
 		 */
-		public PathFragment(int cellId, PathDirection direction) {
+		public PathFragment(int cellId, Orientation direction) {
 			super();
 			this.cellId = cellId;
 			this.direction = direction;
@@ -88,7 +88,7 @@ public class GameMoveAction implements GameAction {
 		/**
 		 * @return the direction
 		 */
-		public PathDirection getDirection() {
+		public Orientation getDirection() {
 			return direction;
 		}
 
@@ -96,7 +96,7 @@ public class GameMoveAction implements GameAction {
 		 * @param direction
 		 *            the direction to set
 		 */
-		public void setDirection(PathDirection direction) {
+		public void setDirection(Orientation direction) {
 			this.direction = direction;
 		}
 

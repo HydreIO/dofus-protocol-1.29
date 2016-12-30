@@ -18,7 +18,7 @@
 package fr.aresrpg.dofus.structures.game;
 
 import fr.aresrpg.dofus.protocol.game.movement.MovementRemoveActor;
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class GameMovementActor {
 	private GameMovementType action;
 	private long id;
 	private int cellId;
-	private PathDirection orientation;
+	private Orientation orientation;
 	private int classeId;
 	private int scaleX;
 	private int scaleY;
@@ -53,7 +53,7 @@ public class GameMovementActor {
 	private int alignement;
 	private int rank;
 
-	private GameMovementActor(int id, GameMovementType action, int cellid, PathDirection orientation) {
+	private GameMovementActor(int id, GameMovementType action, int cellid, Orientation orientation) {
 		this.id = id;
 		this.action = action;
 		this.cellId = cellid;
@@ -88,7 +88,7 @@ public class GameMovementActor {
 	/**
 	 * @return the orientation
 	 */
-	public PathDirection getOrientation() {
+	public Orientation getOrientation() {
 		return orientation;
 	}
 

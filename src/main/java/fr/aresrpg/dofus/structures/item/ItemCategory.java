@@ -206,7 +206,7 @@ public enum ItemCategory {
 				this == PETPOTION;
 	}
 
-	public boolean isResource() {
+	public boolean isRessource() {
 		return !isEquipment() || !isUsable();
 	}
 }

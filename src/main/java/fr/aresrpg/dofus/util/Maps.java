@@ -84,4 +84,126 @@ public class Maps {
 		return (int) (y * (width - 0.5) + x / 2.0);
 	}
 
+	public static int getId2(int x, int y, int width, int height) {
+		int id = (width + height - 1 - x) * width;
+		return y > height ? id - (y - height) * (width - 1) : y < height ? id + (height - y) * (width - 1) : 0;
+	}
+
+	public static int getX2(int id, int width, int height) {
+		int n84 = width * (width * 2 - 2);
+		if (id <= n84 && id % width == 0) return getXOfMultiple(id, width, height);
+		int var = id;
+		int count = 0;
+		while (var % width != 0 || var > n84) {
+			var -= (width * 2 - 1);
+			count++;
+			if (var < 0) return getXupper(id, width, height);
+		}
+		int xOfMultiple = getXOfMultiple(var, width, height);
+		while (count-- > 0)
+			xOfMultiple--;
+		return xOfMultiple;
+	}
+
+	public static int getY2(int id, int width, int height) {
+		int n84 = width * (width * 2 - 2);
+		if (id <= n84 && id % width == 0) return height;
+		int var = id;
+		int count = 0;
+		while (var % width != 0 || var > n84) {
+			var -= (width * 2 - 1);
+			count++;
+			if (var < 0) return getYupper(id, width, height);
+		}
+		int yOfMultiple = height;
+		while (count-- > 0)
+			yOfMultiple--;
+		return yOfMultiple;
+	}
+
+	private static int getXupper(int id, int width, int height) {
+		int count = 0;
+		int var = id;
+		while (var % width != 0) {
+			var += (width * 2 - 1);
+			count++;
+		}
+		int xOfMultiple = getXOfMultiple(var, width, height);
+		while (count-- > 0)
+			xOfMultiple++;
+		return xOfMultiple;
+	}
+
+	private static int getYupper(int id, int width, int height) {
+		int count = 0;
+		int var = id;
+		while (var % width != 0) {
+			var += (width * 2 - 1);
+			count++;
+		}
+		int yOfMultiple = height;
+		while (count-- > 0)
+			yOfMultiple++;
+		return yOfMultiple;
+	}
+
+	static int getXOfMultiple(int id, int width, int height) {
+		return (width + height - 1) - id / width;
+	}
+
+	/**
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return true if the provided coordinate are inside the dofus map
+	 */
+	public static boolean isInMap(int x, int y, int width, int height) {
+		if (x == 0 || y == 0) return false;
+		if (leftUpCorner(x, y, width, height)) return x - width < y;
+		else if (leftDownCorner(x, y, width)) return x + y > width;
+		else if (rightUpCorner(x, y, width, height)) return (width + height - 1) * 2 - (x + y) >= width - 1;
+		else if (rightDownCorner(x, y, width, height)) return y - width < x;
+		return true;
+	}
+
+	private static boolean leftUpCorner(int x, int y, int width, int height) {
+		return x > width && y < height;
+	}
+
+	private static boolean leftDownCorner(int x, int y, int width) {
+		return x < width && y < width;
+	}
+
+	private static boolean rightUpCorner(int x, int y, int width, int height) {
+		return x > height && y > height;
+	}
+
+	private static boolean rightDownCorner(int x, int y, int width, int height) {
+		return x < height && y > width;
+	}
+
+	private static int roundDown(int numToRound, int multiple) {
+		return numToRound - (numToRound % multiple);
+	}
+
+	private static int roundUp(int numToRound, int multiple) {
+		if (multiple == 0)
+			return numToRound;
+		int mod = numToRound % multiple;
+		return mod == 0 ? numToRound : numToRound + multiple - mod;
+	}
+
+	public static void main(String[] args) {
+		int largeur = 7;
+		int hauteur = 10;
+		int id = 6;
+		int x = getX2(id, largeur, hauteur);
+		int y = getY2(id, largeur, hauteur);
+		System.out.println("L'id " + id + " = " + x + "," + y);
+
+		x = 1;
+		y = 7;
+	}
+
 }

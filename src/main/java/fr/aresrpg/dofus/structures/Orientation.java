@@ -9,7 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
-public enum PathDirection {
+public enum Orientation {
 	DOWN_RIGHT(0.07f, 0.23f, 0.17f),
 	DOWN(0.06f, 0.20f, 0.15f),
 	DOWN_LEFT(0.06f, 0.20f, 0.15f),
@@ -23,7 +23,7 @@ public enum PathDirection {
 	private final float mountSpeed;
 	private final float runSpeed;
 
-	PathDirection(float walkSpeed, float mountSpeed, float runSpeed){
+	Orientation(float walkSpeed, float mountSpeed, float runSpeed){
 		this.walkSpeed = walkSpeed;
 		this.mountSpeed = mountSpeed;
 		this.runSpeed = runSpeed;
@@ -41,7 +41,7 @@ public enum PathDirection {
 		return runSpeed;
 	}
 
-	public static PathDirection valueOf(int code) {
+	public static Orientation valueOf(int code) {
 		if(code >= 0 && code < values().length)
 			return values()[code];
 		else

@@ -23,7 +23,7 @@ public class ExchangeCreatePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.success = stream.peek().charAt(0) == 'K';
+		this.setSuccess(stream.peek().charAt(0) == 'K');
 		String datas = stream.read().substring(1);
 		type = Exchange.valueOf(Integer.parseInt(datas));
 		switch (type) {
@@ -70,10 +70,10 @@ public class ExchangeCreatePacket implements ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		if (data == null) {
-			stream.allocate(1).write((success ? "K" : "E") + type.getCode());
+			stream.allocate(1).write((isSuccess() ? "K" : "E") + type.getCode());
 			return;
 		}
-		stream.allocate(2).write((success ? "K" : "E") + type.getCode());
+		stream.allocate(2).write((isSuccess() ? "K" : "E") + type.getCode());
 		if (data instanceof CraftExchangeData) {
 			CraftExchangeData cdata = (CraftExchangeData) data;
 			stream.write(cdata.getMaxItem() + ";" + cdata.getSkillId());
@@ -116,7 +116,21 @@ public class ExchangeCreatePacket implements ServerPacket {
 
 	@Override
 	public String toString() {
-		return "ExchangeCreatePacket [type=" + type + ", data=" + data + ", success=" + success + "]";
+		return "ExchangeCreatePacket [type=" + type + ", data=" + data + ", success=" + isSuccess() + "]";
+	}
+
+	/**
+	 * @return the success
+	 */
+	public boolean isSuccess() {
+		return success;
+	}
+
+	/**
+	 * @param success the success to set
+	 */
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	public interface ExchangeData {}

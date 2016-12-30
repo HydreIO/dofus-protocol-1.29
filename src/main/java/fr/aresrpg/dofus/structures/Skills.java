@@ -1,12 +1,3 @@
-/*******************************************************************************
- * BotFather (C) - Dofus 1.29 protocol library
- * This class is part of an AresRPG Project.
- *
- * @author Sceat {@literal <sceat@aresrpg.fr>}
- * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- * 
- *         Created 2016
- *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
 import fr.aresrpg.dofus.structures.item.Interractable;
@@ -16,7 +7,6 @@ import fr.aresrpg.dofus.structures.item.Interractable;
  * @since
  */
 public enum Skills {
-	// si tu veut t'amuser a traduire tout en anglais vas y
 	ACHETER_MAISON(97, 1),
 	UTILISER_ENCLO(175, 1),
 	ACHETER_ENCLOS(176, 1),

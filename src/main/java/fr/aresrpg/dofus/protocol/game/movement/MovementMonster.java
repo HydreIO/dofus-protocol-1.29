@@ -9,7 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.item.Accessory;
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class MovementMonster implements MovementAction {
 	private int scaleY;
 	private boolean noFlip;
 	private int cellId;
-	private PathDirection orientation;
+	private Orientation orientation;
 	private int powerLvl;
 	private int color1;
 	private int color2;
@@ -41,7 +41,7 @@ public class MovementMonster implements MovementAction {
 	private int[] resi;
 	private int team;
 
-	public MovementMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, PathDirection orientation, int powerLvl, int color1, int color2,
+	public MovementMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, Orientation orientation, int powerLvl, int color1, int color2,
 		int color3,
 		Accessory[] accessories) {
 		this.id = id;
@@ -259,7 +259,7 @@ public class MovementMonster implements MovementAction {
 	/**
 	 * @return the orientation
 	 */
-	public PathDirection getOrientation() {
+	public Orientation getOrientation() {
 		return orientation;
 	}
 
@@ -267,7 +267,7 @@ public class MovementMonster implements MovementAction {
 	 * @param orientation
 	 *            the orientation to set
 	 */
-	public void setOrientation(PathDirection orientation) {
+	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
 

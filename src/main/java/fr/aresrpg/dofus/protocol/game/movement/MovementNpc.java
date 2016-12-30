@@ -9,7 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.item.Accessory;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class MovementNpc implements MovementAction {
 	private int scaleX;
 	private int scaleY;
 	private int cellid;
-	private PathDirection orientation;
+	private Orientation orientation;
 	private int sex;
 	private int color1;
 	private int color2;
@@ -35,7 +35,7 @@ public class MovementNpc implements MovementAction {
 	private int extraclip;
 	private int customArtwork;
 
-	public MovementNpc(int id, int spriteType, int gfx, int scaleX, int scaleY, int cellid, PathDirection orientation, int sex, int color1, int color2, int color3, Accessory[] accessories,
+	public MovementNpc(int id, int spriteType, int gfx, int scaleX, int scaleY, int cellid, Orientation orientation, int sex, int color1, int color2, int color3, Accessory[] accessories,
 		int extraclip, int customArtwork) {
 		super();
 		this.id = id;
@@ -154,7 +154,7 @@ public class MovementNpc implements MovementAction {
 	/**
 	 * @return the orientation
 	 */
-	public PathDirection getOrientation() {
+	public Orientation getOrientation() {
 		return orientation;
 	}
 
@@ -162,7 +162,7 @@ public class MovementNpc implements MovementAction {
 	 * @param orientation
 	 *            the orientation to set
 	 */
-	public void setOrientation(PathDirection orientation) {
+	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
 

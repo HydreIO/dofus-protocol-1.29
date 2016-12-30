@@ -52,7 +52,7 @@ public class AccountCharactersListPacket implements ServerPacket {
 	}
 
 	/**
-	 * @return the persoTot
+	 * @return the total number of perso on the account (for all servers)
 	 */
 	public int getPersoTot() {
 		return persoTot;

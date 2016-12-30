@@ -87,12 +87,12 @@ public class AccountStatsPacket implements ServerPacket {
 			int total = data.length == 5 ? Integer.parseInt(data[4]) : base + equip + dons + boost;
 			stats.put(Stat.valueOf(i), new StatValue(base, equip, dons, boost, total));
 		}
-		this.extradatas = extraDatas.toString();
+		this.setExtradatas(extraDatas.toString());
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(9 + Stat.values().length + (extradatas.isEmpty() ? 0 : 1))
+		stream.allocate(9 + Stat.values().length + (getExtradatas().isEmpty() ? 0 : 1))
 				.write(xp + "," + xpLow + "," + xpHigh)
 				.writeInt(kama)
 				.writeInt(bonusPoints)
@@ -113,7 +113,7 @@ public class AccountStatsPacket implements ServerPacket {
 			stream.write(value.getBase() + "," + value.getEquipment() + "," + value.getDons() + "," +
 					value.getBoost() + (stat == Stat.PA || stat == Stat.PM ? "," + value.getTotal() : ""));
 		}
-		if (!extradatas.isEmpty()) stream.write(extradatas);
+		if (!getExtradatas().isEmpty()) stream.write(getExtradatas());
 
 	}
 
@@ -274,6 +274,17 @@ public class AccountStatsPacket implements ServerPacket {
 		return "AccountStatsPacket [xp=" + xp + ", xpLow=" + xpLow + ", xpHigh=" + xpHigh + ", kama=" + kama + ", bonusPoints=" + bonusPoints + ", bonusPointsSpell=" + bonusPointsSpell
 				+ ", alignment=" + alignment + ", fakeAlignment=" + fakeAlignment + ", rank=" + rank + ", life=" + life + ", lifeMax=" + lifeMax + ", energy=" + energy + ", energyMax=" + energyMax
 				+ ", initiative=" + initiative + ", prospection=" + prospection + ", stats=" + stats + "]";
+	}
+
+	/**
+	 * @return the extradatas
+	 */
+	public String getExtradatas() {
+		return extradatas;
+	}
+
+	public void setExtradatas(String extradatas) {
+		this.extradatas = extradatas;
 	}
 
 }

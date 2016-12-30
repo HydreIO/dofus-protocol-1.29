@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.server.Server;
 
 import java.util.HashMap;
@@ -36,6 +34,22 @@ public class AccountServerListPacket implements ServerPacket {
 	public void write(DofusStream stream) {
 		stream.allocate(1 + characters.size()).writeLong(subscriptionDuration);
 		characters.forEach((k, v) -> stream.write(k + "," + v));
+	}
+
+	/**
+	 * @param subscriptionDuration
+	 *            the subscriptionDuration to set
+	 */
+	public void setSubscriptionDuration(long subscriptionDuration) {
+		this.subscriptionDuration = subscriptionDuration;
+	}
+
+	/**
+	 * @param characters
+	 *            the characters to set
+	 */
+	public void setCharacters(Map<Integer, Integer> characters) {
+		this.characters = characters;
 	}
 
 	@Override

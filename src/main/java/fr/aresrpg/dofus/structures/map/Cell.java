@@ -76,7 +76,7 @@ public class Cell {
 
 	public boolean isWalkeable(Predicate<Integer> condition) {
 		if (!condition.test(id)) return false;
-		return movement != 0 && !Interractable.isInterractable(id);
+		return movement != 0 && !Interractable.isInterractable(layerObject2Num);
 	}
 
 	/**

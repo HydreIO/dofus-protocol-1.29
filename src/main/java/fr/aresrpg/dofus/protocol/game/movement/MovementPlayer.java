@@ -17,7 +17,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.movement;
 
-import fr.aresrpg.dofus.structures.PathDirection;
+import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.game.Alignement;
 import fr.aresrpg.dofus.structures.item.Accessory;
 
@@ -35,7 +35,7 @@ public class MovementPlayer implements MovementAction {
 	private int cell;
 	private int scaleX;
 	private int scaleY;
-	private PathDirection orientation;
+	private Orientation orientation;
 	private int sex;
 	private Alignement alignement;
 	private int rank;
@@ -57,7 +57,7 @@ public class MovementPlayer implements MovementAction {
 	 * @param playerInFight
 	 * @param playerOutsideFight
 	 */
-	public MovementPlayer(int id, String pseudo, int sprite, int cell, int scaleX, int scaleY, PathDirection orientation, int sex, Alignement alignement, int rank, PlayerInFight playerInFight,
+	public MovementPlayer(int id, String pseudo, int sprite, int cell, int scaleX, int scaleY, Orientation orientation, int sex, Alignement alignement, int rank, PlayerInFight playerInFight,
 		PlayerOutsideFight playerOutsideFight) {
 		this.id = id;
 		this.pseudo = pseudo;
@@ -187,7 +187,7 @@ public class MovementPlayer implements MovementAction {
 	/**
 	 * @return the orientation
 	 */
-	public PathDirection getOrientation() {
+	public Orientation getOrientation() {
 		return orientation;
 	}
 
@@ -195,7 +195,7 @@ public class MovementPlayer implements MovementAction {
 	 * @param orientation
 	 *            the orientation to set
 	 */
-	public void setOrientation(PathDirection orientation) {
+	public void setOrientation(Orientation orientation) {
 		this.orientation = orientation;
 	}
 
