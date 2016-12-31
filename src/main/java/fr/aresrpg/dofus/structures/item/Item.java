@@ -53,7 +53,7 @@ public class Item {
 		this(0, typeId, quantity, EquipmentPosition.NO_EQUIPED.getPosition(), null);
 	}
 
-	public Item(int uid, int itemTypeId, int quantity, int position, Effect[] effects) {
+	public Item(long uid, int itemTypeId, int quantity, int position, Effect[] effects) {
 		this(uid, itemTypeId, quantity, position, effects, -1, -1);
 	}
 

@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.item.server;
 
@@ -17,7 +17,7 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class ItemQuantityUpdatePacket implements ServerPacket {
 
-	private int itemUid;
+	private long itemUid;
 	private int amount;
 
 	public ItemQuantityUpdatePacket() {
@@ -27,7 +27,7 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 	 * @param intemUid
 	 * @param amount
 	 */
-	public ItemQuantityUpdatePacket(int intemUid, int amount) {
+	public ItemQuantityUpdatePacket(long intemUid, int amount) {
 		this.itemUid = intemUid;
 		this.amount = amount;
 	}
@@ -35,7 +35,7 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 	/**
 	 * @return the intemUid
 	 */
-	public int getItemUid() {
+	public long getItemUid() {
 		return itemUid;
 	}
 
@@ -43,7 +43,7 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 	 * @param intemUid
 	 *            the intemUid to set
 	 */
-	public void setIntemUid(int intemUid) {
+	public void setItemUid(long intemUid) {
 		this.itemUid = intemUid;
 	}
 
@@ -64,13 +64,13 @@ public class ItemQuantityUpdatePacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.itemUid = stream.readInt();
+		this.itemUid = stream.readLong();
 		this.amount = stream.readInt();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).writeInt(itemUid).writeInt(amount);
+		stream.allocate(2).writeLong(itemUid).writeInt(amount);
 	}
 
 	@Override

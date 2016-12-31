@@ -17,7 +17,7 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class DialogCreateOkPacket implements ServerPacket {
 
-	private int id;
+	private long id;
 
 	// les autres info sont dans les langs il me semble
 	// var _loc5 = this.api.datacenter.Sprites.getItemAt(_loc4);
@@ -26,13 +26,13 @@ public class DialogCreateOkPacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.id = stream.readInt();
+		this.id = stream.readLong();
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getNpcId() {
+	public long getNpcId() {
 		return id;
 	}
 
@@ -40,13 +40,13 @@ public class DialogCreateOkPacket implements ServerPacket {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setNpcId(int id) {
+	public void setNpcId(long id) {
 		this.id = id;
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(id);
+		stream.allocate(1).writeLong(id);
 	}
 
 	@Override

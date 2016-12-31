@@ -54,7 +54,7 @@ public class ItemMovementConfirmPacket implements ServerPacket {
 	 * @param itemUid
 	 *            the itemUid to set
 	 */
-	public void setItemUid(int itemUid) {
+	public void setItemUid(long itemUid) {
 		this.itemUid = itemUid;
 	}
 

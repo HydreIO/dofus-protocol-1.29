@@ -4,17 +4,15 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 public class GameTurnStartPacket implements ServerPacket {
-	private int characterId;
+	private long characterId;
 	private int time;
 
 	@Override
@@ -25,7 +23,7 @@ public class GameTurnStartPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).writeInt(characterId).writeInt(time);
+		stream.allocate(2).writeLong(characterId).writeInt(time);
 	}
 
 	@Override
@@ -33,11 +31,11 @@ public class GameTurnStartPacket implements ServerPacket {
 		handler.handle(this);
 	}
 
-	public int getCharacterId() {
+	public long getCharacterId() {
 		return characterId;
 	}
 
-	public GameTurnStartPacket setCharacterId(int characterId) {
+	public GameTurnStartPacket setCharacterId(long characterId) {
 		this.characterId = characterId;
 		return this;
 	}

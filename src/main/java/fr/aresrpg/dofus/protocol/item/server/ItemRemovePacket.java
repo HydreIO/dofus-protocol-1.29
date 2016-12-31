@@ -25,7 +25,7 @@ public class ItemRemovePacket implements ServerPacket {
 	/**
 	 * @param itemuid
 	 */
-	public ItemRemovePacket(int itemuid) {
+	public ItemRemovePacket(long itemuid) {
 		this.itemuid = itemuid;
 	}
 
@@ -50,7 +50,7 @@ public class ItemRemovePacket implements ServerPacket {
 	 * @param itemuid
 	 *            the itemuid to set
 	 */
-	public void setItemuid(int itemuid) {
+	public void setItemuid(long itemuid) {
 		this.itemuid = itemuid;
 	}
 
