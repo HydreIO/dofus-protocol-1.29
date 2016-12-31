@@ -52,7 +52,7 @@ public class GamePositionsPacket implements ServerPacket {
 	}
 
 	public static class FightPosition {
-		private int entityId;
+		private long entityId;
 		private int position;
 		private int unknowIndex;
 
@@ -61,8 +61,7 @@ public class GamePositionsPacket implements ServerPacket {
 		 * @param position
 		 * @param unknowIndex
 		 */
-		public FightPosition(int entityId, int position, int unknowIndex) {
-			super();
+		public FightPosition(long entityId, int position, int unknowIndex) {
 			this.entityId = entityId;
 			this.position = position;
 			this.unknowIndex = unknowIndex;
@@ -71,7 +70,7 @@ public class GamePositionsPacket implements ServerPacket {
 		/**
 		 * @return the entityId
 		 */
-		public int getEntityId() {
+		public long getEntityId() {
 			return entityId;
 		}
 
@@ -79,7 +78,7 @@ public class GamePositionsPacket implements ServerPacket {
 		 * @param entityId
 		 *            the entityId to set
 		 */
-		public void setEntityId(int entityId) {
+		public void setEntityId(long entityId) {
 			this.entityId = entityId;
 		}
 

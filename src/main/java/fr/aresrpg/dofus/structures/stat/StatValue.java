@@ -28,6 +28,46 @@ public class StatValue {
 		this.total = total;
 	}
 
+	/**
+	 * @param base
+	 *            the base to set
+	 */
+	public void setBase(int base) {
+		this.base = base;
+	}
+
+	/**
+	 * @param equipment
+	 *            the equipment to set
+	 */
+	public void setEquipment(int equipment) {
+		this.equipment = equipment;
+	}
+
+	/**
+	 * @param dons
+	 *            the dons to set
+	 */
+	public void setDons(int dons) {
+		this.dons = dons;
+	}
+
+	/**
+	 * @param boost
+	 *            the boost to set
+	 */
+	public void setBoost(int boost) {
+		this.boost = boost;
+	}
+
+	/**
+	 * @param total
+	 *            the total to set
+	 */
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
 	public int getBase() {
 		return base;
 	}

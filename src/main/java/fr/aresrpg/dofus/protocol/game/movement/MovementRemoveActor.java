@@ -15,22 +15,17 @@ package fr.aresrpg.dofus.protocol.game.movement;
  */
 public class MovementRemoveActor implements MovementAction {
 
-	private int id;
+	private long id;
 
-	public MovementRemoveActor(int id) {
+	public MovementRemoveActor(long id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
-	}
-
-	@Override
-	public String toString() {
-		return "MovementRemoveActor [id=" + id + "]";
 	}
 
 	@Override
@@ -40,6 +35,11 @@ public class MovementRemoveActor implements MovementAction {
 	@Override
 	public int getCellId() {
 		return -1;
+	}
+
+	@Override
+	public String toString() {
+		return "MovementRemoveActor [id=" + id + "]";
 	}
 
 }

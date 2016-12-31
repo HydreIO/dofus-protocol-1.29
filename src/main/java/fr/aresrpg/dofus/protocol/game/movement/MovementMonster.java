@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 public class MovementMonster implements MovementAction {
 
-	private int id;
+	private long id;
 	private int entitytype;
 	private int spriteType;
 	private int gfxId;
@@ -41,7 +41,7 @@ public class MovementMonster implements MovementAction {
 	private int[] resi;
 	private int team;
 
-	public MovementMonster(int id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, Orientation orientation, int powerLvl, int color1, int color2,
+	public MovementMonster(long id, int entitytype, int spriteType, int gfxId, int scaleX, int scaleY, boolean noFlip, int cellId, Orientation orientation, int powerLvl, int color1, int color2,
 		int color3,
 		Accessory[] accessories) {
 		this.id = id;
@@ -153,7 +153,7 @@ public class MovementMonster implements MovementAction {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -341,7 +341,7 @@ public class MovementMonster implements MovementAction {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 public class MovementPlayer implements MovementAction {
 
-	private int id;
+	private long id;
 	private String pseudo;
 	private int sprite;
 	private int cell;
@@ -57,7 +57,7 @@ public class MovementPlayer implements MovementAction {
 	 * @param playerInFight
 	 * @param playerOutsideFight
 	 */
-	public MovementPlayer(int id, String pseudo, int sprite, int cell, int scaleX, int scaleY, Orientation orientation, int sex, Alignement alignement, int rank, PlayerInFight playerInFight,
+	public MovementPlayer(long id, String pseudo, int sprite, int cell, int scaleX, int scaleY, Orientation orientation, int sex, Alignement alignement, int rank, PlayerInFight playerInFight,
 		PlayerOutsideFight playerOutsideFight) {
 		this.id = id;
 		this.pseudo = pseudo;
@@ -83,7 +83,7 @@ public class MovementPlayer implements MovementAction {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

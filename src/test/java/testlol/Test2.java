@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.util;
+package testlol;
 
 import javafx.application.Application;
 import javafx.scene.Group;

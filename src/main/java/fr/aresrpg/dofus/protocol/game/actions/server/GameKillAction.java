@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.actions.server;
 
@@ -18,7 +18,7 @@ import fr.aresrpg.dofus.protocol.game.actions.GameAction;
  */
 public class GameKillAction implements GameAction {
 
-	private int killed;
+	private long killed;
 
 	public GameKillAction() {
 	}
@@ -26,15 +26,14 @@ public class GameKillAction implements GameAction {
 	/**
 	 * @param killed
 	 */
-	public GameKillAction(int killed) {
-		super();
+	public GameKillAction(long killed) {
 		this.killed = killed;
 	}
 
 	/**
 	 * @return the killed
 	 */
-	public int getKilled() {
+	public long getKilled() {
 		return killed;
 	}
 
@@ -42,18 +41,18 @@ public class GameKillAction implements GameAction {
 	 * @param killed
 	 *            the killed to set
 	 */
-	public void setKilled(int killed) {
+	public void setKilled(long killed) {
 		this.killed = killed;
 	}
 
 	@Override
 	public void read(DofusStream stream) {
-		this.killed = stream.readInt();
+		this.killed = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(killed);
+		stream.allocate(1).writeLong(killed);
 	}
 
 	@Override

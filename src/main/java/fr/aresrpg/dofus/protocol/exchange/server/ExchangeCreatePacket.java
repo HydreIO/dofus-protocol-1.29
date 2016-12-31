@@ -78,7 +78,7 @@ public class ExchangeCreatePacket implements ServerPacket {
 			CraftExchangeData cdata = (CraftExchangeData) data;
 			stream.write(cdata.getMaxItem() + ";" + cdata.getSkillId());
 		} else if (data instanceof BasicExchangeData)
-			stream.writeInt(((BasicExchangeData) data).getEntityId());
+			stream.writeLong(((BasicExchangeData) data).getEntityId());
 		else if (data instanceof JobsExchangeData) {
 			JobsExchangeData jdata = (JobsExchangeData) data;
 			StringJoiner joiner = new StringJoiner(";");
@@ -184,17 +184,17 @@ public class ExchangeCreatePacket implements ServerPacket {
 	}
 
 	public static class BasicExchangeData implements ExchangeData {
-		private int entityId;
+		private long entityId;
 
-		public BasicExchangeData(int entityId) {
+		public BasicExchangeData(long entityId) {
 			this.entityId = entityId;
 		}
 
-		public int getEntityId() {
+		public long getEntityId() {
 			return entityId;
 		}
 
-		public void setEntityId(int entityId) {
+		public void setEntityId(long entityId) {
 			this.entityId = entityId;
 		}
 

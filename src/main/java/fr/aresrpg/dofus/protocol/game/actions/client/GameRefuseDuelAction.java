@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.actions.client;
 
@@ -18,12 +18,12 @@ import fr.aresrpg.dofus.protocol.game.actions.GameAction;
  */
 public class GameRefuseDuelAction implements GameAction {
 
-	private int targetId;
+	private long targetId;
 
 	/**
 	 * @param targetId
 	 */
-	public GameRefuseDuelAction(int targetId) {
+	public GameRefuseDuelAction(long targetId) {
 		this.targetId = targetId;
 	}
 
@@ -32,18 +32,18 @@ public class GameRefuseDuelAction implements GameAction {
 
 	@Override
 	public void read(DofusStream stream) {
-		this.targetId = stream.readInt();
+		this.targetId = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(targetId);
+		stream.allocate(1).writeLong(targetId);
 	}
 
 	/**
 	 * @return the targetId
 	 */
-	public int getTargetId() {
+	public long getTargetId() {
 		return targetId;
 	}
 
@@ -51,7 +51,7 @@ public class GameRefuseDuelAction implements GameAction {
 	 * @param targetId
 	 *            the targetId to set
 	 */
-	public void setTargetId(int targetId) {
+	public void setTargetId(long targetId) {
 		this.targetId = targetId;
 	}
 

@@ -4,33 +4,31 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 import java.util.Arrays;
 
 public class GameTurnListPacket implements ServerPacket {
-	private int[] turns;
+	private long[] turns;
 
 	@Override
 	public void read(DofusStream stream) {
 		stream.read(); //Skip separator
-		turns = new int[stream.available()];
-		for(int i = 0 ; i < turns.length ; i++)
-			turns[i] = stream.readInt();
+		turns = new long[stream.available()];
+		for (int i = 0; i < turns.length; i++)
+			turns[i] = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
 		stream.allocate(turns.length + 1).write(""); //Separator
-		for(int turn : turns)
-			stream.writeInt(turn);
+		for (long turn : turns)
+			stream.writeLong(turn);
 	}
 
 	@Override
@@ -38,11 +36,11 @@ public class GameTurnListPacket implements ServerPacket {
 		handler.handle(this);
 	}
 
-	public int[] getTurns() {
+	public long[] getTurns() {
 		return turns;
 	}
 
-	public GameTurnListPacket setTurns(int[] turns) {
+	public GameTurnListPacket setTurns(long[] turns) {
 		this.turns = turns;
 		return this;
 	}

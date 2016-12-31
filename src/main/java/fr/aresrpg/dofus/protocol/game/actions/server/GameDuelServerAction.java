@@ -9,22 +9,22 @@ import fr.aresrpg.dofus.protocol.game.actions.GameAction;
  */
 public class GameDuelServerAction implements GameAction {
 
-	private int targetId;
+	private long targetId;
 
 	@Override
 	public void read(DofusStream stream) {
-		this.targetId = stream.readInt();
+		this.targetId = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(targetId);
+		stream.allocate(1).writeLong(targetId);
 	}
 
 	/**
 	 * @return the targetId
 	 */
-	public int getTargetId() {
+	public long getTargetId() {
 		return targetId;
 	}
 
@@ -32,7 +32,7 @@ public class GameDuelServerAction implements GameAction {
 	 * @param targetId
 	 *            the targetId to set
 	 */
-	public void setTargetId(int targetId) {
+	public void setTargetId(long targetId) {
 		this.targetId = targetId;
 	}
 

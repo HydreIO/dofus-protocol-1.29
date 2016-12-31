@@ -37,15 +37,57 @@ public class GameJoinPacket implements ServerPacket {
 	}
 
 	@Override
-	public String toString() {
-		return "GameJoinPacket(state:" + state + "|fightType:" + fightType + "|isSpectator:" + isSpectator + "|timer:" + startTimer + "|cancelButton:" + cancelButton + "|isDuel:" + isDuel
-				+ ")[" + getId() + "]";
-	}
-
-	@Override
 	public void write(DofusStream stream) {
 		stream.allocate(6).writeInt(getState().getType()).writeInt(isCancelButton() ? 1 : 0).writeInt(isDuel() ? 1 : 0).writeInt(isSpectator() ? 1 : 0).writeInt(getStartTimer())
 				.writeInt(getFightType().getId());
+	}
+
+	/**
+	 * @param state
+	 *            the state to set
+	 */
+	public void setState(GameType state) {
+		this.state = state;
+	}
+
+	/**
+	 * @param fightType
+	 *            the fightType to set
+	 */
+	public void setFightType(FightType fightType) {
+		this.fightType = fightType;
+	}
+
+	/**
+	 * @param isSpectator
+	 *            the isSpectator to set
+	 */
+	public void setSpectator(boolean isSpectator) {
+		this.isSpectator = isSpectator;
+	}
+
+	/**
+	 * @param startTimer
+	 *            the startTimer to set
+	 */
+	public void setStartTimer(int startTimer) {
+		this.startTimer = startTimer;
+	}
+
+	/**
+	 * @param cancelButton
+	 *            the cancelButton to set
+	 */
+	public void setCancelButton(boolean cancelButton) {
+		this.cancelButton = cancelButton;
+	}
+
+	/**
+	 * @param isDuel
+	 *            the isDuel to set
+	 */
+	public void setDuel(boolean isDuel) {
+		this.isDuel = isDuel;
 	}
 
 	/**
@@ -93,6 +135,12 @@ public class GameJoinPacket implements ServerPacket {
 	@Override
 	public void handleServer(ServerPacketHandler handler) {
 		handler.handle(this);
+	}
+
+	@Override
+	public String toString() {
+		return "GameJoinPacket [state=" + state + ", fightType=" + fightType + ", isSpectator=" + isSpectator + ", startTimer=" + startTimer + ", cancelButton=" + cancelButton + ", isDuel=" + isDuel
+				+ "]";
 	}
 
 }

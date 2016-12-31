@@ -19,7 +19,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 	private GameActions type;
 	private GameAction action;
 	private int lastAction = -1;
-	private int entityId;
+	private long entityId;
 
 	/**
 	 * @param type
@@ -27,14 +27,14 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 	 * @param lastAction
 	 * @param entityId
 	 */
-	public GameServerActionPacket(GameActions type, GameAction action, int lastAction, int entityId) {
+	public GameServerActionPacket(GameActions type, GameAction action, int lastAction, long entityId) {
 		this.type = type;
 		this.action = action;
 		this.lastAction = lastAction;
 		this.entityId = entityId;
 	}
 
-	public GameServerActionPacket(GameActions type, GameAction action, int entityId) {
+	public GameServerActionPacket(GameActions type, GameAction action, long entityId) {
 		this.type = type;
 		this.action = action;
 		this.entityId = entityId;
@@ -52,7 +52,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		action = createAction(this.type, id);
 		if (id == 0) // Action Error
 			return;
-		entityId = Integer.parseInt(data[2]);
+		entityId = Long.parseLong(data[2]);
 		stream.write(data[3]);
 		stream.setReadIndex(0);
 		action.read(stream);
@@ -125,11 +125,11 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 		return this;
 	}
 
-	public int getEntityId() {
+	public long getEntityId() {
 		return entityId;
 	}
 
-	public GameServerActionPacket setEntityId(int entityId) {
+	public GameServerActionPacket setEntityId(long entityId) {
 		this.entityId = entityId;
 		return this;
 	}

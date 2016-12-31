@@ -56,6 +56,10 @@ public class Maps {
 				(int) data.get("backgroundNum"), cells);
 	}
 
+	public static DofusMap loadMap(Map<String, Object> data, String decryptKey) {
+		return loadMap(data, decryptKey, i -> i);
+	}
+
 	public static int distance(int from, int to, int width) {
 		int xto = getX(to, width);
 		int xfrom = getX(from, width);
@@ -64,11 +68,27 @@ public class Maps {
 		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
 	}
 
+	public static int distance2(int from, int to, int width, int height) {
+		int xto = getX2(to, width, height);
+		int xfrom = getX2(from, width, height);
+		int yto = getY2(to, width, height);
+		int yfrom = getY2(from, width, height);
+		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
+	}
+
 	public static int distanceManathan(int from, int to, int width) {
 		int xto = getX(to, width);
 		int xfrom = getX(from, width);
 		int yto = getY(to, width);
 		int yfrom = getY(from, width);
+		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
+	}
+
+	public static int distanceManathan2(int from, int to, int width, int height) {
+		int xto = getX2(to, width, height);
+		int xfrom = getX2(from, width, height);
+		int yto = getY2(to, width, height);
+		int yfrom = getY2(from, width, height);
 		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
 	}
 

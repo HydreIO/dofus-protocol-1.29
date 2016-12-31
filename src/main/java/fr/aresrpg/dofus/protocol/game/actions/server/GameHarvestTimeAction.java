@@ -10,12 +10,12 @@ import fr.aresrpg.dofus.protocol.game.actions.GameAction;
 public class GameHarvestTimeAction implements GameAction {
 
 	private long time;
-	private int unknowId;
+	private int cellId;
 
 	@Override
 	public void read(DofusStream stream) {
 		String[] datas = stream.read().split(",");
-		this.unknowId = Integer.parseInt(datas[0]);
+		this.cellId = Integer.parseInt(datas[0]);
 		this.time = Integer.parseInt(datas[1]);
 	}
 
@@ -37,26 +37,26 @@ public class GameHarvestTimeAction implements GameAction {
 	/**
 	 * @return the unknowId
 	 */
-	public int getUnknowId() {
-		return unknowId;
+	public int getCellId() {
+		return cellId;
 	}
 
 	/**
 	 * @param unknowId
 	 *            the unknowId to set
 	 */
-	public void setUnknowId(int unknowId) {
-		this.unknowId = unknowId;
+	public void setCellId(int unknowId) {
+		this.cellId = unknowId;
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(unknowId + "," + time);
+		stream.allocate(1).write(cellId + "," + time);
 	}
 
 	@Override
 	public String toString() {
-		return "GameHarvestTimeAction [time=" + time + ", unknowId=" + unknowId + "]";
+		return "GameHarvestTimeAction [time=" + time + ", unknowId=" + cellId + "]";
 	}
 
 }

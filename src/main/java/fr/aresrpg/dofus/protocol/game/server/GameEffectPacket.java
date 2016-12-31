@@ -19,15 +19,15 @@ import java.util.StringJoiner;
 
 public class GameEffectPacket implements ServerPacket {
 	private Effect effect;
-	private int entities[];
+	private long entities[];
 
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = StringUtils.split(stream.read(), ";");
 		String[] rawEntities = data[1].split(",");
-		entities = new int[rawEntities.length];
+		entities = new long[rawEntities.length];
 		for (int i = 0; i < entities.length; i++)
-			entities[i] = Convert.toInt(rawEntities[i]);
+			entities[i] = Convert.toLong(rawEntities[i]);
 		effect = new Effect(
 				Integer.parseInt(data[0]),
 				Convert.toInt(data[2]),
@@ -43,7 +43,7 @@ public class GameEffectPacket implements ServerPacket {
 		StringJoiner joiner = new StringJoiner(";");
 		StringJoiner rawEntities = new StringJoiner(",");
 		for (int i = 0; i < entities.length; i++)
-			rawEntities.add(Integer.toString(entities[i]));
+			rawEntities.add(Long.toString(entities[i]));
 		joiner.add(Integer.toString(effect.getTypeId()))
 				.add(rawEntities.toString())
 				.add(Integer.toString(effect.getParam1()))
@@ -68,11 +68,18 @@ public class GameEffectPacket implements ServerPacket {
 		this.effect = effect;
 	}
 
-	public int[] getEntities() {
+	/**
+	 * @return the entities
+	 */
+	public long[] getEntities() {
 		return entities;
 	}
 
-	public void setEntities(int[] entities) {
+	/**
+	 * @param entities
+	 *            the entities to set
+	 */
+	public void setEntities(long[] entities) {
 		this.entities = entities;
 	}
 

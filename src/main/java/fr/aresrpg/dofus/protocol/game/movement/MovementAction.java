@@ -15,7 +15,7 @@ package fr.aresrpg.dofus.protocol.game.movement;
  */
 public interface MovementAction {
 
-	int getId();
+	long getId();
 
 	void setCellId(int id);
 

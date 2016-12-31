@@ -14,7 +14,7 @@ import fr.aresrpg.dofus.util.Convert;
 import java.util.StringJoiner;
 
 public class FightEntity {
-	private int id;
+	private long id;
 	private int life;
 	private int lifeMax;
 	private int pa;
@@ -30,7 +30,7 @@ public class FightEntity {
 	 * @param pm
 	 * @param unknowNumber
 	 */
-	public FightEntity(int id, int life, int lifeMax, int pa, int pm, int unknowNumber) {
+	public FightEntity(long id, int life, int lifeMax, int pa, int pm, int unknowNumber) {
 		this.id = id;
 		this.life = life;
 		this.lifeMax = lifeMax;
@@ -39,7 +39,7 @@ public class FightEntity {
 		this.unknowNumber = unknowNumber;
 	}
 
-	public FightEntity(int id) {
+	public FightEntity(long id) {
 		this(id, 0, 0, 0, 0, 0);
 	}
 
@@ -60,7 +60,7 @@ public class FightEntity {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -77,7 +77,7 @@ public class FightEntity {
 				.add("" + pm).add("" + unknowNumber).add("").add("" + lifeMax).toString();
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

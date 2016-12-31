@@ -15,7 +15,7 @@ import fr.aresrpg.dofus.protocol.ServerPacketHandler;
 
 public class GameServerReadyPacket implements ServerPacket {
 	private boolean ready;
-	private int entityId;
+	private long entityId;
 
 	@Override
 	public void read(DofusStream stream) {
@@ -44,11 +44,11 @@ public class GameServerReadyPacket implements ServerPacket {
 		return this;
 	}
 
-	public int getEntityId() {
+	public long getEntityId() {
 		return entityId;
 	}
 
-	public GameServerReadyPacket setEntityId(int entityId) {
+	public GameServerReadyPacket setEntityId(long entityId) {
 		this.entityId = entityId;
 		return this;
 	}

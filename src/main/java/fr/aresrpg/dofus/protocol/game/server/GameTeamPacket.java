@@ -70,7 +70,7 @@ public class GameTeamPacket implements ServerPacket {
 	public static class TeamEntity {
 
 		private boolean add;
-		private int entityId;
+		private long entityId;
 		private String name;
 		private int lvl;
 
@@ -80,7 +80,7 @@ public class GameTeamPacket implements ServerPacket {
 		 * @param name
 		 * @param lvl
 		 */
-		public TeamEntity(boolean add, int entityId, String name, int lvl) {
+		public TeamEntity(boolean add, long entityId, String name, int lvl) {
 			this.add = add;
 			this.entityId = entityId;
 			this.name = name;
@@ -114,7 +114,7 @@ public class GameTeamPacket implements ServerPacket {
 		/**
 		 * @return the entityId
 		 */
-		public int getEntityId() {
+		public long getEntityId() {
 			return entityId;
 		}
 
@@ -122,7 +122,7 @@ public class GameTeamPacket implements ServerPacket {
 		 * @param entityId
 		 *            the entityId to set
 		 */
-		public void setEntityId(int entityId) {
+		public void setEntityId(long entityId) {
 			this.entityId = entityId;
 		}
 

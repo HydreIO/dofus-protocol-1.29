@@ -4,14 +4,12 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.util.Crypt;
 
 import java.util.Arrays;
@@ -26,16 +24,35 @@ public class GamePositionStartPacket implements ServerPacket {
 	private int[] placesTeam0;
 	private int[] placesTeam1;
 
-	@Override
-	public String toString() {
-		return "GamePositionStartPacket(placeTeam0:" + Arrays.toString(placesTeam0) + "|placesTeam1:" + Arrays.toString(placesTeam1) + "|currentTeam:" + currentTeam + ")[" + getId() + "]";
-	}
-
 	/**
 	 * @return the currentTeam
 	 */
 	public int getCurrentTeam() {
 		return currentTeam;
+	}
+
+	/**
+	 * @param currentTeam
+	 *            the currentTeam to set
+	 */
+	public void setCurrentTeam(int currentTeam) {
+		this.currentTeam = currentTeam;
+	}
+
+	/**
+	 * @param placesTeam0
+	 *            the placesTeam0 to set
+	 */
+	public void setPlacesTeam0(int[] placesTeam0) {
+		this.placesTeam0 = placesTeam0;
+	}
+
+	/**
+	 * @param placesTeam1
+	 *            the placesTeam1 to set
+	 */
+	public void setPlacesTeam1(int[] placesTeam1) {
+		this.placesTeam1 = placesTeam1;
 	}
 
 	/**
@@ -86,5 +103,9 @@ public class GamePositionStartPacket implements ServerPacket {
 		handler.handle(this);
 	}
 
+	@Override
+	public String toString() {
+		return "GamePositionStartPacket [currentTeam=" + currentTeam + ", placesTeam0=" + Arrays.toString(placesTeam0) + ", placesTeam1=" + Arrays.toString(placesTeam1) + "]";
+	}
 
 }

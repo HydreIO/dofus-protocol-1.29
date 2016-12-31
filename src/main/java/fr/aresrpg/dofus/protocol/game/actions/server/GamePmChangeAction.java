@@ -19,7 +19,7 @@ import fr.aresrpg.dofus.util.Convert;
  */
 public class GamePmChangeAction implements GameAction {
 
-	private int entity;
+	private long entity;
 	private int pm;
 
 	public GamePmChangeAction() {
@@ -29,7 +29,7 @@ public class GamePmChangeAction implements GameAction {
 	 * @param entity
 	 * @param pa
 	 */
-	public GamePmChangeAction(int entity, int pm) {
+	public GamePmChangeAction(long entity, int pm) {
 		this.entity = entity;
 		this.pm = pm;
 	}
@@ -37,7 +37,7 @@ public class GamePmChangeAction implements GameAction {
 	/**
 	 * @return the entity
 	 */
-	public int getEntity() {
+	public long getEntity() {
 		return entity;
 	}
 
@@ -45,7 +45,7 @@ public class GamePmChangeAction implements GameAction {
 	 * @param entity
 	 *            the entity to set
 	 */
-	public void setEntity(int entity) {
+	public void setEntity(long entity) {
 		this.entity = entity;
 	}
 
@@ -60,14 +60,14 @@ public class GamePmChangeAction implements GameAction {
 	 * @param pa
 	 *            the pa to set
 	 */
-	public void setPa(int pa) {
+	public void setPm(int pa) {
 		this.pm = pa;
 	}
 
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(",");
-		this.entity = Convert.toInt(data[0]);
+		this.entity = Convert.toLong(data[0]);
 		this.pm = Convert.toInt(data[1]);
 	}
 

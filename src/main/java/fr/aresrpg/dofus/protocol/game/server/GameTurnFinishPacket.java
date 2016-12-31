@@ -9,21 +9,19 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.server;
 
-import fr.aresrpg.dofus.protocol.DofusStream;
-import fr.aresrpg.dofus.protocol.ServerPacket;
-import fr.aresrpg.dofus.protocol.ServerPacketHandler;
+import fr.aresrpg.dofus.protocol.*;
 
 public class GameTurnFinishPacket implements ServerPacket {
-	private int entityId;
+	private long entityId;
 
 	@Override
 	public void read(DofusStream stream) {
-		entityId = stream.readInt();
+		entityId = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(entityId);
+		stream.allocate(1).writeLong(entityId);
 	}
 
 	@Override
@@ -31,11 +29,11 @@ public class GameTurnFinishPacket implements ServerPacket {
 		handler.handle(this);
 	}
 
-	public int getEntityId() {
+	public long getEntityId() {
 		return entityId;
 	}
 
-	public GameTurnFinishPacket setEntityId(int entityId) {
+	public GameTurnFinishPacket setEntityId(long entityId) {
 		this.entityId = entityId;
 		return this;
 	}

@@ -124,6 +124,66 @@ public enum Interractable {
 		return null;
 	}
 
+	public static boolean isRessource(int id) {
+		Interractable interractable = fromId(id);
+		if (interractable == null) return false;
+		switch (interractable) {
+			case FLEUR_LIN:
+			case TREFLE:
+			case FEUILLE_MENTHE:
+			case ORCHIDEE:
+			case EDELWEISS:
+			case GRAINE_PANDOUILLE:
+			case FRENE:
+			case CHATAIGNIER:
+			case NOYER:
+			case CHENE:
+			case BOMBU:
+			case OLIVIOLET:
+			case ERABLE:
+			case IF:
+			case BAMBOU:
+			case MERISIER:
+			case EBENE:
+			case KALIPTUS:
+			case CHARME:
+			case BAMBOU_SOMBRE:
+			case ORME:
+			case BAMBOU_SACREE:
+			case FER:
+			case CUIVRE:
+			case BRONZE:
+			case KOBALTE:
+			case MANGANESE:
+			case ETAIN:
+			case SILICATE:
+			case ARGENT:
+			case BAUXITE:
+			case OR:
+			case DOLOMITE:
+			case BLE:
+			case ORGE:
+			case AVOINE:
+			case HOUBLON:
+			case LIN:
+			case RIZ:
+			case SEIGLE:
+			case MALT:
+			case CHANVRE:
+			case PETITS_POISSONS_MER:
+			case PETITS_POISSONS_RIVIERE:
+			case POISSONS_MER:
+			case POISSONS_RIVIERE:
+			case GROS_POISSONS_MER:
+			case GROS_POISSONS_RIVIERE:
+			case POISSONS_GEANTS_MER:
+			case POISSONS_GEANTS_RIVIERE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
 	public static boolean isInterractable(int id) {
 		return fromId(id) != null || isMachineForce(id) || isStatueClasse(id) || isLevier(id) || isPorte(id) || isZaapi(id) || isMachineTailleur(id) || isAtelier(id) || isZaap(id) || isEnclo(id);
 	}

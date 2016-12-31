@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 public class MovementMonsterGroup implements MovementAction {
 
-	private int id;
+	private long id;
 	private int[] entitytype;
 	private int sprite;
 	private int[] lvl;
@@ -35,7 +35,7 @@ public class MovementMonsterGroup implements MovementAction {
 	private Accessory[] accessories;
 	private int bonusValue;
 
-	public MovementMonsterGroup(int id, int[] entitytype, int sprite, int[] lvl, int scaleX, int scaleY, boolean noFlip, int cellid, Orientation orientation, int color1, int color2,
+	public MovementMonsterGroup(long id, int[] entitytype, int sprite, int[] lvl, int scaleX, int scaleY, boolean noFlip, int cellid, Orientation orientation, int color1, int color2,
 		int color3,
 		Accessory[] accessories,
 		int bonusValue) {
@@ -80,7 +80,7 @@ public class MovementMonsterGroup implements MovementAction {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

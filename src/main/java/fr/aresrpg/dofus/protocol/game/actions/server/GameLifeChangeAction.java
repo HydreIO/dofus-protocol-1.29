@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.game.actions.server;
 
@@ -19,7 +19,7 @@ import fr.aresrpg.dofus.util.Convert;
  */
 public class GameLifeChangeAction implements GameAction {
 
-	private int entity;
+	private long entity;
 	private int life;
 
 	public GameLifeChangeAction() {
@@ -29,7 +29,7 @@ public class GameLifeChangeAction implements GameAction {
 	 * @param sprite
 	 * @param life
 	 */
-	public GameLifeChangeAction(int entity, int life) {
+	public GameLifeChangeAction(long entity, int life) {
 		this.entity = entity;
 		this.life = life;
 	}
@@ -37,7 +37,7 @@ public class GameLifeChangeAction implements GameAction {
 	/**
 	 * @return the entity
 	 */
-	public int getEntity() {
+	public long getEntity() {
 		return entity;
 	}
 
@@ -45,7 +45,7 @@ public class GameLifeChangeAction implements GameAction {
 	 * @param entity
 	 *            the entity to set
 	 */
-	public void setEntity(int entity) {
+	public void setEntity(long entity) {
 		this.entity = entity;
 	}
 
@@ -67,7 +67,7 @@ public class GameLifeChangeAction implements GameAction {
 	@Override
 	public void read(DofusStream stream) {
 		String[] data = stream.read().split(",");
-		this.entity = Convert.toInt(data[0]);
+		this.entity = Convert.toLong(data[0]);
 		this.life = Convert.toInt(data[1]);
 	}
 

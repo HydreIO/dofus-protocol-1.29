@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 public class MovementNpc implements MovementAction {
 
-	private int id;
+	private long id;
 	private int spriteType;
 	private int gfx;
 	private int scaleX;
@@ -35,7 +35,7 @@ public class MovementNpc implements MovementAction {
 	private int extraclip;
 	private int customArtwork;
 
-	public MovementNpc(int id, int spriteType, int gfx, int scaleX, int scaleY, int cellid, Orientation orientation, int sex, int color1, int color2, int color3, Accessory[] accessories,
+	public MovementNpc(long id, int spriteType, int gfx, int scaleX, int scaleY, int cellid, Orientation orientation, int sex, int color1, int color2, int color3, Accessory[] accessories,
 		int extraclip, int customArtwork) {
 		super();
 		this.id = id;
@@ -64,7 +64,7 @@ public class MovementNpc implements MovementAction {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

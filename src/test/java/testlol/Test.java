@@ -1,4 +1,7 @@
-package fr.aresrpg.dofus.util;
+package testlol;
+
+import fr.aresrpg.dofus.util.DofusMapView;
+import fr.aresrpg.dofus.util.Maps;
 
 import javafx.application.Application;
 import javafx.scene.Group;

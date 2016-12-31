@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 /*******************************************************************************
  * BotFather (C) - Dofus 1.29
@@ -53,7 +53,7 @@ public class GameMovementActor {
 	private int alignement;
 	private int rank;
 
-	private GameMovementActor(int id, GameMovementType action, int cellid, Orientation orientation) {
+	private GameMovementActor(long id, GameMovementType action, int cellid, Orientation orientation) {
 		this.id = id;
 		this.action = action;
 		this.cellId = cellid;
