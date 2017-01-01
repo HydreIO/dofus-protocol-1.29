@@ -55,7 +55,7 @@ public class Cell {
 	}
 
 	public int distance(int cellid) {
-		return Maps.distance(getId(), cellid, getMapWidth());
+		return Maps.distanceLast(getId(), cellid, getMapWidth());
 	}
 
 	public int distance(Cell cell) {
@@ -63,7 +63,7 @@ public class Cell {
 	}
 
 	public int distanceManathan(int cellid) {
-		return Maps.distanceManathan(getId(), cellid, getMapWidth());
+		return Maps.distanceManathanLast(getId(), cellid, getMapWidth());
 	}
 
 	public int distanceManathan(Cell cell) {

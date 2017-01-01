@@ -18,11 +18,11 @@ import fr.aresrpg.dofus.structures.Exchange;
  */
 public class ExchangeRequestPacket implements ClientPacket {
 
-	private int targetId = -1000;
+	private long targetId = -1000;
 	private Exchange exchange;
 	private int cellid = -1000;
 
-	public ExchangeRequestPacket(Exchange exchange, int targetId, int cellnum) {
+	public ExchangeRequestPacket(Exchange exchange, long targetId, int cellnum) {
 		this.targetId = targetId;
 		this.exchange = exchange;
 		this.cellid = cellnum;
@@ -31,7 +31,7 @@ public class ExchangeRequestPacket implements ClientPacket {
 	@Override
 	public void read(DofusStream stream) {
 		this.exchange = Exchange.valueOf(stream.readInt());
-		this.targetId = stream.readInt();
+		this.targetId = stream.readLong();
 		if (stream.available() > 0) this.cellid = stream.readInt();
 	}
 
@@ -44,7 +44,7 @@ public class ExchangeRequestPacket implements ClientPacket {
 	public ExchangeRequestPacket() {
 	}
 
-	public ExchangeRequestPacket(Exchange type, int targetId) {
+	public ExchangeRequestPacket(Exchange type, long targetId) {
 		this(type, targetId, -1000);
 	}
 
@@ -62,7 +62,7 @@ public class ExchangeRequestPacket implements ClientPacket {
 	/**
 	 * @return the targetId
 	 */
-	public int getTargetId() {
+	public long getTargetId() {
 		return targetId;
 	}
 
@@ -70,7 +70,7 @@ public class ExchangeRequestPacket implements ClientPacket {
 	 * @param targetId
 	 *            the targetId to set
 	 */
-	public void setTargetId(int targetId) {
+	public void setTargetId(long targetId) {
 		this.targetId = targetId;
 	}
 

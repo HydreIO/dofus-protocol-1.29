@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
@@ -27,7 +27,7 @@ public class Compressor {
 		return (indexOfHash(cellId.charAt(0)) << 6) + indexOfHash(cellId.charAt(1));
 	}
 
-	public static Cell[] uncompressMap(String d, int width) {
+	public static Cell[] uncompressMap(String d, int width, int height) {
 		int[] data = new int[d.length()];
 		for (int i = 0; i < data.length; i++)
 			data[i] = indexOfHash(d.charAt(i));
@@ -35,8 +35,8 @@ public class Compressor {
 		Cell[] cells = new Cell[data.length / 10];
 		for (int i = 0; i < data.length / 10; i++) {
 			int id = i;
-			int x = Maps.getX(id, width);
-			int y = Maps.getY(id, width);
+			int x = Maps.getX(id, width, height);
+			int y = Maps.getY(id, width, height);
 			int index = i * 10;
 			boolean lineOfSight = (data[index] & 1) == 1;
 			int layerGroundRot = (data[index + 1] & 48) >> 4;

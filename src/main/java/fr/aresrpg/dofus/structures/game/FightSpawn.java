@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FightSpawn {
-	private int id;
+	private long id;
 	private FightType type;
 	private List<FightTeam> teams = new ArrayList<>();
 
-	public FightSpawn(int id, FightType type) {
+	public FightSpawn(long id, FightType type) {
 		this.id = id;
 		this.type = type;
 	}
@@ -23,7 +23,7 @@ public class FightSpawn {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -31,7 +31,7 @@ public class FightSpawn {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

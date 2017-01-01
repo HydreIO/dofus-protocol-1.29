@@ -51,10 +51,10 @@ public class InfoCoordinatePacket implements ServerPacket {
 		private int x, y;
 		private int mapId;
 		private int type;
-		private int playerId;
+		private long playerId;
 		private String playerName;
 
-		public MovingPlayer(int x, int y, int mapId, int type, int playerId, String playerName) {
+		public MovingPlayer(int x, int y, int mapId, int type, long playerId, String playerName) {
 			this.x = x;
 			this.y = y;
 			this.mapId = mapId;
@@ -69,7 +69,7 @@ public class InfoCoordinatePacket implements ServerPacket {
 			int y = Integer.parseInt(datas[1]);
 			int mapid = Integer.parseInt(datas[2]);
 			int type = Integer.parseInt(datas[3]);
-			int playerid = Integer.parseInt(datas[4]);
+			long playerid = Long.parseLong(datas[4]);
 			String pname = datas.length > 5 ? datas[5] : "";
 			return new MovingPlayer(x, y, mapid, type, playerid, pname);
 		}
@@ -145,7 +145,7 @@ public class InfoCoordinatePacket implements ServerPacket {
 		/**
 		 * @return the playerId
 		 */
-		public int getPlayerId() {
+		public long getPlayerId() {
 			return playerId;
 		}
 
@@ -153,7 +153,7 @@ public class InfoCoordinatePacket implements ServerPacket {
 		 * @param playerId
 		 *            the playerId to set
 		 */
-		public void setPlayerId(int playerId) {
+		public void setPlayerId(long playerId) {
 			this.playerId = playerId;
 		}
 

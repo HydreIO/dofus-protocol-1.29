@@ -17,22 +17,22 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class PartyLeaderPacket implements ServerPacket {
 
-	private int leaderId;
+	private long leaderId;
 
 	@Override
 	public void read(DofusStream stream) {
-		this.leaderId = stream.readInt();
+		this.leaderId = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(leaderId);
+		stream.allocate(1).writeLong(leaderId);
 	}
 
 	/**
 	 * @return the leaderId
 	 */
-	public int getLeaderId() {
+	public long getLeaderId() {
 		return leaderId;
 	}
 
@@ -40,7 +40,7 @@ public class PartyLeaderPacket implements ServerPacket {
 	 * @param leaderId
 	 *            the leaderId to set
 	 */
-	public void setLeaderId(int leaderId) {
+	public void setLeaderId(long leaderId) {
 		this.leaderId = leaderId;
 	}
 

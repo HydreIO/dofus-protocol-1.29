@@ -21,23 +21,23 @@ import java.util.function.Predicate;
 
 public class Pathfinding {
 
-	public static List<Point> getCellPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean useDiagonale) {
-		return getPath(xFrom, yFrom, xTo, yTo, cell, width, false, useDiagonale, n -> true, (a, b) -> true);
+	public static List<Point> getCellPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, int height, boolean useDiagonale) {
+		return getPath(xFrom, yFrom, xTo, yTo, cell, width, height, false, useDiagonale, n -> true, (a, b) -> true);
 	}
 
-	public static List<Point> getCellPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean useDiagonale, Predicate<Point> canTake) {
-		return getPath(xFrom, yFrom, xTo, yTo, cell, width, false, useDiagonale, canTake, (a, b) -> true);
+	public static List<Point> getCellPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, int height, boolean useDiagonale, Predicate<Point> canTake) {
+		return getPath(xFrom, yFrom, xTo, yTo, cell, width, height, false, useDiagonale, canTake, (a, b) -> true);
 	}
 
 	public static List<Point> getMapPath(int xFrom, int yFrom, int xTo, int yTo, BiPredicate<Point, Point> canMoveOnFrom) {
-		return getPath(xFrom, yFrom, xTo, yTo, null, 0, true, false, n -> true, canMoveOnFrom);
+		return getPath(xFrom, yFrom, xTo, yTo, null, 0, 0, true, false, n -> true, canMoveOnFrom);
 	}
 
 	public static List<Point> getMapPath(int xFrom, int yFrom, int xTo, int yTo) {
 		return getMapPath(xFrom, yFrom, xTo, yTo, (a, b) -> true);
 	}
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, boolean isBigMap, boolean useDiagonale, Predicate<Point> canTake,
+	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Cell[] cell, int width, int height, boolean isBigMap, boolean useDiagonale, Predicate<Point> canTake,
 		BiPredicate<Point, Point> canMoveOnFrom) {
 		PriorityQueue<Node> openList = new PriorityQueue<>();
 		Set<Node> closedList = new HashSet<>();
@@ -54,7 +54,7 @@ public class Pathfinding {
 				Node[] nodes = isBigMap ? getNeighborsForMap(node) : useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node);
 				Predicate<Node> closed = closedList::contains;
 				Predicate<Node> tester = isBigMap ? n -> closed.test(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y))
-						: n -> closed.test(n) || !isValid(n, cell, width, n.x == xTo && n.y == yTo) || !canTake.test(new Point(n.x, n.y));
+						: n -> closed.test(n) || !isValid(n, cell, width, height, n.x == xTo && n.y == yTo) || !canTake.test(new Point(n.x, n.y));
 				Arrays.stream(nodes).filter(tester.negate()).forEachOrdered(n -> {
 					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
 					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
@@ -79,16 +79,16 @@ public class Pathfinding {
 
 	}
 
-	public static float getPathTime(List<Point> path, Cell[] cells, int width, boolean mount) {
+	public static float getPathTime(List<Point> path, Cell[] cells, int width, int height, boolean mount) {
 		boolean walk = path.size() < 6;
 		Point last = path.get(0);
-		Cell c = cells[Maps.getId(last.x, last.y, width)];
+		Cell c = cells[Maps.getId(last.x, last.y, width, height)];
 		int lastGroundLevel = c.getGroundLevel();
 		int lastGroundSlope = c.getGroundSlope();
 		float time = 0f;
 		for (int i = 1; i < path.size(); i++) {
 			Point point = path.get(i);
-			Cell cell = cells[Maps.getId(point.x, point.y, width)];
+			Cell cell = cells[Maps.getId(point.x, point.y, width, height)];
 			Orientation direction = getDirection(last.x, last.y, point.x, point.y);
 			time += 1 / (mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
 			if (lastGroundLevel < cell.getGroundLevel())
@@ -167,7 +167,7 @@ public class Pathfinding {
 		return null;
 	}
 
-	public static List<PathFragment> makeShortPath(List<Point> points, int width) {
+	public static List<PathFragment> makeShortPath(List<Point> points, int width, int height) {
 		if (points == null)
 			return null;
 		if (points.size() < 2)
@@ -181,17 +181,18 @@ public class Pathfinding {
 			Orientation current = getDirection(last.x, last.y,
 					points.get(i).x, points.get(i).y);
 			if (current != direction) {
-				path.add(new PathFragment(Maps.getId(last.x, last.y, width), direction));
+				path.add(new PathFragment(Maps.getId(last.x, last.y, width, height), direction));
 				direction = current;
 			}
 			last = points.get(i);
 		}
-		path.add(new PathFragment(Maps.getId(last.x, last.y, width), direction));
+		path.add(new PathFragment(Maps.getId(last.x, last.y, width, height), direction));
 		return path;
 	}
 
-	private static boolean isValid(Node n, Cell[] cells, int width, boolean last) {
-		int id = Maps.getId(n.x, n.y, width);
+	private static boolean isValid(Node n, Cell[] cells, int width, int height, boolean last) {
+		if (!Maps.isInMap(n.x, n.y, width, height)) return false;
+		int id = Maps.getId(n.x, n.y, width, height);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
 			return last ? cell.getMovement() != 0 : isValidCell(cell);

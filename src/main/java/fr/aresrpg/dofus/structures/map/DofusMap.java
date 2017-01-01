@@ -42,7 +42,7 @@ public class DofusMap {
 	}
 
 	public Cell getCell(int x, int y) {
-		return getCell(Maps.getId(x, y, width));
+		return getCell(Maps.getId(x, y, width, height));
 	}
 
 	public Cell getCell(int id) {

@@ -67,8 +67,8 @@ public class Test extends Application {
 				gc.setFill(Color.AQUA);
 			else
 				gc.setFill(Color.LIGHTGRAY);
-			double xp = Maps.getX2(i, width, height) * 30 + 30;
-			double yp = Maps.getY2(i, width, height) * 30 + 30;
+			double xp = Maps.getX(i, width, height) * 30 + 30;
+			double yp = Maps.getY(i, width, height) * 30 + 30;
 			if (i == 6) System.out.println(xp + "," + yp);
 			gc.fillRect(xp, yp, 29, 29);
 			/*
@@ -82,8 +82,8 @@ public class Test extends Application {
 	}
 
 	private void drawRay(GraphicsContext gc) {
-		int y = Maps.getY2(50, width, height);
-		int x = Maps.getX2(50, width, height);
+		int y = Maps.getY(50, width, height);
+		int x = Maps.getX(50, width, height);
 		int r = range * 4 * 2;
 		float inc = (float) ((2f * Math.PI) / (float) r);
 		float a = 0;
@@ -94,7 +94,7 @@ public class Test extends Application {
 			System.out.println(ay);
 			for (int e = 1; e <= range; e++) {
 				System.out.println(i + " " + y + " " + (y + ay * e));
-				int id = Maps.getId2((int) (x + ax * e), (int) Math.rint(y + ay * e), width, height);
+				int id = Maps.getId((int) (x + ax * e), (int) Math.rint(y + ay * e), width, height);
 				t(gc, id);
 			}
 			gc.setStroke(Color.BLUEVIOLET);
@@ -105,8 +105,8 @@ public class Test extends Application {
 	}
 
 	private void t(GraphicsContext gc, int id) {
-		int y = Maps.getY2(id, width, height);
-		float x = Maps.getX2(id, width, height);
+		int y = Maps.getY(id, width, height);
+		float x = Maps.getX(id, width, height);
 		double xp = x * 30 + 32;
 		double yp = y * 30 + 32;
 		gc.fillRect(xp, yp, 25, 25);

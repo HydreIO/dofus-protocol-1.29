@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class FightDetailsPacket implements ServerPacket {
 
-	private int id;
+	private long id;
 	private List<FightDetail> t0 = new ArrayList<>();
 	private List<FightDetail> t1 = new ArrayList<>();
 
 	@Override
 	public void read(DofusStream stream) {
-		this.id = stream.readInt();
+		this.id = stream.readLong();
 		this.t0 = FightDetail.parseFew(stream.read());
 		this.t1 = FightDetail.parseFew(stream.read());
 	}
@@ -26,7 +26,7 @@ public class FightDetailsPacket implements ServerPacket {
 	/**
 	 * @return the id
 	 */
-	public int getDetailsId() {
+	public long getDetailsId() {
 		return id;
 	}
 
@@ -34,7 +34,7 @@ public class FightDetailsPacket implements ServerPacket {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -70,7 +70,7 @@ public class FightDetailsPacket implements ServerPacket {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(3).writeInt(id).write(FightDetail.serializeFew(t0)).write(FightDetail.serializeFew(t1));
+		stream.allocate(3).writeLong(id).write(FightDetail.serializeFew(t0)).write(FightDetail.serializeFew(t1));
 	}
 
 	@Override

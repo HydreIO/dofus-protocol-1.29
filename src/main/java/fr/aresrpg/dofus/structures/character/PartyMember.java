@@ -19,7 +19,7 @@ import fr.aresrpg.dofus.util.StringJoiner;
  */
 public class PartyMember {
 
-	private int id;
+	private long id;
 	private String name;
 	private String gfxFile;
 	private int color1;
@@ -33,7 +33,7 @@ public class PartyMember {
 	private int side;
 	private Accessory[] accessories;
 
-	public PartyMember(int id, String name, String gfxFile, int color1, int color2, int color3, int life, int maxLife, int lvl, int initiative, int prospection, int side, Accessory[] accessories) {
+	public PartyMember(long id, String name, String gfxFile, int color1, int color2, int color3, int life, int maxLife, int lvl, int initiative, int prospection, int side, Accessory[] accessories) {
 		this.id = id;
 		this.name = name;
 		this.gfxFile = gfxFile;
@@ -51,7 +51,7 @@ public class PartyMember {
 
 	public static PartyMember parseMember(String data) {
 		String[] loc7 = data.split(";");
-		int id = Integer.parseInt(loc7[0]);
+		long id = Long.parseLong(loc7[0]);
 		if (loc7.length == 1) return new PartyMember(id, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, null);
 		String name = loc7[1];
 		String loc10 = loc7[2];
@@ -90,9 +90,32 @@ public class PartyMember {
 	}
 
 	/**
+	 * @return the maxLife
+	 */
+	public int getMaxLife() {
+		return maxLife;
+	}
+
+	/**
+	 * @param maxLife
+	 *            the maxLife to set
+	 */
+	public void setMaxLife(int maxLife) {
+		this.maxLife = maxLife;
+	}
+
+	/**
+	 * @param accessories
+	 *            the accessories to set
+	 */
+	public void setAccessories(Accessory[] accessories) {
+		this.accessories = accessories;
+	}
+
+	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -100,7 +123,7 @@ public class PartyMember {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

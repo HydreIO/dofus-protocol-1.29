@@ -80,7 +80,7 @@ public class DofusMapView extends Region {
 				int mHeight = map.getHeight();
 				double multiplier = Math.min(width / mWidth, height / mHeight);
 				double dMultiplier = multiplier / 2;
-				int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth());
+				int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth(), mHeight);
 				if (id > 0 && id < map.getCells().length)
 					onCellClick.accept(id);
 			}
@@ -199,9 +199,9 @@ public class DofusMapView extends Region {
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
 			if (c.getLayerObject1Num() == 1030 || c.getLayerObject2Num() == 1030) gc.setFill(Color.ORANGE);
-			double xp = Maps.getX(i, mWidth) * dMultiplier
+			double xp = Maps.getX(i, mWidth, mHeight) * dMultiplier
 					+ (full ? dMultiplier : 0);
-			double yp = Maps.getY(i, mWidth) * dMultiplier
+			double yp = Maps.getY(i, mWidth, mHeight) * dMultiplier
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);

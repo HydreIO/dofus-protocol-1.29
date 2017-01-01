@@ -48,10 +48,11 @@ public class Maps {
 		String key = Crypt.prepareKey(decryptKey);
 		cellData = Crypt.decipherData(cellData, key, Integer.parseInt(Character.toString(Crypt.checksum(key)), 16) * 2);
 		int width = (int) data.get("width");
-		Cell[] cells = Compressor.uncompressMap(cellData, width);
+		int height = (int) data.get("height");
+		Cell[] cells = Compressor.uncompressMap(cellData, width, height);
 		IntStream.range(0, cells.length).forEach(i -> cells[i] = replaceCell.apply(cells[i]));
 		return new DofusMap((int) data.get("id"), width,
-				(int) data.get("height"), (int) data.get("musicId"),
+				height, (int) data.get("musicId"),
 				(int) data.get("capabilities"), (boolean) data.get("bOutdoor"),
 				(int) data.get("backgroundNum"), cells);
 	}
@@ -60,56 +61,56 @@ public class Maps {
 		return loadMap(data, decryptKey, i -> i);
 	}
 
-	public static int distance(int from, int to, int width) {
-		int xto = getX(to, width);
-		int xfrom = getX(from, width);
-		int yto = getY(to, width);
-		int yfrom = getY(from, width);
+	public static int distanceLast(int from, int to, int width) {
+		int xto = getXLast(to, width);
+		int xfrom = getXLast(from, width);
+		int yto = getYLast(to, width);
+		int yfrom = getYLast(from, width);
 		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
 	}
 
-	public static int distance2(int from, int to, int width, int height) {
-		int xto = getX2(to, width, height);
-		int xfrom = getX2(from, width, height);
-		int yto = getY2(to, width, height);
-		int yfrom = getY2(from, width, height);
+	public static int distance(int from, int to, int width, int height) {
+		int xto = getX(to, width, height);
+		int xfrom = getX(from, width, height);
+		int yto = getY(to, width, height);
+		int yfrom = getY(from, width, height);
 		return (xto - xfrom) * (xto - xfrom) + (yto - yfrom) * (yto - yfrom);
 	}
 
-	public static int distanceManathan(int from, int to, int width) {
-		int xto = getX(to, width);
-		int xfrom = getX(from, width);
-		int yto = getY(to, width);
-		int yfrom = getY(from, width);
+	public static int distanceManathanLast(int from, int to, int width) {
+		int xto = getXLast(to, width);
+		int xfrom = getXLast(from, width);
+		int yto = getYLast(to, width);
+		int yfrom = getYLast(from, width);
 		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
 	}
 
-	public static int distanceManathan2(int from, int to, int width, int height) {
-		int xto = getX2(to, width, height);
-		int xfrom = getX2(from, width, height);
-		int yto = getY2(to, width, height);
-		int yfrom = getY2(from, width, height);
+	public static int distanceManathan(int from, int to, int width, int height) {
+		int xto = getX(to, width, height);
+		int xfrom = getX(from, width, height);
+		int yto = getY(to, width, height);
+		int yfrom = getY(from, width, height);
 		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
 	}
 
-	public static int getY(int id, int width) {
+	public static int getYLast(int id, int width) {
 		return (int) (id / (width - 0.5));
 	}
 
-	public static int getX(int id, int width) {
+	public static int getXLast(int id, int width) {
 		return (int) ((id % (width - 0.5)) * 2);
 	}
 
-	public static int getId(int x, int y, int width) {
+	public static int getIdLast(int x, int y, int width) {
 		return (int) (y * (width - 0.5) + x / 2.0);
 	}
 
-	public static int getId2(int x, int y, int width, int height) {
+	public static int getId(int x, int y, int width, int height) {
 		int id = (width + height - 1 - x) * width;
 		return y > height ? id - (y - height) * (width - 1) : y < height ? id + (height - y) * (width - 1) : 0;
 	}
 
-	public static int getX2(int id, int width, int height) {
+	public static int getX(int id, int width, int height) {
 		int n84 = width * (width * 2 - 2);
 		if (id <= n84 && id % width == 0) return getXOfMultiple(id, width, height);
 		int var = id;
@@ -125,7 +126,7 @@ public class Maps {
 		return xOfMultiple;
 	}
 
-	public static int getY2(int id, int width, int height) {
+	public static int getY(int id, int width, int height) {
 		int n84 = width * (width * 2 - 2);
 		if (id <= n84 && id % width == 0) return height;
 		int var = id;
@@ -217,13 +218,9 @@ public class Maps {
 	public static void main(String[] args) {
 		int largeur = 7;
 		int hauteur = 10;
-		int id = 6;
-		int x = getX2(id, largeur, hauteur);
-		int y = getY2(id, largeur, hauteur);
-		System.out.println("L'id " + id + " = " + x + "," + y);
-
-		x = 1;
-		y = 7;
+		int x = 7;
+		int y = 4;
+		System.out.println(getId(x, y, largeur, hauteur));
 	}
 
 }
