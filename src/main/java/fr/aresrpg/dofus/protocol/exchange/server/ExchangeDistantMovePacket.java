@@ -47,8 +47,8 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 				this.add = data.charAt(0) == '+';
 				data = data.substring(1);
 				int uid = Integer.parseInt(data);
-				int quantity = stream.readInt();
-				int itemtype = stream.readInt();
+				int quantity = stream.available() > 0 ? stream.readInt() : 1;
+				int itemtype = stream.available() > 0 ? stream.readInt() : -1;
 				Effect[] eff = stream.available() > 0 ? Item.parseEffects(stream.read()) : null;
 				int price = stream.readInt();
 				this.remainingHours = Convert.toInt(stream.read());
@@ -67,8 +67,10 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 		if (getMoved() == null) stream.allocate(1).write("KG" + String.valueOf(getKamas()));
 		else if (getRemainingHours() == -1)
 			stream.allocate(4).write("KO" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()));
-		else stream.allocate(6).write("K" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()))
-				.writeInt(moved.getPrice()).writeInt(getRemainingHours());
+		else {
+			stream.allocate(isAdd() ? 6 : 1).write("K" + getAddValue() + moved.getUid());
+			if (isAdd()) stream.writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects())).writeInt(moved.getPrice()).writeInt(getRemainingHours());
+		}
 	}
 
 	/**

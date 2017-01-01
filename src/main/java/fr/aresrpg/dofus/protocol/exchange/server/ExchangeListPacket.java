@@ -32,7 +32,10 @@ public class ExchangeListPacket implements ServerPacket {
 
 	@Override
 	public void read(DofusStream stream) {
-		if (stream.available() < 1) return;
+		if (stream.available() < 1) {
+			invType = Exchange.BIG_STORE_SELL; // le serveur peut envoyer juste un EL vide mdr lol fdp putin du coup on met un inventaire au pif
+			return;
+		}
 		char type = stream.peek().charAt(0);
 		if (type == 'O' || type == 'G') {
 			this.invType = Exchange.BANK;
