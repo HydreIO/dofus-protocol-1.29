@@ -4,15 +4,15 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.character;
 
 import java.util.Arrays;
 
 public class AvailableCharacter {
-	private int id;
+	private long id;
 	private String pseudo;
 	private int level;
 	private int gfxId;
@@ -26,7 +26,7 @@ public class AvailableCharacter {
 	private int deathCount;
 	private int lvlMax;
 
-	public AvailableCharacter(int id, String pseudo, int level, int gfxId, int color1, int color2, int color3,
+	public AvailableCharacter(long id, String pseudo, int level, int gfxId, int color1, int color2, int color3,
 		int[] accessories, boolean merchant, int serverId, boolean isDead, int deathCount,
 		int lvlMax) {
 		this.id = id;
@@ -103,7 +103,7 @@ public class AvailableCharacter {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

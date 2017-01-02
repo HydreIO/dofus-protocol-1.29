@@ -4,26 +4,24 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.protocol.account.client;
 
-import fr.aresrpg.dofus.protocol.ClientPacket;
-import fr.aresrpg.dofus.protocol.ClientPacketHandler;
-import fr.aresrpg.dofus.protocol.DofusStream;
+import fr.aresrpg.dofus.protocol.*;
 
 public class AccountSelectCharacterPacket implements ClientPacket {
-	private int characterId;
+	private long characterId;
 
 	@Override
 	public void read(DofusStream stream) {
-		characterId = stream.readInt();
+		characterId = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(characterId);
+		stream.allocate(1).writeLong(characterId);
 	}
 
 	@Override
@@ -31,11 +29,11 @@ public class AccountSelectCharacterPacket implements ClientPacket {
 		handler.handle(this);
 	}
 
-	public int getCharacterId() {
+	public long getCharacterId() {
 		return characterId;
 	}
 
-	public AccountSelectCharacterPacket setCharacterId(int characterId) {
+	public AccountSelectCharacterPacket setCharacterId(long characterId) {
 		this.characterId = characterId;
 		return this;
 	}
