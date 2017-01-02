@@ -11,11 +11,6 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.structures.map.Cell;
 import fr.aresrpg.dofus.structures.map.DofusMap;
-
-import java.awt.Point;
-import java.util.*;
-import java.util.function.IntConsumer;
-
 import javafx.beans.property.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,6 +19,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.IntConsumer;
 
 public class DofusMapView extends Region {
 
@@ -80,7 +81,7 @@ public class DofusMapView extends Region {
 				int mHeight = map.getHeight();
 				double multiplier = Math.min(width / mWidth, height / mHeight);
 				double dMultiplier = multiplier / 2;
-				int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth(), mHeight);
+				int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth());
 				if (id > 0 && id < map.getCells().length)
 					onCellClick.accept(id);
 			}
@@ -199,9 +200,9 @@ public class DofusMapView extends Region {
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
 			if (c.getLayerObject1Num() == 1030 || c.getLayerObject2Num() == 1030) gc.setFill(Color.ORANGE);
-			double xp = Maps.getX(i, mWidth, mHeight) * dMultiplier
+			double xp = Maps.getX(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
-			double yp = Maps.getY(i, mWidth, mHeight) * dMultiplier
+			double yp = Maps.getY(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);

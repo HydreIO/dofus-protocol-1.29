@@ -197,7 +197,7 @@ public class Test2 extends Application {
 
 		for (int cy = y; cy <= size; cy++) {
 			for (double cx = firstX; cx <= size; cx++) {
-				grid[cy][cx] = new Cell();
+				grid[cy][(int)cx] = new Cell();
 			}
 		}
 

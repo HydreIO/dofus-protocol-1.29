@@ -16,6 +16,12 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useTestNG()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'org.testng:testng:6.10'
+    testCompile 'net.java:quickcheck:0.6'
 }

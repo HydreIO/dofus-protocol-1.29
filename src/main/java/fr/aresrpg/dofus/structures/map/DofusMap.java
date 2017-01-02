@@ -33,6 +33,8 @@ public class DofusMap {
 		this.outdoor = outdoor;
 		this.backgroundId = backgroundId;
 		this.cells = cells;
+		for(Cell c : cells)
+			c.setMap(this);
 	}
 
 	public Cell getCell(Predicate<Cell> cell) {
@@ -42,7 +44,11 @@ public class DofusMap {
 	}
 
 	public Cell getCell(int x, int y) {
-		return getCell(Maps.getId(x, y, width, height));
+		return getCell(Maps.getId(x, y, width));
+	}
+
+	public Cell getCellRot(int x, int y) {
+		return getCell(Maps.getIdRotated(x, y, width , height));
 	}
 
 	public Cell getCell(int id) {
