@@ -14,7 +14,7 @@ import fr.aresrpg.dofus.structures.item.Item;
 import java.util.Arrays;
 
 public class Character {
-	private int id;
+	private long id;
 	private String pseudo;
 	private int level;
 	private int sex;
@@ -25,7 +25,7 @@ public class Character {
 	private int color3;
 	private Item[] items;
 
-	public Character(int id, String pseudo, int level, int sex, int guild, int gfxId, int color1, int color2, int color3, Item[] items) {
+	public Character(long id, String pseudo, int level, int sex, int guild, int gfxId, int color1, int color2, int color3, Item[] items) {
 		this.id = id;
 		this.pseudo = pseudo;
 		this.level = level;
@@ -38,7 +38,7 @@ public class Character {
 		this.items = items;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

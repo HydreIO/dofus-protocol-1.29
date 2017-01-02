@@ -51,28 +51,27 @@ public class Pathfinding {
 			if (node.x == xTo && node.y == yTo)
 				return recreatePath(cameFrom, node);
 			else {
-				Node[] nodes = isBigMap ? getNeighborsForMap(node) : useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node);
+				Node[] nodes = useDiagonale ? getNeighbors(node) : getNeighborsWithoutDiagonals(node);
 				Predicate<Node> closed = closedList::contains;
 				Predicate<Node> tester = isBigMap ? n -> closed.test(n) || !canMoveOnFrom.test(new Point(node.x, node.y), new Point(n.x, n.y))
 						: n -> closed.test(n) || !isValid(n, cell, width, height, n.x == xTo && n.y == yTo) || !canTake.test(new Point(n.x, n.y));
-				Arrays.stream(nodes).filter(tester.negate()).forEachOrdered(n -> {
+				for (Node n : nodes) {
+					if (tester.test(n)) continue;
 					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
 					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
 					if (openList.contains(n)) {
 						openList.remove(n);
 					}
-					boolean continu = false;
 					if (present != null) {
 						if (present.cost < n.cost)
-							continu = true;
+							continue;
 						else
 							openList.remove(present);
 					}
-					if (!continu) {
-						openList.add(n);
-						cameFrom.put(n, node);
-					}
-				});
+					openList.add(n);
+					cameFrom.put(n, node);
+				}
+
 			}
 		}
 		return null;
@@ -80,6 +79,7 @@ public class Pathfinding {
 	}
 
 	public static float getPathTime(List<Point> path, Cell[] cells, int width, int height, boolean mount) {
+		if (path == null) throw new NullPointerException("The path is null !");
 		boolean walk = path.size() < 6;
 		Point last = path.get(0);
 		Cell c = cells[Maps.getId(last.x, last.y, width, height)];
@@ -110,31 +110,19 @@ public class Pathfinding {
 
 	public static Node[] getNeighbors(Node node) {
 		Node[] nodes = new Node[8];
-		int i = 0;
-		for (int x = -1; x <= 1; x++)
-			for (int y = -1; y <= 1; y++)
-				if (!(x == 0 && y == 0)) {
-					if (x == 0 || y == 0)
-						nodes[i++] = new Node(node.x + (x * 2), node.y + (y * 2));
-					else
-						nodes[i++] = new Node(node.x + x, node.y + y);
-				}
+		nodes[0] = new Node(node.x + 1, node.y);
+		nodes[1] = new Node(node.x - 1, node.y);
+		nodes[2] = new Node(node.x, node.y + 1);
+		nodes[3] = new Node(node.x, node.y - 1);
+
+		nodes[4] = new Node(node.x + 1, node.y + 1);
+		nodes[5] = new Node(node.x - 1, node.y - 1);
+		nodes[6] = new Node(node.x - 1, node.y + 1);
+		nodes[7] = new Node(node.x + 1, node.y - 1);
 		return nodes;
 	}
 
 	public static Node[] getNeighborsWithoutDiagonals(Node node) {
-		Node[] nodes = new Node[4];
-		int i = 0;
-		for (int x = -1; x <= 1; x++)
-			for (int y = -1; y <= 1; y++)
-				if (!(x == 0 && y == 0)) {
-					if (x != 0 && y != 0)
-						nodes[i++] = new Node(node.x + x, node.y + y);
-				}
-		return nodes;
-	}
-
-	private static Node[] getNeighborsForMap(Node node) {
 		Node[] nodes = new Node[4];
 		nodes[0] = new Node(node.x + 1, node.y);
 		nodes[1] = new Node(node.x - 1, node.y);
@@ -147,14 +135,14 @@ public class Pathfinding {
 		int deltaX = xTo - xFrom;
 		int deltaY = yTo - yFrom;
 
-		if (Math.abs(deltaX) == 2 && deltaY == 0)
-			return deltaX > 0 ? Orientation.DOWN_RIGHT : Orientation.UP_LEFT;
-		else if (Math.abs(deltaY) == 2 && deltaX == 0)
-			return deltaY > 0 ? Orientation.DOWN_LEFT : Orientation.UP_RIGHT;
+		if (Math.abs(deltaX) == 1 && deltaY == 0)
+			return deltaX > 0 ? Orientation.UP : Orientation.DOWN;
+		else if (Math.abs(deltaY) == 1 && deltaX == 0)
+			return deltaY > 0 ? Orientation.RIGHT : Orientation.LEFT;
 		else if (Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? Orientation.RIGHT : Orientation.UP;
+			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_RIGHT;
 		else if (Math.abs(deltaX) == 1 && deltaY == 1)
-			return deltaX > 0 ? Orientation.DOWN : Orientation.LEFT;
+			return deltaX > 0 ? Orientation.UP_LEFT : Orientation.DOWN_LEFT;
 		else
 			return null;
 	}
@@ -172,7 +160,6 @@ public class Pathfinding {
 			return null;
 		if (points.size() < 2)
 			return null;
-
 		List<PathFragment> path = new ArrayList<>();
 		Orientation direction = getDirection(points.get(0).x, points.get(0).y,
 				points.get(1).x, points.get(1).y);
@@ -196,8 +183,7 @@ public class Pathfinding {
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
 			return last ? cell.getMovement() != 0 : isValidCell(cell);
-		} else
-			return false;
+		} else return false;
 	}
 
 	private static boolean isValidCell(Cell cell) {

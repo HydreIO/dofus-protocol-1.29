@@ -4,8 +4,8 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.server;
 
@@ -29,6 +29,12 @@ public enum Server {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	public static Server fromName(String name) {
+		if (name.equalsIgnoreCase("eratz")) return ERATZ;
+		else if (name.equalsIgnoreCase("henual")) return HENUAL;
+		return null;
 	}
 
 	public static Server fromId(int id) {

@@ -21,7 +21,7 @@ public class AccountSelectCharacterOkPacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		stream.read();//Skip separator
-		int id = stream.readInt();
+		long id = stream.readLong();
 		String pseudo = stream.read();
 		int level = stream.readInt();
 		int guild = stream.readInt();
@@ -47,7 +47,7 @@ public class AccountSelectCharacterOkPacket implements ServerPacket {
 			for (Item i : character.getItems())
 			rawItems.add(Item.serializeItem(i));
 		stream.allocate(11).write("") //Set separator
-				.writeInt(character.getId())
+				.writeLong(character.getId())
 				.write(character.getPseudo())
 				.writeInt(character.getLevel())
 				.writeInt(character.getGuild())
