@@ -14,23 +14,22 @@ import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.*;
-import java.util.List;
 import java.util.function.Function;
 
 public class Pathfinding {
 
-	public static List<Point> getCellPath(int idFrom, int idTo, Cell[] cells, int width, int height , Function<Node , Node[]> neighbors, PathValidator canTake) {
-		int xFrom = cells[idFrom].getXRot() == -1 ? Maps.getXRotated(idFrom , width , height) : cells[idFrom].getXRot();
-		int yFrom = cells[idFrom].getYRot() == -1 ? Maps.getYRotated(idFrom , width , height) : cells[idFrom].getYRot();
-		int xTo = cells[idTo].getXRot() == -1 ? Maps.getXRotated(idTo , width , height) : cells[idTo].getXRot();
-		int yTo = cells[idTo].getYRot() == -1 ? Maps.getYRotated(idTo , width , height) : cells[idTo].getYRot();
-		return getPath(xFrom , yFrom , xTo , yTo , (xF , yF , x , y) -> canTake.test(xF , yF , x , y) && isValid(x , y , cells , width , height , x == xTo && y == yTo), neighbors);
+	public static List<Point> getCellPath(int idFrom, int idTo, Cell[] cells, int width, int height, Function<Node, Node[]> neighbors, PathValidator canTake) {
+		int xFrom = cells[idFrom].getXRot() == -1 ? Maps.getXRotated(idFrom, width, height) : cells[idFrom].getXRot();
+		int yFrom = cells[idFrom].getYRot() == -1 ? Maps.getYRotated(idFrom, width, height) : cells[idFrom].getYRot();
+		int xTo = cells[idTo].getXRot() == -1 ? Maps.getXRotated(idTo, width, height) : cells[idTo].getXRot();
+		int yTo = cells[idTo].getYRot() == -1 ? Maps.getYRotated(idTo, width, height) : cells[idTo].getYRot();
+		return getPath(xFrom, yFrom, xTo, yTo, (xF, yF, x, y) -> canTake.test(xF, yF, x, y) && isValid(x, y, cells, width, height, x == xTo && y == yTo), neighbors);
 	}
 
 	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Function<Node, Node[]> neighbors) {
-		return getPath(xFrom, yFrom, xTo, yTo, (xF , yF , xT , yT) -> true , neighbors);
+		return getPath(xFrom, yFrom, xTo, yTo, (xF, yF, xT, yT) -> true, neighbors);
 	}
 
 	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, PathValidator validator, Function<Node, Node[]> neighbors) {
@@ -47,7 +46,7 @@ public class Pathfinding {
 				return recreatePath(cameFrom, node);
 			else {
 				for (Node n : neighbors.apply(node)) {
-					if (closedList.contains(n) || !validator.test(node.x , node.y , n.x , n.y))
+					if (closedList.contains(n) || !validator.test(node.x, node.y, n.x, n.y))
 						continue;
 					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
 					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
@@ -72,7 +71,11 @@ public class Pathfinding {
 
 	@FunctionalInterface
 	public interface PathValidator {
-		boolean test(int xFrom , int yFrom , int xTo , int yTo);
+		boolean test(int xFrom, int yFrom, int xTo, int yTo);
+
+		static PathValidator alwaysTrue() {
+			return (a, b, c, d) -> true;
+		}
 	}
 
 	public static float getPathTime(List<Point> path, Cell[] cells, int width, int height, boolean mount) {
@@ -108,16 +111,16 @@ public class Pathfinding {
 	public static Node[] getNeighbors(Node node) {
 		Node[] nodes = new Node[8];
 		int i = 0;
-		for(int x = - 1 ; x <= 1 ; x++)
-			for(int y = -1 ; y <= 1 ; y++)
-				if(x != 0 && y != 0)
-					nodes[i++] = new Node(node.x + x , node.y + y);
+		for (int x = -1; x <= 1; x++)
+			for (int y = -1; y <= 1; y++)
+				if (!(x == 0 && y == 0))
+					nodes[i++] = new Node(node.x + x, node.y + y);
 
 		return nodes;
 	}
 
 	public static Node[] getNeighborsWithoutDiagonals(Node node) {
-		return new Node[]{
+		return new Node[] {
 				new Node(node.x + 1, node.y),
 				new Node(node.x - 1, node.y),
 				new Node(node.x, node.y + 1),
@@ -140,23 +143,6 @@ public class Pathfinding {
 		else
 			return null;
 	}
-
-	/*
-	 * public static Orientation getDirection(int xFrom, int yFrom, int xTo, int yTo) {
-	 * int deltaX = xTo - xFrom;
-	 * int deltaY = yTo - yFrom;
-	 * if (Math.abs(deltaX) == 1 && deltaY == 0)
-	 * return deltaX > 0 ? Orientation.UP : Orientation.DOWN;
-	 * else if (Math.abs(deltaY) == 1 && deltaX == 0)
-	 * return deltaY > 0 ? Orientation.RIGHT : Orientation.LEFT;
-	 * else if (Math.abs(deltaX) == 1 && deltaY == -1)
-	 * return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_RIGHT;
-	 * else if (Math.abs(deltaX) == 1 && deltaY == 1)
-	 * return deltaX > 0 ? Orientation.UP_LEFT : Orientation.DOWN_LEFT;
-	 * else
-	 * return null;
-	 * }
-	 */
 
 	public static Orientation getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {
 		if (xFrom < xTo) return Orientation.RIGHT;
@@ -188,7 +174,7 @@ public class Pathfinding {
 		return path;
 	}
 
-	private static boolean isValid(int x , int y, Cell[] cells, int width, int height, boolean last) {
+	private static boolean isValid(int x, int y, Cell[] cells, int width, int height, boolean last) {
 		if (!Maps.isInMapRotated(x, y, width, height))
 			return false;
 		int id = Maps.getIdRotated(x, y, width, height);
