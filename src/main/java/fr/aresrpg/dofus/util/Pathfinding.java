@@ -172,7 +172,8 @@ public class Pathfinding {
 	}
 
 	private static boolean isValid(int x , int y, Cell[] cells, int width, int height, boolean last) {
-		if (!Maps.isInMap(x, y, width, height)) return false;
+		if (!Maps.isInMapRotated(x, y, width, height))
+			return false;
 		int id = Maps.getIdRotated(x, y, width, height);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];

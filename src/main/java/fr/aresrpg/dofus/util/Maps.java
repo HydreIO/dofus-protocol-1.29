@@ -122,40 +122,12 @@ public class Maps {
 	 * @param height
 	 * @return true if the provided coordinate are inside the dofus map
 	 */
-	public static boolean isInMap(int x, int y, int width, int height) {
-		if (x == 0 || y == 0) return false;
-		if (leftUpCorner(x, y, width, height)) return x - width < y;
-		else if (leftDownCorner(x, y, width)) return x + y > width;
-		else if (rightUpCorner(x, y, width, height)) return (width + height - 1) * 2 - (x + y) >= width - 1;
-		else if (rightDownCorner(x, y, width, height)) return y - width < x;
-		return true;
+	public static boolean isInMapRotated(int x, int y, int width, int height) {
+		return isInMap(getIdRotated(x , y , width , height) , width , height);
 	}
 
-	private static boolean leftUpCorner(int x, int y, int width, int height) {
-		return x > width && y < height;
-	}
-
-	private static boolean leftDownCorner(int x, int y, int width) {
-		return x < width && y < width;
-	}
-
-	private static boolean rightUpCorner(int x, int y, int width, int height) {
-		return x > height && y > height;
-	}
-
-	private static boolean rightDownCorner(int x, int y, int width, int height) {
-		return x < height && y > width;
-	}
-
-	private static int roundDown(int numToRound, int multiple) {
-		return numToRound - (numToRound % multiple);
-	}
-
-	private static int roundUp(int numToRound, int multiple) {
-		if (multiple == 0)
-			return numToRound;
-		int mod = numToRound % multiple;
-		return mod == 0 ? numToRound : numToRound + multiple - mod;
+	public static boolean isInMap(int id, int width, int height){
+		return id >= 0 && id <=Math.round((width - 0.5) * (height - 0.5) * 2);
 	}
 
 }
