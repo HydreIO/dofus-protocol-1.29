@@ -15,15 +15,18 @@ import fr.aresrpg.dofus.util.Maps;
 import java.util.function.Predicate;
 
 public class Cell {
-	protected int id;
-	protected int mapWidth;
+	protected DofusMap map;
+	protected final int id;
 	protected boolean lineOfSight;
 	protected int layerGroundRot;
 	protected int groundLevel;
 	protected int movement;
 	protected int layerGroundNum;
 	protected int groundSlope;
-	protected int x, y;
+	protected int x = -1;
+	protected int y = -1;
+	protected int xRot = -1;
+	protected int yRot = -1;
 	protected boolean layerGroundFlip;
 	protected int layerObject1Num;
 	protected int layerObject1Rot;
@@ -33,18 +36,15 @@ public class Cell {
 	protected int layerObject2Num;
 	protected int frame;
 
-	public Cell(int id, int mapWidth, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, int x, int y, boolean layerGroundFlip,
+	public Cell(int id, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, boolean layerGroundFlip,
 		int layerObject1Num, int layerObject1Rot, boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
 		this.id = id;
-		this.mapWidth = mapWidth;
 		this.lineOfSight = lineOfSight;
 		this.layerGroundRot = layerGroundRot;
 		this.groundLevel = groundLevel;
 		this.movement = movement;
 		this.layerGroundNum = layerGroundNum;
 		this.groundSlope = groundSlope;
-		this.x = x;
-		this.y = y;
 		this.layerGroundFlip = layerGroundFlip;
 		this.layerObject1Num = layerObject1Num;
 		this.layerObject1Rot = layerObject1Rot;
@@ -55,7 +55,7 @@ public class Cell {
 	}
 
 	public int distance(int cellid) {
-		return Maps.distanceLast(getId(), cellid, getMapWidth());
+		return Maps.distance(id, cellid, map.getWidth() , map.getHeight());
 	}
 
 	public int distance(Cell cell) {
@@ -63,27 +63,33 @@ public class Cell {
 	}
 
 	public int distanceManathan(int cellid) {
-		return Maps.distanceManathanLast(getId(), cellid, getMapWidth());
+		return Maps.distanceManathan(getId(), cellid, map.getWidth() , map.getHeight());
 	}
 
 	public int distanceManathan(Cell cell) {
 		return distanceManathan(cell.getId());
 	}
 
-	public boolean isWalkeable() {
-		return isWalkeable(i -> true);
+	public boolean isWalkable() {
+		return isWalkable(i -> true);
 	}
 
-	public boolean isWalkeable(Predicate<Integer> condition) {
+	public boolean isWalkable(Predicate<Integer> condition) {
 		if (!condition.test(id)) return false;
 		return movement != 0 && !Interractable.isInterractable(layerObject2Num);
 	}
 
-	/**
-	 * @return the mapWidth
-	 */
-	public int getMapWidth() {
-		return mapWidth;
+	public DofusMap getMap() {
+		return map;
+	}
+
+	public Cell setMap(DofusMap map) {
+		this.map = map;
+		this.x = Maps.getX(id , map.getWidth());
+		this.y = Maps.getY(id , map.getWidth());
+		this.xRot = Maps.getXRotated(id , map.getWidth() , map.getHeight());
+		this.yRot = Maps.getYRotated(id , map.getWidth() , map.getHeight());
+		return this;
 	}
 
 	public boolean isTeleporter() {
@@ -102,6 +108,14 @@ public class Cell {
 	 */
 	public int getY() {
 		return y;
+	}
+
+	public int getXRot() {
+		return xRot;
+	}
+
+	public int getYRot() {
+		return yRot;
 	}
 
 	/**
@@ -205,7 +219,7 @@ public class Cell {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj == null ? false : obj == this || (obj instanceof Cell && ((Cell) obj).getId() == getId());
+		return obj != null && (obj == this || (obj instanceof Cell && ((Cell) obj).getId() == getId()));
 	}
 
 	public void applyFrame(Frame frame) {
@@ -217,7 +231,7 @@ public class Cell {
 
 	@Override
 	public String toString() {
-		return "Cell [id=" + id + ", mapWidth=" + mapWidth + " ,frame=" + frame + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement="
+		return "Cell [id=" + id + " ,frame=" + frame + ", lineOfSight=" + lineOfSight + ", layerGroundRot=" + layerGroundRot + ", groundLevel=" + groundLevel + ", movement="
 				+ movement
 				+ ", layerGroundNum=" + layerGroundNum + ", groundSlope=" + groundSlope + ", x=" + x + ", y=" + y + ", layerGroundFlip=" + layerGroundFlip + ", layerObject1Num=" + layerObject1Num
 				+ ", layerObject1Rot=" + layerObject1Rot + ", layerObject1Flip=" + layerObject1Flip + ", layerObject2Flip=" + layerObject2Flip + ", layerObject2Interactive=" + layerObject2Interactive
