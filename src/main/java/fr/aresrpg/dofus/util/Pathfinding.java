@@ -136,16 +136,33 @@ public class Pathfinding {
 		int deltaY = yTo - yFrom;
 
 		if (Math.abs(deltaX) == 1 && deltaY == 0)
-			return deltaX > 0 ? Orientation.UP : Orientation.DOWN;
+			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_LEFT;
 		else if (Math.abs(deltaY) == 1 && deltaX == 0)
-			return deltaY > 0 ? Orientation.RIGHT : Orientation.LEFT;
+			return deltaY > 0 ? Orientation.DOWN_RIGHT : Orientation.UP_LEFT;
 		else if (Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_RIGHT;
+			return deltaX > 0 ? Orientation.RIGHT : Orientation.DOWN;
 		else if (Math.abs(deltaX) == 1 && deltaY == 1)
-			return deltaX > 0 ? Orientation.UP_LEFT : Orientation.DOWN_LEFT;
+			return deltaX > 0 ? Orientation.UP : Orientation.LEFT;
 		else
 			return null;
 	}
+
+	/*
+	 * public static Orientation getDirection(int xFrom, int yFrom, int xTo, int yTo) {
+	 * int deltaX = xTo - xFrom;
+	 * int deltaY = yTo - yFrom;
+	 * if (Math.abs(deltaX) == 1 && deltaY == 0)
+	 * return deltaX > 0 ? Orientation.UP : Orientation.DOWN;
+	 * else if (Math.abs(deltaY) == 1 && deltaX == 0)
+	 * return deltaY > 0 ? Orientation.RIGHT : Orientation.LEFT;
+	 * else if (Math.abs(deltaX) == 1 && deltaY == -1)
+	 * return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_RIGHT;
+	 * else if (Math.abs(deltaX) == 1 && deltaY == 1)
+	 * return deltaX > 0 ? Orientation.UP_LEFT : Orientation.DOWN_LEFT;
+	 * else
+	 * return null;
+	 * }
+	 */
 
 	public static Orientation getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {
 		if (xFrom < xTo) return Orientation.RIGHT;
