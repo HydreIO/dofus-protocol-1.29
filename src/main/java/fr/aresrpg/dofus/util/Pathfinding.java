@@ -133,13 +133,13 @@ public class Pathfinding {
 		int deltaY = yTo - yFrom;
 
 		if (Math.abs(deltaX) == 1 && deltaY == 0)
-			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_LEFT;
+			return deltaX > 0 ? Orientation.UP_LEFT : Orientation.DOWN_RIGHT;
 		else if (Math.abs(deltaY) == 1 && deltaX == 0)
-			return deltaY > 0 ? Orientation.DOWN_RIGHT : Orientation.UP_LEFT;
+			return deltaY > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_LEFT;
 		else if (Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? Orientation.RIGHT : Orientation.DOWN;
+			return deltaX > 0 ? Orientation.LEFT : Orientation.DOWN;
 		else if (Math.abs(deltaX) == 1 && deltaY == 1)
-			return deltaX > 0 ? Orientation.UP : Orientation.LEFT;
+			return deltaX > 0 ? Orientation.UP : Orientation.RIGHT;
 		else
 			return null;
 	}
