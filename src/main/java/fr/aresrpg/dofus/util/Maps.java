@@ -81,38 +81,90 @@ public class Maps {
 		return (int) (y * (width - 0.5) + x / 2.0);
 	}
 
-	private static final double PId4 = Math.PI/4;
+	private static final double PId4 = Math.PI / 4;
 	private static final double COS_PId4 = Math.cos(PId4);
 	private static final double SIN_PId4 = Math.sin(PId4);
 	private static final double COS_mPId4 = COS_PId4;
 	private static final double SIN_mPId4 = -SIN_PId4;
 
-	public static int getXRotated(int id, int width, int height) {
-		int x = getX(id , width) - width;
-		int y = getY(id , width) - height;
-		return (int)Math.ceil((x*COS_PId4 - y*SIN_PId4) * 0.7) + width;
-	}
-
-	public static int getYRotated(int id, int width, int height) {
-		int x = getX(id , width) - width;
-		int y = getY(id , width) - height;
-
-		return (int)Math.ceil((x*SIN_PId4 + y*COS_PId4) * 0.7) + height - 2;
-	}
-
-	public static int getIdRotated(int xRot, int yRot, int width, int height) {
-		double xR = Math.ceil(xRot - width)/0.7;
-		double xY = Math.ceil(yRot - height + 2)/0.7;
-		int x = (int)(xR*COS_mPId4 - xY*SIN_mPId4) + width;
-		int y = (int)(xR*SIN_mPId4 + xY*COS_mPId4) + height;
-		return getId(x, y, width);
+	public static int getIdRotated(int x, int y, int width, int height) {
+		int id = (width + height - 1 - x) * width;
+		return y > height ? id - (y - height) * (width - 1) : y < height ? id + (height - y) * (width - 1) : id;
 	}
 
 	public static void main(String[] args) {
-		int id = 186;
-		int width = 16;
-		int heigth = 17;
-		System.out.println(getIdRotated(getXRotated(id , width , heigth) , getYRotated(id , width , heigth) , width , heigth));
+		int id = 50;
+		int width = 1500;
+		int heigth = 7500;
+		int x = getXRotated(id, width, heigth);
+		int y = getXRotated(id, width, heigth);
+		int idSceat = getIdRotated(x, y, width, heigth);
+		System.out.println("test = " + id);
+		System.out.println("x = " + x);
+		System.out.println("y = " + y);
+		System.out.println("final id = " + idSceat);
+	}
+
+	public static int getXRotated(int id, int width, int height) {
+		int n84 = width * (width * 2 - 2);
+		if (id <= n84 && id % width == 0) return getXOfMultiple(id, width, height);
+		int var = id;
+		int count = 0;
+		while (var % width != 0 || var > n84) {
+			var -= (width * 2 - 1);
+			count++;
+			if (var < 0) return getXupper(id, width, height);
+		}
+		int xOfMultiple = getXOfMultiple(var, width, height);
+		while (count-- > 0)
+			xOfMultiple--;
+		return xOfMultiple;
+	}
+
+	public static int getYRotated(int id, int width, int height) {
+		int n84 = width * (width * 2 - 2);
+		if (id <= n84 && id % width == 0) return height;
+		int var = id;
+		int count = 0;
+		while (var % width != 0 || var > n84) {
+			var -= (width * 2 - 1);
+			count++;
+			if (var < 0) return getYupper(id, width, height);
+		}
+		int yOfMultiple = height;
+		while (count-- > 0)
+			yOfMultiple--;
+		return yOfMultiple;
+	}
+
+	private static int getXupper(int id, int width, int height) {
+		int count = 0;
+		int var = id;
+		while (var % width != 0) {
+			var += (width * 2 - 1);
+			count++;
+		}
+		int xOfMultiple = getXOfMultiple(var, width, height);
+		while (count-- > 0)
+			xOfMultiple++;
+		return xOfMultiple;
+	}
+
+	private static int getYupper(int id, int width, int height) {
+		int count = 0;
+		int var = id;
+		while (var % width != 0) {
+			var += (width * 2 - 1);
+			count++;
+		}
+		int yOfMultiple = height;
+		while (count-- > 0)
+			yOfMultiple++;
+		return yOfMultiple;
+	}
+
+	static int getXOfMultiple(int id, int width, int height) {
+		return (width + height - 1) - id / width;
 	}
 
 	/**
@@ -123,11 +175,11 @@ public class Maps {
 	 * @return true if the provided coordinate are inside the dofus map
 	 */
 	public static boolean isInMapRotated(int x, int y, int width, int height) {
-		return isInMap(getIdRotated(x , y , width , height) , width , height);
+		return isInMap(getIdRotated(x, y, width, height), width, height);
 	}
 
-	public static boolean isInMap(int id, int width, int height){
-		return id >= 0 && id <=Math.round((width - 0.5) * (height - 0.5) * 2);
+	public static boolean isInMap(int id, int width, int height) {
+		return id >= 0 && id <= Math.round((width - 0.5) * (height - 0.5) * 2);
 	}
 
 }
