@@ -1,9 +1,7 @@
 package testlol;
 
-import fr.aresrpg.dofus.structures.map.DofusMap;
 import fr.aresrpg.dofus.util.DofusMapView;
 import fr.aresrpg.dofus.util.Maps;
-import fr.aresrpg.dofus.util.SwfVariableExtractor;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,14 +10,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
 public class Test extends Application {
 
 	private final int width = 15;
 	private final int height = 17;
 	private final int cellsW = 479;
-	private final int range = 4;
+	private final int range = 10;
+	Cell[] cells = new Cell[cellsW];
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -35,12 +32,19 @@ public class Test extends Application {
 		 stage.setResizable(true);
 		 stage.show();
 		 System.out.println("Map " + map.getHeight() + " " + map.getWidth() + " " + map.getCells().length);
-		*/Cell[] cells = new Cell[cellsW];
-		for (int i = 0; i < cells.length; i++)
+		*/
+		for (int i = 0; i < cells.length; i++){
 			cells[i] = new Cell(false, false);
+			if(Maps.distance(i , 50 , width , height) > range*range)
+				cells[i].accesible = false;
+		}
 		cells[50] = new Cell(true, false);
-		cells[68] = new Cell(false, true);
-		cells[69] = new Cell(false, true);
+		cells[93] = new Cell(false, true);
+		cells[94] = new Cell(false, true);
+		int ox = Maps.getXRotated(50, width , height);
+		int oy = Maps.getYRotated(50 , width , height);
+		castShadow(Maps.getXRotated(93, width , height) , Maps.getYRotated(93 , width , height) , ox , oy);
+		castShadow(Maps.getXRotated(94, width , height) , Maps.getYRotated(94 , width , height) , ox , oy);
 		Canvas canvas1 = new Canvas();
 		Canvas canvas2 = new Canvas();
 		canvas1.setWidth(1200);
@@ -63,6 +67,8 @@ public class Test extends Application {
 				gc.setFill(Color.BLUEVIOLET);
 			else if (c.player)
 				gc.setFill(Color.AQUA);
+			else if(c.accesible)
+				gc.setFill(Color.GREEN);
 			else
 				gc.setFill(Color.LIGHTGRAY);
 			int xe = Maps.getXRotated(i , width , height);
@@ -83,36 +89,98 @@ public class Test extends Application {
 		}
 	}
 
-	private void drawRay(GraphicsContext gc) {
-		Point p = /*Maps.getXY(50 , width , height);*/null;
-		int y = p.y;
-		int x = p.x;
-		int r = range * 4 * 2;
-		float inc = (float) ((2f * Math.PI) / (float) r);
-		float a = 0;
-		gc.setFill(Color.CORNFLOWERBLUE);
-		for (int i = 0; i <= r; i++) {
-			float ax = (float) Math.cos(a);
-			float ay = (float) Math.sin(a);
-			System.out.println(ay);
-			for (int e = 1; e <= range; e++) {
-				System.out.println(i + " " + y + " " + (y + ay * e));
-				int id = Maps.getIdRotated((int) (x + ax * e), (int) Math.rint(y + ay * e), width, height);
-				t(gc, id);
+	void castShadow(int px, int py , int ox , int oy) {
+		int x = px - ox;
+		int y = py - oy;
+
+		/** Absolute Values **/
+		int ax = x;
+		if(ax < 0) ax = -ax;
+
+		int ay = y;
+		if(ay < 0) ay = -ay;
+
+		int flipX = 0;
+		if (x != 0) flipX = x / ax;
+
+		int flipY = 0;
+		if (y != 0) flipY = y / ay;
+
+		/** Min Max Slopes **/
+		double slope1 = getSlope((ax - 0.5), (ay + 0.5));
+		double slope2 = getSlope((ax + 0.5), (ay - 0.5));
+
+		System.out.println("Slopes : " + slope1 + " " + slope2);
+
+		boolean flag = true;
+
+		for (int cy = ay; cy < range; cy++) {
+			for (int cx = ax; cx < range; cx++) {
+				if ((cx != x || cy != y) && (cx * cx + cy * cy) <= range*range) {
+					/** Skip main cell */
+					double slope = getSlope(cx, cy);
+
+					if ((slope > slope1) && (slope < slope2 || (slope2 < 0 && cx > x))) {
+						if (!flag) {
+							ax = cx;
+							flag = true;
+						}
+
+						mirrorHide(cx, cy, ox , oy, flipX, flipY);
+					} else {
+						if (flag) {
+							break;
+						}
+					}
+
+				}
 			}
-			gc.setStroke(Color.BLUEVIOLET);
-			gc.strokeLine(x * 30 + 45, y * 30 + 45,
-					(x + ax * range * 2) * 30 + 30, y * 30 + ay * range * 2 * 30 + 30);
-			a += inc;
+			if (flag) {
+				flag = false;
+			} else {
+				break;
+			}
+
 		}
 	}
 
-	private void t(GraphicsContext gc, int id) {
-		int y = Maps.getYRotated(id, width, height);
-		float x = Maps.getXRotated(id, width, height);
-		double xp = x * 30 + 32;
-		double yp = y * 30 + 32;
-		gc.fillRect(xp, yp, 25, 25);
+	void mirrorHide(int cx, int cy, int ox , int oy, int flipX, int flipY) {
+		if (flipX >= 0) {
+			mirrorHide(cx, cy, ox , oy , flipY);
+		}
+		if (flipX <= 0) {
+			mirrorHide(-cx, cy, ox , oy , flipY);
+		}
+	}
+
+	void mirrorHide(int cx, int cy, int ox , int oy, int flipY) {
+		if (flipY >= 0) {
+			shadow(cx + ox, cy + oy);
+		}
+		if (flipY <= 0) {
+			shadow(cx + ox ,-cy + oy);
+		}
+	}
+
+	Cell getCell(int x, int y) {
+		if(x > height + width || y > height + width)
+			return null;
+		int id = Maps.getIdRotated(x , y , width , height);
+		if(Maps.isInMap(id , width , height))
+			return cells[id];
+		else
+			return null;
+	}
+
+	void shadow(int x, int y) {
+		Cell cell = getCell(x, y);
+		if(cell != null)
+			cell.accesible = false;
+	}
+
+	double getSlope(double a, double b) {
+		if (b == 0) { return 99; }
+		return a / b;
 	}
 
 	public static void main(String[] args) {
@@ -122,6 +190,7 @@ public class Test extends Application {
 	public class Cell {
 		boolean player;
 		boolean obstacle;
+		boolean accesible = true;
 
 		public Cell(boolean player, boolean obstacle) {
 			this.player = player;

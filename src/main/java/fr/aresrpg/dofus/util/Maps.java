@@ -198,7 +198,7 @@ public class Maps {
 	}
 
 	public static boolean isInMap(int id, int width, int height) {
-		return id >= 0 && id <= Math.round((width - 0.5) * (height - 0.5) * 2);
+		return id >= 0 && id < Math.round((width - 0.5) * (height - 0.5) * 2);
 	}
 
 }
