@@ -82,6 +82,7 @@ public class Pathfinding {
 		if (path == null) throw new NullPointerException("The path is null !");
 		boolean walk = path.size() < 6;
 		Point last = path.get(0);
+		System.out.println("last = " + last);
 		Cell c = cells[Maps.getIdRotated(last.x, last.y, width, height)];
 		int lastGroundLevel = c.getGroundLevel();
 		int lastGroundSlope = c.getGroundSlope();
@@ -145,11 +146,19 @@ public class Pathfinding {
 	}
 
 	public static Orientation getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {
-		if (xFrom < xTo) return Orientation.RIGHT;
-		else if (xFrom > xTo) return Orientation.LEFT;
-		if (yFrom < yTo) return Orientation.DOWN;
-		else if (yFrom > yTo) return Orientation.UP;
-		return null;
+		int deltaX = xTo - xFrom;
+		int deltaY = yTo - yFrom;
+
+		if (Math.abs(deltaX) == 1 && deltaY == 0)
+			return deltaX > 0 ? Orientation.RIGHT : Orientation.LEFT;
+		else if (Math.abs(deltaY) == 1 && deltaX == 0)
+			return deltaY > 0 ? Orientation.DOWN : Orientation.UP;
+		else if (Math.abs(deltaX) == 1 && deltaY == -1)
+			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.UP_LEFT;
+		else if (Math.abs(deltaX) == 1 && deltaY == 1)
+			return deltaX > 0 ? Orientation.DOWN_RIGHT : Orientation.DOWN_LEFT;
+		else
+			return null;
 	}
 
 	public static List<PathFragment> makeShortPath(List<Point> points, int width, int height) {

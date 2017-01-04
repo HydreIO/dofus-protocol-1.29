@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 
 public class Test extends Application {
 
-	private final int width = 15;
-	private final int height = 17;
+	private final int width = 17;
+	private final int height = 15;
 	private final int cellsW = 479;
 	private final int range = 4;
 
@@ -71,10 +71,10 @@ public class Test extends Application {
 				gc.setFill(Color.AQUA);
 			else
 				gc.setFill(Color.LIGHTGRAY);
-			Point p = new Point(Maps.getXSceat(i, width, height), Maps.getYSceat(i, width, height));
-			int xe = Maps.getXSceat(i, width, height);
+			Point p = new Point(Maps.getXRotated(i, width, height), Maps.getYRotated(i, width, height));
+			int xe = Maps.getXRotated(i, width, height);
 			System.out.println("x " + p.x + " " + xe);
-			int ye = Maps.getYSceat(i, width, height);
+			int ye = Maps.getYRotated(i, width, height);
 			System.out.println("y " + p.y + " " + ye);
 			double xp = p.x * 30;
 			double yp = p.y * 30;
@@ -86,9 +86,9 @@ public class Test extends Application {
 			//gid.fillText(i + "", xp, yp + gc.getFont().getSize() / 3);
 			//gid.fillText(p.x + " " + p.y, xp + 9, yp + 16);
 			gid.setFill(Color.RED);
-			int idSceat = Maps.getIdSceat(p.x, p.y, width, height);
+			int idSceat = Maps.getIdRotated(p.x, p.y, width, height);
 			//if (idSceat == 120) gid.setFill(Color.AQUAMARINE);
-			gid.fillText(Maps.getIdSceat(p.x, p.y, width, height) + "", xp + 11, yp + 15);
+			gid.fillText(Maps.getIdRotated(p.x, p.y, width, height) + "", xp + 11, yp + 15);
 			gid.setFill(Color.BLACK);
 		}
 	}
@@ -107,7 +107,7 @@ public class Test extends Application {
 			System.out.println(ay);
 			for (int e = 1; e <= range; e++) {
 				System.out.println(i + " " + y + " " + (y + ay * e));
-				int id = Maps.getIdSceat((int) (x + ax * e), (int) Math.rint(y + ay * e), width, height);
+				int id = Maps.getIdRotated((int) (x + ax * e), (int) Math.rint(y + ay * e), width, height);
 				t(gc, id);
 			}
 			gc.setStroke(Color.BLUEVIOLET);
@@ -118,8 +118,8 @@ public class Test extends Application {
 	}
 
 	private void t(GraphicsContext gc, int id) {
-		int y = Maps.getYSceat(id, width, height);
-		float x = Maps.getXSceat(id, width, height);
+		int y = Maps.getYRotated(id, width, height);
+		float x = Maps.getXRotated(id, width, height);
 		double xp = x * 30 + 32;
 		double yp = y * 30 + 32;
 		gc.fillRect(xp, yp, 25, 25);

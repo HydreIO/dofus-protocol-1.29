@@ -93,16 +93,17 @@ public class Maps {
 	}
 
 	public static void main(String[] args) {
-		int id = 50;
-		int width = 1500;
-		int heigth = 7500;
+		int id = 478;
+		int width = 15;
+		int heigth = 17;
 		int x = getXRotated(id, width, heigth);
-		int y = getXRotated(id, width, heigth);
+		int y = getYRotated(id, width, heigth);
 		int idSceat = getIdRotated(x, y, width, heigth);
 		System.out.println("test = " + id);
 		System.out.println("x = " + x);
 		System.out.println("y = " + y);
 		System.out.println("final id = " + idSceat);
+		System.out.println("isInMap = " + isInMapRotated(x, y, width, heigth));
 	}
 
 	public static int getXRotated(int id, int width, int height) {
@@ -179,7 +180,7 @@ public class Maps {
 	}
 
 	public static boolean isInMap(int id, int width, int height) {
-		return id >= 0 && id <= Math.round((width - 0.5) * (height - 0.5) * 2);
+		return id >= 0 && id < Math.round((width - 0.5) * (height - 0.5) * 2);
 	}
 
 }
