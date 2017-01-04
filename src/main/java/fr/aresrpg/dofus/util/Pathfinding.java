@@ -134,13 +134,13 @@ public class Pathfinding {
 		int deltaY = yTo - yFrom;
 
 		if (Math.abs(deltaX) == 1 && deltaY == 0)
-			return deltaX > 0 ? Orientation.UP_LEFT : Orientation.DOWN_RIGHT;
+			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_LEFT;
 		else if (Math.abs(deltaY) == 1 && deltaX == 0)
-			return deltaY > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_LEFT;
+			return deltaY > 0 ? Orientation.DOWN_RIGHT : Orientation.UP_LEFT;
 		else if (Math.abs(deltaX) == 1 && deltaY == -1)
-			return deltaX > 0 ? Orientation.LEFT : Orientation.DOWN;
+			return deltaX > 0 ? Orientation.UP : Orientation.LEFT;
 		else if (Math.abs(deltaX) == 1 && deltaY == 1)
-			return deltaX > 0 ? Orientation.UP : Orientation.RIGHT;
+			return deltaX > 0 ? Orientation.RIGHT : Orientation.DOWN;
 		else
 			return null;
 	}
@@ -194,6 +194,7 @@ public class Pathfinding {
 	}
 
 	private static boolean isValidCell(Cell cell) {
+		System.out.print(cell.getId() + " valid ? " + !Interractable.isInterractable(cell.getLayerObject2Num()) + " ");
 		return !Interractable.isInterractable(cell.getLayerObject2Num()) && (cell.getMovement() == 4 || cell.getMovement() == 6);
 	}
 

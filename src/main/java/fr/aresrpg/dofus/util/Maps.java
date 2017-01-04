@@ -88,31 +88,32 @@ public class Maps {
 	private static final double SIN_mPId4 = -SIN_PId4;
 
 	public static int getXRotated(int id, int width, int height) {
-		int x = getX(id , width) - width;
-		int y = getY(id , width) - height;
-		return (int)Math.ceil((x*COS_PId4 - y*SIN_PId4 - 0.25) * 0.7) + width;
-	}
-	public static int getYRotated(int id, int width, int height) {
-		int x = getX(id , width) - width;
-		int y = getY(id , width) - height;
-		return (int)Math.ceil((x*SIN_PId4 + y*COS_PId4 - 1.75) * 0.7) + height;
-	}
-	public static int getIdRotated(int xRot, int yRot, int width, int height) {
-		double xR = Math.ceil(xRot - width)/0.7 + 0.25;
-		double xY = Math.ceil(yRot - height)/0.7 + 1.75;
-		int x = (int)Math.round(xR*COS_mPId4 - xY*SIN_mPId4 - 0.1) + width;
-		int y = (int)Math.round(xR*SIN_mPId4 + xY*COS_mPId4) + height;
-		return getId(x, y, width);
+		int x = getX(id, width) - width;
+		int y = getY(id, width) - height;
+		return (int) Math.ceil((x * COS_PId4 - y * SIN_PId4 - 0.25) * 0.7) + width;
 	}
 
+	public static int getYRotated(int id, int width, int height) {
+		int x = getX(id, width) - width;
+		int y = getY(id, width) - height;
+		return (int) Math.ceil((x * SIN_PId4 + y * COS_PId4 - 1.75) * 0.7) + height;
+	}
+
+	public static int getIdRotated(int xRot, int yRot, int width, int height) {
+		double xR = Math.ceil(xRot - width) / 0.7 + 0.25;
+		double xY = Math.ceil(yRot - height) / 0.7 + 1.75;
+		int x = (int) Math.round(xR * COS_mPId4 - xY * SIN_mPId4 - 0.1) + width;
+		int y = (int) Math.round(xR * SIN_mPId4 + xY * COS_mPId4) + height;
+		return getId(x, y, width);
+	}
 
 	public static void main(String[] args) {
 		int id = 478;
 		int width = 15;
 		int heigth = 17;
-		int x = getXRotated(id, width, heigth);
-		int y = getYRotated(id, width, heigth);
-		int idSceat = getIdRotated(x, y, width, heigth);
+		int x = getXRotatedSceat(id, width, heigth) + 1;
+		int y = getYRotatedSceat(id, width, heigth);
+		int idSceat = getIdRotatedSceat(x, y, width, heigth);
 		System.out.println("test = " + id);
 		System.out.println("x = " + x);
 		System.out.println("y = " + y);
