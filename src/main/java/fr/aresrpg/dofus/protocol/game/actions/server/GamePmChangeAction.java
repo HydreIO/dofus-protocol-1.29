@@ -78,7 +78,7 @@ public class GamePmChangeAction implements GameAction {
 
 	@Override
 	public String toString() {
-		return "PmChangeAction [entity=" + entity + ", pa=" + pm + "]";
+		return "PmChangeAction [entity=" + entity + ", pm=" + pm + "]";
 	}
 
 }

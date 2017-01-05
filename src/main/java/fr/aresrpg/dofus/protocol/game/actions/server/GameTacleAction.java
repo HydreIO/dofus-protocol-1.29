@@ -1,4 +1,4 @@
-package fr.aresrpg.dofus.protocol.game.actions.client;
+package fr.aresrpg.dofus.protocol.game.actions.server;
 
 import fr.aresrpg.dofus.protocol.DofusStream;
 import fr.aresrpg.dofus.protocol.game.actions.GameAction;

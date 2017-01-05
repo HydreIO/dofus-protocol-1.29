@@ -34,6 +34,9 @@ public class DofusMapView extends Region {
 	private BooleanProperty full;
 	private BooleanProperty cellId;
 	private ObjectProperty<List<Point>> path;
+	private ObjectProperty<List<Cell>> accessible;
+	private IntegerProperty shadowOrigin;
+	private IntegerProperty shadowRange;
 	private IntegerProperty currentPosition;
 	private ConcurrentMap<Integer, Integer> mobs = new ConcurrentHashMap();
 	private ConcurrentMap<Integer, Integer> players = new ConcurrentHashMap<>();
@@ -55,13 +58,17 @@ public class DofusMapView extends Region {
 		this.full = new SimpleBooleanProperty(true);
 		this.cellId = new SimpleBooleanProperty(true);
 		this.path = new SimpleObjectProperty<>();
+		this.accessible = new SimpleObjectProperty<>();
 		this.currentPosition = new SimpleIntegerProperty(-1);
+		this.shadowRange = new SimpleIntegerProperty(-1);
+		this.shadowOrigin = new SimpleIntegerProperty(-1);
 		widthProperty().addListener((obs, oldValue, newValue) -> draw());
 		heightProperty().addListener((obs, oldValue, newValue) -> draw());
 		this.currentPosition.addListener((obs, oldValue, newValue) -> drawCells());
 		this.map.addListener((obs, oldValue, newValue) -> drawCells());
 		this.full.addListener((obs, oldValue, newValue) -> drawCells());
 		this.path.addListener((obs, oldValue, newValue) -> drawPath());
+		this.accessible.addListener((obs, oldValue, newValue) -> drawCells());
 		this.cellId.addListener((obs, oldValue, newValue) -> idCanvas.setVisible(newValue));
 
 		setOnMouseClicked(mouseEvent -> {
@@ -202,6 +209,13 @@ public class DofusMapView extends Region {
 					+ (full ? dMultiplier : 0);
 			double yp = Maps.getY(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
+
+			// line of sight
+			if (this.accessible != null && this.accessible.get() != null && c.isWalkable()) {
+				if (c.distanceManathan(shadowOrigin.get()) <= this.shadowRange.get()) gc.setFill(Color.LIGHTSKYBLUE);
+				if (this.accessible.get().contains(c)) gc.setFill(Color.ROYALBLUE);
+			}
+
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
 			switch (c.getLayerObject2Num()) {
@@ -274,6 +288,12 @@ public class DofusMapView extends Region {
 	private void draw() {
 		drawCells();
 		drawPath();
+	}
+
+	public void setAccessible(List<Cell> acc, int origin, int range) {
+		this.shadowRange.set(range);
+		this.shadowOrigin.set(origin);
+		this.accessible.set(acc);
 	}
 
 	private void setCanvasWidth(double width) {

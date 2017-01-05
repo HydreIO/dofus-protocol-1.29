@@ -13,6 +13,7 @@ import fr.aresrpg.dofus.Constants;
 import fr.aresrpg.dofus.structures.map.Cell;
 import fr.aresrpg.dofus.structures.map.DofusMap;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -67,6 +68,14 @@ public class Maps {
 		int yto = getYRotated(to, width, height);
 		int yfrom = getYRotated(from, width, height);
 		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
+	}
+
+	public static int distanceManathan(int xfrom, int yfrom, int xto, int yto, int width, int height) {
+		return Math.abs(xto - xfrom) + Math.abs(yto - yfrom);
+	}
+
+	public static int distanceManathan(Point from, Point to, int width, int height) {
+		return distanceManathan(from.x, from.y, to.x, to.y, width, height);
 	}
 
 	public static int getY(int id, int width) {

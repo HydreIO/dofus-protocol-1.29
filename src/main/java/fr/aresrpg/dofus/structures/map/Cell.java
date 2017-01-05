@@ -12,8 +12,6 @@ package fr.aresrpg.dofus.structures.map;
 import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.util.Maps;
 
-import java.util.function.Predicate;
-
 public class Cell {
 	protected DofusMap map;
 	protected final int id;
@@ -55,7 +53,7 @@ public class Cell {
 	}
 
 	public int distance(int cellid) {
-		return Maps.distance(id, cellid, map.getWidth() , map.getHeight());
+		return Maps.distance(id, cellid, map.getWidth(), map.getHeight());
 	}
 
 	public int distance(Cell cell) {
@@ -63,7 +61,7 @@ public class Cell {
 	}
 
 	public int distanceManathan(int cellid) {
-		return Maps.distanceManathan(getId(), cellid, map.getWidth() , map.getHeight());
+		return Maps.distanceManathan(getId(), cellid, map.getWidth(), map.getHeight());
 	}
 
 	public int distanceManathan(Cell cell) {
@@ -71,12 +69,12 @@ public class Cell {
 	}
 
 	public boolean isWalkable() {
-		return isWalkable(i -> true);
+		return getMovement() != 0 && !isInterractable();
 	}
 
-	public boolean isWalkable(Predicate<Integer> condition) {
-		if (!condition.test(id)) return false;
-		return movement != 0 && !Interractable.isInterractable(layerObject2Num);
+	public boolean isInterractable() {
+		if (movement == 1) return true;
+		return Interractable.isInterractable(getLayerObject2Num());
 	}
 
 	public DofusMap getMap() {
@@ -85,10 +83,10 @@ public class Cell {
 
 	public Cell setMap(DofusMap map) {
 		this.map = map;
-		this.x = Maps.getX(id , map.getWidth());
-		this.y = Maps.getY(id , map.getWidth());
-		this.xRot = Maps.getXRotated(id , map.getWidth() , map.getHeight());
-		this.yRot = Maps.getYRotated(id , map.getWidth() , map.getHeight());
+		this.x = Maps.getX(id, map.getWidth());
+		this.y = Maps.getY(id, map.getWidth());
+		this.xRot = Maps.getXRotated(id, map.getWidth(), map.getHeight());
+		this.yRot = Maps.getYRotated(id, map.getWidth(), map.getHeight());
 		return this;
 	}
 

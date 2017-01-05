@@ -51,6 +51,8 @@ import fr.aresrpg.dofus.protocol.specialization.server.SpecializationSetPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
 import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
+import fr.aresrpg.dofus.protocol.subway.SubwayLeavePacket;
+import fr.aresrpg.dofus.protocol.subway.client.SubwayUsePacket;
 import fr.aresrpg.dofus.protocol.waypoint.ZaapLeavePacket;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
@@ -327,8 +329,10 @@ public enum ProtocolRegistry {
 
 	// client
 	ZAAP_USE(Layer.WAYPOINT, 'U', Bound.CLIENT, ZaapUsePacket.class),
+	ZAAPI_USE(Layer.WAYPOINT, 'u', Bound.CLIENT, SubwayUsePacket.class),
 	// both
 	ZAAP_LEAVE(Layer.WAYPOINT, 'V', Bound.BOTH, ZaapLeavePacket.class),
+	ZAAPI_LEAVE(Layer.WAYPOINT, 'v', Bound.BOTH, SubwayLeavePacket.class)
 
 	// <<<< END
 	;

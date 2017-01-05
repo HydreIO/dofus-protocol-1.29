@@ -72,7 +72,7 @@ public class GameServerActionPacket implements GameActionPacket, ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		action.write(stream);
-		String data = stream.read();
+		String data = stream.available() > 0 ? stream.read() : "";
 		stream.setWriteIndex(0);
 		if (action.getId()[0] == 0)
 			stream.write(";0");
