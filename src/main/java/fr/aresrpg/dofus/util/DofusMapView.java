@@ -9,41 +9,40 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
+import fr.aresrpg.dofus.Constants;
 import fr.aresrpg.dofus.structures.map.Cell;
 import fr.aresrpg.dofus.structures.map.DofusMap;
 
 import java.awt.Point;
-import java.util.*;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.IntConsumer;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class DofusMapView extends Region {
 
-	private static final Image wheat = new Image("https://i.imgur.com/LzUi53W.png");
-	private static final Image chanvre = new Image("https://i.imgur.com/UWJKJwc.png");
-	private static final Image npc = new Image("https://i.imgur.com/aqwfqXZ.png");
-	private static final Image player = new Image("https://i.imgur.com/CMBwr3R.png");
-	private static final Image mob = new Image("https://i.imgur.com/KG6PUJ0.png");
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
 	private ObjectProperty<List<Point>> path;
 	private IntegerProperty currentPosition;
-	private Map<Integer, Integer> mobs = new HashMap<>();
-	private Map<Integer, Integer> players = new HashMap<>();
-	private Map<Integer, Integer> npcs = new HashMap<>();
+	private ConcurrentMap<Integer, Integer> mobs = new ConcurrentHashMap();
+	private ConcurrentMap<Integer, Integer> players = new ConcurrentHashMap<>();
+	private ConcurrentMap<Integer, Integer> npcs = new ConcurrentHashMap<>();
 	private Canvas cellCanvas;
 	private Canvas idCanvas;
 	private Canvas pathCanvas;
 	private IntConsumer onCellClick;
-	private boolean drawing = false;
+	private Color pathColor;
 
 	public DofusMapView() {
 		this.cellCanvas = new Canvas();
@@ -65,27 +64,26 @@ public class DofusMapView extends Region {
 		this.path.addListener((obs, oldValue, newValue) -> drawPath());
 		this.cellId.addListener((obs, oldValue, newValue) -> idCanvas.setVisible(newValue));
 
-		/*
-		 * setOnMouseClicked(mouseEvent -> {
-		 * if (this.onCellClick == null)
-		 * return;
-		 * if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-		 * double width = getWidth();
-		 * double height = getHeight();
-		 * DofusMap map = this.map.get();
-		 * boolean full = this.full.get();
-		 * if (map == null)
-		 * return;
-		 * int mWidth = map.getWidth();
-		 * int mHeight = map.getHeight();
-		 * double multiplier = Math.min(width / mWidth, height / mHeight);
-		 * double dMultiplier = multiplier / 2;
-		 * int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth());
-		 * if (id > 0 && id < map.getCells().length)
-		 * onCellClick.accept(id);
-		 * }
-		 * });
-		 */
+		setOnMouseClicked(mouseEvent -> {
+			if (this.onCellClick == null)
+				return;
+			if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+				double width = getWidth();
+				double height = getHeight();
+				DofusMap map = this.map.get();
+				boolean full = this.full.get();
+				if (map == null)
+					return;
+				int mWidth = map.getWidth();
+				int mHeight = map.getHeight();
+				double multiplier = Math.min(width / mWidth, height / mHeight);
+				double dMultiplier = multiplier / 2;
+				int id = Maps.getId((int) Math.round(mouseEvent.getX() / dMultiplier) - (full ? 1 : 0), (int) Math.round(mouseEvent.getY() / dMultiplier) - (full ? 1 : 0), map.getWidth());
+				if (id > 0 && id < map.getCells().length)
+					onCellClick.accept(id);
+			}
+		});
+
 	}
 
 	public void addEntity(int id, int cellid) {
@@ -140,9 +138,7 @@ public class DofusMapView extends Region {
 		}
 	}
 
-	protected void drawCells() {
-		if (drawing) return;
-		drawing = true;
+	protected synchronized void drawCells() {
 		double width = getWidth();
 		double height = getHeight();
 		DofusMap map = this.map.get();
@@ -179,7 +175,7 @@ public class DofusMapView extends Region {
 					gc.setFill(Color.BLUEVIOLET);
 					break;
 				case 2:
-					gc.setFill(Color.ORANGE);
+					gc.setFill(Color.ALICEBLUE);
 					break;
 				case 3:
 					gc.setFill(Color.GRAY);
@@ -199,7 +195,9 @@ public class DofusMapView extends Region {
 				default:
 					throw new IllegalStateException("Unknown movement " + c.getMovement());
 			}
-			if (c.getLayerObject1Num() == 1030 || c.getLayerObject2Num() == 1030) gc.setFill(Color.ORANGE);
+			if (c.getLayerObject1Num() == 1030 || c.getLayerObject2Num() == 1030
+					|| c.getLayerObject1Num() == 1029 || c.getLayerObject2Num() == 1029)
+				gc.setFill(Color.ORANGE);
 			double xp = Maps.getX(i, mWidth) * dMultiplier
 					+ (full ? dMultiplier : 0);
 			double yp = Maps.getY(i, mWidth) * dMultiplier
@@ -209,11 +207,11 @@ public class DofusMapView extends Region {
 			switch (c.getLayerObject2Num()) {
 				case 7511:
 					gc.setFill(Color.LIGHTYELLOW);
-					gc.drawImage(wheat, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
+					gc.drawImage(Constants.wheat, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
 					break;
 				case 7514:
 					gc.setFill(Color.GREENYELLOW);
-					gc.drawImage(chanvre, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
+					gc.drawImage(Constants.chanvre, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
 					break;
 				case 7515:
 
@@ -223,13 +221,12 @@ public class DofusMapView extends Region {
 			}
 			final int cl = i;
 			if (i == currentPos) drawOval(gc, Color.BROWN, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier);
-			else this.players.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(player, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
-			this.mobs.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(mob, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
-			this.npcs.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(npc, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			else this.players.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(Constants.player, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier)); // else pour pas dessiner 2x si player
+			this.mobs.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(Constants.mob, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
+			this.npcs.values().stream().filter(po -> po == cl).forEach(v -> gc.drawImage(Constants.npc, xp - dMultiplier / 2, yp - dMultiplier / 2, dMultiplier, dMultiplier));
 			// gid.fillText((Maps.getColumn(i, mWidth) + "," + Maps.getLine(i, mWidth)), xp, yp + gc.getFont().getSize() / 4);
 			gid.fillText(Integer.toString(i), xp, yp + gc.getFont().getSize() / 4);
 		}
-		drawing = false;
 	}
 
 	private void drawOval(GraphicsContext gc, Color c, double x, double y, double w, double h) {
@@ -243,8 +240,12 @@ public class DofusMapView extends Region {
 		DofusMap map = this.map.get();
 		boolean full = this.full.get();
 		List<Point> path = this.path.get();
-		if (map == null)
-			return;
+		if (map == null) return;
+		if (path == null) return;
+		path = path.stream().map(p -> {
+			int id = Maps.getIdRotated(p.x, p.y, map.getWidth(), map.getHeight());
+			return new Point(Maps.getX(id, map.getWidth()), Maps.getY(id, map.getWidth()));
+		}).collect(Collectors.toList());
 		int mWidth = map.getWidth();
 		int mHeight = map.getHeight();
 		double multiplier = Math.min(width / mWidth, height / mHeight);
@@ -262,7 +263,7 @@ public class DofusMapView extends Region {
 		System.out.println(path);
 		if (path == null || path.size() < 1)
 			return;
-		g.setStroke(Color.CRIMSON);
+		g.setStroke(pathColor == null ? Color.SEAGREEN : pathColor);
 
 		for (int i = 0; i < path.size() - 1; i++) {
 			g.strokeLine(path.get(i).x * dMultiplier + dMultiplier, path.get(i).y * dMultiplier + dMultiplier, path.get(i + 1).x * dMultiplier + dMultiplier,
@@ -303,7 +304,8 @@ public class DofusMapView extends Region {
 		return path.get();
 	}
 
-	public void setPath(List<Point> path) {
+	public void setPath(List<Point> path, Color color) {
+		this.pathColor = color;
 		this.path.set(path);
 	}
 

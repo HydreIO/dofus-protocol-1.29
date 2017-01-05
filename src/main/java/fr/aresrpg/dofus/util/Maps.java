@@ -188,6 +188,31 @@ public class Maps {
 		return (width + height - 1) - id / width;
 	}
 
+	public static boolean isInMapRotated(int x, int y, int width, int height) {
+		if (leftUpCorner(x, y, width, height)) return x + y >= height - 1;
+		else if (leftDownCorner(x, y, width, height)) return x >= y - (height - 1);
+		else if (rightUpCorner(x, y, width, height)) return (x - (height - 1)) <= y;
+		else if (rightDownCorner(x, y, width, height)) return x + y <= (width - 1) * 2 + (height - 1);
+		return true;
+	}
+
+	private static boolean leftUpCorner(int x, int y, int width, int height) {
+		return x < height && y < height;
+	}
+
+	private static boolean leftDownCorner(int x, int y, int width, int height) {
+		return x < width - 1 && y > height - 1;
+	}
+
+	private static boolean rightUpCorner(int x, int y, int width, int height) {
+		return x > height - 1 && y < width - 1;
+	}
+
+	private static boolean rightDownCorner(int x, int y, int width, int height) {
+		int max = width - 1;
+		return x > max && y > max;
+	}
+
 	/**
 	 * @param x
 	 * @param y
@@ -195,7 +220,7 @@ public class Maps {
 	 * @param height
 	 * @return true if the provided coordinate are inside the dofus map
 	 */
-	public static boolean isInMapRotated(int x, int y, int width, int height) {
+	public static boolean isInMapRotatedBug(int x, int y, int width, int height) {
 		return isInMap(getIdRotated(x, y, width, height), width, height);
 	}
 

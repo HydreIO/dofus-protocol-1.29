@@ -194,8 +194,17 @@ public class Pathfinding {
 	}
 
 	private static boolean isValidCell(Cell cell) {
-		System.out.print(cell.getId() + " valid ? " + !Interractable.isInterractable(cell.getLayerObject2Num()) + " ");
-		return !Interractable.isInterractable(cell.getLayerObject2Num()) && (cell.getMovement() == 4 || cell.getMovement() == 6);
+		switch (cell.getLayerObject1Num()) {
+			case 1030:
+			case 1029:
+				return false;
+		}
+		switch (cell.getLayerObject2Num()) {
+			case 1030:
+			case 1029:
+				return false;
+		}
+		return cell.getMovement() != 1 && !Interractable.isInterractable(cell.getLayerObject2Num()) && cell.getMovement() != 0;
 	}
 
 	private static List<Point> recreatePath(Map<Node, Node> cameFrom, Node node) {
