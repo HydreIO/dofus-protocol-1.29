@@ -16,7 +16,7 @@ public class GameTacleAction implements GameAction {
 
 	@Override
 	public void write(DofusStream stream) {
-
+		stream.allocate(1);
 	}
 
 	@Override
