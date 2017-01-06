@@ -93,7 +93,7 @@ public class ShadowCasting {
 		if (x > map.getHeight() + map.getWidth() || y > map.getHeight() + map.getWidth())
 			return null;
 		int id = Maps.getIdRotated(x, y, map.getWidth(), map.getHeight());
-		if (Maps.isInMap(x, map.getWidth(), map.getHeight()) && id >= 0 && id < map.getCells().length)
+		if (Maps.isInMap(id, map.getWidth(), map.getHeight()))
 			return map.getCells()[id];
 		else
 			return null;
