@@ -175,6 +175,8 @@ public enum ProtocolRegistry {
 	GAME_SERVER_ACTION(Layer.GAME, 'A', Bound.SERVER, GameServerActionPacket.class),
 	GAME_TEAM(Layer.GAME, 't', Bound.SERVER, GameTeamPacket.class),
 	GAME_SPAWN(Layer.GAME, 'c', Bound.SERVER, GameSpawnPacket.class),
+	GAME_CELL_DATA(Layer.GAME, 'D', 'C', Bound.SERVER, GameCellUpdatePacket.class),
+	GAME_CELL_OBJECT(Layer.GAME, 'D', 'O', Bound.SERVER, GameCellObjectPacket.class),
 
 	// client
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),

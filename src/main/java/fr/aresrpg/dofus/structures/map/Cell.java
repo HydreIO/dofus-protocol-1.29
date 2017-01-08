@@ -15,6 +15,11 @@ import fr.aresrpg.dofus.util.Maps;
 public class Cell {
 	protected DofusMap map;
 	protected final int id;
+	protected int permanentLevel;
+	protected boolean active;
+	protected String layerObjectExternal = "";
+	protected boolean layerObjectExternalInteractive = false;
+	private String layerObjectExternalData = "";
 	protected boolean lineOfSight;
 	protected int layerGroundRot;
 	protected int groundLevel;
@@ -32,11 +37,13 @@ public class Cell {
 	protected boolean layerObject2Flip;
 	protected boolean layerObject2Interactive;
 	protected int layerObject2Num;
+	protected boolean layerObjectExternalAutoSize;
 	protected int frame;
 
-	public Cell(int id, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, boolean layerGroundFlip,
+	public Cell(int id, boolean active, boolean lineOfSight, int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, boolean layerGroundFlip,
 		int layerObject1Num, int layerObject1Rot, boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num) {
 		this.id = id;
+		this.active = active;
 		this.lineOfSight = lineOfSight;
 		this.layerGroundRot = layerGroundRot;
 		this.groundLevel = groundLevel;
@@ -50,6 +57,44 @@ public class Cell {
 		this.layerObject2Flip = layerObject2Flip;
 		this.layerObject2Interactive = layerObject2Interactive;
 		this.layerObject2Num = layerObject2Num;
+	}
+
+	private Cell(DofusMap map, int id, int permanentLevel, boolean active, String layerObjectExternal, boolean layerObjectExternalInteractive, String layerObjectExternalData, boolean lineOfSight,
+		int layerGroundRot, int groundLevel, int movement, int layerGroundNum, int groundSlope, int x, int y, int xRot, int yRot, boolean layerGroundFlip, int layerObject1Num, int layerObject1Rot,
+		boolean layerObject1Flip, boolean layerObject2Flip, boolean layerObject2Interactive, int layerObject2Num, boolean layerObjectExternalAutoSize, int frame) {
+		this.map = map;
+		this.id = id;
+		this.permanentLevel = permanentLevel;
+		this.active = active;
+		this.layerObjectExternal = layerObjectExternal;
+		this.layerObjectExternalInteractive = layerObjectExternalInteractive;
+		this.layerObjectExternalData = layerObjectExternalData;
+		this.lineOfSight = lineOfSight;
+		this.layerGroundRot = layerGroundRot;
+		this.groundLevel = groundLevel;
+		this.movement = movement;
+		this.layerGroundNum = layerGroundNum;
+		this.groundSlope = groundSlope;
+		this.x = x;
+		this.y = y;
+		this.xRot = xRot;
+		this.yRot = yRot;
+		this.layerGroundFlip = layerGroundFlip;
+		this.layerObject1Num = layerObject1Num;
+		this.layerObject1Rot = layerObject1Rot;
+		this.layerObject1Flip = layerObject1Flip;
+		this.layerObject2Flip = layerObject2Flip;
+		this.layerObject2Interactive = layerObject2Interactive;
+		this.layerObject2Num = layerObject2Num;
+		this.layerObjectExternalAutoSize = layerObjectExternalAutoSize;
+		this.frame = frame;
+	}
+
+	public Cell clone() {
+		return new Cell(map, id, permanentLevel, active, layerObjectExternal, layerObjectExternalInteractive, layerObjectExternalData, lineOfSight, layerGroundRot, groundLevel, movement,
+				layerGroundNum, groundSlope, x, layerGroundNum, xRot, yRot, layerGroundFlip, layerObject1Num, layerObject1Rot, layerObject1Flip, layerObject2Flip, layerObject2Interactive,
+				layerObject2Num, layerObjectExternalAutoSize, frame);
+
 	}
 
 	public int distance(int cellid) {
@@ -92,6 +137,250 @@ public class Cell {
 
 	public boolean isTeleporter() {
 		return getMovement() == 2 || getLayerObject1Num() == 1030 || getLayerObject2Num() == 1030;
+	}
+
+	public void setPermanentLevel(int permanentLevel) {
+		this.permanentLevel = permanentLevel;
+	}
+
+	/**
+	 * @return the layerObjectExternalData
+	 */
+	public String getLayerObjectExternalData() {
+		return layerObjectExternalData;
+	}
+
+	/**
+	 * @param layerObjectExternalData
+	 *            the layerObjectExternalData to set
+	 */
+	public void setLayerObjectExternalData(String layerObjectExternalData) {
+		this.layerObjectExternalData = layerObjectExternalData;
+	}
+
+	/**
+	 * @return the layerObjectExternalAutoSize
+	 */
+	public boolean isLayerObjectExternalAutoSize() {
+		return layerObjectExternalAutoSize;
+	}
+
+	/**
+	 * @param layerObjectExternalAutoSize
+	 *            the layerObjectExternalAutoSize to set
+	 */
+	public void setLayerObjectExternalAutoSize(boolean layerObjectExternalAutoSize) {
+		this.layerObjectExternalAutoSize = layerObjectExternalAutoSize;
+	}
+
+	/**
+	 * @return the permanentLevel
+	 */
+	public int getPermanentLevel() {
+		return permanentLevel;
+	}
+
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * @return the layerObjectExternal
+	 */
+	public String getLayerObjectExternal() {
+		return layerObjectExternal;
+	}
+
+	/**
+	 * @return the layerObjectExternalInteractive
+	 */
+	public boolean isLayerObjectExternalInteractive() {
+		return layerObjectExternalInteractive;
+	}
+
+	/**
+	 * @param active
+	 *            the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
+	 * @param layerObjectExternal
+	 *            the layerObjectExternal to set
+	 */
+	public void setLayerObjectExternal(String layerObjectExternal) {
+		this.layerObjectExternal = layerObjectExternal;
+	}
+
+	/**
+	 * @param layerObjectExternalInteractive
+	 *            the layerObjectExternalInteractive to set
+	 */
+	public void setLayerObjectExternalInteractive(boolean layerObjectExternalInteractive) {
+		this.layerObjectExternalInteractive = layerObjectExternalInteractive;
+	}
+
+	/**
+	 * @param lineOfSight
+	 *            the lineOfSight to set
+	 */
+	public void setLineOfSight(boolean lineOfSight) {
+		this.lineOfSight = lineOfSight;
+	}
+
+	/**
+	 * @param layerGroundRot
+	 *            the layerGroundRot to set
+	 */
+	public void setLayerGroundRot(int layerGroundRot) {
+		this.layerGroundRot = layerGroundRot;
+	}
+
+	/**
+	 * @param groundLevel
+	 *            the groundLevel to set
+	 */
+	public void setGroundLevel(int groundLevel) {
+		this.groundLevel = groundLevel;
+	}
+
+	/**
+	 * @param movement
+	 *            the movement to set
+	 */
+	public void setMovement(int movement) {
+		this.movement = movement;
+	}
+
+	/**
+	 * @param layerGroundNum
+	 *            the layerGroundNum to set
+	 */
+	public void setLayerGroundNum(int layerGroundNum) {
+		this.layerGroundNum = layerGroundNum;
+	}
+
+	/**
+	 * @param groundSlope
+	 *            the groundSlope to set
+	 */
+	public void setGroundSlope(int groundSlope) {
+		this.groundSlope = groundSlope;
+	}
+
+	/**
+	 * @param x
+	 *            the x to set
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * @param y
+	 *            the y to set
+	 */
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	/**
+	 * @param xRot
+	 *            the xRot to set
+	 */
+	public void setxRot(int xRot) {
+		this.xRot = xRot;
+	}
+
+	/**
+	 * @param yRot
+	 *            the yRot to set
+	 */
+	public void setyRot(int yRot) {
+		this.yRot = yRot;
+	}
+
+	/**
+	 * @param layerGroundFlip
+	 *            the layerGroundFlip to set
+	 */
+	public void setLayerGroundFlip(boolean layerGroundFlip) {
+		this.layerGroundFlip = layerGroundFlip;
+	}
+
+	/**
+	 * @param layerObject1Num
+	 *            the layerObject1Num to set
+	 */
+	public void setLayerObject1Num(int layerObject1Num) {
+		this.layerObject1Num = layerObject1Num;
+	}
+
+	/**
+	 * @param layerObject1Rot
+	 *            the layerObject1Rot to set
+	 */
+	public void setLayerObject1Rot(int layerObject1Rot) {
+		this.layerObject1Rot = layerObject1Rot;
+	}
+
+	/**
+	 * @param layerObject1Flip
+	 *            the layerObject1Flip to set
+	 */
+	public void setLayerObject1Flip(boolean layerObject1Flip) {
+		this.layerObject1Flip = layerObject1Flip;
+	}
+
+	/**
+	 * @param layerObject2Flip
+	 *            the layerObject2Flip to set
+	 */
+	public void setLayerObject2Flip(boolean layerObject2Flip) {
+		this.layerObject2Flip = layerObject2Flip;
+	}
+
+	/**
+	 * @param layerObject2Interactive
+	 *            the layerObject2Interactive to set
+	 */
+	public void setLayerObject2Interactive(boolean layerObject2Interactive) {
+		this.layerObject2Interactive = layerObject2Interactive;
+	}
+
+	/**
+	 * @param layerObject2Num
+	 *            the layerObject2Num to set
+	 */
+	public void setLayerObject2Num(int layerObject2Num) {
+		this.layerObject2Num = layerObject2Num;
+	}
+
+	/**
+	 * @param frame
+	 *            the frame to set
+	 */
+	public void setFrame(int frame) {
+		this.frame = frame;
+	}
+
+	/**
+	 * @return the xRot
+	 */
+	public int getxRot() {
+		return xRot;
+	}
+
+	/**
+	 * @return the yRot
+	 */
+	public int getyRot() {
+		return yRot;
 	}
 
 	/**

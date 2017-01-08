@@ -228,4 +228,8 @@ public interface ServerPacketHandler extends PacketHandler {
 
 	void handle(ChatMessageOkPacket chatMessageOkPacket);
 
+	void handle(GameCellObjectPacket gameCellObjectPacket);
+
+	void handle(GameCellUpdatePacket gameCellUpdatePacket);
+
 }

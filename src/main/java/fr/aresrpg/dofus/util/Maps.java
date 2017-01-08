@@ -17,6 +17,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Map;
 
 public class Maps {
@@ -38,20 +39,28 @@ public class Maps {
 	 *            the datas
 	 * @param decryptKey
 	 *            the decrypt key
+	 * @param consumeCellDatas
+	 *            a consumer if you want retrieve the decrypted cells datas and do whatever you want with
 	 * @return the map
 	 */
-	public static DofusMap loadMap(Map<String, Object> data, String decryptKey) {
+	public static DofusMap loadMap(Map<String, Object> data, String decryptKey, String subid) {
 		String cellData = (String) data.get("mapData");
 		String key = Crypt.prepareKey(decryptKey);
 		cellData = Crypt.decipherData(cellData, key, Integer.parseInt(Character.toString(Crypt.checksum(key)), 16) * 2);
 		int width = (int) data.get("width");
 		int height = (int) data.get("height");
-		Cell[] cells = Compressor.uncompressMap(cellData);
-
-		return new DofusMap((int) data.get("id"), width,
+		Cell[] cells = Compressor.uncompressCells(cellData);
+		return new DofusMap((int) data.get("id"), parseDate(subid), width,
 				height, (int) data.get("musicId"),
 				(int) data.get("capabilities"), (boolean) data.get("bOutdoor"),
 				(int) data.get("backgroundNum"), cells);
+	}
+
+	private static long parseDate(String date) {
+		Calendar dd = Calendar.getInstance();
+		dd.set(Integer.parseInt(date.substring(0, 2)), Integer.parseInt(date.substring(2, 4)), Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(6, 8)),
+				Integer.parseInt(date.substring(8)));
+		return dd.getTimeInMillis();
 	}
 
 	public static int distance(int from, int to, int width, int height) {

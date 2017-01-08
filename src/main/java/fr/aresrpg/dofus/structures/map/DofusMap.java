@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 
 public class DofusMap {
 	private int id;
+	private long date;
 	private int width;
 	private int height;
 	private int musicId;
@@ -24,17 +25,34 @@ public class DofusMap {
 	private int backgroundId;
 	private Cell[] cells;
 
-	public DofusMap(int id, int width, int height, int musicId, int capabilities, boolean outdoor, int backgroundId, Cell[] cells) {
+	/**
+	 * 
+	 * @param id
+	 * @param date
+	 * @param width
+	 * @param height
+	 * @param musicId
+	 * @param capabilities
+	 * @param outdoor
+	 * @param backgroundId
+	 * @param cells
+	 */
+	public DofusMap(int id, long date, int width, int height, int musicId, int capabilities, boolean outdoor, int backgroundId, Cell[] cells) {
 		this.id = id;
 		this.width = width;
 		this.height = height;
+		this.date = date;
 		this.musicId = musicId;
 		this.capabilities = capabilities;
 		this.outdoor = outdoor;
 		this.backgroundId = backgroundId;
 		this.cells = cells;
-		for(Cell c : cells)
+		for (Cell c : cells)
 			c.setMap(this);
+	}
+
+	public long getDate() {
+		return date;
 	}
 
 	public Cell getCell(Predicate<Cell> cell) {
@@ -48,7 +66,7 @@ public class DofusMap {
 	}
 
 	public Cell getCellRot(int x, int y) {
-		return getCell(Maps.getIdRotated(x, y, width , height));
+		return getCell(Maps.getIdRotated(x, y, width, height));
 	}
 
 	public Cell getCell(int id) {

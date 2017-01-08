@@ -39,8 +39,10 @@ public class AccountCharactersListPacket implements ServerPacket {
 			int color3 = Integer.parseInt(data[6], 16);
 			String[] accessoriesData = StringUtils.split(data[7], ",");
 			int[] accessories = new int[accessoriesData.length];
-			for (int a = 0; a < accessories.length; a++)
+			for (int a = 0; a < accessories.length; a++) {
+				if (accessoriesData[a] == null || accessoriesData[a].equals("null")) continue;
 				accessories[a] = Convert.toInt(accessoriesData[a], 0, 16);
+			}
 			boolean merchant = Integer.parseInt(data[8]) == 1;
 			int serverId = Integer.parseInt(data[9]);
 			boolean isDead = Convert.toInt(data[10], 0) == 1;

@@ -220,7 +220,7 @@ public class Pathfinding {
 	public static class Node implements Comparable<Node> {
 		int x;
 		int y;
-		int cost;
+		protected int cost;
 
 		public Node(int x, int y) {
 			this.x = x;
