@@ -17,7 +17,8 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Map;
 
 public class Maps {
@@ -56,11 +57,14 @@ public class Maps {
 				(int) data.get("backgroundNum"), cells);
 	}
 
-	private static long parseDate(String date) {
-		Calendar dd = Calendar.getInstance();
-		dd.set(Integer.parseInt(date.substring(0, 2)), Integer.parseInt(date.substring(2, 4)), Integer.parseInt(date.substring(4, 6)), Integer.parseInt(date.substring(6, 8)),
-				Integer.parseInt(date.substring(8)));
-		return dd.getTimeInMillis();
+	public static long parseDate(String date) {
+		int year = Integer.parseInt(date.substring(0, 2)) + 2000;
+		int month = Integer.parseInt(date.substring(2, 4)) - 1;
+		int day = Integer.parseInt(date.substring(4, 6));
+		int hours = Integer.parseInt(date.substring(6, 8));
+		int min = Integer.parseInt(date.substring(8));
+		LocalDateTime dateTime = LocalDateTime.of(year, month, day, hours, min);
+		return dateTime.atZone(ZoneId.of("Europe/Berlin")).toEpochSecond() * 1000;
 	}
 
 	public static int distance(int from, int to, int width, int height) {
@@ -125,7 +129,7 @@ public class Maps {
 		return getId(x, y, width);
 	}
 
-	public static void main(String[] args) {
+	public static void mazin(String[] args) {
 		int id = 478;
 		int width = 15;
 		int heigth = 17;

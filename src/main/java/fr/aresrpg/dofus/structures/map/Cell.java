@@ -9,6 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.map;
 
+import fr.aresrpg.dofus.Constants;
 import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.util.Maps;
 
@@ -113,8 +114,14 @@ public class Cell {
 		return distanceManathan(cell.getId());
 	}
 
-	public boolean isWalkable() {
+	public boolean isWalkeable() {
 		return getMovement() != 0 && !isInterractable();
+	}
+
+	public boolean isTeleporter() {
+		for (int i : Constants.TELEPORT_TEXTURES)
+			if (layerObject1Num == i || layerObject2Num == i) return true;
+		return false;
 	}
 
 	public boolean isInterractable() {
@@ -133,10 +140,6 @@ public class Cell {
 		this.xRot = Maps.getXRotated(id, map.getWidth(), map.getHeight());
 		this.yRot = Maps.getYRotated(id, map.getWidth(), map.getHeight());
 		return this;
-	}
-
-	public boolean isTeleporter() {
-		return getMovement() == 2 || getLayerObject1Num() == 1030 || getLayerObject2Num() == 1030;
 	}
 
 	public void setPermanentLevel(int permanentLevel) {

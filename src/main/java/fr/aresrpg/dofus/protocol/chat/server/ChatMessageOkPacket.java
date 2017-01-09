@@ -15,7 +15,7 @@ import fr.aresrpg.dofus.structures.Chat;
 public class ChatMessageOkPacket implements ServerPacket { // cMK%|2412051|Tiger-fire|je je gagne po et sasa ^^|
 
 	private Chat chat;
-	private int playerId;
+	private long playerId;
 	private String pseudo;
 	private String msg;
 
@@ -26,14 +26,14 @@ public class ChatMessageOkPacket implements ServerPacket { // cMK%|2412051|Tiger
 			chat = Chat.COMMON;
 			stream.read();
 		}
-		this.playerId = stream.readInt();
+		this.playerId = stream.readLong();
 		this.pseudo = stream.read();
 		this.msg = stream.read();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(4).writeChar(chat.getCode()).writeInt(playerId).write(pseudo).write(msg);
+		stream.allocate(4).writeChar(chat.getCode()).writeLong(playerId).write(pseudo).write(msg);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class ChatMessageOkPacket implements ServerPacket { // cMK%|2412051|Tiger
 	/**
 	 * @return the playerId
 	 */
-	public int getPlayerId() {
+	public long getPlayerId() {
 		return playerId;
 	}
 
@@ -62,7 +62,7 @@ public class ChatMessageOkPacket implements ServerPacket { // cMK%|2412051|Tiger
 	 * @param playerId
 	 *            the playerId to set
 	 */
-	public void setPlayerId(int playerId) {
+	public void setPlayerId(long playerId) {
 		this.playerId = playerId;
 	}
 

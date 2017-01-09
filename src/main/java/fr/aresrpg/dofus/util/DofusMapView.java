@@ -211,7 +211,7 @@ public class DofusMapView extends Region {
 					+ (full ? dMultiplier : 0);
 
 			// line of sight
-			if (this.accessible != null && this.accessible.get() != null && c.isWalkable()) {
+			if (this.accessible != null && this.accessible.get() != null && c.isWalkeable()) {
 				if (c.distanceManathan(shadowOrigin.get()) <= this.shadowRange.get()) gc.setFill(Color.LIGHTSKYBLUE);
 				if (this.accessible.get().contains(c)) gc.setFill(Color.ROYALBLUE);
 			}

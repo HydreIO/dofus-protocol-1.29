@@ -13,6 +13,7 @@ import fr.aresrpg.dofus.protocol.account.server.*;
 import fr.aresrpg.dofus.protocol.aks.Aks0MessagePacket;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.server.ChatMessageOkPacket;
+import fr.aresrpg.dofus.protocol.chat.server.ChatServerMessagePacket;
 import fr.aresrpg.dofus.protocol.dialog.server.*;
 import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.fight.server.*;
@@ -231,5 +232,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(GameCellObjectPacket gameCellObjectPacket);
 
 	void handle(GameCellUpdatePacket gameCellUpdatePacket);
+
+	void handle(ChatServerMessagePacket chatServerMessagePacket);
 
 }

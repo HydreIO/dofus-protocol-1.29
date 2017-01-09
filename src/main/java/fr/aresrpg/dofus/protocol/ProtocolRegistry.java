@@ -18,6 +18,7 @@ import fr.aresrpg.dofus.protocol.basic.client.BasicUseSmileyPacket;
 import fr.aresrpg.dofus.protocol.basic.server.BasicConfirmPacket;
 import fr.aresrpg.dofus.protocol.chat.ChatSubscribeChannelPacket;
 import fr.aresrpg.dofus.protocol.chat.server.ChatMessageOkPacket;
+import fr.aresrpg.dofus.protocol.chat.server.ChatServerMessagePacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosJoinPacket;
 import fr.aresrpg.dofus.protocol.conquest.client.WorldInfosLeavePacket;
 import fr.aresrpg.dofus.protocol.dialog.DialogLeavePacket;
@@ -176,7 +177,7 @@ public enum ProtocolRegistry {
 	GAME_TEAM(Layer.GAME, 't', Bound.SERVER, GameTeamPacket.class),
 	GAME_SPAWN(Layer.GAME, 'c', Bound.SERVER, GameSpawnPacket.class),
 	GAME_CELL_DATA(Layer.GAME, 'D', 'C', Bound.SERVER, GameCellUpdatePacket.class),
-	GAME_CELL_OBJECT(Layer.GAME, 'D', 'O', Bound.SERVER, GameCellObjectPacket.class),
+	// GAME_CELL_OBJECT(Layer.GAME, 'D', 'O', Bound.SERVER, GameCellObjectPacket.class),
 
 	// client
 	GAME_GET_EXTRA_INFORMATION(Layer.GAME, 'I', Bound.CLIENT, GameExtraInformationPacket.class),
@@ -243,6 +244,7 @@ public enum ProtocolRegistry {
 	// CHAT ==========================================================
 	// server
 	CHAT_MSG(Layer.CHAT, 'M', State.OK, Bound.SERVER, ChatMessageOkPacket.class),
+	CHAT_SERVER_MSG(Layer.CHAT, 's', Bound.SERVER, ChatServerMessagePacket.class),
 	// both
 	CHAT_SUBSCRIBE_CHANNEL(Layer.CHAT, 'C', Bound.BOTH, ChatSubscribeChannelPacket.class),
 
