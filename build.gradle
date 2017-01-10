@@ -1,5 +1,6 @@
 apply plugin: 'java'
-apply plugin: 'maven-publish'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
 
 group = 'fr.aresrpg.dofus'
 
@@ -7,8 +8,23 @@ version = '1.0'
 
 compileJava.options.encoding='UTF-8'
 
+eclipse {
+    jdt {
+        javaRuntimeName = "jdk1.8.0_112"
+    }
+}
+
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+jar {
+	from {
+		configurations.compile.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+}
 
 
 repositories {
