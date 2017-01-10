@@ -9,6 +9,7 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
+import fr.aresrpg.dofus.Constants;
 import fr.aresrpg.dofus.protocol.game.actions.GameMoveAction.PathFragment;
 import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.item.Interractable;
@@ -194,16 +195,8 @@ public class Pathfinding {
 	}
 
 	private static boolean isValidCell(Cell cell) {
-		switch (cell.getLayerObject1Num()) {
-			case 1030:
-			case 1029:
-				return false;
-		}
-		switch (cell.getLayerObject2Num()) {
-			case 1030:
-			case 1029:
-				return false;
-		}
+		for (int i : Constants.TELEPORT_TEXTURES)
+			if (cell.getLayerObject1Num() == i || cell.getLayerObject2Num() == i) return false;
 		return cell.getMovement() != 1 && !Interractable.isInterractable(cell.getLayerObject2Num()) && cell.getMovement() != 0;
 	}
 
