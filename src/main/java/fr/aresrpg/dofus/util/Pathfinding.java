@@ -15,42 +15,41 @@ import fr.aresrpg.dofus.structures.Orientation;
 import fr.aresrpg.dofus.structures.item.Interractable;
 import fr.aresrpg.dofus.structures.map.Cell;
 
-import java.awt.Point;
 import java.util.*;
 import java.util.function.Function;
 
 public class Pathfinding {
 
-	public static List<Point> getCellPath(int idFrom, int idTo, Cell[] cells, int width, int height, Function<Node, Node[]> neighbors, PathValidator canTake) {
+	public static <T extends Node> List<T> getCellPath(int idFrom, int idTo, Cell[] cells, int width, int height, Function<T, T[]> neighbors, PathValidator canTake) {
 		int xFrom = cells[idFrom].getXRot() == -1 ? Maps.getXRotated(idFrom, width, height) : cells[idFrom].getXRot();
 		int yFrom = cells[idFrom].getYRot() == -1 ? Maps.getYRotated(idFrom, width, height) : cells[idFrom].getYRot();
 		int xTo = cells[idTo].getXRot() == -1 ? Maps.getXRotated(idTo, width, height) : cells[idTo].getXRot();
 		int yTo = cells[idTo].getYRot() == -1 ? Maps.getYRotated(idTo, width, height) : cells[idTo].getYRot();
-		return getPath(xFrom, yFrom, xTo, yTo, (xF, yF, x, y) -> canTake.test(xF, yF, x, y) && isValid(x, y, cells, width, height, x == xTo && y == yTo), neighbors);
+		Node node = new Node(xFrom, yFrom);
+		return getPath((T) node, xTo, yTo, nn -> nn.equals(new Node(xTo, yTo)), (xF, yF, x, y) -> canTake.test(xF, yF, x, y) && isValid(x, y, cells, width, height, x == xTo && y == yTo), neighbors);
 	}
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, Function<Node, Node[]> neighbors) {
-		return getPath(xFrom, yFrom, xTo, yTo, (xF, yF, xT, yT) -> true, neighbors);
+	public static <T extends Node> List<T> getPath(T origin, int xto, int yto, PathEndValidator<T> endValidator, Function<T, T[]> neighbors) {
+		return getPath(origin, xto, yto, endValidator, (xF, yF, xT, yT) -> true, neighbors);
 	}
 
-	public static List<Point> getPath(int xFrom, int yFrom, int xTo, int yTo, PathValidator validator, Function<Node, Node[]> neighbors) {
-		PriorityQueue<Node> openList = new PriorityQueue<>();
-		Set<Node> closedList = new HashSet<>();
-		Map<Node, Node> cameFrom = new HashMap<>();
-		Node from = new Node(xFrom, yFrom);
+	public static <T extends Node> List<T> getPath(T from, int xto, int yto, PathEndValidator<T> endValidator, PathValidator validator, Function<T, T[]> neighbors) {
+		PriorityQueue<T> openList = new PriorityQueue<>();
+		Set<T> closedList = new HashSet<>();
+		Map<T, T> cameFrom = new HashMap<>();
 		cameFrom.put(from, null);
 		openList.add(from);
 		while (!openList.isEmpty()) {
-			Node node = openList.poll();
+			T node = openList.poll();
 			closedList.add(node);
-			if (node.x == xTo && node.y == yTo)
+			if (endValidator.test(node))
 				return recreatePath(cameFrom, node);
 			else {
-				for (Node n : neighbors.apply(node)) {
+				for (T n : neighbors.apply(node)) {
 					if (closedList.contains(n) || !validator.test(node.x, node.y, n.x, n.y))
 						continue;
-					n.cost = node.cost + (xTo - n.x) * (xTo - n.x) + (yTo - n.y) * (yTo - n.y);
-					Node present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+					n.cost = node.cost + (xto - n.x) * (xto - n.x) + (yto - n.y) * (yto - n.y);
+					T present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
 					if (openList.contains(n)) {
 						openList.remove(n);
 					}
@@ -79,17 +78,22 @@ public class Pathfinding {
 		}
 	}
 
-	public static float getPathTime(List<Point> path, Cell[] cells, int width, int height, boolean mount) {
+	@FunctionalInterface
+	public interface PathEndValidator<T extends Node> {
+		boolean test(T t);
+	}
+
+	public static float getPathTime(List<Node> path, Cell[] cells, int width, int height, boolean mount) {
 		if (path == null) throw new NullPointerException("The path is null !");
 		boolean walk = path.size() < 6;
-		Point last = path.get(0);
+		Node last = path.get(0);
 		System.out.println("last = " + last);
 		Cell c = cells[Maps.getIdRotated(last.x, last.y, width, height)];
 		int lastGroundLevel = c.getGroundLevel();
 		int lastGroundSlope = c.getGroundSlope();
 		float time = 0f;
 		for (int i = 1; i < path.size(); i++) {
-			Point point = path.get(i);
+			Node point = path.get(i);
 			Cell cell = cells[Maps.getIdRotated(point.x, point.y, width, height)];
 			Orientation direction = getDirection(last.x, last.y, point.x, point.y);
 			time += 1 / (mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
@@ -162,7 +166,7 @@ public class Pathfinding {
 			return null;
 	}
 
-	public static List<PathFragment> makeShortPath(List<Point> points, int width, int height) {
+	public static List<PathFragment> makeShortPath(List<Node> points, int width, int height) {
 		if (points == null)
 			return null;
 		if (points.size() < 2)
@@ -170,7 +174,7 @@ public class Pathfinding {
 		List<PathFragment> path = new ArrayList<>();
 		Orientation direction = getDirection(points.get(0).x, points.get(0).y,
 				points.get(1).x, points.get(1).y);
-		Point last = points.get(1);
+		Node last = points.get(1);
 		for (int i = 2; i < points.size(); i++) {
 			Orientation current = getDirection(last.x, last.y,
 					points.get(i).x, points.get(i).y);
@@ -200,12 +204,12 @@ public class Pathfinding {
 		return cell.getMovement() != 1 && !Interractable.isInterractable(cell.getLayerObject2Num()) && cell.getMovement() != 0;
 	}
 
-	private static List<Point> recreatePath(Map<Node, Node> cameFrom, Node node) {
-		List<Point> p = new ArrayList<>();
-		p.add(new Point(node.x, node.y));
-		Node n = node;
+	private static <T extends Node> List<T> recreatePath(Map<T, T> cameFrom, T node) {
+		List<T> p = new ArrayList<>();
+		p.add(node);
+		T n = node;
 		while ((n = cameFrom.get(n)) != null)
-			p.add(new Point(n.x, n.y));
+			p.add(n);
 		Collections.reverse(p);
 		return p;
 	}
@@ -218,6 +222,14 @@ public class Pathfinding {
 		public Node(int x, int y) {
 			this.x = x;
 			this.y = y;
+		}
+
+		/**
+		 * @param cost
+		 *            the cost to set
+		 */
+		public void setCost(int cost) {
+			this.cost = cost;
 		}
 
 		/**
