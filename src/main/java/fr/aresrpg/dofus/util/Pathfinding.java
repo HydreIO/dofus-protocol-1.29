@@ -45,11 +45,12 @@ public class Pathfinding {
 			if (endValidator.test(node))
 				return recreatePath(cameFrom, node);
 			else {
-				for (T n : neighbors.apply(node)) {
+				T[] apply = neighbors.apply(node);
+				for (T n : apply) {
 					if (closedList.contains(n) || !validator.test(node.x, node.y, n.x, n.y))
 						continue;
 					n.cost = node.cost + (xto - n.x) * (xto - n.x) + (yto - n.y) * (yto - n.y);
-					T present = openList.stream().filter(u -> u.x == n.x && u.y == n.y).findFirst().orElse(null);
+					T present = openList.stream().filter(u -> u.equals(n)).findFirst().orElse(null);
 					if (openList.contains(n)) {
 						openList.remove(n);
 					}

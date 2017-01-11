@@ -59,12 +59,16 @@ public class Maps {
 
 	public static long parseDate(String date) {
 		int year = Integer.parseInt(date.substring(0, 2)) + 2000;
-		int month = Integer.parseInt(date.substring(2, 4)) - 1;
+		int month = Integer.parseInt(date.substring(2, 4));
 		int day = Integer.parseInt(date.substring(4, 6));
 		int hours = Integer.parseInt(date.substring(6, 8));
 		int min = Integer.parseInt(date.substring(8));
 		LocalDateTime dateTime = LocalDateTime.of(year, month, day, hours, min);
 		return dateTime.atZone(ZoneId.of("Europe/Berlin")).toEpochSecond() * 1000;
+	}
+
+	public static void main(String[] args) {
+		System.out.println(parseDate("0801081546"));
 	}
 
 	public static int distance(int from, int to, int width, int height) {
