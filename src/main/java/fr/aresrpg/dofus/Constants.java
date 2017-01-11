@@ -20,8 +20,8 @@ public class Constants {
 	public static final Image wheat = new Image("https://i.imgur.com/LzUi53W.png");
 	public static final Image chanvre = new Image("https://i.imgur.com/UWJKJwc.png");
 	public static final Image npc = new Image("https://i.imgur.com/aqwfqXZ.png");
-	public static final Image player = new Image("https://i.imgur.com/CMBwr3R.png");
 	public static final Image mob = new Image("https://i.imgur.com/KG6PUJ0.png");
+	public static final Image player = new Image("https://i.imgur.com/CMBwr3R.png");
 
 	public static final int[] TELEPORT_TEXTURES = { 1030, 1029, 1764, 2298 };
 }

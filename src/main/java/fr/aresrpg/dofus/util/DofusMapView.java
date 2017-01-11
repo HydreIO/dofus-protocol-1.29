@@ -12,8 +12,8 @@ package fr.aresrpg.dofus.util;
 import fr.aresrpg.dofus.Constants;
 import fr.aresrpg.dofus.structures.map.Cell;
 import fr.aresrpg.dofus.structures.map.DofusMap;
+import fr.aresrpg.dofus.util.Pathfinding.Node;
 
-import java.awt.Point;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -33,7 +33,7 @@ public class DofusMapView extends Region {
 	private ObjectProperty<DofusMap> map;
 	private BooleanProperty full;
 	private BooleanProperty cellId;
-	private ObjectProperty<List<Point>> path;
+	private ObjectProperty<List<Node>> path;
 	private ObjectProperty<List<Cell>> accessible;
 	private IntegerProperty shadowOrigin;
 	private IntegerProperty shadowRange;
@@ -253,12 +253,12 @@ public class DofusMapView extends Region {
 		double height = getHeight();
 		DofusMap map = this.map.get();
 		boolean full = this.full.get();
-		List<Point> path = this.path.get();
+		List<Node> path = this.path.get();
 		if (map == null) return;
 		if (path == null) return;
 		path = path.stream().map(p -> {
-			int id = Maps.getIdRotated(p.x, p.y, map.getWidth(), map.getHeight());
-			return new Point(Maps.getX(id, map.getWidth()), Maps.getY(id, map.getWidth()));
+			int id = Maps.getIdRotated(p.getX(), p.getY(), map.getWidth(), map.getHeight());
+			return new Node(Maps.getX(id, map.getWidth()), Maps.getY(id, map.getWidth()));
 		}).collect(Collectors.toList());
 		int mWidth = map.getWidth();
 		int mHeight = map.getHeight();
@@ -320,16 +320,16 @@ public class DofusMapView extends Region {
 		return map;
 	}
 
-	public List<Point> getPath() {
+	public List<Node> getPath() {
 		return path.get();
 	}
 
-	public void setPath(List<Point> path, Color color) {
+	public void setPath(List<Node> path, Color color) {
 		this.pathColor = color;
 		this.path.set(path);
 	}
 
-	public ObjectProperty<List<Point>> pathProperty() {
+	public ObjectProperty<List<Node>> pathProperty() {
 		return path;
 	}
 
