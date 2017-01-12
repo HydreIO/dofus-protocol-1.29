@@ -124,9 +124,24 @@ public class Cell {
 		return false;
 	}
 
+	public Interractable getInterractable() {
+		return Interractable.fromId(getInterractableId());
+	}
+
+	public int getInterractableId() {
+		if (layerObject2Num == 0) return layerObject1Num;
+		return layerObject2Num;
+	}
+
+	public boolean isRessource() {
+		Interractable i = getInterractable();
+		if (i == null) return false;
+		return Interractable.isRessource(i.getId());
+	}
+
 	public boolean isInterractable() {
 		if (movement == 1) return true;
-		return Interractable.isInterractable(getLayerObject2Num());
+		return Interractable.isInterractable(getInterractableId());
 	}
 
 	public DofusMap getMap() {

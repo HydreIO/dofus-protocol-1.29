@@ -23,5 +23,5 @@ public class Constants {
 	public static final Image mob = new Image("https://i.imgur.com/KG6PUJ0.png");
 	public static final Image player = new Image("https://i.imgur.com/CMBwr3R.png");
 
-	public static final int[] TELEPORT_TEXTURES = { 1030, 1029, 1764, 2298 };
+	public static final int[] TELEPORT_TEXTURES = { 1030, 1029, 1764, 2298, 745 };
 }
