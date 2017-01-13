@@ -18,7 +18,7 @@ public class GameJoinFightAction implements GameAction {
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).write(fightId + ";" + fightId);
+		stream.allocate(1).write(fightId + ";" + fightId); // FIXME ne marche pas en spectateur
 	}
 
 	/**
