@@ -195,7 +195,8 @@ public class Pathfinding {
 		int id = Maps.getIdRotated(x, y, width, height);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
-			return last ? cell.getMovement() != 0 : isValidCell(cell);
+			boolean interrvalid = Interractable.isZaap(cell.getInterractableId()) || Interractable.isZaapi(cell.getInterractableId());
+			return last ? cell.getMovement() != 0 && (interrvalid || cell.getMovement() != 1) : isValidCell(cell);
 		} else return false;
 	}
 

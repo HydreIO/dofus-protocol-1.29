@@ -50,8 +50,8 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 				int quantity = stream.available() > 0 ? stream.readInt() : 1;
 				int itemtype = stream.available() > 0 ? stream.readInt() : -1;
 				Effect[] eff = stream.available() > 0 ? Item.parseEffects(stream.read()) : null;
-				int price = stream.readInt();
-				this.remainingHours = Convert.toInt(stream.read());
+				int price = stream.available() > 0 ? stream.readInt() : -1;
+				this.remainingHours = stream.available() > 0 ? Convert.toInt(stream.read()) : -1;
 				this.moved = new Item(uid, itemtype, quantity, EquipmentPosition.NO_EQUIPED.getPosition(), eff, price, -1);
 				break;
 		}
@@ -65,9 +65,10 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		if (getMoved() == null) stream.allocate(1).write("KG" + String.valueOf(getKamas()));
-		else if (getRemainingHours() == -1)
-			stream.allocate(4).write("KO" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()));
-		else {
+		else if (getRemainingHours() == -1) {
+			if (isAdd()) stream.allocate(4).write("K+" + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()));
+			else stream.allocate(1).write("K-" + moved.getUid());
+		} else {
 			stream.allocate(isAdd() ? 6 : 1).write("K" + getAddValue() + moved.getUid());
 			if (isAdd()) stream.writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects())).writeInt(moved.getPrice()).writeInt(getRemainingHours());
 		}
