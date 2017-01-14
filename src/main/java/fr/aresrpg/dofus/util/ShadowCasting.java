@@ -3,8 +3,7 @@ package fr.aresrpg.dofus.util;
 import fr.aresrpg.dofus.structures.map.Cell;
 import fr.aresrpg.dofus.structures.map.DofusMap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class ShadowCasting {
@@ -12,16 +11,18 @@ public class ShadowCasting {
 	private ShadowCasting() {
 	}
 
-	public static List<Cell> getAccesibleCells(int originId, int range, DofusMap map, Predicate<Cell> obstacle) {
-		List<Cell> accessible = new ArrayList<>();
-		List<Cell> inaccessible = new ArrayList<>();
+	public static Set<Cell> getAccesibleCells(int originId, int range, DofusMap map, Predicate<Cell> obstacle) {
+		Set<Cell> accessible = new HashSet<>();
+		Set<Cell> inaccessible = new HashSet<>();
 		Cell orig = map.getCells()[originId];
 		for (int i = 0; i < map.getCells().length; i++) {
 			Cell c = map.getCells()[i];
 			if (Maps.distanceManathan(originId, i, map.getWidth(), map.getHeight()) <= range)
 				accessible.add(c);
-			if (obstacle.test(c))
+			if (obstacle.test(c)) {
 				inaccessible.addAll(castShadow(c.getXRot(), c.getYRot(), orig.getXRot(), orig.getYRot(), range, map));
+				inaccessible.add(c);
+			}
 		}
 		accessible.removeAll(inaccessible);
 		return accessible;
@@ -49,9 +50,9 @@ public class ShadowCasting {
 		boolean flag = true;
 
 		List<Cell> inaccessible = new ArrayList<>();
-		for (int cy = ay; cy < range; cy++) {
-			for (int cx = ax; cx < range; cx++) {
-				if ((cx != x || cy != y) && (cx * cx + cy * cy) <= range * range) {
+		for (int cy = ay; cy <= range; cy++) {
+			for (int cx = ax; cx <= range; cx++) {
+				if ((cx != x || cy != y) && (Math.abs(cx) + Math.abs(cy)) <= range) {
 					// Skip main cell
 					double slope = getSlope(cx, cy);
 
