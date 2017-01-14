@@ -49,8 +49,8 @@ public class ShadowCasting {
 		boolean flag = true;
 
 		List<Cell> inaccessible = new ArrayList<>();
-		for (int cy = ay; cy < range; cy++)
-			for (int cx = ax; cx < range; cx++)
+		for (int cy = ay; cy < range; cy++) {
+			for (int cx = ax; cx < range; cx++) {
 				if ((cx != x || cy != y) && (cx * cx + cy * cy) <= range * range) {
 					// Skip main cell
 					double slope = getSlope(cx, cy);
@@ -60,18 +60,22 @@ public class ShadowCasting {
 							ax = cx;
 							flag = true;
 						}
-
 						mirrorHide(cx, cy, ox, oy, flipX, flipY, inaccessible, map);
-					} else
-						if (flag)
+					} else {
+						if (flag) {
 							break;
-
-					if (flag)
-						flag = false;
-					else
-						break;
+						}
+					}
 
 				}
+			}
+			if (flag) {
+				flag = false;
+			} else {
+				break;
+			}
+
+		}
 		return inaccessible;
 	}
 
@@ -93,7 +97,7 @@ public class ShadowCasting {
 		if (x > map.getHeight() + map.getWidth() || y > map.getHeight() + map.getWidth())
 			return null;
 		int id = Maps.getIdRotated(x, y, map.getWidth(), map.getHeight());
-		if (Maps.isInMap(id, map.getWidth(), map.getHeight()))
+		if (id > 0 && id < map.getCells().length && Maps.isInMapRotated(x, y, map.getWidth(), map.getHeight()))
 			return map.getCells()[id];
 		else
 			return null;

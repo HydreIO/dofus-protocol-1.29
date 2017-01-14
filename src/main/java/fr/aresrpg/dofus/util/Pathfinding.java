@@ -196,7 +196,7 @@ public class Pathfinding {
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
 			boolean interrvalid = Interractable.isZaap(cell.getInterractableId()) || Interractable.isZaapi(cell.getInterractableId());
-			return last ? cell.getMovement() != 0 && (interrvalid || cell.getMovement() != 1) : isValidCell(cell);
+			return last ? cell.getMovement() != 0 && (interrvalid || !Interractable.isInterractable(cell.getInterractableId())) : isValidCell(cell);
 		} else return false;
 	}
 
