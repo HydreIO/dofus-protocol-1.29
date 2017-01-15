@@ -20,8 +20,10 @@ public class ShadowCasting {
 			if (Maps.distanceManathan(originId, i, map.getWidth(), map.getHeight()) <= range)
 				accessible.add(c);
 			if (obstacle.test(c)) {
+				boolean hide = inaccessible.contains(c);
 				inaccessible.addAll(castShadow(c.getXRot(), c.getYRot(), orig.getXRot(), orig.getYRot(), range, map));
-				inaccessible.add(c);
+				if (hide) inaccessible.add(c);
+				else inaccessible.remove(c);
 			}
 		}
 		accessible.removeAll(inaccessible);

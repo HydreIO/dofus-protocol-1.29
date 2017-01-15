@@ -195,15 +195,16 @@ public class Pathfinding {
 		int id = Maps.getIdRotated(x, y, width, height);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
-			boolean interrvalid = Interractable.isZaap(cell.getInterractableId()) || Interractable.isZaapi(cell.getInterractableId());
-			return last ? cell.getMovement() != 0 && (interrvalid || !Interractable.isInterractable(cell.getInterractableId())) : isValidCell(cell);
+			if (cell.getMovement() == 0 || Interractable.isInterractable(cell.getInterractableId())) return false;
+			return last || isValidCell(cell);
 		} else return false;
 	}
 
 	private static boolean isValidCell(Cell cell) {
+		int interractableId = cell.getInterractableId();
 		for (int i : Constants.TELEPORT_TEXTURES)
-			if (cell.getLayerObject1Num() == i || cell.getLayerObject2Num() == i) return false;
-		return cell.getMovement() != 1 && !Interractable.isInterractable(cell.getLayerObject2Num()) && cell.getMovement() != 0;
+			if (interractableId == i) return false;
+		return cell.getMovement() != 1;
 	}
 
 	private static <T extends Node> List<T> recreatePath(Map<T, T> cameFrom, T node) {

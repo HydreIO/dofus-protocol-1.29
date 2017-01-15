@@ -10,6 +10,9 @@ package fr.aresrpg.dofus.structures.item;
 
 import fr.aresrpg.dofus.structures.job.Jobs;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 
  * @since
@@ -236,6 +239,19 @@ public enum Interractable {
 
 	private boolean is(Interractable i) {
 		return i == this;
+	}
+
+	public static Set<Interractable> getAllForJob(Jobs job) {
+		Set<Interractable> set = new HashSet<>();
+		loop: for (Interractable i : values()) {
+			if (i.getRequiredJob() == null) continue;
+			for (Jobs rj : i.getRequiredJob())
+				if (rj == job) {
+					set.add(i);
+					continue loop;
+				}
+		}
+		return set;
 	}
 
 	/**
