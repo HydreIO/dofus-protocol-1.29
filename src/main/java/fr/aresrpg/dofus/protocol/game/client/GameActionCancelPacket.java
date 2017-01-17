@@ -15,7 +15,7 @@ import fr.aresrpg.dofus.protocol.*;
  * 
  * @since
  */
-public class GameActionCancel implements ClientPacket {
+public class GameActionCancelPacket implements ClientPacket {
 
 	private int actionId;
 	private String params;
@@ -24,13 +24,12 @@ public class GameActionCancel implements ClientPacket {
 	 * @param actionId
 	 * @param params
 	 */
-	public GameActionCancel(int actionId, String params) {
-		super();
+	public GameActionCancelPacket(int actionId, String params) {
 		this.actionId = actionId;
 		this.params = params;
 	}
 
-	public GameActionCancel() {
+	public GameActionCancelPacket() {
 	}
 
 	/**

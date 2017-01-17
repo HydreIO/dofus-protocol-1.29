@@ -56,7 +56,7 @@ public class GameHarvestTimeAction implements GameAction {
 
 	@Override
 	public String toString() {
-		return "GameHarvestTimeAction [time=" + time + ", unknowId=" + cellId + "]";
+		return "GameHarvestTimeAction [time=" + time + ", cellId=" + cellId + "]";
 	}
 
 }

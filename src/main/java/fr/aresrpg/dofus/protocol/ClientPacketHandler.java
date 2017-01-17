@@ -128,7 +128,7 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(FightNeedHelpPacket fightNeedHelpPacket);
 
-	void handle(GameActionCancel gameActionCancel);
+	void handle(GameActionCancelPacket gameActionCancel);
 
 	void handle(ItemMovementPacket itemMovementFastInvPacket);
 

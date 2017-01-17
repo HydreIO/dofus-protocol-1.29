@@ -198,7 +198,7 @@ public enum ProtocolRegistry {
 
 	// action client
 	GAME_ACTION_ACK(Layer.GAME, 'K', 'K', Bound.CLIENT, GameActionACKPacket.class),
-	GAME_ACTION_CANCEL(Layer.GAME, 'K', 'E', Bound.CLIENT, GameActionCancel.class),
+	GAME_ACTION_CANCEL(Layer.GAME, 'K', 'E', Bound.CLIENT, GameActionCancelPacket.class),
 
 	// GUILD ==========================================================
 	// server
