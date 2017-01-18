@@ -19,8 +19,7 @@ import fr.aresrpg.dofus.protocol.exchange.server.*;
 import fr.aresrpg.dofus.protocol.fight.server.*;
 import fr.aresrpg.dofus.protocol.friend.server.FriendListPacket;
 import fr.aresrpg.dofus.protocol.game.server.*;
-import fr.aresrpg.dofus.protocol.guild.server.GuildJoinErrorPacket;
-import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
+import fr.aresrpg.dofus.protocol.guild.server.*;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.server.*;
@@ -237,5 +236,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(ChatServerMessagePacket chatServerMessagePacket);
 
 	void handle(GuildJoinErrorPacket guildJoinErrorPacket);
+
+	void handle(GuildInvitedPacket guildInvitedPacket);
 
 }

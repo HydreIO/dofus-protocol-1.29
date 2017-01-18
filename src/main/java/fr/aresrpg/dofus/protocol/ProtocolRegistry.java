@@ -34,8 +34,7 @@ import fr.aresrpg.dofus.protocol.friend.client.*;
 import fr.aresrpg.dofus.protocol.friend.server.FriendListPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
-import fr.aresrpg.dofus.protocol.guild.server.GuildJoinErrorPacket;
-import fr.aresrpg.dofus.protocol.guild.server.GuildStatPacket;
+import fr.aresrpg.dofus.protocol.guild.server.*;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
@@ -204,6 +203,7 @@ public enum ProtocolRegistry {
 	// server
 	GUILD_STATS(Layer.GUILD, 'S', Bound.SERVER, GuildStatPacket.class),
 	GUILD_JOIN_ERROR(Layer.GUILD, 'J', State.ERROR, Bound.SERVER, GuildJoinErrorPacket.class),
+	GUILD_INVITED(Layer.GUILD, 'J', 'r', Bound.SERVER, GuildInvitedPacket.class),
 
 	// FIGHT ==========================================================
 	// server
