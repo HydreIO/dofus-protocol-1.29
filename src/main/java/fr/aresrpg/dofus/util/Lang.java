@@ -11,7 +11,10 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.Constants;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +27,6 @@ public class Lang {
 	public static void main(String[] args) throws IOException {
 		System.out.println(getLangVersion("fr"));
 		Map<String, Object> datas = getDatas("fr", "shortcuts");
-		int i = 0;
 		for (Entry<String, Object> e : datas.entrySet()) {
 			String val = String.valueOf(e.getValue());
 			System.out.println(e.getKey() + "=" + val);

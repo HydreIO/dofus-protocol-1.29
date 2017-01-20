@@ -9,14 +9,20 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
-import flash.swf.*;
+import flash.swf.Action;
+import flash.swf.ActionHandler;
+import flash.swf.TagDecoder;
+import flash.swf.TagHandler;
 import flash.swf.actions.ConstantPool;
 import flash.swf.actions.Push;
 import flash.swf.tags.DoAction;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Stack;
 
 public class SwfVariableExtractor extends TagHandler {
 
@@ -32,16 +38,15 @@ public class SwfVariableExtractor extends TagHandler {
 	}
 
 	private class SwfActionVariableExtractor extends ActionHandler {
-		private LinkedList<Object> stack = new LinkedList<>();
-		private String path = "";
+		private Stack<Object> stack = new Stack<>();
 		private String[] pool;
 
 		@Override
 		public void push(Push action) {
 			if (pool != null && action.value instanceof Short)
-				stack.add(pool[(short) action.value]);
+				stack.push(pool[(short) action.value]);
 			else
-				stack.add(action.value);
+				stack.push(action.value);
 		}
 
 		@Override
@@ -60,7 +65,10 @@ public class SwfVariableExtractor extends TagHandler {
 		}
 
 		private void putPath() {
-			path += "." + stack.removeLast();
+			if(stack.size() > 1) {
+				Object first = stack.pop();
+				stack.push(stack.pop() + "." + first);
+			}
 		}
 
 		@Override
@@ -75,40 +83,49 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void callMethod(Action action) {
-			stack.removeLast();
-			path = "";
+			putPath();
+			//Swap last 2 values
+			Object first = stack.pop();
+			Object second = stack.pop();
+			stack.push(first);
+			stack.push(second);
+			putVariable();
 		}
 
 		private void putVariable() {
-			if (path.isEmpty()) {
-				Object value = stack.removeLast();
-				variables.put(String.valueOf(stack.removeLast()), value);
-			} else {
-				variables.put(path.substring(1), stack.removeLast());
-				path = "";
-			}
+			Object value = stack.pop();
+			String name = String.valueOf(stack.pop());
+			variables.put(name, value);
 		}
 
 		@Override
 		public void newObject(Action action) {
-			Object type = stack.removeLast();
-			stack.removeLast(); //Id
-			path += "." + stack.removeLast().toString();
-			stack.add(type);
+			Object type = stack.pop();
+			stack.pop(); //Id
+			putPath();
+			stack.push(type);
 		}
 
 		@Override
 		public void initObject(Action action) {
 			Map<String, Object> members = new HashMap<>();
-			path += "." + stack.removeFirst().toString();
-			int size = stack.size();
-			for (int i = 0; i < size / 2; i++) {
-				String name = stack.removeFirst().toString();
-				Object data = stack.removeFirst();
+			int size = (int) stack.pop();
+			for (int i = 0; i < size; i++) {
+				Object data = stack.pop();
+				String name = stack.pop().toString();
 				members.put(name, data);
 			}
-			stack.clear();
-			stack.add(members);
+			putPath();
+			stack.push(members);
+		}
+
+		@Override
+		public void initArray(Action action) {
+			int size = (int) stack.pop();
+			Object[] array = new Object[size];
+			for(int i = 0 ; i < size ; i++)
+				array[i] = stack.pop();
+			stack.push(array);
 		}
 	}
 
