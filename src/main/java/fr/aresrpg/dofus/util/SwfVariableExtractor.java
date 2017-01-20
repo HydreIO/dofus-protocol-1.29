@@ -109,7 +109,7 @@ public class SwfVariableExtractor extends TagHandler {
 		@Override
 		public void initObject(Action action) {
 			Map<String, Object> members = new HashMap<>();
-			int size = (int) stack.pop();
+			int size = ((Number) stack.pop()).intValue();
 			for (int i = 0; i < size; i++) {
 				Object data = stack.pop();
 				String name = stack.pop().toString();
@@ -121,7 +121,7 @@ public class SwfVariableExtractor extends TagHandler {
 
 		@Override
 		public void initArray(Action action) {
-			int size = (int) stack.pop();
+			int size = ((Number) stack.pop()).intValue();
 			Object[] array = new Object[size];
 			for(int i = 0 ; i < size ; i++)
 				array[i] = stack.pop();
