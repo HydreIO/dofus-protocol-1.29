@@ -34,6 +34,7 @@ import fr.aresrpg.dofus.protocol.friend.client.*;
 import fr.aresrpg.dofus.protocol.friend.server.FriendListPacket;
 import fr.aresrpg.dofus.protocol.game.client.*;
 import fr.aresrpg.dofus.protocol.game.server.*;
+import fr.aresrpg.dofus.protocol.guild.client.GuildRefuseInvitPacket;
 import fr.aresrpg.dofus.protocol.guild.server.*;
 import fr.aresrpg.dofus.protocol.hello.server.HelloConnectionPacket;
 import fr.aresrpg.dofus.protocol.hello.server.HelloGamePacket;
@@ -200,6 +201,8 @@ public enum ProtocolRegistry {
 	GAME_ACTION_CANCEL(Layer.GAME, 'K', 'E', Bound.CLIENT, GameActionCancelPacket.class),
 
 	// GUILD ==========================================================
+	// client
+	GUILD_REFUSE_INVITATION(Layer.GUILD, 'J', State.ERROR, Bound.CLIENT, GuildRefuseInvitPacket.class),
 	// server
 	GUILD_STATS(Layer.GUILD, 'S', Bound.SERVER, GuildStatPacket.class),
 	GUILD_JOIN_ERROR(Layer.GUILD, 'J', State.ERROR, Bound.SERVER, GuildJoinErrorPacket.class),

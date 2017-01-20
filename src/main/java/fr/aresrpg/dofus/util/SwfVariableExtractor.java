@@ -103,7 +103,7 @@ public class SwfVariableExtractor extends TagHandler {
 			path += "." + stack.removeFirst().toString();
 			int size = stack.size();
 			for (int i = 0; i < size / 2; i++) {
-				String name = stack.removeFirst().toString();
+				String name = String.valueOf(stack.removeFirst());
 				Object data = stack.removeFirst();
 				members.put(name, data);
 			}

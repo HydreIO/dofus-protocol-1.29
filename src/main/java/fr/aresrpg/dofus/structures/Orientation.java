@@ -9,6 +9,8 @@
  *******************************************************************************/
 package fr.aresrpg.dofus.structures;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public enum Orientation {
 	RIGHT(0.06f, 0.20f, 0.15f),
 	DOWN_RIGHT(0.07f, 0.23f, 0.17f),
@@ -38,6 +40,29 @@ public enum Orientation {
 				return true;
 			default:
 				return false;
+		}
+	}
+
+	public Orientation opposite() {
+		switch (this) {
+			case DOWN:
+				return UP;
+			case DOWN_LEFT:
+				return UP_RIGHT;
+			case DOWN_RIGHT:
+				return UP_LEFT;
+			case LEFT:
+				return Orientation.RIGHT;
+			case RIGHT:
+				return LEFT;
+			case UP:
+				return DOWN;
+			case UP_LEFT:
+				return DOWN_RIGHT;
+			case UP_RIGHT:
+				return Orientation.DOWN_LEFT;
+			default:
+				throw new NotImplementedException();
 		}
 	}
 

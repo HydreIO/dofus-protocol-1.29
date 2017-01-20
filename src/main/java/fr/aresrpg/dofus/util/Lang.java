@@ -23,11 +23,12 @@ public class Lang {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println(getLangVersion("fr"));
-		Map<String, Object> datas = getDatas("fr", "shortcuts");
+		Map<String, Object> datas = getDatas("fr", "spells");
 		int i = 0;
 		for (Entry<String, Object> e : datas.entrySet()) {
 			String val = String.valueOf(e.getValue());
 			System.out.println(e.getKey() + "=" + val);
+			if (++i == 50) return;
 		}
 	}
 

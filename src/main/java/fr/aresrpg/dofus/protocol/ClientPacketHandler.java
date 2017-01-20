@@ -21,6 +21,7 @@ import fr.aresrpg.dofus.protocol.exchange.client.*;
 import fr.aresrpg.dofus.protocol.fight.client.*;
 import fr.aresrpg.dofus.protocol.friend.client.*;
 import fr.aresrpg.dofus.protocol.game.client.*;
+import fr.aresrpg.dofus.protocol.guild.client.GuildRefuseInvitPacket;
 import fr.aresrpg.dofus.protocol.info.client.InfoMapPacket;
 import fr.aresrpg.dofus.protocol.item.client.*;
 import fr.aresrpg.dofus.protocol.job.client.JobChangeStatsPacket;
@@ -173,5 +174,7 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(SpellBoostPacket spellBoostPacket);
 
 	void handle(SubwayUsePacket subwayUsePacket);
+
+	void handle(GuildRefuseInvitPacket guildRefuseInvitPacket);
 
 }

@@ -18,6 +18,8 @@ import fr.aresrpg.dofus.structures.map.Cell;
 import java.util.*;
 import java.util.function.Function;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public class Pathfinding {
 
 	public static <T extends Node> List<T> getCellPath(int idFrom, int idTo, Cell[] cells, int width, int height, Function<T, T[]> neighbors, PathValidator canTake) {
@@ -149,6 +151,29 @@ public class Pathfinding {
 			return deltaX > 0 ? Orientation.RIGHT : Orientation.DOWN;
 		else
 			return null;
+	}
+
+	public static Node getNeighborNodeInDirection(int xFrom, int yFrom, Orientation direction) {
+		switch (direction) {
+			case UP_RIGHT:
+				return new Node(xFrom + 1, yFrom);
+			case UP:
+				return new Node(xFrom + 1, yFrom - 1);
+			case DOWN:
+				return new Node(xFrom - 1, yFrom + 1);
+			case DOWN_LEFT:
+				return new Node(xFrom - 1, yFrom);
+			case DOWN_RIGHT:
+				return new Node(xFrom, yFrom + 1);
+			case LEFT:
+				return new Node(xFrom - 1, yFrom - 1);
+			case RIGHT:
+				return new Node(xFrom + 1, yFrom + 1);
+			case UP_LEFT:
+				return new Node(xFrom, yFrom - 1);
+			default:
+				throw new NotImplementedException();
+		}
 	}
 
 	public static Orientation getDirectionForMap(int xFrom, int yFrom, int xTo, int yTo) {

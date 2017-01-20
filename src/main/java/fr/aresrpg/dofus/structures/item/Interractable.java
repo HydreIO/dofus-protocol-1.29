@@ -26,7 +26,7 @@ public enum Interractable {
 	MOULE(7002, null),
 	FM_CAC(7020, null),
 	TABLE_A_PATATE(7006, null),
-	PECHE_CANARD_(7549, null),
+	PECHE_CANARD(7549, null),
 	TABLE_MAGIQUE(7037, null),
 	ATELIER_MAGIQUE(7038, null),
 	MARMITE(7017, null),
