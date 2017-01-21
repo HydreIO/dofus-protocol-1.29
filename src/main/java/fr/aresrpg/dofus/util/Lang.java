@@ -11,13 +11,9 @@ package fr.aresrpg.dofus.util;
 
 import fr.aresrpg.dofus.Constants;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class Lang {
@@ -29,9 +25,15 @@ public class Lang {
 		Map<String, Object> datas = getDatas("fr", "spells");
 		int i = 0;
 		for (Entry<String, Object> e : datas.entrySet()) {
-			String val = String.valueOf(e.getValue());
-			System.out.println(e.getKey() + "=" + val);
-			if (++i == 50) return;
+			if (!(e.getValue() instanceof Map)) continue;
+			Map<String, Object> map = (Map) e.getValue();
+			for (Entry<String, Object> en : map.entrySet()) {
+				StringBuilder sb = new StringBuilder();
+				if (en.getValue() instanceof Object[]) sb.append(Arrays.deepToString((Object[]) en.getValue()));
+				else sb.append(String.valueOf(en.getValue()));
+				System.out.println(en.getKey() + "=" + sb.toString());
+				if (en.getValue().toString().contains("Enflammée")) return;
+			}
 		}
 	}
 
