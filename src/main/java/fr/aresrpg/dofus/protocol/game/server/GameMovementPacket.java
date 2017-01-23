@@ -43,6 +43,10 @@ public class GameMovementPacket implements ServerPacket {
 	private Set<Pair<GameMovementAction, MovementAction>> actors = new HashSet<>();
 	private String fullpacketflemme;
 
+	public static void main(String[] args) {
+		System.out.println("" + (40 ^ 100));
+	}
+
 	@Override
 	public void read(DofusStream stream) {
 		StringJoiner laflemme = new StringJoiner("|");
@@ -177,7 +181,7 @@ public class GameMovementPacket implements ServerPacket {
 										data[17].split(","), data[18]);
 						Alignement alignment = isSramDouble ? null
 								: new Alignement(Convert.toInt(loc67[0]), Convert.toInt(loc67[1])).setFallenAngelDemon(loc67.length > 4 ? Convert.toInt(loc67[4]) == 1 : false);
-						actors.add(new Pair<>(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, action.getId(), cellid, loc27, loc28, direction, Convert.toInt(data[7]),
+						actors.add(new Pair<>(GameMovementAction.DEFAULT, new MovementPlayer(id, pseudo, gfx2, cellid, loc27, loc28, direction, Convert.toInt(data[7]),
 								alignment, isSramDouble ? 0 : Convert.toInt(loc67[2]),
 								pif, pof)));
 						break;

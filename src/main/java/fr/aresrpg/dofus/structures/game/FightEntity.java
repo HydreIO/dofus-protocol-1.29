@@ -30,25 +30,28 @@ public class FightEntity {
 	 * @param pm
 	 * @param unknowNumber
 	 */
-	public FightEntity(long id, int life, int lifeMax, int pa, int pm, int unknowNumber) {
+	public FightEntity(long id, boolean dead, int life, int lifeMax, int pa, int pm, int unknowNumber) {
 		this.id = id;
 		this.life = life;
 		this.lifeMax = lifeMax;
 		this.pa = pa;
 		this.pm = pm;
 		this.unknowNumber = unknowNumber;
+		this.dead = dead;
 	}
 
 	public FightEntity(long id) {
-		this(id, 0, 0, 0, 0, 0);
+		this(id, true, 0, 0, 0, 0, 0);
 	}
 
 	public static FightEntity parse(String data) {
 		String[] datas = data.split(";", -1);
 		// GTM|2397625;0;555;7;3;226;;555|2221954;0;2650;11;7;124;;2681|-4;0;42;8;4;94;;221|-3;0;210;8;4;177;;210|-2;1|-1;0;50;4;4;148;;50
-		if (datas.length == 2) return new FightEntity(Convert.toInt(datas[0]));
+		boolean dead = Convert.toInt(datas[1]) == 1;
+		if (dead) return new FightEntity(Convert.toInt(datas[0]));
 		return new FightEntity(
 				Convert.toInt(datas[0]),
+				dead,
 				Convert.toInt(datas[2]),
 				Convert.toInt(datas[7]),
 				Convert.toInt(datas[3]),
@@ -73,6 +76,7 @@ public class FightEntity {
 	}
 
 	public String serialize() {
+		if (dead) return id + ";1";
 		return new StringJoiner(";").add("" + id).add("0").add("" + life).add("" + pa)
 				.add("" + pm).add("" + unknowNumber).add("").add("" + lifeMax).toString();
 	}

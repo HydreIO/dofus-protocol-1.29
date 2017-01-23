@@ -10,7 +10,7 @@
 package fr.aresrpg.dofus.structures;
 
 public class Waypoint {
-	private int id; //Map id ? 
+	private int id;
 	private int cost;
 
 	public Waypoint(int id, int cost) {
