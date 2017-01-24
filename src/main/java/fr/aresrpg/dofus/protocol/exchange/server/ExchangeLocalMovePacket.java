@@ -60,8 +60,7 @@ public class ExchangeLocalMovePacket implements ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		if (getLocalKama() == -1) {
-			stream.allocate(itemAmount == 1 ? 1 : 2).write("KO" + (isAdd ? "+" : "-") + itemType);
-			if (itemAmount > 1) stream.writeInt(itemAmount);
+			stream.allocate(2).write("KO" + (isAdd ? "+" : "-") + itemType).writeInt(itemAmount);
 		} else stream.allocate(1).write("KG" + getLocalKama());
 	}
 

@@ -131,6 +131,20 @@ public enum Interractable {
 		return null;
 	}
 
+	public static boolean isWalkableRessource(int id) {
+		Interractable interractable = fromId(id);
+		if (interractable == null) return false;
+		return interractable.hasAnyOf(Jobs.JOB_PAYSAN, Jobs.JOB_ALCHIMISTE);
+	}
+
+	public boolean hasAnyOf(Jobs... jobs) {
+		if (getRequiredJob() == null) return false;
+		for (Jobs j : getRequiredJob())
+			for (Jobs jj : jobs)
+				if (jj == j) return true;
+		return false;
+	}
+
 	public static boolean isRessource(int id) {
 		Interractable interractable = fromId(id);
 		if (interractable == null) return false;

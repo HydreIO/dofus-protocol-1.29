@@ -35,6 +35,7 @@ public class DofusMapView extends Region {
 	private BooleanProperty cellId;
 	private ObjectProperty<List<Node>> path;
 	private ObjectProperty<List<Cell>> accessible;
+	private ObjectProperty<List<Cell>> highlight;
 	private IntegerProperty shadowOrigin;
 	private IntegerProperty shadowRange;
 	private IntegerProperty currentPosition;
@@ -59,6 +60,7 @@ public class DofusMapView extends Region {
 		this.cellId = new SimpleBooleanProperty(true);
 		this.path = new SimpleObjectProperty<>();
 		this.accessible = new SimpleObjectProperty<>();
+		this.highlight = new SimpleObjectProperty<>();
 		this.currentPosition = new SimpleIntegerProperty(-1);
 		this.shadowRange = new SimpleIntegerProperty(-1);
 		this.shadowOrigin = new SimpleIntegerProperty(-1);
@@ -69,6 +71,7 @@ public class DofusMapView extends Region {
 		this.full.addListener((obs, oldValue, newValue) -> drawCells());
 		this.path.addListener((obs, oldValue, newValue) -> drawPath());
 		this.accessible.addListener((obs, oldValue, newValue) -> drawCells());
+		this.highlight.addListener((obs, oldValue, newValue) -> drawCells());
 		this.cellId.addListener((obs, oldValue, newValue) -> idCanvas.setVisible(newValue));
 
 		setOnMouseClicked(mouseEvent -> {
@@ -216,6 +219,8 @@ public class DofusMapView extends Region {
 				if (this.accessible.get().contains(c)) gc.setFill(Color.ROYALBLUE);
 			}
 
+			if (this.highlight != null && this.highlight.get() != null && this.highlight.get().contains(c)) gc.setFill(Color.RED);
+
 			gc.fillPolygon(new double[] { xp, xp + dMultiplier, xp, xp - dMultiplier },
 					new double[] { yp + dMultiplier, yp, yp - dMultiplier, yp }, 4);
 			switch (c.getLayerObject2Num()) {
@@ -294,6 +299,10 @@ public class DofusMapView extends Region {
 		this.shadowRange.set(range);
 		this.shadowOrigin.set(origin);
 		this.accessible.set(acc);
+	}
+
+	public void highlightCells(List<Cell> cells) {
+		this.highlight.set(cells);
 	}
 
 	private void setCanvasWidth(double width) {

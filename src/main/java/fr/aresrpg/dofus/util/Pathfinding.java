@@ -100,7 +100,7 @@ public class Pathfinding {
 			Cell cell = cells[Maps.getIdRotated(point.x, point.y, width, height)];
 			Orientation direction = getDirection(last.x, last.y, point.x, point.y);
 			time += 1 / (mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
-			if (lastGroundLevel < cell.getGroundLevel())
+		/*	if (lastGroundLevel < cell.getGroundLevel())
 				time += 100;
 			else if (cell.getGroundLevel() > lastGroundLevel)
 				time -= 100;
@@ -109,7 +109,7 @@ public class Pathfinding {
 					time += 100;
 				else if (cell.getGroundSlope() == 1)
 					time -= 100;
-			}
+			}*/
 			lastGroundLevel = cell.getGroundLevel();
 			lastGroundSlope = cell.getGroundSlope();
 			last = point;
@@ -220,8 +220,9 @@ public class Pathfinding {
 		int id = Maps.getIdRotated(x, y, width, height);
 		if (id >= 0 && id < cells.length) {
 			Cell cell = cells[id];
-			if (cell.getMovement() == 0 || Interractable.isInterractable(cell.getInterractableId())) return false;
-			return last || isValidCell(cell);
+			if (cell.getMovement() == 0) return false;
+			if (Interractable.isWalkableRessource(cell.getInterractableId())) return !last;
+			return !Interractable.isInterractable(cell.getInterractableId()) && (last || isValidCell(cell));
 		} else return false;
 	}
 
