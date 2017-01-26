@@ -26,7 +26,7 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	private final ProtocolRegistry.Bound bound;
 	private final String label;
 	private StringBuilder currentPacket = new StringBuilder();
-	private volatile boolean running;
+	private boolean running;
 
 	public DofusConnection(String label, T channel, PacketHandler handler, ProtocolRegistry.Bound bound) throws IOException {
 		this.selector = Selector.open();
@@ -53,21 +53,31 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 		return label;
 	}
 
-	public void closeConnection() {
-		this.running = false;
+	@Override
+	protected void finalize() throws Throwable {
+		System.out.println("OBJECT CONNECTION DESTROYING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		close();
+		super.finalize();
 	}
 
-	public void start() throws IOException {
-		this.running = true;
+	public void closeConnection() {
+		running = false;
+	}
+
+	public void start() throws IOException, InterruptedException {
+		running = true;
 		try {
-			while (running)
+			while (running && channel.isOpen()) {
+				Thread.sleep(50);
 				read();
+			}
 		} finally {
 			close();
 		}
 	}
 
 	private void close() throws IOException {
+		System.out.println("OBJECT CONNECTION CLOSING **********************************************");
 		buffer.clear();
 		channel.close();
 		selector.close();

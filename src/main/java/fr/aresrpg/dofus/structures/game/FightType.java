@@ -18,7 +18,8 @@ public enum FightType {
 	DUEL(0),
 	AGRESSION(1),
 	MONSTER(4),
-	PERCO(5);
+	PERCO(5),
+	CROCO(6);
 
 	private int id;
 
