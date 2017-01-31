@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class AccountStatsPacket implements ServerPacket {
 
-	private int xp;
-	private int xpLow;
-	private int xpHigh;
+	private long xp;
+	private long xpLow;
+	private long xpHigh;
 	private int kama;
 	private int bonusPoints;
 	private int bonusPointsSpell;
@@ -42,9 +42,9 @@ public class AccountStatsPacket implements ServerPacket {
 	@Override
 	public void read(DofusStream stream) {
 		String[] xpData = stream.read().split(",");
-		this.xp = Integer.parseInt(xpData[0]);
-		this.xpLow = Integer.parseInt(xpData[1]);
-		this.xpHigh = Integer.parseInt(xpData[2]);
+		this.xp = Long.parseLong(xpData[0]);
+		this.xpLow = Long.parseLong(xpData[1]);
+		this.xpHigh = Long.parseLong(xpData[2]);
 		this.kama = stream.readInt();
 		this.bonusPoints = stream.readInt();
 		this.bonusPointsSpell = stream.readInt();
@@ -122,15 +122,15 @@ public class AccountStatsPacket implements ServerPacket {
 		handler.handle(this);
 	}
 
-	public int getXp() {
+	public long getXp() {
 		return xp;
 	}
 
-	public int getXpLow() {
+	public long getXpLow() {
 		return xpLow;
 	}
 
-	public int getXpHigh() {
+	public long getXpHigh() {
 		return xpHigh;
 	}
 

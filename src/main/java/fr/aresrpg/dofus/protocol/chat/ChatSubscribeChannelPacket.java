@@ -32,7 +32,7 @@ public class ChatSubscribeChannelPacket implements Packet {
 	public void write(DofusStream stream) {
 		StringBuilder builder = new StringBuilder().append(add ? '+' : '-');
 		for (Chat channel : channels)
-			builder.append(channel.getCode());
+			builder.append(channel == null ? "" : channel.getCode());
 		stream.allocate(1).write(builder.toString());
 	}
 

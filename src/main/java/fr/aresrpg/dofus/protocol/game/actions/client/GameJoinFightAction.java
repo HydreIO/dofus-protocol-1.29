@@ -9,11 +9,11 @@ import fr.aresrpg.dofus.protocol.game.actions.GameAction;
  */
 public class GameJoinFightAction implements GameAction {
 
-	private int fightId;
+	private long fightId;
 
 	@Override
 	public void read(DofusStream stream) {
-		this.fightId = Integer.parseInt(stream.read().split(";")[0]);
+		this.fightId = Long.parseLong(stream.read().split(";")[0]);
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class GameJoinFightAction implements GameAction {
 	/**
 	 * @return the fightId
 	 */
-	public int getFightId() {
+	public long getFightId() {
 		return fightId;
 	}
 
@@ -32,7 +32,7 @@ public class GameJoinFightAction implements GameAction {
 	 * @param fightId
 	 *            the fightId to set
 	 */
-	public void setFightId(int fightId) {
+	public void setFightId(long fightId) {
 		this.fightId = fightId;
 	}
 

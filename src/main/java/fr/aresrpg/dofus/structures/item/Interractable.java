@@ -10,8 +10,8 @@ package fr.aresrpg.dofus.structures.item;
 
 import fr.aresrpg.dofus.structures.job.Jobs;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -253,6 +253,15 @@ public enum Interractable {
 
 	private boolean is(Interractable i) {
 		return i == this;
+	}
+
+	public static Interractable[] allWoods() {
+		return allWoodsBut();
+	}
+
+	public static Interractable[] allWoodsBut(Interractable... except) {
+		Set<Interractable> collect = Arrays.stream(except).collect(Collectors.toSet());
+		return Interractable.getAllForJob(Jobs.JOB_BUCHERON).stream().filter(i -> !collect.contains(i) && i != Interractable.MACHINE_BUCHERON).toArray(Interractable[]::new);
 	}
 
 	public static Set<Interractable> getAllForJob(Jobs job) {
