@@ -93,7 +93,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 		private ExchangeMove type;
 		private long itemUid;
 		private int amount;
-		private int price = -1;
+		private long price = -1;
 
 		/**
 		 * 
@@ -102,7 +102,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 		 * @param amount
 		 * @param price
 		 */
-		public MovedItem(ExchangeMove move, long itemUid, int amount, int price) {
+		public MovedItem(ExchangeMove move, long itemUid, int amount, long price) {
 			this.type = move;
 			this.itemUid = itemUid;
 			this.amount = amount;
@@ -115,7 +115,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 
 		public void write(DofusStream stream) {
 			stream.write(getType().getSymbol() + String.valueOf(getItemUid())).writeInt(getAmount());
-			if (hasPrice()) stream.writeInt(getPrice());
+			if (hasPrice()) stream.writeLong(getPrice());
 		}
 
 		/**
@@ -170,7 +170,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 		/**
 		 * @return the price
 		 */
-		public int getPrice() {
+		public long getPrice() {
 			return price;
 		}
 
@@ -178,7 +178,7 @@ public class ExchangeMoveItemsPacket implements ClientPacket { // EMO <+/->id|am
 		 * @param price
 		 *            the price to set
 		 */
-		public void setPrice(int price) {
+		public void setPrice(long price) {
 			this.price = price;
 		}
 

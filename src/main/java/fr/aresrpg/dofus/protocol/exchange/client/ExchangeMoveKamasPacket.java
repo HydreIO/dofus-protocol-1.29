@@ -17,12 +17,12 @@ import fr.aresrpg.dofus.protocol.*;
  */
 public class ExchangeMoveKamasPacket implements ClientPacket {
 
-	private int amount;
+	private long amount;
 
 	/**
 	 * @param amount
 	 */
-	public ExchangeMoveKamasPacket(int amount) {
+	public ExchangeMoveKamasPacket(long amount) {
 		this.amount = amount;
 	}
 
@@ -32,7 +32,7 @@ public class ExchangeMoveKamasPacket implements ClientPacket {
 	/**
 	 * @return the amount
 	 */
-	public int getAmount() {
+	public long getAmount() {
 		return amount;
 	}
 
@@ -40,18 +40,18 @@ public class ExchangeMoveKamasPacket implements ClientPacket {
 	 * @param amount
 	 *            the amount to set
 	 */
-	public void setAmount(int amount) {
+	public void setAmount(long amount) {
 		this.amount = amount;
 	}
 
 	@Override
 	public void read(DofusStream stream) {
-		this.amount = stream.readInt();
+		this.amount = stream.readLong();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(1).writeInt(amount);
+		stream.allocate(1).writeLong(amount);
 	}
 
 	@Override
