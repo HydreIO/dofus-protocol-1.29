@@ -1,5 +1,6 @@
 package fr.aresrpg.dofus.structures;
 
+import fr.aresrpg.dofus.structures.item.DofusItems;
 import fr.aresrpg.dofus.structures.item.Interractable;
 
 /**
@@ -11,7 +12,7 @@ public enum Skills {
 	UTILISER_ENCLO(175, 1),
 	ACHETER_ENCLOS(176, 1),
 	ACTIONNER(179, 1),
-	PUISER(102, 1, Interractable.PUITS),
+	PUISER(102, 1, Interractable.PUITS, DofusItems.EAU),
 	AMELIORER_BOTTES(163, 1, Interractable.ATELIER_MAGIQUE),
 	AMELIORER_ANNEAU(168, 1, Interractable.ATELIER_MAGIQUE),
 	AMELIORER_CHAPEAU(166, 1, Interractable.ATELIER_MAGIQUE),
@@ -21,17 +22,17 @@ public enum Skills {
 	AMELIORER_CEINTURE(164, 1, Interractable.ATELIER_MAGIQUE),
 	BRICOLER(171, 1),
 	BRISER_OBJET(181, 1, Interractable.CONCASSEUR),
-	COLLECTER_FER(24, 1, Interractable.FER),
-	COLLECTER_CUIVRE(25, 10, Interractable.CUIVRE),
-	COLLECTER_BRONZE(26, 20, Interractable.BRONZE),
-	COLLECTER_KOBALTE(28, 30, Interractable.KOBALTE),
-	COLLECTER_ARGENT(29, 60, Interractable.ARGENT),
-	COLLECTER_OR(30, 80, Interractable.OR),
-	COLLECTER_BAUXITE(31, 70, Interractable.BAUXITE),
-	COLLECTER_ETEIN(55, 50, Interractable.ETAIN),
-	COLLECTER_MANGANESE(56, 40, Interractable.MANGANESE),
-	COLLECTER_DOLOMITE(161, 100, Interractable.DOLOMITE),
-	COLLECTER_SILICATE(162, 50, Interractable.SILICATE),
+	COLLECTER_FER(24, 1, Interractable.FER, DofusItems.FER),
+	COLLECTER_CUIVRE(25, 10, Interractable.CUIVRE, DofusItems.CUIVRE),
+	COLLECTER_BRONZE(26, 20, Interractable.BRONZE, DofusItems.BRONZE),
+	COLLECTER_KOBALTE(28, 30, Interractable.KOBALTE, DofusItems.KOBALTE),
+	COLLECTER_ARGENT(29, 60, Interractable.ARGENT, DofusItems.ARGENT),
+	COLLECTER_OR(30, 80, Interractable.OR, DofusItems.OR),
+	COLLECTER_BAUXITE(31, 70, Interractable.BAUXITE, DofusItems.BAUXITE),
+	COLLECTER_ETEIN(55, 50, Interractable.ETAIN, DofusItems.ETAIN),
+	COLLECTER_MANGANESE(56, 40, Interractable.MANGANESE, DofusItems.MANGANESE),
+	COLLECTER_DOLOMITE(161, 100, Interractable.DOLOMITE, DofusItems.DOLOMITE),
+	COLLECTER_SILICATE(162, 50, Interractable.SILICATE, DofusItems.SILICATE),
 	CONCASSER_RESSOURCES(121, 1, Interractable.CONCASSEUR),
 	CONFECTIONNER_BOTTES(13, 1, Interractable.MACHINE_CORDONIER),
 	CONFECTIONNER_CEINTURE(14, 1, Interractable.MACHINE_CORDONIER),
@@ -40,31 +41,31 @@ public enum Skills {
 	COUDRE_CHAPEAU(63, 1),
 	COUDRE_SAC(123, 1),
 	COUDRE_CAPE(64, 1),
-	COUPER_FRENE(6, 1, Interractable.FRENE),
-	COUPER_CHENE(10, 30, Interractable.CHENE),
-	COUPER_IF(33, 50, Interractable.IF),
-	COUPER_EBENE(34, 70, Interractable.EBENE),
-	COUPER_ORME(35, 90, Interractable.ORME),
-	COUPER_ERABLE(37, 40, Interractable.ERABLE),
-	COUPER_CHARME(38, 80, Interractable.CHARME),
-	COUPER_CHATAIGNIER(39, 10, Interractable.CHATAIGNIER),
-	COUPER_NOYER(40, 20, Interractable.NOYER),
-	COUPER_MERISIER(41, 60, Interractable.MERISIER),
-	COUPER_BOMBU(139, 35, Interractable.BOMBU),
-	COUPER_OLIVIOLET(141, 35, Interractable.OLIVIOLET),
-	COUPER_BAMBOU(154, 50, Interractable.BAMBOU),
-	COUPER_BAMBOU_SOMBRE(155, 80, Interractable.BAMBOU_SOMBRE),
-	COUPER_BAMBOU_SACRE(158, 100, Interractable.BAMBOU_SACREE),
-	COUPER_KALIPTUS(174, 75, Interractable.KALIPTUS),
+	COUPER_FRENE(6, 1, Interractable.FRENE, DofusItems.BOIS_DE_FRENE),
+	COUPER_CHENE(10, 30, Interractable.CHENE, DofusItems.BOIS_DE_CHENE),
+	COUPER_IF(33, 50, Interractable.IF, DofusItems.BOIS_D_IF),
+	COUPER_EBENE(34, 70, Interractable.EBENE, DofusItems.BOIS_D_EBENE),
+	COUPER_ORME(35, 90, Interractable.ORME, DofusItems.BOIS_D_ORME),
+	COUPER_ERABLE(37, 40, Interractable.ERABLE, DofusItems.BOIS_D_ERABLE),
+	COUPER_CHARME(38, 80, Interractable.CHARME, DofusItems.BOIS_DE_CHARME),
+	COUPER_CHATAIGNIER(39, 10, Interractable.CHATAIGNIER, DofusItems.BOIS_DE_CHATAIGNIER),
+	COUPER_NOYER(40, 20, Interractable.NOYER, DofusItems.BOIS_DE_NOYER),
+	COUPER_MERISIER(41, 60, Interractable.MERISIER, DofusItems.BOIS_DE_MERISIER),
+	COUPER_BOMBU(139, 35, Interractable.BOMBU, DofusItems.BOIS_DE_BOMBU),
+	COUPER_OLIVIOLET(141, 35, Interractable.OLIVIOLET, DofusItems.BOIS_D_OLIVIOLET),
+	COUPER_BAMBOU(154, 50, Interractable.BAMBOU, DofusItems.BOIS_DE_BAMBOU),
+	COUPER_BAMBOU_SOMBRE(155, 80, Interractable.BAMBOU_SOMBRE, DofusItems.BOIS_DE_BAMBOU_SOMBRE),
+	COUPER_BAMBOU_SACRE(158, 100, Interractable.BAMBOU_SACREE, DofusItems.BOIS_DE_BAMBOU_SACRE),
+	COUPER_KALIPTUS(174, 75, Interractable.KALIPTUS, DofusItems.BOIS_DE_KALIPTUS),
 	CREER_ANNEAU(11, 1),
 	CREER_AMULETTE(12, 1),
-	CEUILLIR_LIN(68, 1, Interractable.LIN),
-	CEUILLIR_CHANVRE(69, 10, Interractable.CHANVRE),
-	CEUILLIR_TREFLE(71, 20, Interractable.TREFLE),
-	CEUILLIR_MENTHE(72, 30, Interractable.FEUILLE_MENTHE),
-	CEUILLIR_ORCHIDEE(73, 40, Interractable.ORCHIDEE),
-	CEUILLIR_EDELWEISS(74, 50, Interractable.EDELWEISS),
-	CEUILLIR_GRAINE_PANDOUILLE(160, 50, Interractable.GRAINE_PANDOUILLE),
+	CEUILLIR_LIN(68, 1, Interractable.LIN, DofusItems.FLEUR_DE_LIN),
+	CEUILLIR_CHANVRE(69, 10, Interractable.CHANVRE, DofusItems.FLEUR_DE_CHANVRE),
+	CEUILLIR_TREFLE(71, 20, Interractable.TREFLE, DofusItems.TREFLE_A_5_FEUILLES),
+	CEUILLIR_MENTHE(72, 30, Interractable.FEUILLE_MENTHE, DofusItems.FEUILLE_DE_MENTHE_SAUVAGE),
+	CEUILLIR_ORCHIDEE(73, 40, Interractable.ORCHIDEE, DofusItems.ORCHIDEE_FREYESQUE),
+	CEUILLIR_EDELWEISS(74, 50, Interractable.EDELWEISS, DofusItems.EDELWEISS),
+	CEUILLIR_GRAINE_PANDOUILLE(160, 50, Interractable.GRAINE_PANDOUILLE, DofusItems.GRAINE_DE_PANDOUILLE),
 	CUIR_PAIN(27, 1),
 	DEVEROUILLER(100, 1),
 	DEVEROUILLER_2(106, 1),
@@ -154,15 +155,32 @@ public enum Skills {
 	private int id;
 	private int minLvlToUse;
 	private Interractable type;
+	private int recoltedId;
 
 	private Skills(int id, int minLvl) {
-		this(id, minLvl, null);
+		this(id, minLvl, null, -1);
+	}
+
+	private Skills(int id, int minLvl, int recolted) {
+		this(id, minLvl, null, recolted);
 	}
 
 	private Skills(int id, int minLvl, Interractable type) {
+		this(id, minLvl, type, -1);
+	}
+
+	private Skills(int id, int minLvl, Interractable type, int recolted) {
 		this.id = id;
 		this.minLvlToUse = minLvl;
 		this.type = type;
+		this.recoltedId = recolted;
+	}
+
+	/**
+	 * @return the recoltedId
+	 */
+	public int getRecoltedId() {
+		return recoltedId;
 	}
 
 	/**
@@ -190,6 +208,12 @@ public enum Skills {
 		for (Skills i : values())
 			if (i.getId() == code) return i;
 		return null;
+	}
+
+	public static Skills fromRecolted(int type) {
+		for (Skills i : values())
+			if (i.getRecoltedId() == type) return i;
+		throw new IllegalArgumentException("Invalid type " + type);
 	}
 
 	public static boolean isHarvestSkill(Skills s) {

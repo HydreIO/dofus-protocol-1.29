@@ -32,6 +32,7 @@ import fr.aresrpg.dofus.protocol.spell.server.SpellChangeOptionPacket;
 import fr.aresrpg.dofus.protocol.spell.server.SpellListPacket;
 import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
 import fr.aresrpg.dofus.protocol.subway.server.SubwayCreatePacket;
+import fr.aresrpg.dofus.protocol.tutorial.server.TutorialCreatePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapUseErrorPacket;
 
@@ -241,5 +242,7 @@ public interface ServerPacketHandler extends PacketHandler {
 	void handle(GuildInvitedPacket guildInvitedPacket);
 
 	void handle(SubwayCreatePacket subwayCreatePacket);
+
+	void handle(TutorialCreatePacket tutorialCreatePacket);
 
 }

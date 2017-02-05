@@ -30,6 +30,7 @@ import fr.aresrpg.dofus.protocol.party.client.*;
 import fr.aresrpg.dofus.protocol.spell.client.SpellBoostPacket;
 import fr.aresrpg.dofus.protocol.spell.client.SpellMoveToUsedPacket;
 import fr.aresrpg.dofus.protocol.subway.client.SubwayUsePacket;
+import fr.aresrpg.dofus.protocol.tutorial.client.TutorialQuitPacket;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 
 public interface ClientPacketHandler extends PacketHandler {
@@ -176,5 +177,7 @@ public interface ClientPacketHandler extends PacketHandler {
 	void handle(SubwayUsePacket subwayUsePacket);
 
 	void handle(GuildRefuseInvitPacket guildRefuseInvitPacket);
+
+	void handle(TutorialQuitPacket tutorialQuitPacket);
 
 }

@@ -11,16 +11,34 @@ public class BasicChatMessageSendPacket implements ClientPacket { // "BM" + sDes
 
 	private String msg;
 	private String dest;
+	private String extraData;
 
 	@Override
 	public void read(DofusStream stream) {
 		this.dest = stream.read();
 		this.msg = stream.read();
+		if (stream.available() > 0) this.extraData = stream.read();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(2).write(dest).write(msg);
+		stream.allocate(extraData == null ? 2 : 3).write(dest).write(msg);
+		if (extraData != null) stream.write(extraData);
+	}
+
+	/**
+	 * @return the extraData
+	 */
+	public String getExtraData() {
+		return extraData;
+	}
+
+	/**
+	 * @param extraData
+	 *            the extraData to set
+	 */
+	public void setExtraData(String extraData) {
+		this.extraData = extraData;
 	}
 
 	/**

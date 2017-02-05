@@ -56,6 +56,8 @@ import fr.aresrpg.dofus.protocol.subarea.server.SubareaListPacket;
 import fr.aresrpg.dofus.protocol.subway.SubwayLeavePacket;
 import fr.aresrpg.dofus.protocol.subway.client.SubwayUsePacket;
 import fr.aresrpg.dofus.protocol.subway.server.SubwayCreatePacket;
+import fr.aresrpg.dofus.protocol.tutorial.client.TutorialQuitPacket;
+import fr.aresrpg.dofus.protocol.tutorial.server.TutorialCreatePacket;
 import fr.aresrpg.dofus.protocol.waypoint.ZaapLeavePacket;
 import fr.aresrpg.dofus.protocol.waypoint.client.ZaapUsePacket;
 import fr.aresrpg.dofus.protocol.waypoint.server.ZaapCreatePacket;
@@ -117,6 +119,13 @@ public enum ProtocolRegistry {
 	DIALOG_RESPONSE(Layer.DIALOG, 'R', Bound.CLIENT, DialogResponsePacket.class),
 	// both
 	DIALOG_LEAVE(Layer.DIALOG, 'V', Bound.BOTH, DialogLeavePacket.class),
+
+	// TUTORIAL ==========================================================
+	// server
+	TUTORIAL_CREATE(Layer.TUTORIAL, 'C', Bound.SERVER, TutorialCreatePacket.class),
+
+	// client
+	TUTORIAL_QUIT(Layer.TUTORIAL, 'V', Bound.CLIENT, TutorialQuitPacket.class),
 
 	// ITEM ==========================================================
 	// server
@@ -499,6 +508,7 @@ public enum ProtocolRegistry {
 		AREA('a'),
 		WAYPOINT('W'),
 		INFO('I'),
+		TUTORIAL('T'),
 		SPECIALIZATION('Z');
 
 		private final char key;

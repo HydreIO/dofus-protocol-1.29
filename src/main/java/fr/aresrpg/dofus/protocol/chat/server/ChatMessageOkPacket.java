@@ -18,6 +18,7 @@ public class ChatMessageOkPacket implements ServerPacket { // cMK%|2412051|Tiger
 	private long playerId;
 	private String pseudo;
 	private String msg;
+	private String extraDatas;
 
 	@Override
 	public void read(DofusStream stream) {
@@ -29,11 +30,28 @@ public class ChatMessageOkPacket implements ServerPacket { // cMK%|2412051|Tiger
 		this.playerId = stream.readLong();
 		this.pseudo = stream.read();
 		this.msg = stream.read();
+		if (stream.available() > 0) this.extraDatas = stream.read();
 	}
 
 	@Override
 	public void write(DofusStream stream) {
-		stream.allocate(4).writeChar(chat.getCode()).writeLong(playerId).write(pseudo).write(msg);
+		stream.allocate(extraDatas == null ? 4 : 5).writeChar(chat.getCode()).writeLong(playerId).write(pseudo).write(msg);
+		if (extraDatas != null) stream.write(extraDatas);
+	}
+
+	/**
+	 * @return the extraDatas
+	 */
+	public String getExtraDatas() {
+		return extraDatas;
+	}
+
+	/**
+	 * @param extraDatas
+	 *            the extraDatas to set
+	 */
+	public void setExtraDatas(String extraDatas) {
+		this.extraDatas = extraDatas;
 	}
 
 	/**
