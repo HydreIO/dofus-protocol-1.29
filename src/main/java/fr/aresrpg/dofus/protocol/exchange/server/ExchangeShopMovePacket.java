@@ -72,7 +72,7 @@ public class ExchangeShopMovePacket implements ServerPacket {
 	@Override
 	public void write(DofusStream stream) {
 		stream.allocate(5).write("K" + getAddValue() + moved.getUid()).writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects()))
-				.writeInt(moved.getPrice());
+				.writeLong(moved.getPrice());
 
 	}
 

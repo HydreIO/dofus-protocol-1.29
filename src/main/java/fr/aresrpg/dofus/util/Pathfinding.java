@@ -100,16 +100,18 @@ public class Pathfinding {
 			Cell cell = cells[Maps.getIdRotated(point.x, point.y, width, height)];
 			Orientation direction = getDirection(last.x, last.y, point.x, point.y);
 			time += 1 / (mount ? direction.getMountSpeed() : walk ? direction.getWalkSpeed() : direction.getRunSpeed());
-		/*	if (lastGroundLevel < cell.getGroundLevel())
-				time += 100;
-			else if (cell.getGroundLevel() > lastGroundLevel)
-				time -= 100;
-			else if (lastGroundSlope != cell.getGroundSlope()) {
-				if (lastGroundSlope == 1)
-					time += 100;
-				else if (cell.getGroundSlope() == 1)
-					time -= 100;
-			}*/
+			/*
+			 * if (lastGroundLevel < cell.getGroundLevel())
+			 * time += 100;
+			 * else if (cell.getGroundLevel() > lastGroundLevel)
+			 * time -= 100;
+			 * else if (lastGroundSlope != cell.getGroundSlope()) {
+			 * if (lastGroundSlope == 1)
+			 * time += 100;
+			 * else if (cell.getGroundSlope() == 1)
+			 * time -= 100;
+			 * }
+			 */
 			lastGroundLevel = cell.getGroundLevel();
 			lastGroundSlope = cell.getGroundSlope();
 			last = point;
@@ -140,7 +142,6 @@ public class Pathfinding {
 	public static Orientation getDirection(int xFrom, int yFrom, int xTo, int yTo) {
 		int deltaX = xTo - xFrom;
 		int deltaY = yTo - yFrom;
-
 		if (Math.abs(deltaX) == 1 && deltaY == 0)
 			return deltaX > 0 ? Orientation.UP_RIGHT : Orientation.DOWN_LEFT;
 		else if (Math.abs(deltaY) == 1 && deltaX == 0)

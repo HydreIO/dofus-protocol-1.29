@@ -70,7 +70,8 @@ public class ExchangeDistantMovePacket implements ServerPacket {
 			else stream.allocate(1).write("K-" + moved.getUid());
 		} else {
 			stream.allocate(isAdd() ? 6 : 1).write("K" + getAddValue() + moved.getUid());
-			if (isAdd()) stream.writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects())).writeInt(moved.getPrice()).writeInt(getRemainingHours());
+			if (isAdd())
+				stream.writeInt(moved.getQuantity()).writeInt(moved.getItemTypeId()).write(Item.serializeEffects(moved.getEffects())).writeLong(moved.getPrice()).writeInt(getRemainingHours());
 		}
 	}
 

@@ -104,7 +104,7 @@ public interface ClientPacketHandler extends PacketHandler {
 
 	void handle(ExchangeAskToDisconnectAsMerchantPacket exchangeAskToDisconnectAsMerchantPacket);
 
-	void handle(ExchangeHdvPacket exchangeAskHdvTypePacket);
+	void handle(ExchangeHdvRequestPacket exchangeAskHdvTypePacket);
 
 	void handle(ExchangeGetCrafterForJobPacket exchangeGetCrafterForJobPacket);
 

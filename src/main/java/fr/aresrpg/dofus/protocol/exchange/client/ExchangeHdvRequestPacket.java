@@ -16,7 +16,7 @@ import fr.aresrpg.dofus.structures.item.ItemCategory;
  * 
  * @since
  */
-public class ExchangeHdvPacket implements ClientPacket {
+public class ExchangeHdvRequestPacket implements ClientPacket {
 
 	private AskHdvType askType;
 	private ItemCategory type;
@@ -26,27 +26,27 @@ public class ExchangeHdvPacket implements ClientPacket {
 	/**
 	 * @param type
 	 */
-	public ExchangeHdvPacket(ItemCategory type) {
+	public ExchangeHdvRequestPacket(ItemCategory type) {
 		this.type = type;
 		this.askType = AskHdvType.TYPE;
 	}
 
-	public ExchangeHdvPacket() {
+	public ExchangeHdvRequestPacket() {
 	}
 
-	public ExchangeHdvPacket(AskHdvType type, int itemId) {
+	public ExchangeHdvRequestPacket(AskHdvType type, int itemId) {
 		if (type == AskHdvType.TYPE) throw new IllegalArgumentException("The asktype can't be TYPE in this constructor !");
 		this.itemId = itemId;
 		this.askType = type;
 	}
 
-	public ExchangeHdvPacket(ItemCategory type, int itemId) {
+	public ExchangeHdvRequestPacket(ItemCategory type, int itemId) {
 		this.itemId = itemId;
 		this.type = type;
 		this.askType = AskHdvType.SEARCH;
 	}
 
-	public ExchangeHdvPacket(BuyedItem item) {
+	public ExchangeHdvRequestPacket(BuyedItem item) {
 		this.askType = AskHdvType.BUY;
 		this.item = item;
 	}

@@ -165,7 +165,6 @@ public enum ProtocolRegistry {
 	MOUNT_PLAYER(Layer.MOUNT, 'r', Bound.CLIENT, MountPlayerPacket.class),
 	// server
 	MOUNT_XP(Layer.MOUNT, 'x', Bound.SERVER, MountXpPacket.class),
-
 	// GAME ==========================================================
 	// server
 	GAME_MAP_DATA(Layer.GAME, 'D', 'M', Bound.SERVER, GameMapDataPacket.class),
@@ -333,7 +332,7 @@ public enum ProtocolRegistry {
 	EXCHANGE_SELL_TO_NPC(Layer.EXCHANGE, 'S', Bound.CLIENT, ExchangeSellToNpcPacket.class),
 	EXHANGE_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'Q', Bound.CLIENT, ExchangeDisconnectAsMerchantPacket.class),
 	EXCHANGE_ASK_DISCONNECT_AS_MERCHANT(Layer.EXCHANGE, 'q', Bound.CLIENT, ExchangeAskToDisconnectAsMerchantPacket.class),
-	EXCHANGE_ASK_HDV_TYPE(Layer.EXCHANGE, 'H', Bound.CLIENT, ExchangeHdvPacket.class),
+	EXCHANGE_ASK_HDV_TYPE(Layer.EXCHANGE, 'H', Bound.CLIENT, ExchangeHdvRequestPacket.class),
 	EXCHANGE_GET_CRAFTER_FOR_JOB(Layer.EXCHANGE, 'J', 'F', Bound.CLIENT, ExchangeGetCrafterForJobPacket.class),
 	EXCHANGE_MOUNT(Layer.EXCHANGE, 'r', Bound.CLIENT, ExchangeMountPacket.class),
 	EXCHANGE_PARK_MOUNT(Layer.EXCHANGE, 'f', Bound.CLIENT, ExchangeParkMountPacket.class),

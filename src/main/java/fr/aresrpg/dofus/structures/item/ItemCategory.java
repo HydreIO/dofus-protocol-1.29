@@ -4,10 +4,13 @@
  *
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- *  
- * Created 2016
+ * 
+ *         Created 2016
  *******************************************************************************/
 package fr.aresrpg.dofus.structures.item;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 public enum ItemCategory {
 	AMULET(1),
@@ -141,6 +144,10 @@ public enum ItemCategory {
 		for (ItemCategory e : values())
 			if (e.getValue() == code) return e;
 		return null;
+	}
+
+	public static ItemCategory[] makeArray(int... types) {
+		return Arrays.stream(types).mapToObj(ItemCategory::valueOf).filter(Objects::nonNull).toArray(ItemCategory[]::new);
 	}
 
 	public boolean isEquipment() {

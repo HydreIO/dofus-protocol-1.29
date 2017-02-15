@@ -59,8 +59,19 @@ public final class StringJoiner {
 		return this;
 	}
 
+	public StringJoiner add(Object[] newElement) {
+		for (Object o : newElement)
+			prepareBuilder().append(String.valueOf(o));
+		return this;
+	}
+
 	public StringJoiner add(Number n) {
 		add(n.toString());
+		return this;
+	}
+
+	public StringJoiner add(StringJoiner joiner) {
+		add(joiner.toString());
 		return this;
 	}
 

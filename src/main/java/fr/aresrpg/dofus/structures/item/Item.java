@@ -22,12 +22,12 @@ public class Item {
 	private int quantity;
 	private int position;
 	private Effect[] effects;
-	private int price;
+	private long price;
 	private int skin;
 	// private int mood;
 	private int remainingHours;
 
-	public Item(long uid, int itemTypeId, int quantity, int position, Effect[] effects, int price, int skin) {
+	public Item(long uid, int itemTypeId, int quantity, int position, Effect[] effects, long price, int skin) {
 		this.uid = uid;
 		this.itemTypeId = itemTypeId;
 		this.quantity = quantity;
@@ -123,7 +123,7 @@ public class Item {
 	 * @param price
 	 *            the price to set
 	 */
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 
@@ -158,7 +158,7 @@ public class Item {
 		return skin;
 	}
 
-	public int getPrice() {
+	public long getPrice() {
 		return price;
 	}
 

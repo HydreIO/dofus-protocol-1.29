@@ -12,9 +12,11 @@ package fr.aresrpg.dofus.protocol.exchange.server;
 import fr.aresrpg.dofus.protocol.*;
 import fr.aresrpg.dofus.structures.Exchange;
 import fr.aresrpg.dofus.structures.Skills;
+import fr.aresrpg.dofus.structures.item.ItemCategory;
 
 import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class ExchangeCreatePacket implements ServerPacket {
 	private Exchange type;
@@ -51,11 +53,7 @@ public class ExchangeCreatePacket implements ServerPacket {
 				break;
 			case BIG_STORE_BUY:
 			case BIG_STORE_SELL:
-				// TODO
-				StringJoiner joiner = new StringJoiner("|");
-				while (stream.available() > 0)
-					joiner.add(stream.read());
-				this.data = new DefaultData(joiner.toString());
+				this.data = BigExchangeData.parse(stream.read().split(";"));
 				break;
 			case MOUNT_PARK:
 				// TODO
@@ -85,7 +83,8 @@ public class ExchangeCreatePacket implements ServerPacket {
 			for (int j : jdata.getJobs())
 				joiner.add(Integer.toString(j));
 			stream.write(joiner.toString());
-		} else if (data instanceof DefaultData) {
+		} else if (data instanceof BigExchangeData) stream.write(((BigExchangeData) data).serialize());
+		else if (data instanceof DefaultData) {
 			DefaultData ddata = (DefaultData) data;
 			stream.write(((DefaultData) data).getDatas());
 		}
@@ -127,7 +126,8 @@ public class ExchangeCreatePacket implements ServerPacket {
 	}
 
 	/**
-	 * @param success the success to set
+	 * @param success
+	 *            the success to set
 	 */
 	public void setSuccess(boolean success) {
 		this.success = success;
@@ -155,6 +155,98 @@ public class ExchangeCreatePacket implements ServerPacket {
 		@Override
 		public String toString() {
 			return "DefaultData [datas=" + datas + "]";
+		}
+
+	}
+
+	public static class BigExchangeData implements ExchangeData {
+		private int quantity1, quantity2, quantity3, maxLevel, maxItemCount, npcID, maxSellTime;
+		private double taxe;
+		private ItemCategory[] categories;
+
+		public BigExchangeData(int quantity1, int quantity2, int quantity3, ItemCategory[] types, double tax, int maxLevel, int maxItemCount, int npcID, int maxSellTime) {
+			this.quantity1 = quantity1;
+			this.quantity2 = quantity2;
+			this.quantity3 = quantity3;
+			this.categories = types;
+			this.taxe = tax;
+			this.maxLevel = maxLevel;
+			this.maxItemCount = maxItemCount;
+			this.npcID = npcID;
+			this.maxSellTime = maxSellTime;
+		}
+		// [1,10,100 ; 38,95,96,98,108 ; 2.0 ; 1000 ; 20 ; -1 ; 350]
+
+		public static BigExchangeData parse(String[] datas) {
+			String[] l14 = datas[0].split(",");
+			int q1 = Integer.parseInt(l14[0]);
+			int q2 = Integer.parseInt(l14[1]);
+			int q3 = Integer.parseInt(l14[2]);
+			ItemCategory[] tp = ItemCategory.makeArray(Arrays.stream(datas[1].split(",")).mapToInt(Integer::parseInt).toArray());
+			double tx = Double.parseDouble(datas[2]);
+			int ml = Integer.parseInt(datas[3]);
+			int mi = Integer.parseInt(datas[4]);
+			int npc = Integer.parseInt(datas[5]);
+			int ms = Integer.parseInt(datas[6]);
+			return new BigExchangeData(q1, q2, q3, tp, tx, ml, mi, npc, ms);
+		}
+
+		public String serialize() {
+			return new fr.aresrpg.dofus.util.StringJoiner(";")
+					.add(
+							new fr.aresrpg.dofus.util.StringJoiner(",")
+									.add(quantity1)
+									.add(quantity2)
+									.add(quantity3))
+					.add(Arrays.stream(categories).map(ItemCategory::getValue).map(String::valueOf).collect(Collectors.joining(",")))
+					.add(taxe)
+					.add(maxLevel)
+					.add(maxItemCount)
+					.add(npcID)
+					.add(maxSellTime)
+					.toString();
+		}
+
+		public int getQuantity1() {
+			return quantity1;
+		}
+
+		public int getQuantity2() {
+			return quantity2;
+		}
+
+		public int getQuantity3() {
+			return quantity3;
+		}
+
+		public int getMaxLevel() {
+			return maxLevel;
+		}
+
+		public int getMaxItemCount() {
+			return maxItemCount;
+		}
+
+		public int getNpcID() {
+			return npcID;
+		}
+
+		public int getMaxSellTime() {
+			return maxSellTime;
+		}
+
+		public double getTaxe() {
+			return taxe;
+		}
+
+		public ItemCategory[] getCategories() {
+			return categories;
+		}
+
+		@Override
+		public String toString() {
+			return "BigExchangeData [quantity1=" + quantity1 + ", quantity2=" + quantity2 + ", quantity3=" + quantity3 + ", maxLevel=" + maxLevel + ", maxItemCount=" + maxItemCount + ", npcID="
+					+ npcID + ", maxSellTime=" + maxSellTime + ", taxe=" + taxe + ", categories=" + Arrays.toString(categories) + "]";
 		}
 
 	}

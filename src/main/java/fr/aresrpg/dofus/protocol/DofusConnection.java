@@ -55,7 +55,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 
 	@Override
 	protected void finalize() throws Throwable {
-		System.out.println("OBJECT CONNECTION DESTROYING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		close();
 		super.finalize();
 	}
@@ -77,7 +76,6 @@ public class DofusConnection<T extends SelectableChannel & ByteChannel> {
 	}
 
 	private void close() throws IOException {
-		System.out.println("OBJECT CONNECTION CLOSING **********************************************");
 		buffer.clear();
 		channel.close();
 		selector.close();
